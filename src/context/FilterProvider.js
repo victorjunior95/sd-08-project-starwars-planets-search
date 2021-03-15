@@ -18,9 +18,15 @@ function FilterProvider({ children }) {
         { column, comparison, value }] });
   };
 
+  const resetNumericFilter = (column) => {
+    setFilters({ ...filters,
+      filterByNumericValues: [...filters.filterByNumericValues]
+        .filter((filter) => filter.column !== column) });
+  };
+
   return (
     <FilterContext.Provider
-      value={ { setFilterName, filters, setFilterByNumericValues } }
+      value={ { setFilterName, filters, setFilterByNumericValues, resetNumericFilter } }
     >
       {children}
     </FilterContext.Provider>

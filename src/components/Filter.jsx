@@ -12,7 +12,8 @@ function Filter() {
 
   const { setFilterName,
     filters: { filterByName: { name }, filterByNumericValues },
-    setFilterByNumericValues } = useContext(FilterContext);
+    setFilterByNumericValues,
+    resetNumericFilter } = useContext(FilterContext);
 
   useEffect(() => {
     const filteredOptions = filterByNumericValues.map((numeric) => numeric.column);
@@ -73,6 +74,13 @@ function Filter() {
       >
         Filtro
       </button>
+      { filterByNumericValues.map(({ column: rmColumn }) => (
+        <div key={ rmColumn } data-testid="filter">
+          <button onClick={ () => resetNumericFilter(rmColumn) } type="button">
+            { `${rmColumn} x` }
+          </button>
+        </div>
+      ))}
     </>
   );
 }
