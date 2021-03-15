@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import getAPI from './services';
 import SWContext from './context/SWContext';
+import Tabela from './components/Tabela';
 
 function App() {
   const [data, setData] = useState([]);
@@ -13,8 +14,8 @@ function App() {
 
   return (
     <SWContext.Provider value={ data }>
-      <span>Hello, App!</span>
-
+      <span>Welcome to Start Wars Planets Page</span>
+      <Tabela />
     </SWContext.Provider>
   );
 }
