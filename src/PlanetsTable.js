@@ -57,7 +57,7 @@ const PlanetsTable = () => {
 
   return (
     <>
-      <input type="text" onChange={ handleChange } />
+      <input data-testid="name-filter" type="text" onChange={ handleChange } />
       <table>
         { renderTableHeader()}
         { renderTableBody() }
