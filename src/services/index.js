@@ -1,10 +1,7 @@
 export default async function () {
   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-  try {
-    const promise = await fetch(url);
-    const data = promise.json();
-    return data;
-  } catch (error) {
-    return error;
-  }
+  const planets = fetch(url)
+    .then((response) => response.json())
+    .then((data) => data.results);
+  return planets;
 }
