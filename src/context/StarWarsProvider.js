@@ -9,6 +9,7 @@ const StarWarsProvider = ({ children }) => {
   // useState -> criar 'states'
   const [allData, setAllData] = useState([]);
   const [data, setData] = useState([]);
+  // const [column, setColumn] = useState([]);
   const [titles, setTitles] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
@@ -21,6 +22,15 @@ const StarWarsProvider = ({ children }) => {
         value: '',
       },
     ],
+    // filterByColumns: [
+    //   {
+    //     population: 'population',
+    //     orbital_period: 'orbital_period',
+    //     diameter: 'diameter',
+    //     rotation_period: 'rotation_period',
+    //     surface_water: 'surface_water',
+    //   },
+    // ],
   });
 
   const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -64,6 +74,20 @@ const StarWarsProvider = ({ children }) => {
     });
   };
 
+  // const {
+  //   population,
+  // orbital_period,
+  // diameter,
+  // rotation_period,
+  // surface_wate,
+  // } = filters.filterByColumns;
+  // useEffect -> aqui, similar ao 'componentDidUpdate'
+  // useEffect(() => {
+  //   const filterData = allData.filter((array) => array.population.includes(population));
+
+  //   setColumn(filterData);
+  // }, [allData, population]);
+
   const filterComparison = (value) => {
     setFilters({
       ...filters,
@@ -98,6 +122,7 @@ const StarWarsProvider = ({ children }) => {
       }
       return null;
     });
+    // setColumn(column);
     setData(filterNumData);
   };
 
