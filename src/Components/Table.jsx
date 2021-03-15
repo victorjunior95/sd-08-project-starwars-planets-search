@@ -51,12 +51,18 @@ const Table = () => {
   const filterNumerics = (list) => {
     const { column, comparison, value } = filterByNumericValues[0];
     if (comparison === 'maior que') {
-      return list.filter((item) => item[column] > value);
+      return list.filter(
+        (item) => parseInt(item[column], 10) > parseInt(value, 10),
+      );
     }
     if (comparison === 'menor que') {
-      return list.filter((item) => item[column] < value);
+      return list.filter(
+        (item) => parseInt(item[column], 10) < parseInt(value, 10),
+      );
     }
-    return list.filter((item) => item[column] === value);
+    return list.filter(
+      (item) => parseInt(item[column], 10) === parseInt(value, 10),
+    );
   };
 
   const filter = () => {
@@ -65,8 +71,7 @@ const Table = () => {
         .filter((result) => result.name.includes(filterByName.name))
         .map((result) => showTableRow(result));
     }
-    const filteredByName = resultsStarWarsApi
-      .filter((result) => result.name.includes(filterByName.name));
+    const filteredByName = resultsStarWarsApi.filter((result) => result.name.includes(filterByName.name));
     const filteredByNumerics = filterNumerics(filteredByName);
     return filteredByNumerics.map((result) => showTableRow(result));
   };
@@ -90,9 +95,7 @@ const Table = () => {
           <th>URL</th>
         </tr>
       </thead>
-      <tbody>
-        {filter()}
-      </tbody>
+      <tbody>{filter()}</tbody>
     </table>
   );
 };
