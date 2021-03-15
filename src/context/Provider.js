@@ -6,6 +6,7 @@ import tableContext from './tableContext';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [name, setName] = useState('');
 
   const fetchStarWarsData = async () => {
     setLoading(true);
@@ -15,7 +16,19 @@ function Provider({ children }) {
     setLoading(false);
   };
 
-  const context = { data, fetchStarWarsData, loading };
+  const handleChange = ({ target }) => {
+    setName(target.value);
+  };
+
+  const filters = {
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
+  };
+
+  const context = { data, fetchStarWarsData, loading, handleChange, ...filters };
 
   return (
     <tableContext.Provider value={ context }>
