@@ -1,0 +1,30 @@
+import React, { useContext } from 'react';
+import { InputGroup, FormControl } from 'react-bootstrap';
+import SWContext from '../context/SWContext';
+
+function Form() {
+  const { filters, setFilters } = useContext(SWContext);
+  const { filters: { filterByName: { name } } } = filters;
+
+  function handleChange({ target }) {
+    setFilters({
+      ...filters,
+      filters: { filterByName: { name: target.value } },
+
+    });
+  }
+  return (
+    <InputGroup size="lg">
+      <FormControl
+        aria-label="Large"
+        aria-describedby="inputGroup-sizing-sm"
+        placeholder="digite aqui seu planeta"
+        onChange={ handleChange }
+        value={ name }
+        data-testid="name-filter"
+      />
+    </InputGroup>
+  );
+}
+
+export default Form;

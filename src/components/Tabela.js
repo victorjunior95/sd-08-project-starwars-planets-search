@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 import SWContext from '../context/SWContext';
 
 function Tabela() {
-  const data = useContext(SWContext);
+  const { data } = useContext(SWContext);
   return (
     <Table striped bordered hover responsive>
       <thead>

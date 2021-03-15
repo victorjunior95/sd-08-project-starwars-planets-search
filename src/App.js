@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
-import getAPI from './services';
-import SWContext from './context/SWContext';
 import Tabela from './components/Tabela';
+import Form from './components/Form';
+import Provider from './context/Provider';
 
 function App() {
-  const [data, setData] = useState([]);
-  console.log(data);
-  useEffect(() => {
-    getAPI()
-      .then((response) => setData(response));
-  }, []);
-
   return (
-    <SWContext.Provider value={ data }>
-      <span>Welcome to Start Wars Planets Page</span>
+    <Provider>
+      <div>
+        <span>Welcome to Start Wars Planets Page</span>
+      </div>
+      <Form />
       <Tabela />
-    </SWContext.Provider>
+    </Provider>
   );
 }
 
