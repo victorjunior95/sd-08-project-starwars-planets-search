@@ -10,7 +10,9 @@ async function fetchPlanets(setter) {
 }
 
 export default function PlanetsProvider({ children }) {
-  const [planetsObject, setPlanets] = useState({ results: [] });
+  const [planetsObject, setPlanets] = useState({
+    results: [{ name: 'nothing', residents: 'noresidents' }],
+  });
 
   const { results: planets } = planetsObject;
 
