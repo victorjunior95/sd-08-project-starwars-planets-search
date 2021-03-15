@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/Context';
 
 export default function Table() {
-  const { planetList, filterByName } = useContext(StarWarsContext);
-  console.log(planetList);
+  const { planetList, filterByName, filterNumericColumns } = useContext(StarWarsContext);
   if (!planetList) {
     return <div>Loading...</div>;
   }
@@ -22,6 +21,21 @@ export default function Table() {
         {planetList
           .filter((planet) => planet.name.toLowerCase()
             .includes(filterByName.toLowerCase()))
+          .filter((planet) => {
+            const { column, comparison, value } = filterNumericColumns;
+            if (column && comparison && value) {
+              if (comparison === 'igual a') {
+                return Number(planet[column]) === Number(value);
+              }
+              if (comparison === 'maior que') {
+                return Number(planet[column]) > Number(value);
+              }
+              if (comparison === 'menor que') {
+                return Number(planet[column]) < Number(value);
+              }
+            }
+            return planet;
+          })
           .map((planet) => (
             <tr key={ planet.name }>
               {Object.values(planet).map((item, i) => (

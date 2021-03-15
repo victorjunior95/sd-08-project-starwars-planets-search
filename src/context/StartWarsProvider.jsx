@@ -6,6 +6,11 @@ import fetchAllPlanets from '../helpers';
 function StartWarsProvider({ children }) {
   const [planetList, setPlanetList] = useState();
   const [filterByName, setFilterByName] = useState('');
+  const [filterNumericColumns, setFilterNumericColumns] = useState({
+    column: null,
+    comparison: null,
+    value: null,
+  });
 
   useEffect(() => {
     async function getPlanets() {
@@ -19,7 +24,14 @@ function StartWarsProvider({ children }) {
   }, []);
 
   return (
-    <StarWarsContext.Provider value={ { setFilterByName, planetList, filterByName } }>
+    <StarWarsContext.Provider
+      value={ {
+        setFilterByName,
+        planetList,
+        filterByName,
+        filterNumericColumns,
+        setFilterNumericColumns } }
+    >
       {children}
     </StarWarsContext.Provider>
   );
