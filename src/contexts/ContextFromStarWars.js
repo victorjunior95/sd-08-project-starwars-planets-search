@@ -7,8 +7,8 @@ const { Provider, Consumer } = ContextFromStarWars;
 
 function ContextFromStarWarsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [inputName, setInputName] = useState('');
   const [filteredPlanets, setFilteredPlanets] = useState([]);
-
   useEffect(() => {
     const fetchPlanets = async () => {
       const { results } = await getSwapiPlanets();
@@ -18,9 +18,20 @@ function ContextFromStarWarsProvider({ children }) {
     fetchPlanets();
   }, []);
 
+  useEffect(() => {
+    const filter = planets
+      .filter(({ name }) => name
+        .toLowerCase()
+        .includes(inputName.toLowerCase()));
+    setFilteredPlanets(filter);
+  }, [planets, inputName]);
+
   const contextValue = {
     planets,
+    inputName,
+    setInputName,
     filteredPlanets,
+    setFilteredPlanets,
   };
 
   return (
