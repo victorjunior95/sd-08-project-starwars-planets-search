@@ -9,6 +9,7 @@ export const StarWarsConsumer = StarWarsContext.Consumer;
 export function StarWarsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
+  const [filters, setFilters] = useState([]);
 
   useEffect(() => {
     getPlanets().then(({ results }) => {
@@ -17,22 +18,28 @@ export function StarWarsProvider({ children }) {
     });
   }, []);
 
-  function handleNameChange({ target }) {
+  function changeName({ target }) {
     setName(target.value);
   }
 
-  const filters = {
+  function addFilter(newFilter) {
+    setFilters([...filters, newFilter]);
+  }
+
+  const filtersNode = {
     filters: {
       filterByName: {
         name,
       },
+      filterByNumericValues: filters,
     },
   };
 
   const context = {
-    ...filters,
+    ...filtersNode,
     planets,
-    handleNameChange,
+    changeName,
+    addFilter,
   };
 
   return (

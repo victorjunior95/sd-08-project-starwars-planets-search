@@ -3,9 +3,9 @@ import StarWarsContext from '../contexts/StarWarsContext';
 
 const NameFilter = () => {
   const { filters: { filterByName: { name } },
-    handleNameChange } = useContext(StarWarsContext);
+    changeName } = useContext(StarWarsContext);
   return (
-    <input data-testid="name-filter" value={ name } onChange={ handleNameChange } />
+    <input data-testid="name-filter" value={ name } onChange={ changeName } />
   );
 };
 
