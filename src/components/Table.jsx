@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
+import './Table.css';
 
 function Table() {
   const data = useContext(Context);
   return (
-    <table>
+    <table className="Table">
       <thead>
         <tr>
           <th>Name</th>
