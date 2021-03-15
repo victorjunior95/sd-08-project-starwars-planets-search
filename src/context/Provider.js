@@ -5,6 +5,7 @@ import FilterContext from './FilterContext';
 function Provider({ children }) {
   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
   const [planets, setPlanets] = useState([]);
+  const [searchName, setSearchName] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -15,9 +16,22 @@ function Provider({ children }) {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    let filterPlanets = planets;
+    filterPlanets = planets.filter((planet) => planet.name.includes((searchName)));
+    setPlanets(filterPlanets);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchName]);
+
+  const filterName = (e) => {
+    setSearchName(e.target.value);
+  };
+
   const data = {
     planets,
+    searchName,
     setPlanets,
+    filterName,
   };
 
   return (
