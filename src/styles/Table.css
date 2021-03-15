@@ -1,7 +1,7 @@
-.planets-table tbody tr{
+.planets-table tbody tr {
   background: rgb(255, 125, 125);
 }
 
-.planets-table tbody tr:nth-child(2n) {
-  background: rgb(162, 163, 230)
+.planets-table tbody tr:nth-child( 2n ) {
+  background: rgb(162, 163, 230);
 }
