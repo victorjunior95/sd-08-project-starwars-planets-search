@@ -32,11 +32,9 @@ function PlanetsDataTable() {
           planetsWithoutResidentsColumns.map((planet, index) => (
             <tr key={ index }>
               {
-                Object.entries(planet).map(([key, value]) => {
-                  return (
-                    <td key={ key }>{value}</td>
-                  );
-                })
+                Object.entries(planet).map(([key, value]) => (
+                  <td key={ key }>{value}</td>
+                ))
               }
             </tr>
           ))
