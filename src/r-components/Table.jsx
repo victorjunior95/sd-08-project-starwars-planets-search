@@ -16,8 +16,10 @@ function mapData(planetsParam) {
 }
 
 export default function Table() {
-  const { planets } = useContext(PlanetsContext);
-  const tableHeaderInfo = Object.keys(planets[0]).filter((e) => e !== 'residents' && e);
+  const { filteredPlanets } = useContext(PlanetsContext);
+  const tableHeaderInfo = Object.keys(filteredPlanets[0]).filter((e) => (
+    e !== 'residents' && e
+  ));
 
   return (
     <table>
@@ -29,7 +31,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {mapData(planets)}
+        {mapData(filteredPlanets)}
       </tbody>
     </table>
   );

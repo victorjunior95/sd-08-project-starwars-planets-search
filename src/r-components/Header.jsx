@@ -19,7 +19,7 @@ function inputNameHandle(filtersState, setFilter, { target }) {
 
 export default function Header() {
   const { filtersState, setFilter } = useContext(PlanetsContext);
-  const { filters: { filterByName } } = filtersState;
+  const { filters: { filterByName }, filterList } = filtersState;
   return (
     <header>
       <label htmlFor="inputName">
@@ -34,9 +34,16 @@ export default function Header() {
 
       <label htmlFor="selectNumberFilter">
         <select name="selectNumberFilter">
-          <option value="populationFilter">Population</option>
-          <option value="orbitalFilter">Orbital Period</option>
-          <option value="rotationFilter">Rotation Period</option>
+          {
+            filterList.map(({ name, id }) => (
+              <option
+                key={ `ReactKeyOpt${id}` }
+                value={ `${id}Filter` }
+              >
+                {name}
+              </option>
+            ))
+          }
         </select>
       </label>
 
