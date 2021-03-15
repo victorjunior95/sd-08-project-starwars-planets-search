@@ -138,7 +138,7 @@ function App() {
       <ul>
         { filtersState.filters.filterByNumericValues.map(
           ({ column, comparison, value }, index) => (
-            <li key={ `${index}+filter` }>
+            <li key={ `${index}+filter` } data-testid="filter">
               { `${column} ${comparison} ${value}`}
               <button
                 type="button"
