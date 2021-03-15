@@ -3,10 +3,9 @@ import AppContext from '../utils/AppContext';
 
 const Table = () => {
   const { data } = useContext(AppContext);
-  const list = data && data.length && data;
-  list.map((object) => delete object.residents);
-  console.log(list);
-  const headList = Object.keys(list[0]);
+  // console.log(data[0]);
+  data.map((object) => delete object.residents);
+  const headList = Object.keys(data[0]);
   return (
     <table>
       <thead>
@@ -15,7 +14,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        { list.map((row) => (
+        { data.map((row) => (
           <tr key={ row.name }>
             { Object.values(row).map((value) => <td key={ value }>{ value }</td>)}
           </tr>
