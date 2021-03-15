@@ -12,8 +12,8 @@ function App() {
       },
       filterByNumericValues: [],
       order: {
-        column: '',
-        sort: '',
+        column: 'name',
+        sort: 'ASC',
       },
     },
   };
@@ -22,6 +22,10 @@ function App() {
   const [currentFilter, setCurrentFilter] = useState([]);
   const [filtersState, setFiltersState] = useState(initialFiltersState);
   const [numericState, setNumericState] = useState({});
+
+  const headers = ['name', 'rotation_period', 'orbital_period',
+    'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
+    'population', 'films', 'created', 'edited', 'url'];
 
   useEffect(() => {
     async function fetchAPI() {
@@ -135,6 +139,13 @@ function App() {
       >
         Filtrar
       </button>
+      <label htmlFor="order">
+        <select name="order" id="order">
+          { headers.map((header) => (
+            <option key={ header } value={ header }>{ header}</option>
+          ))}
+        </select>
+      </label>
       <ul>
         { filtersState.filters.filterByNumericValues.map(
           ({ column, comparison, value }, index) => (
