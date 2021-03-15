@@ -23,7 +23,7 @@ function Provider({ children }) {
 
   console.log(data);
 
-  const context = { planets, setPlanets, filters, setFilters };
+  const context = { planets, setPlanets, filters, setFilters, data };
   return (
     <SWContext.Provider value={ context }>
       {children}
