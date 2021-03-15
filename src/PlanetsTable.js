@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { planetsContext } from './PlanetsProvider';
 
 const PlanetsTable = () => {
-  const planets = useContext(planetsContext);
+  const { filteredPlanets, setName } = useContext(planetsContext);
+
   const renderTableHeader = () => (
     <thead>
       <tr>
@@ -25,39 +26,43 @@ const PlanetsTable = () => {
   const renderTableBody = () => (
     <tbody>
       {
-        planets !== []
-          ? planets.map((planet) => (
-            <tr key={ planet.name }>
-              <td>{planet.name}</td>
-              <td>{planet.rotation_period}</td>
-              <td>{planet.orbital_period}</td>
-              <td>{planet.diameter}</td>
-              <td>{planet.climate}</td>
-              <td>{planet.gravity}</td>
-              <td>{planet.terrain}</td>
-              <td>{planet.surface_water}</td>
-              <td>{planet.population}</td>
-              <td>
-                {
-                  planet.films.map((film) => film)
-                }
-              </td>
-              <td>{planet.created}</td>
-              <td>{planet.edited}</td>
-              <td>{planet.url}</td>
-            </tr>
-          ))
-          : <p>Nenhum planeta a ser exibido</p>
+        filteredPlanets.map((planet) => (
+          <tr key={ planet.name }>
+            <td>{planet.name}</td>
+            <td>{planet.rotation_period}</td>
+            <td>{planet.orbital_period}</td>
+            <td>{planet.diameter}</td>
+            <td>{planet.climate}</td>
+            <td>{planet.gravity}</td>
+            <td>{planet.terrain}</td>
+            <td>{planet.surface_water}</td>
+            <td>{planet.population}</td>
+            <td>
+              {
+                planet.films.map((film) => `${film}, `)
+              }
+            </td>
+            <td>{planet.created}</td>
+            <td>{planet.edited}</td>
+            <td>{planet.url}</td>
+          </tr>
+        ))
       }
     </tbody>
   );
 
-  return (
-    <table>
-      { renderTableHeader()}
-      { renderTableBody() }
-    </table>
+  const handleChange = ({ target: { value } }) => {
+    setName(value);
+  };
 
+  return (
+    <>
+      <input type="text" onChange={ handleChange } />
+      <table>
+        { renderTableHeader()}
+        { renderTableBody() }
+      </table>
+    </>
   );
 };
 
