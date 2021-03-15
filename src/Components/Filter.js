@@ -11,6 +11,35 @@ function Filter() {
     setFilter(obj);
   };
 
+  const handleSelectOption = (e) => {
+    const { value, name } = e.target;
+    const obj = { ...filters };
+    obj.filterByNumericValues[0][name] = value;
+  };
+
+  const handleFilter = () => {
+    const obj = { ...filters };
+    setFilter(obj);
+  };
+
+  const renderOptions = () => (
+    <>
+      <option value="population">population</option>
+      <option value="orbital_period">orbital_period</option>
+      <option value="diameter">diameter</option>
+      <option value="rotation_period">rotation_period</option>
+      <option value="surface_water">surface_water</option>
+    </>
+  );
+
+  const renderComparsion = () => (
+    <>
+      <option value="maior que">maior que</option>
+      <option value="menor que">menor que</option>
+      <option value="igual a">igual a</option>
+    </>
+  );
+
   return (
     <div>
       <input
@@ -18,6 +47,39 @@ function Filter() {
         onChange={ handleChange }
         data-testid="name-filter"
       />
+      <label htmlFor="column">
+        <select
+          data-testid="column-filter"
+          id="column"
+          name="column"
+          onChange={ handleSelectOption }
+        >
+          {renderOptions()}
+        </select>
+      </label>
+      <label htmlFor="comparison">
+        <select
+          data-testid="comparison-filter"
+          id="comparison"
+          name="comparison"
+          onChange={ handleSelectOption }
+        >
+          {renderComparsion()}
+        </select>
+      </label>
+      <input
+        type="number"
+        data-testid="value-filter"
+        name="value"
+        onChange={ handleSelectOption }
+      />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleFilter }
+      >
+        Filtrar
+      </button>
     </div>
   );
 }

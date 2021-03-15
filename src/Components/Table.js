@@ -4,12 +4,26 @@ import StarWarsContext from '../context/StarWarsContext';
 function Table() {
   const { data, filters } = useContext(StarWarsContext);
   const { filterByName: { name } } = filters;
-  const filtrando = data.filter((elem) => elem.name.includes(name));
+  const { filterByNumericValues: [{ column, comparison, value }] } = filters;
+  let teste;
+  const filteringByName = data.filter((elem) => elem.name.includes(name));
   let dataFiltered;
   if (name === '') {
     dataFiltered = data;
   } else {
-    dataFiltered = filtrando;
+    dataFiltered = filteringByName;
+  }
+  if (comparison === 'maior que') {
+    teste = dataFiltered.filter((elem) => elem[column] > parseInt(value, 10));
+    dataFiltered = teste;
+  }
+  if (comparison === 'menor que') {
+    teste = dataFiltered.filter((elem) => elem[column] < parseInt(value, 10));
+    dataFiltered = teste;
+  }
+  if (comparison === 'igual a') {
+    teste = dataFiltered.filter((elem) => elem[column] === value);
+    dataFiltered = teste;
   }
   return (
     <table>
