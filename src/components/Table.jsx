@@ -16,10 +16,10 @@ function Table() {
           <th>Terrain</th>
           <th>Surface Water</th>
           <th>Population</th>
-          <th>Residents</th>
-          <th>film</th>
-          <th>Edit</th>
-          <th>Del</th>
+          <th>Films</th>
+          <th>Created</th>
+          <th>Edited</th>
+          <th>Url</th>
         </tr>
       </thead>
       <tbody>
@@ -34,10 +34,10 @@ function Table() {
             <td>{item.terrain}</td>
             <td>{item.surface_water}</td>
             <td>{item.population}</td>
-            <td>{item.residents}</td>
             <td>{item.films}</td>
-            <td>Edit</td>
-            <td>Del</td>
+            <td>{item.created}</td>
+            <td>{item.edited}</td>
+            <td>{item.url}</td>
           </tr>
         ))}
       </tbody>
