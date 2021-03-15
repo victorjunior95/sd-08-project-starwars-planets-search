@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
+import Table from './components/Table';
 import StartWarsProvider from './context/StartWarsProvider';
-import Home from './pages/Home';
 
 function App() {
   return (
     <StartWarsProvider>
-      <Home />
+      <Table />
     </StartWarsProvider>
   );
 }
