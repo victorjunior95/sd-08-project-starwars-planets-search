@@ -9,6 +9,7 @@ function Provider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
@@ -21,11 +22,33 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
-    console.log('ENTROU NO FILTRO POR NOME');
+    console.log('ENTROU NO FILTRO');
+    const { filterByNumericValues } = filters;
     const filteredPlanetsByName = data
       .filter((planet) => planet.name.toLowerCase()
         .includes(filters.filterByName.name.toLowerCase()));
-    setFilteredPlanets(filteredPlanetsByName);
+    let filteredPlanetsResult = filteredPlanetsByName;
+    filterByNumericValues.forEach((filter) => {
+      if (filter.comparison === 'maior que') {
+        filteredPlanetsResult = filteredPlanetsResult
+          .filter((planet) => (
+            parseFloat(planet[filter.column]) > parseFloat(filter.value)
+          ));
+      }
+      if (filter.comparison === 'menor que') {
+        filteredPlanetsResult = filteredPlanetsResult
+          .filter((planet) => (
+            parseFloat(planet[filter.column]) < parseFloat(filter.value)
+          ));
+      }
+      if (filter.comparison === 'igual a') {
+        filteredPlanetsResult = filteredPlanetsResult
+          .filter((planet) => (
+            parseFloat(planet[filter.column]) === parseFloat(filter.value)
+          ));
+      }
+    });
+    setFilteredPlanets(filteredPlanetsResult);
   }, [data, filters]);
 
   const context = {
