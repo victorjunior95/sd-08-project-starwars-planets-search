@@ -6,8 +6,13 @@ export default function Table() {
   const [column, setColumnFilters] = useState('population');
   const [comparison, setComparisonFilter] = useState('maior que');
   const [value, setValueFilter] = useState();
+  const [originalColumns] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [columns, setColumnsOptions] = useState(originalColumns);
 
   function updateNumericFilters() {
+    const newOptions = originalColumns.filter((option) => option !== column);
+    setColumnsOptions(newOptions);
     setFilterNumericColumns({
       column,
       comparison,
@@ -27,11 +32,7 @@ export default function Table() {
           onChange={ (e) => setColumnFilters(e.target.value) }
           value={ column }
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          {columns.map((option) => (<option key={ option }>{option}</option>))}
         </select>
         <select
           data-testid="comparison-filter"
