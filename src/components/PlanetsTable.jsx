@@ -47,7 +47,9 @@ function PlanetsTable({ data }) {
             </th>)) }
         </tr>
       </thead>
-      { builder()}
+      <tbody>
+        { builder()}
+      </tbody>
     </table>
   );
 }
