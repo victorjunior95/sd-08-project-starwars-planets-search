@@ -11,7 +11,7 @@ function Provider({ children }) {
   useEffect(() => {
     async function fetchData() {
       const { results } = await fetch(url).then((response) => response.json());
-      // console.log(results);
+      console.log(results);
       setPlanets(results);
     }
     fetchData();
