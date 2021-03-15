@@ -20,13 +20,7 @@ const initializeStateOfFilters = {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {
-        column: 'population',
-        comparison: 'maior que',
-        value: '100000',
-      },
-    ],
+    filterByNumericValues: [],
   },
   filterList: [
     {
@@ -40,6 +34,14 @@ const initializeStateOfFilters = {
     {
       name: 'Rotation Period',
       id: 'rotationPeriod',
+    },
+    {
+      name: 'Surface Water',
+      id: 'surfaceWater',
+    },
+    {
+      name: 'diameter',
+      id: 'diameter',
     },
   ],
 };
@@ -56,7 +58,6 @@ export default function PlanetsProvider({ children }) {
     fetchPlanets(setPlanets);
   }, []);
 
-  // const planetsFilteredByNames = planets.filter((value) => value.name.includes('Dag'));
   const filteredPlanets = planetFilter(planets, filtersState);
 
   const ProviderObject = {

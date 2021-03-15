@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../contextAPI/PlanetsContext';
 import './Header.css';
 
@@ -18,6 +18,13 @@ function inputNameHandle(filtersState, setFilter, { target }) {
 }
 
 export default function Header() {
+  const [columnFilter, setColumnFilter] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '100000',
+  });
+  const { column, comparison, value } = columnFilter;
+
   const { filtersState, setFilter } = useContext(PlanetsContext);
   const { filters: { filterByName }, filterList } = filtersState;
   return (
@@ -32,13 +39,21 @@ export default function Header() {
         />
       </label>
 
-      <label htmlFor="selectNumberFilter">
-        <select name="selectNumberFilter">
+      <label htmlFor="columnFilter">
+        <select
+          data-testid="column-filter"
+          name="columnFilter"
+          value={ column }
+          onChange={ (e) => setColumnFilter({
+            ...columnFilter,
+            column: e.target.value,
+          }) }
+        >
           {
             filterList.map(({ name, id }) => (
               <option
                 key={ `ReactKeyOpt${id}` }
-                value={ `${id}Filter` }
+                value={ `${id}` }
               >
                 {name}
               </option>
@@ -47,15 +62,44 @@ export default function Header() {
         </select>
       </label>
 
-      <label htmlFor="selectOperationFilter">
-        <select name="selectOperationFilter">
+      <label
+        data-testid="comparison-filter"
+        htmlFor="comparisonFilter"
+      >
+        <select
+          name="comparisonFilter"
+          value={ comparison }
+          onChange={ (e) => setColumnFilter({
+            ...columnFilter,
+            comparison: e.target.value,
+          }) }
+        >
           <option value="greaterFilter">Maior que</option>
           <option value="smallerFilter">Menor que</option>
           <option value="equalFilter">Igual a</option>
         </select>
       </label>
 
-      <button type="button">Filtrar</button>
+      <label htmlFor="valueFilter">
+        <input
+          data-testid="value-filter"
+          type="number"
+          name="valueFilter"
+          id="valueFilter"
+          value={ value }
+          onChange={ (e) => setColumnFilter({
+            ...columnFilter,
+            value: e.target.value,
+          }) }
+        />
+      </label>
+
+      <button
+        data-testid="button-filter"
+        type="button"
+      >
+        Filtrar
+      </button>
 
       <label htmlFor="selectOrder">
         <span>Ordenar</span>
