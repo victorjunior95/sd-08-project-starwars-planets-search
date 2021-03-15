@@ -39,7 +39,7 @@ function FormFilter() {
     'maior que', 'menor que', 'igual a'];
   return (
     <form>
-      {console.log(columnFilter)}
+      {/* {console.log(columnFilter)} */}
       <select
         onChange={ handleChange }
         name="column"
