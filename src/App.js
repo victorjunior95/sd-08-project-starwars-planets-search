@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Table from './Components/Table';
+import Form from './Components/Form';
 import MyContext from './Components/MyContext';
 
 function App() {
@@ -27,7 +28,16 @@ function App() {
       ) : (
         <MyContext.Provider value={ starwarsData }>
           <div>
-            <div>{isLoading ? <h1>LOADING...</h1> : <Table />}</div>
+            <div>
+              {isLoading ? (
+                <h1>LOADING...</h1>
+              ) : (
+                <div>
+                  <Form />
+                  <Table />
+                </div>
+              )}
+            </div>
           </div>
         </MyContext.Provider>
       )}
