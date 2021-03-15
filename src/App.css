@@ -1,41 +1,49 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Ranchers&display=swap');
+:root {
+  --primary-color: #FBBF6B;
+  --secundary-color:#F6A400;
+  --tertiary-color: #63A09E;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  background-color: var(--tertiary-color);
+  font-family: 'Ranchers', cursive;
+}
+
+header {
+  text-align: center;
+  height: 70px;
+  background-color: var(--primary-color);
+}
+
+.title {
+  padding-top: 0.8rem;
+}
+
+.table-container {
+  text-align: center;
+}
+table {
+  margin: 20px auto 0px;
+  background-color: var(--primary-color);
+  width: 90vw;
+  border-radius: 1rem;
+}
+
+.container-planet {
+  border: 2px solid black;
+}
+th {
+  padding: 3rem 1rem;
+}
+td {
+  padding: 0.7rem 1rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media ( prefers-reduced-motion : no-preference ) {
 
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  align-items: center;
-  background-color: #282c34;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  justify-content: center;
-  min-height: 100vh;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
