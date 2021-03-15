@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Table from './Components/Table';
 import MyContext from './Components/MyContext';
-import FilterName from './Hooks/FilterName';
 
 function App() {
   const [isLoading, setLoading] = useState(true);
   const [starwarsData, setStarwarsData] = useState({});
-  const [filterByName, setFilter] = FilterName();
+  const [name, setName] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -24,15 +23,15 @@ function App() {
 
   const handleChange = ({ target }) => {
     const { value } = target;
-    setFilter(value);
+    setName(value);
   };
 
   const formField = () => (
     <form>
-      <label htmlFor="name">
+      <label htmlFor="name-filter">
         <input
-          type="name"
-          id="name"
+          type="text"
+          name="name-filter"
           placeholder="Digite o filtro"
           data-testid="name-filter"
           onChange={ handleChange }
@@ -44,7 +43,9 @@ function App() {
   const contextValues = {
     starwarsData,
     filters: {
-      filterByName,
+      filterByName: {
+        name,
+      },
     },
   };
 

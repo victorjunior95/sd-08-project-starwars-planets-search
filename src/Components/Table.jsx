@@ -5,6 +5,7 @@ const Table = () => {
   const { starwarsData, filters } = useContext(MyContext);
   const { filterByName } = filters;
   const resultsStarWarsApi = starwarsData.results;
+  // console.log('name: ', filterByName.name);
   const showTableRow = (rowInfo) => {
     const {
       name,
