@@ -23,12 +23,31 @@ function Table() {
     }
   }, [dataToBeRendered]);
 
-  const filterData = (type, filter) => {
-    setDataToBeRendered([...data].filter((row) => row[type].includes(filter)));
+  const filterName = (name) => {
+    setDataToBeRendered([...data].filter((row) => row.name.includes(name)));
+  };
+
+  const filterNumericValue = (column, comparison, value) => {
+    setDataToBeRendered([...data].filter((row) => {
+      switch (comparison) {
+      case 'maior que':
+        return parseInt(row[column], 10) > value;
+      case 'menor que':
+        return parseInt(row[column], 10) < value;
+      case 'igual a':
+        return parseInt(row[column], 10) === value;
+      default:
+        return true;
+      }
+    }));
   };
 
   useEffect(() => {
-    filterData('name', filters.filterByName.name);
+    filterName(filters.filterByName.name);
+    filters.filterByNumericValues
+      .forEach(({ column, comparison, value }) => {
+        filterNumericValue(column, comparison, parseInt(value, 10));
+      });
   }, [filters]);
 
   return (
