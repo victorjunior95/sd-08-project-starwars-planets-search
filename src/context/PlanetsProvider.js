@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 import getPlanetsAPI from '../services/StarwarsAPI';
 
@@ -12,7 +13,7 @@ function PlanetsProvider({ children }) {
       setData({ data: results });
       setIsFetching(false);
     }
-    fetchData(); 
+    fetchData();
   }, []);
 
   return (
@@ -23,5 +24,9 @@ function PlanetsProvider({ children }) {
     </PlanetsContext.Provider>
   );
 }
+
+PlanetsProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default PlanetsProvider;

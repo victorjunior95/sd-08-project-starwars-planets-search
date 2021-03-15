@@ -5,7 +5,7 @@ function PlanetsTable() {
   const { data, isFetching } = useContext(PlanetsContext);
   return (
     <main>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">Name</th>
@@ -24,11 +24,10 @@ function PlanetsTable() {
           </tr>
         </thead>
         {isFetching
-        ? <h1>loading</h1>
-        : (
-          <tbody>
-            { data.map(planet => {
-              return (
+          ? <h1>loading</h1>
+          : (
+            <tbody>
+              { data.map((planet) => (
                 <tr key={ planet.created }>
                   <td>{planet.name}</td>
                   <td>{planet.rotation_period}</td>
@@ -43,11 +42,10 @@ function PlanetsTable() {
                   <td>{planet.films}</td>
                   <td>{planet.created}</td>
                   <td>{planet.edited}</td>
-                </tr>) 
-              })
-            }
-          </tbody>
-        )}
+                </tr>
+              ))}
+            </tbody>
+          )}
       </table>
     </main>
   );
