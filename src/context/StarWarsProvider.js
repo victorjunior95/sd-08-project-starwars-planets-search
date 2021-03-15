@@ -14,6 +14,13 @@ const StarWarsProvider = ({ children }) => {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
   });
 
   const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -47,10 +54,78 @@ const StarWarsProvider = ({ children }) => {
     setData(filterData);
   }, [allData, name]);
 
+  const filterColumn = (value) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: {
+        ...filters.filterByNumericValues,
+        column: value,
+      },
+    });
+  };
+
+  const filterComparison = (value) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: {
+        ...filters.filterByNumericValues,
+        comparison: value,
+      },
+    });
+  };
+
+  const filterValue = (value) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: {
+        ...filters.filterByNumericValues,
+        value,
+      },
+    });
+  };
+
+  const { column, comparison, value } = filters.filterByNumericValues;
+  const buttonFilter = () => {
+    const filterNumData = allData.filter((item) => {
+      if (comparison === 'maior que') {
+        return item[column] * 1 > value;
+      }
+      if (comparison === 'menor que') {
+        return item[column] * 1 < value;
+      }
+      if (comparison === 'igual a') {
+        return item[column] === value;
+      }
+      return null;
+    });
+    setData(filterNumData);
+  };
+
+  // const { column, comparison, value } = filters.filterByNumericValues;
+  // useEffect(() => {
+  //   const filterNumData = allData.filter((item) => {
+  //     switch (column) {
+  //     case (comparison === 'maior que'):
+  //       return item[column] * 1 > value;
+  //     case (comparison === 'menor que'):
+  //       return item[column] * 1 < value;
+  //     case (comparison === 'igual a'):
+  //       return item[column] === value;
+  //     default:
+  //       return null;
+  //     }
+  //   });
+  //   setData(filterNumData);
+  // }, [allData, column, comparison, value]);
+
   const context = {
     data,
     titles,
     filterName,
+    filterColumn,
+    filterComparison,
+    filterValue,
+    buttonFilter,
   };
 
   return (
