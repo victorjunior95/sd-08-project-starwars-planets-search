@@ -4,11 +4,26 @@ import theads from '../data/theads';
 import '../styles/Table.css';
 
 function Table() {
-  const { planets, filterByName, filterByNumericValue } = useContext(StarWarsContext);
-  // const { column, comparision, value } = filterByNumericValue;
-  const newData = planets.filter(
-    (elem) => elem.name.includes(filterByName),
-  )
+  const { planets, filterByName, filterByNumericValue,
+    order } = useContext(StarWarsContext);
+
+  const newData = planets.sort((a, b) => {
+    const { column } = order;
+    const MENOR_VALOR = -1;
+    if (order.order === 'ASC') {
+      if (a[column] > b[column]) return 1;
+      if (a[column] < b[column]) return MENOR_VALOR;
+      return 0;
+    } if (order.order === 'DESC') {
+      if (a[column] > b[column]) return MENOR_VALOR;
+      if (a[column] < b[column]) return 1;
+      return 0;
+    }
+  })
+
+    .filter(
+      (elem) => elem.name.includes(filterByName),
+    )
     .filter((elem) => {
       if (filterByNumericValue[0]) {
         const { column, comparision, value } = filterByNumericValue[0];
