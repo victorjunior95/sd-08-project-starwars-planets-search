@@ -1,9 +1,15 @@
 import React from 'react';
 import './App.css';
+import Table from './components/Table';
+// import Filter from './components/Filter';
+// import MyContext from './context';
+// import SortingFilter from './components/SortingFilter';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    // <MyContext.Provider value={data}>
+    <Table />
+    // </MyContext.Provider>
   );
 }
 
