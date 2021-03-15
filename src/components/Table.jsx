@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import FilterContext from '../context/FilterContext';
 
 function Table() {
   const { data } = useContext(PlanetsContext);
+  const { filters } = useContext(FilterContext);
   const [dataToBeRendered, setDataToBeRendered] = useState([]);
   const [tableHeaders, setTableHeaders] = useState([]);
 
@@ -20,6 +22,14 @@ function Table() {
       setTableHeaders(Object.keys(dataToBeRendered[0]));
     }
   }, [dataToBeRendered]);
+
+  const filterData = (type, filter) => {
+    setDataToBeRendered([...data].filter((row) => row[type].includes(filter)));
+  };
+
+  useEffect(() => {
+    filterData('name', filters.filterByName.name);
+  }, [filters]);
 
   return (
     <table>
