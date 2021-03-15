@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function TableBody({ contentRow }) {
   const renderTd = (rows) => {
@@ -27,5 +28,9 @@ function TableBody({ contentRow }) {
     </tbody>
   );
 }
+
+TableBody.propTypes = {
+  contentRow: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default TableBody;

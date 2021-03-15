@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function TableHeader({ nameColumn }) {
   return (
@@ -13,3 +14,7 @@ function TableHeader({ nameColumn }) {
 }
 
 export default TableHeader;
+
+TableHeader.propTypes = {
+  nameColumn: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
