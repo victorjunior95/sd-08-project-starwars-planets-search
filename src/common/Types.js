@@ -17,4 +17,4 @@ export const PlanetsType = PropTypes.arrayOf(PropTypes.shape({
   url: PropTypes.string.isRequired,
 }));
 
-export const AA = 'aa';
+export const AA = 'aaa';
