@@ -1,10 +1,8 @@
 import React from 'react';
-import './App.css';
+import TableOfPlanets from './pages/TableOfPlanets';
 
 function App() {
-  return (
-    <span>Hello Leonardo, App!</span>
-  );
+  return <TableOfPlanets />;
 }
 
 export default App;
