@@ -3,7 +3,8 @@ import { Table } from 'react-bootstrap';
 import SWContext from '../context/SWContext';
 
 function Tabela() {
-  const { data } = useContext(SWContext);
+  const { planets } = useContext(SWContext);
+
   return (
     <Table striped bordered hover responsive>
       <thead>
@@ -24,7 +25,7 @@ function Tabela() {
         </tr>
       </thead>
       <tbody>
-        {data.map((element, index) => (
+        {planets.map((element, index) => (
           <tr key={ index }>
             <td>{element.name}</td>
             <td>{element.climate}</td>
@@ -45,5 +46,7 @@ function Tabela() {
     </Table>
   );
 }
-
+Tabela.defaultProps = {
+  planets: [],
+};
 export default Tabela;

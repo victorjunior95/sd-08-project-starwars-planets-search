@@ -17,11 +17,14 @@ function Provider({ children }) {
   const [filters, setFilters] = useState(INITIAL_STATE);
 
   useEffect(() => {
-    getAPI()
-      .then((response) => setData(response));
-  }, [data]);
+    getAPI().then((response) => setData(response));
+  }, []);
 
-  console.log(data);
+  useEffect(() => {
+    const { filters: { filterByName: { name } } } = filters;
+    const filterPlanet = data.filter((element) => element.name.includes(name));
+    setPlanets(filterPlanet);
+  }, [data, filters]);
 
   const context = { planets, setPlanets, filters, setFilters, data };
   return (
