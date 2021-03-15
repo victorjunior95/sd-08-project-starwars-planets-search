@@ -3,10 +3,12 @@ import './App.css';
 import Table from './Components/Table';
 import Form from './Components/Form';
 import MyContext from './Components/MyContext';
+import FilterName from './Hooks/FilterName';
 
 function App() {
   const [isLoading, setLoading] = useState(true);
   const [starwarsData, setStarwarsData] = useState({});
+  const [filter, setFilter] = FilterName();
 
   useEffect(() => {
     setLoading(true);
@@ -20,6 +22,25 @@ function App() {
     }
     fetchData();
   }, []);
+
+  const handleChange = ({ target }) => {
+    const { value } = target;
+    setFilter(value);
+  };
+
+  const formField = () => (
+    <form>
+      <label htmlFor="name">
+        <input
+          type="name"
+          id="name"
+          placeholder="Digite o filtro"
+          data-testid="name-filter"
+          onChange={ handleChange }
+        />
+      </label>
+    </form>
+  );
 
   return (
     <div>
