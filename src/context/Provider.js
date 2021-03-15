@@ -12,6 +12,12 @@ function Provider({ children }) {
     setName(target.value);
   };
 
+  const removeFilter = (value) => {
+    const newState = filterByNumericValue.filter(({ column }) => column !== value);
+    console.log(newState);
+    setNumericValue(newState, value);
+  };
+
   const addNumericFilter = (column, comparision, value) => {
     setNumericValue(
       [...filterByNumericValue,
@@ -43,6 +49,7 @@ function Provider({ children }) {
     handleFilterName,
     filterByNumericValue,
     addNumericFilter,
+    removeFilter,
   };
 
   useEffect(() => {
