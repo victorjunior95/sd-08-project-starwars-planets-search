@@ -2,8 +2,12 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function PlanetsDataTable() {
-  const { data } = useContext(StarWarsContext);
-  // console.log(data);
+  const { planets } = useContext(StarWarsContext);
+  const planetsWithoutResidentsColumns = planets.map((planet) => {
+    delete planet.residents;
+    return planet;
+  });
+
   return (
     <table>
       <thead>
@@ -25,13 +29,12 @@ function PlanetsDataTable() {
       </thead>
       <tbody>
         {
-          data.map((planet, index) => (
+          planetsWithoutResidentsColumns.map((planet, index) => (
             <tr key={ index }>
               {
                 Object.entries(planet).map(([key, value]) => {
-                  if (key === 'residents') return null;
                   return (
-                    <td key={ key }>{ value }</td>
+                    <td key={ key }>{value}</td>
                   );
                 })
               }

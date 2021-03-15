@@ -4,17 +4,34 @@ import StarWarsContext from './StarWarsContext';
 
 function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   // Simula componentDidMount() das classes
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
-      // .then((dataResponse) => console.log(dataResponse.results));
-      .then((dataResponse) => setData(dataResponse.results));
+      // .then((dataResults) => console.log(dataResults.results));
+      .then((dataResults) => setData(dataResults.results));
   }, []);
 
+  // Simula componentDidUpdate() das classes
+  useEffect(() => {
+    // console.log('Atualizado');
+    const { filterByName: { name } } = filters;
+    const filter = data.filter((planet) => planet.name.includes(name));
+    setPlanets(filter);
+  }, [data, filters]);
+
   const context = {
-    data,
+    planets,
+    setPlanets,
+    filters,
+    setFilters,
   };
 
   return (
