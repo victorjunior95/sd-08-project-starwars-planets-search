@@ -14,11 +14,19 @@ function Filter() {
   const handleSelectOption = (e) => {
     const { value, name } = e.target;
     const obj = { ...filters };
-    obj.filterByNumericValues[0][name] = value;
+    const filterLength = obj.filterByNumericValues.length;
+    obj.filterByNumericValues[filterLength - 1][name] = value;
   };
 
   const handleFilter = () => {
     const obj = { ...filters };
+    const filterLength = obj.filterByNumericValues.length;
+    const obj2 = {
+      column: '',
+      comparison: '',
+      value: '',
+    };
+    obj.filterByNumericValues[filterLength] = obj2;
     setFilter(obj);
   };
 
