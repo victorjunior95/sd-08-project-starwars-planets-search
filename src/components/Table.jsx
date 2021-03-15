@@ -24,7 +24,7 @@ const Table = () => {
         <thead>
           <tr>
             {Object.keys(data[0] || []).map((info, index) => (
-              <th scope="col" key={ index }>
+              <th className="col" key={ index }>
                 { info }
               </th>
             ))}
