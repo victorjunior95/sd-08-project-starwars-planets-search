@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import StarWarsPlanetsContext from '../context/StarWarsPlanetsContext';
 
 function Table() {
-  const { data } = useContext(StarWarsPlanetsContext);
+  const { filteredPlanets } = useContext(StarWarsPlanetsContext);
   return (
     <table>
       <thead>
@@ -24,7 +24,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet, index) => (
+        {filteredPlanets.map((planet, index) => (
           <tr key={ index }>
             <td>{planet.name}</td>
             <td>{planet.population}</td>

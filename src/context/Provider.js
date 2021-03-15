@@ -5,6 +5,12 @@ import StarWarsPlanetsContext from './StarWarsPlanetsContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
     async function getPlanets() {
@@ -12,11 +18,21 @@ function Provider({ children }) {
       setData(planetsFetchData.results);
     }
     getPlanets();
-  }, [data]);
+  }, []);
+
+  useEffect(() => {
+    console.log('ENTROU NO FILTRO POR NOME');
+    const filteredPlanetsByName = data
+      .filter((planet) => planet.name.toLowerCase()
+        .includes(filters.filterByName.name.toLowerCase()));
+    setFilteredPlanets(filteredPlanetsByName);
+  }, [data, filters]);
 
   const context = {
-    data,
-    setData,
+    filters,
+    setFilters,
+    filteredPlanets,
+    setFilteredPlanets,
   };
 
   return (
