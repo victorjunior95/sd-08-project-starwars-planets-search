@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import PlanetsTable from './components/PlanetsTable';
+import SearchBar from './components/SearchBar';
 
 import getPlanets from './services/api';
 
@@ -21,6 +22,8 @@ function App() {
   return (
     <main>
       <h1>STAR WARS</h1>
+      <SearchBar />
+      <br />
       <PlanetsTable data={ data } />
       {/* {JSON.stringify(data)} */}
     </main>
