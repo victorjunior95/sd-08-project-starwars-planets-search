@@ -13,9 +13,12 @@ function Provider({ children }) {
     setName(target.value);
   };
 
+  const changeOrder = (newOrder) => {
+    setOrder(newOrder);
+  };
+
   const removeFilter = (value) => {
     const newState = filterByNumericValue.filter(({ column }) => column !== value);
-    console.log(newState);
     setNumericValue(newState, value);
   };
 
@@ -52,6 +55,7 @@ function Provider({ children }) {
     addNumericFilter,
     removeFilter,
     order,
+    changeOrder,
   };
 
   useEffect(() => {

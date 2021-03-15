@@ -8,17 +8,27 @@ function Table() {
     order } = useContext(StarWarsContext);
 
   const newData = planets.sort((a, b) => {
-    const { column } = order;
     const MENOR_VALOR = -1;
+    const { column } = order;
+    if (column === 'population') {
+      if (order.order === 'ASC') {
+        if (Number(a[column]) > Number(b[column])) return 1;
+        if (Number(a[column]) < Number(b[column])) return MENOR_VALOR;
+        return 0;
+      }
+      if (Number(a[column]) > Number(b[column])) return MENOR_VALOR;
+      if (Number(a[column]) < Number(b[column])) return 1;
+      return 0;
+    }
+
     if (order.order === 'ASC') {
       if (a[column] > b[column]) return 1;
       if (a[column] < b[column]) return MENOR_VALOR;
       return 0;
-    } if (order.order === 'DESC') {
-      if (a[column] > b[column]) return MENOR_VALOR;
-      if (a[column] < b[column]) return 1;
-      return 0;
     }
+    if (a[column] > b[column]) return MENOR_VALOR;
+    if (a[column] < b[column]) return 1;
+    return 0;
   })
 
     .filter(
@@ -77,7 +87,12 @@ function Table() {
       <tbody>
         {newData.map((elem, index) => (
           <tr key={ index }>
-            {elem.map((e) => <td key={ e[0] }>{e[1]}</td>)}
+            {elem.map((e) => {
+              if (e[0] === 'name') {
+                return <td key={ e[0] } data-testid="planet-name">{e[1]}</td>;
+              }
+              return <td key={ e[0] }>{e[1]}</td>;
+            })}
           </tr>))}
       </tbody>
     </table>
