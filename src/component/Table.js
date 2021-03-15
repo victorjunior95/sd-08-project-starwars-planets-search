@@ -7,11 +7,11 @@ function Table() {
 
   return (
     <table>
-      <thread>
+      <thead>
         <tr>
           {headers.map((header) => <th key={ header }>{ header }</th>)}
         </tr>
-      </thread>
+      </thead>
       <tbody>
         {data.map((planet) => (
           <tr key={ planet.name }>
