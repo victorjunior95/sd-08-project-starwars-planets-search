@@ -1,0 +1,11 @@
+header {
+  margin-bottom: 10px;
+}
+
+label {
+  margin: 5px;
+}
+
+label span {
+  color: whitesmoke;
+}

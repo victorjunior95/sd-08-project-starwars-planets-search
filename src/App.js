@@ -6,7 +6,6 @@ import SearchPlanetPage from './r-pages/SearchPlanetPage';
 function App() {
   return (
     <PlanetsProvider>
-      App
       <SearchPlanetPage />
     </PlanetsProvider>
   );
