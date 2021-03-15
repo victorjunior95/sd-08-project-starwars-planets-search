@@ -4,44 +4,44 @@ import './Header.css';
 export default function Header() {
   return (
     <header>
-      <label htmlFor="">
-        <input type="text" />
+      <label htmlFor="inputName">
+        <input name="inputName" type="text" />
       </label>
 
-      <label htmlFor="">
-        <select name="" id="">
-          <option value="">Population</option>
-          <option value="">Orbital Period</option>
-          <option value="">Rotation Period</option>
+      <label htmlFor="selectNumberFilter">
+        <select name="selectNumberFilter">
+          <option value="populationFilter">Population</option>
+          <option value="orbitalFilter">Orbital Period</option>
+          <option value="rotationFilter">Rotation Period</option>
         </select>
       </label>
 
-      <label htmlFor="">
-        <select name="" id="">
-          <option value="">Maior que</option>
-          <option value="">Menor que</option>
-          <option value="">Igual a</option>
+      <label htmlFor="selectOperationFilter">
+        <select name="selectOperationFilter">
+          <option value="greaterFilter">Maior que</option>
+          <option value="smallerFilter">Menor que</option>
+          <option value="equalFilter">Igual a</option>
         </select>
       </label>
 
       <button type="button">Filtrar</button>
 
-      <label htmlFor="">
+      <label htmlFor="selectOrder">
         <span>Ordenar</span>
-        <select>
-          <option value="">Population</option>
-          <option value="">Orbital Period</option>
-          <option value="">Rotation Period</option>
+        <select name="selectOrder">
+          <option value="populationOrder">Population</option>
+          <option value="orbitalOrder">Orbital Period</option>
+          <option value="rotationOrder">Rotation Period</option>
         </select>
       </label>
 
-      <label htmlFor="">
+      <label htmlFor="ascendent">
         <span>Ascendente</span>
-        <input type="radio" name="" id="" />
+        <input type="radio" name="ascendent" />
       </label>
-      <label htmlFor="">
+      <label htmlFor="Descendent">
         <span>Descendente</span>
-        <input type="radio" name="" id="" />
+        <input type="radio" name="Descendent" />
       </label>
     </header>
   );
