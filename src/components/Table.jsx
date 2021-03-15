@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/Context';
 
 export default function Table() {
-  const { planetList } = useContext(StarWarsContext);
+  const { planetList, filterByName } = useContext(StarWarsContext);
+  console.log(planetList);
   if (!planetList) {
     return <div>Loading...</div>;
   }
@@ -18,14 +19,17 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {planetList.map((planet) => (
-          <tr key={ planet.name }>
-            {Object.values(planet).map((item, i) => (
-              <td key={ i }>
-                {item}
-              </td>
-            ))}
-          </tr>))}
+        {planetList
+          .filter((planet) => planet.name.toLowerCase()
+            .includes(filterByName.toLowerCase()))
+          .map((planet) => (
+            <tr key={ planet.name }>
+              {Object.values(planet).map((item, i) => (
+                <td key={ i }>
+                  {item}
+                </td>
+              ))}
+            </tr>))}
       </tbody>
     </table>
   );

@@ -5,21 +5,21 @@ import fetchAllPlanets from '../helpers';
 
 function StartWarsProvider({ children }) {
   const [planetList, setPlanetList] = useState();
-
-  async function getPlanets() {
-    const allPlanets = await fetchAllPlanets();
-    allPlanets.forEach((planet) => {
-      delete planet.residents;
-    });
-    setPlanetList(allPlanets);
-  }
+  const [filterByName, setFilterByName] = useState('');
 
   useEffect(() => {
+    async function getPlanets() {
+      const allPlanets = await fetchAllPlanets();
+      allPlanets.forEach((planet) => {
+        delete planet.residents;
+      });
+      setPlanetList(allPlanets);
+    }
     getPlanets();
   }, []);
 
   return (
-    <StarWarsContext.Provider value={ { planetList } }>
+    <StarWarsContext.Provider value={ { setFilterByName, planetList, filterByName } }>
       {children}
     </StarWarsContext.Provider>
   );
