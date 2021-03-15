@@ -9,7 +9,7 @@ class StarWarsProvider extends React.Component {
     this.state = {
       isFetching: false,
       error: null,
-      arrayOfResults: null,
+      arrayOfResults: [],
     };
 
     this.fetchPlanetsApi = this.fetchPlanetsApi.bind(this);
