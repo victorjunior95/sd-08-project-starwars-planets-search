@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 export const planetsContext = createContext([]);
 
@@ -36,4 +37,9 @@ const PlanetsProvider = ({ children }) => {
     </planetsContext.Provider>
   );
 };
+
+PlanetsProvider.propTypes = {
+  children: PropTypes.shape([]).isRequired,
+};
+
 export default PlanetsProvider;
