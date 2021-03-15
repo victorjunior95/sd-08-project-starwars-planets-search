@@ -24,6 +24,8 @@ export default function Table() {
 
   const { results } = data.results ? data : [];
 
+  // teste
+
   return (
     <div className="table-container">
       {isFetching ? <span>Loading</span> : null}
