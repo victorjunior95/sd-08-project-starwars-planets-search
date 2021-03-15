@@ -40,13 +40,13 @@ function App() {
     filterByNumericValues.forEach(({ column, comparison, value }) => {
       filteredByAll = filteredByAll.filter((planet) => {
         if (comparison === 'maior que') {
-          return planet[column] > value;
+          return +planet[column] > +value;
         }
         if (comparison === 'menor que') {
-          return planet[column] < value;
+          return +planet[column] < +value;
         }
         if (comparison === 'igual a') {
-          return planet[column] === value;
+          return +planet[column] === +value;
         }
         return planet;
       });
@@ -55,9 +55,11 @@ function App() {
   }, [allPlanets, filtersState]);
 
   function applyNumericFilter() {
+    const { filters: { filterByNumericValues: filter } } = filtersState;
     if (numericState.column
       && numericState.comparison
       && numericState.value
+      && !filter.find(({ column }) => column === numericState.column)
     ) {
       setFiltersState({ filters: { ...filtersState.filters,
         filterByNumericValues: [
@@ -76,6 +78,15 @@ function App() {
   function handleChangeNumeric({ target }) {
     const { name, value } = target;
     setNumericState({ ...numericState, [name]: value });
+  }
+
+  function removeFilter(index) {
+    const { filters: { filterByNumericValues } } = filtersState;
+    const tempFilter = [...filterByNumericValues];
+    tempFilter.splice(index, 1);
+    setFiltersState({ filters: { ...filtersState.filters,
+      filterByNumericValues: tempFilter,
+    } });
   }
 
   return (
@@ -124,6 +135,21 @@ function App() {
       >
         Filtrar
       </button>
+      <ul>
+        { filtersState.filters.filterByNumericValues.map(
+          ({ column, comparison, value }, index) => (
+            <li key={ `${index}+filter` }>
+              { `${column} ${comparison} ${value}`}
+              <button
+                type="button"
+                onClick={ () => removeFilter(index) }
+              >
+                X
+              </button>
+            </li>
+          ),
+        )}
+      </ul>
       <Table />
     </starWarsContext.Provider>
   );
