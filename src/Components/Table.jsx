@@ -3,9 +3,8 @@ import MyContext from './MyContext';
 
 const Table = () => {
   const { starwarsData, filters } = useContext(MyContext);
-  const { filterByName } = filters;
+  const { filterByName, filterByNumericValues } = filters;
   const resultsStarWarsApi = starwarsData.results;
-  // console.log('name: ', filterByName.name);
   const showTableRow = (rowInfo) => {
     const {
       name,
@@ -49,6 +48,29 @@ const Table = () => {
     );
   };
 
+  const filterNumerics = (list) => {
+    const { column, comparison, value } = filterByNumericValues[0];
+    if (comparison === 'maior que') {
+      return list.filter((item) => item[column] > value);
+    }
+    if (comparison === 'menor que') {
+      return list.filter((item) => item[column] < value);
+    }
+    return list.filter((item) => item[column] === value);
+  };
+
+  const filter = () => {
+    if (filterByNumericValues.length === 0) {
+      return resultsStarWarsApi
+        .filter((result) => result.name.includes(filterByName.name))
+        .map((result) => showTableRow(result));
+    }
+    const filteredByName = resultsStarWarsApi
+      .filter((result) => result.name.includes(filterByName.name));
+    const filteredByNumerics = filterNumerics(filteredByName);
+    return filteredByNumerics.map((result) => showTableRow(result));
+  };
+
   return (
     <table>
       <thead>
@@ -69,9 +91,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {resultsStarWarsApi
-          .filter((result) => result.name.includes(filterByName.name))
-          .map((result) => showTableRow(result))}
+        {filter()}
       </tbody>
     </table>
   );

@@ -7,6 +7,10 @@ function App() {
   const [isLoading, setLoading] = useState(true);
   const [starwarsData, setStarwarsData] = useState({});
   const [name, setName] = useState('');
+  const [columnFilter, setColumnFilter] = useState('');
+  const [comparisonFilter, setComparisonFilter] = useState('');
+  const [valueFilter, setValueFilter] = useState(0);
+  const [filterNumerics, setFilterNumerics] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -26,6 +30,28 @@ function App() {
     setName(value);
   };
 
+  const handleSelectColumn = ({ target: { value } }) => {
+    setColumnFilter(value);
+  };
+
+  const handleSelectComparison = ({ target: { value } }) => {
+    setComparisonFilter(value);
+  };
+
+  const handleNumber = ({ target: { value } }) => {
+    setValueFilter(value);
+  };
+
+  const handleClick = () => {
+    setFilterNumerics([
+      {
+        column: columnFilter,
+        comparison: comparisonFilter,
+        value: valueFilter,
+      },
+    ]);
+  };
+
   const formField = () => (
     <form>
       <label htmlFor="name-filter">
@@ -37,6 +63,47 @@ function App() {
           onChange={ handleChange }
         />
       </label>
+
+      <label htmlFor="columnfilter">
+        <select
+          name="columnfilter"
+          data-testid="column-filter"
+          onChange={ handleSelectColumn }
+          value={ columnFilter }
+        >
+          <option>Selecione:</option>
+          <option>population</option>
+          <option>orbital_period</option>
+          <option>diameter</option>
+          <option>rotation_period</option>
+          <option>surface_water</option>
+        </select>
+      </label>
+
+      <label htmlFor="comparisonfilter">
+        <select
+          name="comparisonfilter"
+          data-testid="comparison-filter"
+          onChange={ handleSelectComparison }
+          value={ comparisonFilter }
+        >
+          <option>Selecione:</option>
+          <option>maior que</option>
+          <option>menor que</option>
+          <option>igual a</option>
+        </select>
+      </label>
+      <label htmlFor="quantity">
+        <input
+          name="quantity"
+          type="number"
+          data-testid="value-filter"
+          onChange={ handleNumber }
+        />
+      </label>
+      <button type="button" data-testid="button-filter" onClick={ handleClick }>
+        Filtrar
+      </button>
     </form>
   );
 
@@ -46,6 +113,7 @@ function App() {
       filterByName: {
         name,
       },
+      filterByNumericValues: filterNumerics,
     },
   };
 
