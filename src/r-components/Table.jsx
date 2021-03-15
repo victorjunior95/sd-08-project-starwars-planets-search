@@ -17,7 +17,6 @@ function mapData(planetsParam) {
 
 export default function Table() {
   const { planets } = useContext(PlanetsContext);
-  console.log(planets);
   const tableHeaderInfo = Object.keys(planets[0]).filter((e) => e !== 'residents' && e);
 
   return (
