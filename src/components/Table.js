@@ -1,24 +1,9 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import theads from '../data/theads';
 import '../styles/Table.css';
 
 function Table() {
-  const theads = [
-    'name',
-    'rotation_period',
-    'orbital_period',
-    'diameter',
-    'climate',
-    'gravity',
-    'terrain',
-    'surface_water',
-    'population',
-    'films',
-    'created',
-    'edited',
-    'url',
-  ];
-
   const { planets, filterByName, filterByNumericValue } = useContext(StarWarsContext);
   // const { column, comparision, value } = filterByNumericValue;
   const newData = planets.filter(

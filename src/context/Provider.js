@@ -7,6 +7,7 @@ function Provider({ children }) {
   const [isFetching, setFetching] = useState(true);
   const [filterByName, setName] = useState('');
   const [filterByNumericValue, setNumericValue] = useState([]);
+  const [order, setOrder] = useState({ column: 'name', order: 'ASC' });
 
   const handleFilterName = ({ target }) => {
     setName(target.value);
@@ -50,6 +51,7 @@ function Provider({ children }) {
     filterByNumericValue,
     addNumericFilter,
     removeFilter,
+    order,
   };
 
   useEffect(() => {

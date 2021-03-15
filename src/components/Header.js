@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 import FormFilter from './FormFilter';
+import FormOrder from './FormOrder';
 
 function Header() {
   const { handleFilterName } = useContext(StarWarsContext);
@@ -12,6 +13,7 @@ function Header() {
         onChange={ handleFilterName }
       />
       <FormFilter />
+      <FormOrder />
     </>
   );
 }
