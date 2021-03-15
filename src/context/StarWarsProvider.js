@@ -9,6 +9,11 @@ function PlanetsProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: {
+      column: 'population',
+      comparison: 'maior que',
+      value: 0,
+    },
   });
 
   useEffect(() => {
@@ -25,6 +30,26 @@ function PlanetsProvider({ children }) {
   useEffect(() => {
     const { filterByName: { name } } = filters;
     const filter = data.filter((planet) => planet.name.includes(name));
+    setPlanets(filter);
+  }, [data, filters]);
+  useEffect(() => {
+    const {
+      filterByName: { name },
+      filterByNumericValues: { column, comparison, value },
+    } = filters;
+    const filter = data.filter((planet) => {
+      const includesName = planet.name.includes(name);
+      switch (comparison) {
+      case ('maior que'):
+        return parseInt(planet[column], 10) > parseInt(value, 10) && includesName;
+      case ('menor que'):
+        return parseInt(planet[column], 10) < parseInt(value, 10) && includesName;
+      case ('igual a'):
+        return parseInt(planet[column], 10) === parseInt(value, 10) && includesName;
+      default:
+        return includesName;
+      }
+    });
     setPlanets(filter);
   }, [data, filters]);
 

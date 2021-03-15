@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ContextPlanets from '../context/StarWarsContext';
+import FormFilterNumeric from './FormFilterNumeric';
 
 export default function FormFilter() {
   const { filters, setFilters } = useContext(ContextPlanets);
@@ -24,6 +25,7 @@ export default function FormFilter() {
         onChange={ handleChange }
         data-testid="name-filter"
       />
+      <FormFilterNumeric />
     </form>
   );
 }
