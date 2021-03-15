@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import AppContext from '../utils/AppContext';
 
 const Table = () => {
-  const { data } = useContext(AppContext);
-  // console.log(data[0]);
-  data.map((object) => delete object.residents);
+  const { data, filters } = useContext(AppContext);
+  const { name } = filters.filterByName;
   const headList = Object.keys(data[0]);
   return (
     <table>
@@ -14,11 +13,13 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        { data.map((row) => (
-          <tr key={ row.name }>
-            { Object.values(row).map((value) => <td key={ value }>{ value }</td>)}
-          </tr>
-        ))}
+        { data
+          .filter((planet) => planet.name.includes(name))
+          .map((row) => (
+            <tr key={ row.name }>
+              { Object.values(row).map((value) => <td key={ value }>{ value }</td>)}
+            </tr>
+          ))}
       </tbody>
     </table>
   );
