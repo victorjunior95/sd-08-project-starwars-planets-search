@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PlanetsContext from '../contextAPI/PlanetsContext';
 import './Header.css';
 
+function inputNameHandle(filtersState, setFilter, { target }) {
+  const { value } = target;
+  const responseObj = {
+    ...filtersState,
+    filters: {
+      ...filtersState.filters,
+      filterByName: {
+        ...filtersState.filters.filterByName,
+        name: value,
+      },
+    },
+  };
+  setFilter(responseObj);
+}
+
 export default function Header() {
+  const { filtersState, setFilter } = useContext(PlanetsContext);
+  const { filters: { filterByName } } = filtersState;
   return (
     <header>
       <label htmlFor="inputName">
-        <input name="inputName" type="text" />
+        <input
+          data-testid="name-filter"
+          name="inputName"
+          type="text"
+          value={ filterByName.name }
+          onChange={ (e) => inputNameHandle(filtersState, setFilter, e) }
+        />
       </label>
 
       <label htmlFor="selectNumberFilter">

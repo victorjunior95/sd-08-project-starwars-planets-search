@@ -13,6 +13,20 @@ export default function PlanetsProvider({ children }) {
   const [planetsObject, setPlanets] = useState({
     results: [{ name: 'nothing', residents: 'noresidents' }],
   });
+  const [filtersState, setFilter] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+      filterByNumericValues: [
+        {
+          column: 'population',
+          comparison: 'maior que',
+          value: '100000',
+        },
+      ],
+    },
+  });
 
   const { results: planets } = planetsObject;
 
@@ -20,8 +34,12 @@ export default function PlanetsProvider({ children }) {
     fetchPlanets(setPlanets);
   }, []);
 
+  // const planetsFilteredByNames = planets.filter((value) => value.name.includes('Dag'));
+
   const ProviderObject = {
     planets,
+    filtersState,
+    setFilter,
   };
   return (
     <PlanetsContext.Provider value={ ProviderObject }>
