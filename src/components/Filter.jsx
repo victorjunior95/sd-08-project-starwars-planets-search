@@ -1,17 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import FilterContext from '../context/FilterContext';
 
 const NUMERIC_VALUES = ['population',
   'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
 function Filter() {
+  const [columnOptions, setColumnOptions] = useState(NUMERIC_VALUES);
   const [column, setColumn] = useState(NUMERIC_VALUES[0]);
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState();
 
   const { setFilterName,
-    filters: { filterByName: { name } },
+    filters: { filterByName: { name }, filterByNumericValues },
     setFilterByNumericValues } = useContext(FilterContext);
+
+  useEffect(() => {
+    const filteredOptions = filterByNumericValues.map((numeric) => numeric.column);
+    setColumnOptions(NUMERIC_VALUES.filter((opt) => !filteredOptions.includes(opt)));
+  }, [filterByNumericValues]);
 
   return (
     <>
@@ -33,7 +39,7 @@ function Filter() {
           name="column"
           onChange={ ({ target }) => setColumn(target.value) }
         >
-          { NUMERIC_VALUES.map(
+          { columnOptions.map(
             (columnOpt) => (
               <option value={ columnOpt } key={ columnOpt }>{ columnOpt }</option>
             ),
