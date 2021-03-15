@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Table from './Components/Table';
-import Form from './Components/Form';
 import MyContext from './Components/MyContext';
 import FilterName from './Hooks/FilterName';
 
 function App() {
   const [isLoading, setLoading] = useState(true);
   const [starwarsData, setStarwarsData] = useState({});
-  const [filter, setFilter] = FilterName();
+  const [filterByName, setFilter] = FilterName();
 
   useEffect(() => {
     setLoading(true);
@@ -42,19 +41,26 @@ function App() {
     </form>
   );
 
+  const contextValues = {
+    starwarsData,
+    filters: {
+      filterByName,
+    },
+  };
+
   return (
     <div>
       {isLoading ? (
         <h1>Loading...</h1>
       ) : (
-        <MyContext.Provider value={ starwarsData }>
+        <MyContext.Provider value={ contextValues }>
           <div>
             <div>
               {isLoading ? (
                 <h1>LOADING...</h1>
               ) : (
                 <div>
-                  <Form />
+                  {formField()}
                   <Table />
                 </div>
               )}

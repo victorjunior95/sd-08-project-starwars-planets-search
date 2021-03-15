@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import MyContext from './MyContext';
 
 const Table = () => {
-  const responseAPI = useContext(MyContext);
-  const resultsStarWarsApi = responseAPI.results;
-
+  const { starwarsData, filters } = useContext(MyContext);
+  const { filterByName } = filters;
+  const resultsStarWarsApi = starwarsData.results;
   const showTableRow = (rowInfo) => {
     const {
       name,
@@ -67,7 +67,11 @@ const Table = () => {
           <th>URL</th>
         </tr>
       </thead>
-      <tbody>{resultsStarWarsApi.map((result) => showTableRow(result))}</tbody>
+      <tbody>
+        {resultsStarWarsApi
+          .filter((result) => result.name.includes(filterByName.name))
+          .map((result) => showTableRow(result))}
+      </tbody>
     </table>
   );
 };
