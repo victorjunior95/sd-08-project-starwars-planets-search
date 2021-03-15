@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import SearchHeader from './SearchHeader';
 
 function Table() {
   // useContext -> ler infos do 'provider'
@@ -7,6 +8,7 @@ function Table() {
 
   return (
     <div>
+      <SearchHeader />
       <table>
         <thead>
           <tr>
