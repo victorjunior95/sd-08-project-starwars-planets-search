@@ -43,6 +43,13 @@ export default function Header() {
         <span>Descendente</span>
         <input type="radio" name="Descendent" />
       </label>
+
+      <div>
+        <span>Filter1</span>
+        <button type="button">x</button>
+        <span>Filter2</span>
+        <button type="button">x</button>
+      </div>
     </header>
   );
 }
