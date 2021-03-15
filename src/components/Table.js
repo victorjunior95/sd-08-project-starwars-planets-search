@@ -10,7 +10,9 @@ function Table() {
   const newData = planets.sort((a, b) => {
     const MENOR_VALOR = -1;
     const { column } = order;
-    if (column === 'population') {
+    if (column === 'population'
+    || column === 'diameter'
+    || column === 'orbital_period') {
       if (order.order === 'ASC') {
         if (Number(a[column]) > Number(b[column])) return 1;
         if (Number(a[column]) < Number(b[column])) return MENOR_VALOR;
