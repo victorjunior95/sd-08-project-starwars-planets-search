@@ -11,6 +11,7 @@ function StartWarsProvider({ children }) {
     comparison: null,
     value: null,
   });
+  const [filterList, setFilterList] = useState([]);
 
   useEffect(() => {
     async function getPlanets() {
@@ -23,6 +24,33 @@ function StartWarsProvider({ children }) {
     getPlanets();
   }, []);
 
+  function updateColumnFilters(column, comparison, value) {
+    setFilterList([...filterList, {
+      column,
+      comparison,
+      value,
+    }]);
+    setFilterNumericColumns({
+      column,
+      comparison,
+      value,
+    });
+  }
+
+  function clearFilter() {
+    setFilterNumericColumns({
+      column: null,
+      comparison: null,
+      value: null,
+    });
+  }
+
+  function removeColumnFilter(columnName) {
+    const newList = filterList.filter((filter) => filter.column !== columnName);
+    setFilterList(newList);
+    clearFilter();
+  }
+
   return (
     <StarWarsContext.Provider
       value={ {
@@ -30,7 +58,10 @@ function StartWarsProvider({ children }) {
         planetList,
         filterByName,
         filterNumericColumns,
-        setFilterNumericColumns } }
+        updateColumnFilters,
+        filterList,
+        setFilterList,
+        removeColumnFilter } }
     >
       {children}
     </StarWarsContext.Provider>

@@ -2,23 +2,26 @@ import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/Context';
 
 export default function Table() {
-  const { setFilterByName, setFilterNumericColumns } = useContext(StarWarsContext);
+  const { setFilterByName,
+    updateColumnFilters, filterList, removeColumnFilter } = useContext(StarWarsContext);
   const [column, setColumnFilters] = useState('population');
   const [comparison, setComparisonFilter] = useState('maior que');
   const [value, setValueFilter] = useState();
-  const [originalColumns] = useState(['population',
+  const [columns, setColumnsOptions] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
-  const [columns, setColumnsOptions] = useState(originalColumns);
 
   function updateNumericFilters() {
-    const newOptions = originalColumns.filter((option) => option !== column);
+    const newOptions = columns.filter((option) => option !== column);
+    setColumnFilters(newOptions[0]);
     setColumnsOptions(newOptions);
-    setFilterNumericColumns({
-      column,
-      comparison,
-      value,
-    });
+    updateColumnFilters(column, comparison, value);
   }
+
+  function restoreNumericFilters(restoreColumn) {
+    setColumnsOptions([...columns, restoreColumn]);
+    removeColumnFilter(restoreColumn);
+  }
+
   return (
     <div>
       <input
@@ -56,6 +59,23 @@ export default function Table() {
           search
         </button>
       </form>
+      <div>
+        {filterList && filterList.map((filter) => (
+          <div key={ filter.column } data-testid="filter">
+            {filter.column}
+            {' '}
+            {filter.comparison}
+            {' '}
+            {filter.value}
+            <button
+              type="button"
+              onClick={ () => restoreNumericFilters(filter.column) }
+            >
+              X
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
