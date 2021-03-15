@@ -41,7 +41,11 @@ function App() {
     <Filters.Provider value={ [filters, setFilter] }>
       <StarWarsContext.Provider value={ data }>
         <span>Hello, App!</span>
-        <input onChange={ setFilter } placeholder="Buscar Nome" data-testid="name-filter" />
+        <input
+          onChange={ setFilter }
+          placeholder="Buscar Nome"
+          data-testid="name-filter"
+        />
         <Table />
       </StarWarsContext.Provider>
     </Filters.Provider>
