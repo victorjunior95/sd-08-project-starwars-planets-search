@@ -28,7 +28,7 @@ function Filter() {
   }, [filterByNumericValues]);
 
   return (
-    <>
+    <section className="filter">
       <label htmlFor="name">
         Nome:
         <input
@@ -40,7 +40,6 @@ function Filter() {
         />
       </label>
       <label htmlFor="column">
-        Coluna
         <select
           data-testid="column-filter"
           id="column"
@@ -82,7 +81,6 @@ function Filter() {
         Filtro
       </button>
       <label htmlFor="sortColumn">
-        Ordenar:
         <select
           id="sortColumn"
           data-testid="column-sort"
@@ -128,7 +126,7 @@ function Filter() {
           </button>
         </div>
       ))}
-    </>
+    </section>
   );
 }
 
