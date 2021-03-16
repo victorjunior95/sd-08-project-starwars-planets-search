@@ -5,17 +5,10 @@ import TableCard from '../components/TableCard';
 import SearchNameBar from '../components/SearchNameBar';
 
 function Table() {
-  const {fetchPlanetsApi} = useContext(StarWarsContext);
-  
-  useEffect( () => {
-    async function returnedAPI() {
-      await fetchPlanetsApi();
-    }
-    returnedAPI();
-  }, [])
 
   const {data, isFetching } = useContext(StarWarsContext);
-  console.log(data, isFetching);
+
+  console.log(data);
 
   return data.length>0 && !isFetching ? (
     <div>
@@ -25,6 +18,5 @@ function Table() {
     </div>
   ) : <span>Carregando...</span>
 }
-
 
 export default Table;

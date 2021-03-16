@@ -7,11 +7,6 @@ function SearchNameBar() {
     setSearchName(target.value);
   };
 
-  const  submitSearchName = () => {
-      setFilteredData(searchName)
-      console.log(filteredData);
-  }
-
   console.log(searchName);
   return (
     <div>
@@ -25,7 +20,7 @@ function SearchNameBar() {
           onChange={handleChange}
         />
       </label>
-      <button type="button" onClick={submitSearchName}>Filtrar</button>
+      <button type="button">Filtrar</button>
     </div>
   );
 }
