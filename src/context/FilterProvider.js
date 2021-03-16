@@ -5,7 +5,9 @@ import FilterContext from './FilterContext';
 
 function FilterProvider({ children }) {
   const [filters, setFilters] = useState(
-    { filterByName: { name: '' }, filterByNumericValues: [] },
+    { filterByName: { name: '' },
+      filterByNumericValues: [],
+      order: { column: 'name', sort: 'ASC' } },
   );
 
   const setFilterName = (name) => {
@@ -24,9 +26,17 @@ function FilterProvider({ children }) {
         .filter((filter) => filter.column !== column) });
   };
 
+  const setOrder = (column, sort) => {
+    setFilters({ ...filters, order: { column, sort } });
+  };
+
   return (
     <FilterContext.Provider
-      value={ { setFilterName, filters, setFilterByNumericValues, resetNumericFilter } }
+      value={ { setFilterName,
+        filters,
+        setFilterByNumericValues,
+        resetNumericFilter,
+        setOrder } }
     >
       {children}
     </FilterContext.Provider>

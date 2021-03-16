@@ -17,37 +17,53 @@ function Table() {
     }
   }, [data]);
 
+  const sort = (arr, column, order) => (
+    arr.sort((a, b) => {
+      if (order === 'ASC') {
+        return parseFloat(a[column]) - parseFloat(b[column])
+          || a[column].localeCompare(b[column]);
+      }
+      return parseFloat(b[column]) - parseFloat(a[column])
+        || b[column].localeCompare(a[column]);
+    })
+  );
+
   useEffect(() => {
-    if (dataToBeRendered.length !== 0) {
+    if (dataToBeRendered.length !== 0 && tableHeaders.length === 0) {
       setTableHeaders(Object.keys(dataToBeRendered[0]));
+      const { order } = filters;
+      setDataToBeRendered(sort(dataToBeRendered, order.column, order.sort));
     }
   }, [dataToBeRendered]);
 
-  const filterName = (name) => {
-    setDataToBeRendered([...data].filter((row) => row.name.includes(name)));
-  };
+  const filterName = (name) => (
+    [...data].filter((row) => row.name.includes(name))
+  );
 
-  const filterNumericValue = (column, comparison, value) => {
-    setDataToBeRendered([...data].filter((row) => {
+  const filterNumericValues = (arr, column, comparison, value) => (
+    arr.filter((row) => {
       switch (comparison) {
       case 'maior que':
-        return parseInt(row[column], 10) > value;
+        return parseFloat(row[column]) > value;
       case 'menor que':
-        return parseInt(row[column], 10) < value;
+        return parseFloat(row[column]) < value;
       case 'igual a':
-        return parseInt(row[column], 10) === value;
+        return parseFloat(row[column]) === value;
       default:
         return true;
       }
-    }));
-  };
+    })
+  );
 
   useEffect(() => {
-    filterName(filters.filterByName.name);
-    filters.filterByNumericValues
-      .forEach(({ column, comparison, value }) => {
-        filterNumericValue(column, comparison, parseInt(value, 10));
-      });
+    const filteredByName = filterName(filters.filterByName.name);
+    const filteredByNameAndNumeric = filters.filterByNumericValues
+      .reduce((acc, { column, comparison, value }) => (
+        filterNumericValues(acc, column, comparison, parseFloat(value))
+      ), filteredByName);
+    const { order } = filters;
+    const sortedAndFiltered = sort(filteredByNameAndNumeric, order.column, order.sort);
+    setDataToBeRendered(sortedAndFiltered);
   }, [filters]);
 
   return (
@@ -61,7 +77,12 @@ function Table() {
         { dataToBeRendered.map((row) => (
           <tr key={ row.name }>
             { tableHeaders.map((objKey, index) => (
-              <td key={ row.name + index }>{ row[objKey] }</td>
+              <td
+                key={ row.name + index }
+                data-testid={ objKey === 'name' && 'planet-name' }
+              >
+                { row[objKey] }
+              </td>
             ))}
           </tr>
         )) }
