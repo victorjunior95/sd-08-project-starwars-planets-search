@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import StarContext from '../context/context';
-// import objetosEmComum from './HyperFilter';
+import { objetosEmComum, objetosEmComum2, objetosEmComum3, objetosEmComum4 } from './HyperFilter';
 
 export default function Table() {
   const valorInicialDeComparação = 0;
@@ -9,10 +9,12 @@ export default function Table() {
   const [columnSelect, columnSelectChange] = useState('rotation_period');
   const [comparisonSelect, comparisonSelectChange] = useState('maior que');
   const arrayTd = useContext(StarContext);
+  const [filtersMap, filtersMapChange] = useState([]);
   const arrTh = ['Name', 'Terrain', 'Climate', 'Population',
     'Diameter', 'Rotation_period', 'Orbital_period', 'Gravity',
     'Surface_water', 'Created', 'Edited', 'Films', 'Url'];
   const [arrayOfNumericFilter, setArrayOfNumericFilter] = useState([]);
+
   const filterName = (array) => {
     const arrTdFiltered = array.filter((obj) => obj.name.includes((input)));
     return arrTdFiltered;
@@ -93,6 +95,23 @@ export default function Table() {
         >
           Adicionar Filtro
         </button>
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ () => console.log(arrayOfNumericFilter) }
+        >
+          Consolearray
+        </button>
+        {/* <div className="filtersContainer">
+          {filters.map((tipo) => (
+            <div key="filterskey">
+              <p key={ tipo }>{tipo}</p>
+              <button key={ tipo } type="button">
+                Excluir Filtro
+              </button>
+            </div>
+          ))}
+        </div> */}
       </div>
       <table className="table">
         <thead>
@@ -101,7 +120,8 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {filterName(filterNumber()).map((obj) => (
+          {/* objetosEmComum4(arrayOfNumericFilter)) */}
+          {filterName(arrayTd).map((obj) => (
             <tr className="table" key={ obj.name }>
               <td className="table">{obj.name}</td>
               <td className="table">{obj.terrain}</td>

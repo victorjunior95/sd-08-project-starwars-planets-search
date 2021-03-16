@@ -1,4 +1,4 @@
-function objetosEmComum(ARRAY) {
+export function objetosEmComum(ARRAY) {
   const inicioDaContagemDeItens = 0;
   let maiorArray = [];
   if (ARRAY.length === 1) {
@@ -13,7 +13,7 @@ function objetosEmComum(ARRAY) {
 }
 // essa primeira parte pegou o maior array dentro do arrayzao e pos numa variavel
 
-function objetosEmComum2(ARRAY) {
+export function objetosEmComum2(ARRAY) {
   const arr = [...ARRAY];
   const inicioDaContagemDeItens = 0;
   const maiorArray = objetosEmComum(ARRAY);
@@ -26,7 +26,7 @@ function objetosEmComum2(ARRAY) {
   return arr;
 }
 
-function objetosEmComum3(ARRAY) {
+export function objetosEmComum3(ARRAY) {
   const inicioDaContagemDeItens = 0;
   const ARRAYY = objetosEmComum2(ARRAY);
   const maiorArray = objetosEmComum(ARRAY);
@@ -41,26 +41,22 @@ function objetosEmComum3(ARRAY) {
       }
     }
   }
-  console.log(arrFinal);
-  console.log(ARRAYY);
+
   return arrFinal;
 }
 
-export default function objetosEmComum4(ARRAY) {
+export function objetosEmComum4(ARRAY) {
   if (ARRAY.length === 1) {
     return ARRAY[0];
   }
   const inicioDaContagemDeItens = 0;
   const arrFinal = objetosEmComum3(ARRAY);
   const ARRAYY = objetosEmComum2(ARRAY);
-  console.log(arrFinal, 'arrfinal');
-  console.log(ARRAYY, 'array');
   const organizado = [];
   for (let i = inicioDaContagemDeItens; i < arrFinal.length; i += 1) {
     organizado.push(JSON.stringify(arrFinal[i]));
   }
   organizado.sort();
-  console.log(organizado, 'array');
   const arrDeSaida = [];
   let count = 1;
   for (let i = inicioDaContagemDeItens; i < organizado.length; i += 1) {
@@ -74,5 +70,11 @@ export default function objetosEmComum4(ARRAY) {
       arrDeSaida.push(JSON.parse(organizado[i]));
     }
   }
+  for (let i = 0; i < ARRAYY.length; i += 0) {
+    if (ARRAYY[i] === []) {
+      return ARRAYY[i];
+    }
+  }
+
   return arrDeSaida;
 }
