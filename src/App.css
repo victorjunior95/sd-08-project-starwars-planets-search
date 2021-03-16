@@ -19,7 +19,7 @@ body {
 }
 
 @font-face {
-  font-family: "star-wars", sans-serif;
+  font-family: star-wars, sans-serif;
   src: url('./fonts/STJEDISE.TTF');
 }
 
@@ -29,7 +29,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   color: yellow;
-  font-family: "star-wars";
+  font-family: star-wars, sans-serif;
   margin: 0 auto;
   margin-bottom: 0;
   padding: 40px 0;
