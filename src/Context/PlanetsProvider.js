@@ -9,6 +9,7 @@ function PlanetsProvider({ children }) {
     const fetchPlanets = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const { results } = await fetch(endpoint).then((res) => res.json());
+      results.map((obj) => delete obj.residents);
       setData(results);
     };
     fetchPlanets();
