@@ -20,6 +20,22 @@ function Provider({ children }) {
     setName(target.value);
   };
 
+  const filterPlanetsByValue = ({ column, comparison, value }) => {
+    const newFilteredPlanets = data.filter((planet) => {
+      const columnInfo = Number(planet[column]);
+      console.log(columnInfo);
+      const valueInfo = Number(value);
+      if (comparison === 'menor que') {
+        return columnInfo < valueInfo;
+      }
+      if (comparison === 'maior que') {
+        return columnInfo > valueInfo;
+      }
+      return columnInfo === valueInfo;
+    });
+    setData(newFilteredPlanets);
+  };
+
   const filters = {
     filters: {
       filterByName: {
@@ -28,7 +44,14 @@ function Provider({ children }) {
     },
   };
 
-  const context = { data, fetchStarWarsData, loading, handleChange, ...filters };
+  const context = {
+    data,
+    fetchStarWarsData,
+    loading,
+    handleChange,
+    filterByValue: (info) => filterPlanetsByValue(info),
+    ...filters,
+  };
 
   return (
     <tableContext.Provider value={ context }>
