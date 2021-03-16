@@ -11,6 +11,18 @@ function App() {
   const [comparisonFilter, setComparisonFilter] = useState('');
   const [valueFilter, setValueFilter] = useState(0);
   const [filterNumerics, setFilterNumerics] = useState([]);
+  const [columnFilters, setColumnfilters] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+  const [columnTypes, setColumnTypes] = useState([
+    'maior que',
+    'menor que',
+    'igual a',
+  ]);
 
   useEffect(() => {
     setLoading(true);
@@ -43,7 +55,13 @@ function App() {
   };
 
   const handleClick = () => {
-    setFilterNumerics([
+    const newColumnFilter = [...columnFilters];
+    const newColumnTypes = [...columnTypes];
+    newColumnFilter.splice(newColumnFilter.indexOf(columnFilter), 1);
+    newColumnTypes.splice(newColumnTypes.indexOf(comparisonFilter), 1);
+    setColumnfilters(newColumnFilter);
+    setColumnTypes(newColumnTypes);
+    setFilterNumerics([...filterNumerics,
       {
         column: columnFilter,
         comparison: comparisonFilter,
@@ -71,12 +89,9 @@ function App() {
           onChange={ handleSelectColumn }
           value={ columnFilter }
         >
-          <option>Selecione:</option>
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          {columnFilters.map((column) => (
+            <option key={ column }>{column}</option>
+          ))}
         </select>
       </label>
 
@@ -87,10 +102,9 @@ function App() {
           onChange={ handleSelectComparison }
           value={ comparisonFilter }
         >
-          <option>Selecione:</option>
-          <option>maior que</option>
-          <option>menor que</option>
-          <option>igual a</option>
+          {columnTypes.map((column) => (
+            <option key={ column }>{column}</option>
+          ))}
         </select>
       </label>
       <label htmlFor="quantity">

@@ -49,20 +49,24 @@ const Table = () => {
   };
 
   const filterNumerics = (list) => {
-    const { column, comparison, value } = filterByNumericValues[0];
-    if (comparison === 'maior que') {
-      return list.filter(
-        (item) => parseInt(item[column], 10) > parseInt(value, 10),
-      );
-    }
-    if (comparison === 'menor que') {
-      return list.filter(
-        (item) => parseInt(item[column], 10) < parseInt(value, 10),
-      );
-    }
-    return list.filter(
-      (item) => parseInt(item[column], 10) === parseInt(value, 10),
-    );
+    let filteredList = [...list];
+    filterByNumericValues.forEach((element) => {
+      const { column, comparison, value } = element;
+      if (comparison === 'maior que') {
+        filteredList = filteredList.filter(
+          (item) => parseInt(item[column], 10) > parseInt(value, 10),
+        );
+      } else if (comparison === 'menor que') {
+        filteredList = filteredList.filter(
+          (item) => parseInt(item[column], 10) < parseInt(value, 10),
+        );
+      } else if (comparison === 'igual a') {
+        filteredList = filteredList.filter(
+          (item) => parseInt(item[column], 10) === parseInt(value, 10),
+        );
+      }
+    });
+    return filteredList;
   };
 
   const filter = () => {
@@ -71,7 +75,8 @@ const Table = () => {
         .filter((result) => result.name.includes(filterByName.name))
         .map((result) => showTableRow(result));
     }
-    const filteredByName = resultsStarWarsApi.filter((result) => result.name.includes(filterByName.name));
+    const filteredByName = resultsStarWarsApi
+      .filter((result) => result.name.includes(filterByName.name));
     const filteredByNumerics = filterNumerics(filteredByName);
     return filteredByNumerics.map((result) => showTableRow(result));
   };
