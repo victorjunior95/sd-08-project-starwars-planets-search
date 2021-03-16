@@ -31,8 +31,15 @@ function hasInArray(filterByNumericValues, columnFilter) {
 }
 
 function eliminateFromList(filterList, altFiltered) {
-  console.log('filterList:', filterList);
-  console.log('altFiltered:', altFiltered);
+  return filterList.filter((list) => {
+    let maintain = true;
+    altFiltered.forEach((alt) => {
+      if (list.id === alt.column) {
+        maintain = false;
+      }
+    });
+    return maintain;
+  });
 }
 
 function buttonFilterHandle(filtersState, setFilter, columnFilter) {
