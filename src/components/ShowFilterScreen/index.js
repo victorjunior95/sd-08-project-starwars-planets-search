@@ -9,13 +9,12 @@ function ShowFilterScreen() {
   return (
     <div>
       { filterByNumericValues.map((el, index) => (
-        <div key={ index }>
+        <div data-testid="filter" key={ index }>
           <span>{ el.column }</span>
           <button
             onClick={ deleteFilter }
             data-column={ el.column }
             type="button"
-            data-testid="filter"
           >
             X
           </button>
