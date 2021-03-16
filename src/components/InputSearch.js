@@ -25,6 +25,7 @@ const InputSearch = () => {
   };
 
   return (
+
     <section>
       <input
         data-testid="name-filter"

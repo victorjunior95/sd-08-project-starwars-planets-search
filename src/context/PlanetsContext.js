@@ -29,14 +29,14 @@ const PlanetsProvider = ({ children }) => {
   const filterByNumericValues = ({ column, comparison, value }) => {
     const FilteredPlanets = planets.filter((planet) => {
       const targetInfo = Number(planet[column]);
-      const valueCompare = Number(value);
+      const valueToCompare = Number(value);
       if (comparison === 'menor que') {
-        return targetInfo <= valueCompare;
+        return targetInfo < valueToCompare;
       }
       if (comparison === 'maior que') {
-        return targetInfo >= valueCompare;
+        return targetInfo > valueToCompare;
       }
-      return targetInfo === valueCompare;
+      return targetInfo === valueToCompare;
     });
     setFilteredNames(FilteredPlanets);
   };

@@ -6,6 +6,7 @@ const PlanetsTable = () => {
   const { filteredNames } = useContext(PlanetsContext);
 
   return (
+
     <table>
       <thead>
         <tr>
