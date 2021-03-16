@@ -5,38 +5,34 @@ import FilterContext from './FilterContext';
 function Provider({ children }) {
   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
   const [allPlanets, setPlanets] = useState([]);
-  const [searchByName, setSearchName] = useState('');
+  const [searchName, setSearchName] = useState('');
+  const [filterPlanet, setFilterPlanet] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const { results } = await fetch(url).then((response) => response.json());
+      // console.log(results);
       setPlanets(results);
     }
     fetchData();
   }, []);
 
   useEffect(() => {
-    console.log('aaa');
-    let filterPlanets = allPlanets;
-    filterPlanets = allPlanets.filter((planet) => planet.name.includes((searchByName)));
-    setPlanets(filterPlanets);
-    // return filterPlanets;
-  }, [searchByName]);
+    let filterPlanets = planets;
+    filterPlanets = planets.filter((planet) => planet.name.includes((searchName)));
+    setFilterPlanet(filterPlanets);
+  }, [planets, searchName]);
 
-  const filterByName = (e) => {
+  const filterName = (e) => {
     setSearchName(e.target.value);
-    // console.log(searchByName);
-    // let filterPlanets = allPlanets;
-    // filterPlanets = allPlanets.filter((planet) => planet.name.includes((searchByName)));
-    // setPlanets(filterPlanets);
-    // return filterPlanets;
   };
 
   const data = {
-    allPlanets,
-    searchByName,
+    planets,
+    searchName,
+    filterPlanet,
     setPlanets,
-    filterByName,
+    filterName,
   };
 
   return (
