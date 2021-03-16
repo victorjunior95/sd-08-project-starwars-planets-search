@@ -3,21 +3,21 @@ import PlanetsContext from '../context/PlanetsContext';
 import './Table.css';
 
 function Table() {
-  const { data, isLoading } = useContext(PlanetsContext);
+  const { dataFiltered: { dataByName }, isLoading } = useContext(PlanetsContext);
 
   return (isLoading ? 'Loading...'
     : (
       <table>
         <thead>
           <tr>
-            { data[0]
-            && Object.keys(data[0]).map((head, index) => (
+            { dataByName[0]
+            && Object.keys(dataByName[0]).map((head, index) => (
               <th key={ index }>{ head.toUpperCase() }</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          { data[0] && data.map((infos) => (
+          { dataByName[0] && dataByName.map((infos) => (
             <tr key={ infos.name }>
               { Object.values(infos).map((info, idx) => (
                 <td key={ idx }>{ info }</td>
