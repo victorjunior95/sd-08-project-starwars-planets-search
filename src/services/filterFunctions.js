@@ -1,7 +1,7 @@
-export function removeKeysArrayObj(planets, key) {
-  const toRemove = [...planets];
-  toRemove.forEach((planet) => {
-    delete planet[key];
+export function removeKeysArrayObj(arrayObjToRemove, key) {
+  const toRemove = [...arrayObjToRemove];
+  toRemove.forEach((element) => {
+    delete element[key];
   });
   return toRemove;
 }
