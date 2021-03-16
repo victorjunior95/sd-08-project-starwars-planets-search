@@ -12,6 +12,13 @@ function Provider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
   });
 
   useEffect(() => {
@@ -34,6 +41,7 @@ function Provider({ children }) {
   }, [filter, data]);
 
   const context = {
+    data,
     planetFiltered,
     setPlanetFiltered,
     filter,
