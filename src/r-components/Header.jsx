@@ -30,13 +30,16 @@ function hasInArray(filterByNumericValues, columnFilter) {
   return filterByNumericValues;
 }
 
-/* function filterListOptions() {
-} */
+function eliminateFromList(filterList, altFiltered) {
+  console.log('filterList:', filterList);
+  console.log('altFiltered:', altFiltered);
+}
 
 function buttonFilterHandle(filtersState, setFilter, columnFilter) {
   const { filterList, filters: { filterByNumericValues } } = filtersState;
   const altFiltered = hasInArray(filterByNumericValues, columnFilter);
-  console.log(filterList);
+  const newFilterList = eliminateFromList(filterList, altFiltered);
+  console.log('-----:', newFilterList);
   const responseObj = {
     ...filtersState,
     filters: {
@@ -54,7 +57,6 @@ export default function Header() {
     value: '100000',
   });
   const { column, comparison, value } = columnFilter;
-
   const { filtersState, setFilter } = useContext(PlanetsContext);
   const { filters: { filterByName }, filterList } = filtersState;
   return (
