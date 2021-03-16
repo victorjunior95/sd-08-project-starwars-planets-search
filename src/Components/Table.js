@@ -1,29 +1,33 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
-  const { data, filters } = useContext(StarWarsContext);
+  const [filterPlanet, setFilterPlanet] = useState('');
+  const {
+    data,
+    filters,
+    functionLength,
+    filterByNumericValuesFunc,
+    removed,
+  } = useContext(StarWarsContext);
   const { filterByName: { name } } = filters;
-  const { filterByNumericValues: [{ column, comparison, value }] } = filters;
-  let teste;
+  const { filterByNumericValues } = filters;
+  let filterLength = filterByNumericValues.length;
+  filterLength = functionLength(filterLength);
+  const { column, comparison, value } = filterByNumericValues[filterLength];
   const filteringByName = data.filter((elem) => elem.name.includes(name));
   let dataFiltered;
-  if (name === '') {
+  if (name === '' && removed === true && filterByNumericValues.length === 1) {
     dataFiltered = data;
   } else {
     dataFiltered = filteringByName;
   }
-  if (comparison === 'maior que') {
-    teste = dataFiltered.filter((elem) => elem[column] > parseInt(value, 10));
-    dataFiltered = teste;
+  if (column !== '' && filterPlanet === '') {
+    dataFiltered = filterByNumericValuesFunc(dataFiltered, column, comparison, value);
+    setFilterPlanet(dataFiltered);
   }
-  if (comparison === 'menor que') {
-    teste = dataFiltered.filter((elem) => elem[column] < parseInt(value, 10));
-    dataFiltered = teste;
-  }
-  if (comparison === 'igual a') {
-    teste = dataFiltered.filter((elem) => elem[column] === value);
-    dataFiltered = teste;
+  if (filterPlanet !== '' && removed === false) {
+    dataFiltered = filterByNumericValuesFunc(filterPlanet, column, comparison, value);
   }
   return (
     <table>

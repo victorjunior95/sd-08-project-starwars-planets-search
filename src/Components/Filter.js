@@ -2,7 +2,14 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Filter() {
-  const { filters, setFilter } = useContext(StarWarsContext);
+  const {
+    filters,
+    setFilter,
+    functionLength,
+    columns,
+    setColumns,
+    setRemoved,
+  } = useContext(StarWarsContext);
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -20,25 +27,34 @@ function Filter() {
 
   const handleFilter = () => {
     const obj = { ...filters };
-    const filterLength = obj.filterByNumericValues.length;
+    let filterLength = obj.filterByNumericValues.length;
     const obj2 = {
       column: '',
       comparison: '',
       value: '',
     };
     obj.filterByNumericValues[filterLength] = obj2;
+    filterLength = functionLength(filterLength);
+    const filter = obj.filterByNumericValues[filterLength].column;
+    const newColumns = columns.filter((elem) => elem !== filter);
+    setColumns(newColumns);
     setFilter(obj);
   };
 
-  const renderOptions = () => (
-    <>
-      <option value="population">population</option>
-      <option value="orbital_period">orbital_period</option>
-      <option value="diameter">diameter</option>
-      <option value="rotation_period">rotation_period</option>
-      <option value="surface_water">surface_water</option>
-    </>
-  );
+  const renderOptions = () => {
+    const obj = { ...filters };
+    let filterLength = obj.filterByNumericValues.length;
+    filterLength = functionLength(filterLength);
+    const filter = obj.filterByNumericValues[filterLength].column;
+    const newColumns = columns.filter((elem) => elem !== filter);
+    return (
+      <>
+        {newColumns.map((option) => (
+          <option key={ option } value={ option }>{option}</option>
+        ))}
+      </>
+    );
+  };
 
   const renderComparsion = () => (
     <>
@@ -47,6 +63,42 @@ function Filter() {
       <option value="igual a">igual a</option>
     </>
   );
+
+  const removeFilter = (index) => {
+    const obj = { ...filters };
+    obj.filterByNumericValues.splice(index, 1);
+    setRemoved(true);
+    setFilter(obj);
+  };
+
+  const renderFilterButton = () => {
+    const obj = { ...filters };
+    return (
+      <>
+        {obj.filterByNumericValues
+          .filter((elem) => elem.column !== '')
+          .map((elem, index) => (
+            <p
+              key={ index }
+              data-testid="filter"
+            >
+              {elem.column}
+              {' '}
+              {elem.comparison}
+              {' '}
+              {elem.value}
+              <button
+                key={ index }
+                type="button"
+                onClick={ (pos) => removeFilter(pos) }
+              >
+                X
+              </button>
+            </p>
+          ))}
+      </>
+    );
+  };
 
   return (
     <div>
@@ -88,6 +140,7 @@ function Filter() {
       >
         Filtrar
       </button>
+      {renderFilterButton()}
     </div>
   );
 }
