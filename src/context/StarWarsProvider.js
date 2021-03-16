@@ -12,7 +12,7 @@ function StarWarsProvider({ children }) {
     filterByNumericValues: {
       column: 'population',
       comparison: 'maior que',
-      value: 0,
+      value: '',
     },
   });
 
@@ -33,14 +33,25 @@ function StarWarsProvider({ children }) {
 
     const filter = data.filter((planet) => {
       const includesName = planet.name.includes(name);
+      let number = '';
+
+      if (planet[column] === 'unknown') {
+        if (comparison === 'maior que') {
+          number = 1;
+        } else if (comparison === 'menor que') {
+          number = Infinity;
+        }
+      } else {
+        number = Number(planet[column]);
+      }
 
       switch (comparison) {
       case ('maior que'):
-        return Number(planet[column]) > Number((value)) && includesName;
+        return number > Number(value) && includesName;
       case ('menor que'):
-        return Number(planet[column]) < Number(value) && includesName;
+        return number < Number(value) && includesName;
       case ('igual a'):
-        return Number(planet[column]) === Number(value) && includesName;
+        return number === Number(value) && includesName;
       default:
         return includesName;
       }

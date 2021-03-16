@@ -69,7 +69,6 @@ function FilterByNumericValues() {
       </select>
 
       <input
-        placeholder="0"
         type="number"
         value={ value }
         name="value"
