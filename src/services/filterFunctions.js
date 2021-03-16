@@ -7,8 +7,7 @@ export function removeKeysArrayObj(arrayObjToRemove, key) {
 }
 
 export function filterArrayObjByString(arrToFilter, key, expression) {
-  const expressionLower = expression.toLowerCase();
-  return arrToFilter.filter((e) => e[key].includes(expressionLower));
+  return arrToFilter.filter((e) => e[key].includes(expression));
 }
 
 export function filterArrayObjByNumber(arrToFilter, key, comparator, value) {
@@ -61,4 +60,15 @@ export function removeFromNumericFilter(getter, setter, name) {
       ...setObj,
     ],
   });
+}
+
+export function filterJunction(arrToFilter, { filterByName, filterByNumericValues }) {
+  const { name } = filterByName;
+  const filteredName = filterArrayObjByString(arrToFilter, 'name', name);
+  console.log(filteredName);
+  const filteredNumber = filterByNumericValues.reduce((acc, cur) => {
+    const { column, comparison, value } = cur;
+    return filterArrayObjByNumber(acc, column, comparison, value);
+  }, filteredName);
+  return filteredNumber;
 }

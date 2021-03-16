@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../contextAPI/PlanetsContext';
+import { filterJunction } from '../services/filterFunctions';
 import './Table.css';
 
 function mapHeader(planets) {
@@ -22,7 +23,8 @@ function mapData(planetsParam) {
 }
 
 export default function Table() {
-  const { planets } = useContext(PlanetsContext);
+  const { planets, filters } = useContext(PlanetsContext);
+  const filteredPlanets = filterJunction(planets.results, filters);
 
   return (
     <table>
@@ -32,7 +34,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {mapData(planets.results)}
+        {mapData(filteredPlanets)}
       </tbody>
     </table>
   );

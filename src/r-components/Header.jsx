@@ -26,9 +26,13 @@ function renderListFilters(filters, setFilters) {
   ));
 }
 
+function removeFilterOption({ filterByNumericValues }, getter, setter) {
+  console.log(filterByNumericValues);
+}
+
 export default function Header() {
   const {
-    columnFilter, headerForm, setHeaderForm, filters, setFilters,
+    columnFilter, setColumnFilter, headerForm, setHeaderForm, filters, setFilters,
   } = useContext(PlanetsContext);
   return (
     <header>
@@ -97,7 +101,10 @@ export default function Header() {
       <button
         data-testid="button-filter"
         type="button"
-        onClick={ () => setNumericFilter(filters, setFilters, headerForm) }
+        onClick={ () => {
+          setNumericFilter(filters, setFilters, headerForm);
+          removeFilterOption(filters, columnFilter, setColumnFilter);
+        } }
       >
         Filtrar
       </button>
