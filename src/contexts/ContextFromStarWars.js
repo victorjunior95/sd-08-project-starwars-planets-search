@@ -49,7 +49,7 @@ function ContextFromStarWarsProvider({ children }) {
           .replace(' ', '_');
         const amount = Object.values(instructionToFilter)[2];
         const results = condition[method](key, amount);
-        setFilteredPlanets(results);
+        setFilteredPlanets(() => results);
       }
     }
     conditionFromFilter();

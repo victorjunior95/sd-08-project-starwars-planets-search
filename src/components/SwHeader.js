@@ -5,6 +5,13 @@ function SwHeader() {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [valueNumber, setValueNumber] = useState(0);
+  const [columns, setColumns] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const {
     inputName,
@@ -19,7 +26,11 @@ function SwHeader() {
         comparison,
         value: valueNumber,
       },
+
     );
+
+    const columnsFilter = columns.filter((columnFilter) => columnFilter !== column);
+    setColumns(columnsFilter);
   };
 
   return (
@@ -37,11 +48,13 @@ function SwHeader() {
         data-testid="column-filter"
         onChange={ ({ target }) => setColumn(target.value) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { columns.map((element) => (
+          <option
+            key={ element }
+            value={ element }
+          >
+            {element}
+          </option>)) }
       </select>
 
       <select
