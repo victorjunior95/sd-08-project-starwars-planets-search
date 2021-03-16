@@ -9,13 +9,7 @@ const PlanetsProvider = ({ children }) => {
   const [filters, setFilters] = useState(
     {
       filterByName: { name: '' },
-      filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      ],
+      filterByNumericValues: [],
     },
   );
   const { filterByNumericValues } = filters;
@@ -35,7 +29,7 @@ const PlanetsProvider = ({ children }) => {
     const planetsByName = planets
       .filter((planet) => planet.name.toLowerCase().includes(name));
     setFilteredPlanets(planetsByName);
-  }, [filterByNumericValues, filters, planets]);
+  }, [filters, planets]);
 
   const planetsValue = {
     planets,

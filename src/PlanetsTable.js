@@ -3,7 +3,13 @@ import { planetsContext } from './PlanetsProvider';
 import TableHead from './TableHead';
 
 const PlanetsTable = () => {
-  const { filteredPlanets, setName, setNumericFilter } = useContext(planetsContext);
+  const {
+    filteredPlanets,
+    setName,
+    setNumericFilter,
+    filters,
+  } = useContext(planetsContext);
+  const { filterByNumericValues } = filters;
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
@@ -83,6 +89,22 @@ const PlanetsTable = () => {
         >
           Adicionar filtro
         </button>
+      </div>
+      <div>
+        <p>Active filters:</p>
+        {
+          filterByNumericValues && filterByNumericValues
+            .map((each) => (
+              <li key={ each }>
+                `
+                {each.column}
+                {' '}
+                { each.comparison}
+                {' '}
+                {each.value}
+                `
+              </li>))
+        }
       </div>
 
       <table>
