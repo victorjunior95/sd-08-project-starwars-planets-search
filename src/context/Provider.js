@@ -34,23 +34,26 @@ function Provider({ children }) {
         .includes(filters.filterByName.name.toLowerCase()));
     let filteredPlanetsResult = filteredPlanetsByName;
     filterByNumericValues.forEach((filter) => {
-      if (filter.comparison === 'maior que') {
-        filteredPlanetsResult = filteredPlanetsResult
+      switch (filter.comparison) {
+      case 'maior que':
+        filteredPlanetsResult = filteredPlanetsByName
           .filter((planet) => (
             parseFloat(planet[filter.column]) > parseFloat(filter.value)
           ));
-      }
-      if (filter.comparison === 'menor que') {
-        filteredPlanetsResult = filteredPlanetsResult
+        break;
+      case 'menor que':
+        filteredPlanetsResult = filteredPlanetsByName
           .filter((planet) => (
             parseFloat(planet[filter.column]) < parseFloat(filter.value)
           ));
-      }
-      if (filter.comparison === 'igual a') {
-        filteredPlanetsResult = filteredPlanetsResult
+        break;
+      case 'igual a':
+        filteredPlanetsResult = filteredPlanetsByName
           .filter((planet) => (
             parseFloat(planet[filter.column]) === parseFloat(filter.value)
           ));
+        break;
+      default: break;
       }
     });
     const orderedAndFilteredPlanetsResult = filteredPlanetsResult
