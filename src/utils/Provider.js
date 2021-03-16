@@ -4,6 +4,13 @@ import AppContext from './AppContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([{ name: '' }]);
+  const [options, setOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
     filterByNumericValues: [{
@@ -23,25 +30,6 @@ function Provider({ children }) {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const params = filters.filterByNumericValues;
-  //   if (params.length > 0) {
-  //     // console.log(data);
-  //     // console.log(typeof params[0].value);
-  //     const { column, comparison, value } = params[0];
-  //     let newData = [];
-  //     if (comparison === 'more') {
-  //       newData = data.filter((planet) => planet[column] > parseFloat(value));
-  //     } else if (comparison === 'less') {
-  //       newData = data.filter((planet) => planet[column] < parseFloat(value));
-  //     } else if (comparison === 'equal') {
-  //       newData = data.filter((planet) => planet[column] == parseFloat(value));
-  //     }
-  //     // console.log(newData);
-  //     // setData(newData);
-  //   }
-  // }, [data, filters]);
-
   function handleChange({ target }) {
     setFilters({ ...filters, filterByName: { name: target.value } });
   }
@@ -59,6 +47,9 @@ function Provider({ children }) {
         newData = data.filter((row) => parseFloat(row[column]) === parseFloat(value));
       }
       setData(newData);
+      const array = options;
+      array.splice(options.indexOf(column), 1);
+      setOptions(array);
     }
   }
 
@@ -69,6 +60,7 @@ function Provider({ children }) {
     setFilters,
     handleChange,
     handleClick,
+    options,
   };
 
   return (

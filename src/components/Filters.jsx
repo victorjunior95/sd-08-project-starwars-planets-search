@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import AppContext from '../utils/AppContext';
 
 const Filters = () => {
-  const { handleChange, handleClick, filters, setFilters } = useContext(AppContext);
+  const {
+    handleChange,
+    handleClick,
+    filters,
+    setFilters,
+    options } = useContext(AppContext);
   function filterChange(e) {
-    // setParams({
-    //   ...filterParams,
-    //   [e.target.name]: e.target.value,
-    // });
     setFilters({
       ...filters,
       filterByNumericValues: [
@@ -23,11 +24,7 @@ const Filters = () => {
     <header>
       <input type="text" data-testid="name-filter" onChange={ handleChange } />
       <select data-testid="column-filter" name="column" onChange={ filterChange }>
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { options.map((value) => <option key={ value } name={ value }>{ value }</option>)}
       </select>
       <select data-testid="comparison-filter" name="comparison" onChange={ filterChange }>
         <option value="maior que">maior que</option>
