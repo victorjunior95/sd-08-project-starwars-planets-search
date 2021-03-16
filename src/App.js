@@ -18,16 +18,19 @@ function App() {
     },
   };
 
+  const DECIMAL = 10;
+  const headers = ['name', 'rotation_period', 'orbital_period',
+    'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
+    'population', 'films', 'created', 'edited', 'url'];
+  const columnFilterOptions = ['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water'];
+
   const [allPlanets, setAllPlanets] = useState([]);
   const [currentFilter, setCurrentFilter] = useState([]);
   const [filtersState, setFiltersState] = useState(initialFiltersState);
   const [numericState, setNumericState] = useState({});
   const [orderState, setOrderState] = useState({});
-
-  const DECIMAL = 10;
-  const headers = ['name', 'rotation_period', 'orbital_period',
-    'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
-    'population', 'films', 'created', 'edited', 'url'];
+  const [columnFilterState, setColumnFilterState] = useState(columnFilterOptions);
 
   useEffect(() => {
     async function fetchAPI() {
@@ -55,7 +58,6 @@ function App() {
         if (comparison === 'maior que') return +planet[column] > +value;
         if (comparison === 'menor que') return +planet[column] < +value;
         return +planet[column] === +value;
-        // return planet;
       });
     });
     const { filters: { order: { column, sort } } } = filtersState;
@@ -73,12 +75,14 @@ function App() {
   }, [allPlanets, filtersState]);
 
   function applyNumericFilter() {
-    const { filters: { filterByNumericValues: filter } } = filtersState;
     if (numericState.column
       && numericState.comparison
       && numericState.value
-      && !filter.find(({ column }) => column === numericState.column)
     ) {
+      const indexRemove = columnFilterState.indexOf(numericState.column);
+      const tempFilterArray = [...columnFilterState];
+      tempFilterArray.splice(indexRemove, 1);
+      setColumnFilterState(tempFilterArray);
       setFiltersState({ filters: { ...filtersState.filters,
         filterByNumericValues: [
           ...filtersState.filters.filterByNumericValues,
@@ -113,7 +117,10 @@ function App() {
   function removeFilter(index) {
     const { filters: { filterByNumericValues } } = filtersState;
     const tempFilter = [...filterByNumericValues];
+    const addToFilterOption = tempFilter[index].column;
+    const newColumnOptions = [...columnFilterState, addToFilterOption];
     tempFilter.splice(index, 1);
+    setColumnFilterState(newColumnOptions);
     setFiltersState({ filters: { ...filtersState.filters,
       filterByNumericValues: tempFilter,
     } });
@@ -134,12 +141,11 @@ function App() {
         data-testid="column-filter"
         onChange={ handleChangeNumeric }
       >
-        <option value="">{' '}</option>
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { columnFilterState.map((filterOption) => (
+          <option value={ filterOption } key={ filterOption }>
+            {filterOption}
+          </option>
+        ))}
       </select>
       <select
         name="comparison"
@@ -166,13 +172,17 @@ function App() {
         Filtrar
       </button>
       <label htmlFor="column">
-        <select name="column" id="column" onChange={ handleChangeOrder }>
+        <select
+          name="column"
+          id="column"
+          onChange={ handleChangeOrder }
+          data-testid="column-sort"
+        >
           <option value="">{' '}</option>
           { headers.map((header) => (
             <option
               key={ header }
               value={ header }
-              data-testid="column-sort"
             >
               { header}
             </option>

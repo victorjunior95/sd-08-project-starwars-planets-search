@@ -4,6 +4,5 @@ html, body {
 }
 
 td {
-  height: 20px;
-  overflow-y: hidden;
+  border: 1px solid black;
 }

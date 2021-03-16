@@ -14,7 +14,7 @@ function Table() {
       <thead>
         <tr>
           { headers.map((header) => (
-            <td key={ header }>{ header }</td>
+            <th key={ header }>{ header }</th>
           ))}
         </tr>
       </thead>
