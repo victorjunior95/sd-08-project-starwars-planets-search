@@ -10,6 +10,13 @@ function StarWarsProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '0',
+      },
+    ],
   });
 
   useEffect(() => {
@@ -17,8 +24,24 @@ function StarWarsProvider({ children }) {
   }, []); // recebe tudo vindo da API
 
   useEffect(() => {
-    const { filterByName: { name } } = filtersPlanets;
-    setPlanets(data.filter((planet) => planet.name.includes(name)));
+    const {
+      filterByName: { name },
+      filterByNumericValues: { column, comparison, value },
+    } = filtersPlanets;
+    const filterAll = data.filter((planet) => {
+      const planetFilterName = planet.name.includes(name);
+      if (comparison === 'maior que') {
+        return Number(planet[column]) > Number(value) && planetFilterName;
+      }
+      if (comparison === 'menor que') {
+        return Number(planet[column]) < Number(value) && planetFilterName;
+      }
+      if (comparison === 'igual a') {
+        return Number(planet[column]) === Number(value) && planetFilterName;
+      }
+      return planetFilterName;
+    });
+    setPlanets(filterAll);
   }, [data, filtersPlanets]);
 
   const contextValue = {
