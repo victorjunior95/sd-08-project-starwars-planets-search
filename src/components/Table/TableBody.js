@@ -7,7 +7,7 @@ function TableBody({ contentRow }) {
       if (key === 'films' || key === 'url') {
         return (
           <td key={ index }>
-            <a target="_blank" rel="noreferrer" href=" value ">Link</a>
+            <a target="_blank" rel="noreferrer" href={ value }>Link</a>
           </td>
         );
       }

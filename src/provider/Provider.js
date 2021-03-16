@@ -5,8 +5,18 @@ import GetPlanets from '../services';
 
 function Provider({ children }) {
   const [data, setDate] = useState([]);
-  const [name, setName] = useState('');
   const [isLoading, setLoading] = useState(true);
+  const [name, setName] = useState('');
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+
+  const addFilterByNumeric = (newFilter) => {
+    setFilterByNumericValues([...filterByNumericValues, newFilter]);
+  };
+
+  const deleteFilter = ({ target: { dataset: { column } } }) => {
+    const result = filterByNumericValues.filter((el) => el.column !== column);
+    setFilterByNumericValues(result);
+  };
 
   const setConsumer = () => ({
     data,
@@ -15,8 +25,11 @@ function Provider({ children }) {
       filterByName: {
         name,
       },
+      filterByNumericValues,
     },
     setName,
+    addFilterByNumeric,
+    deleteFilter,
   });
 
   useEffect(() => {
