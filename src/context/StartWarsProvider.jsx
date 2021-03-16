@@ -12,6 +12,9 @@ function StartWarsProvider({ children }) {
     value: null,
   });
   const [filterList, setFilterList] = useState([]);
+  const [orderColumnBy, setOrderColumnBy] = useState({
+    orderColumn: 'name', orderType: 'Crescente',
+  });
 
   useEffect(() => {
     async function getPlanets() {
@@ -61,7 +64,9 @@ function StartWarsProvider({ children }) {
         updateColumnFilters,
         filterList,
         setFilterList,
-        removeColumnFilter } }
+        removeColumnFilter,
+        orderColumnBy,
+        setOrderColumnBy } }
     >
       {children}
     </StarWarsContext.Provider>
