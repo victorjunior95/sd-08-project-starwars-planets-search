@@ -7,6 +7,12 @@ import contextStarWarsApi from './context';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [planetFiltered, setPlanetFiltered] = useState([]);
+  const [filter, setFilter] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   useEffect(() => {
     const requestApi = async () => {
@@ -21,8 +27,21 @@ function Provider({ children }) {
     requestApi();
   }, []);
 
+  useEffect(() => {
+    const { filterByName: { name } } = filter;
+    const planetFilter = data.filter((planet) => planet.name.includes(name));
+    setPlanetFiltered(planetFilter);
+  }, [filter, data]);
+
+  const context = {
+    planetFiltered,
+    setPlanetFiltered,
+    filter,
+    setFilter,
+  };
+
   return (
-    <contextStarWarsApi.Provider value={ { data, setData } }>
+    <contextStarWarsApi.Provider value={ context }>
       { children }
     </contextStarWarsApi.Provider>
   );

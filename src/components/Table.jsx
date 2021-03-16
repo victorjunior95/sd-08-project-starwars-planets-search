@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import contextStarWarsApi from '../context/context';
 
 function Table() {
-  const { data } = useContext(contextStarWarsApi);
+  const { planetFiltered } = useContext(contextStarWarsApi);
   return (
     <table className="table table-striped table-hover table-dark">
       <thead>
@@ -23,7 +23,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet, index) => (
+        {planetFiltered.map((planet, index) => (
           <tr key={ index }>
             <td className="border border-secondary">{planet.name}</td>
             <td className="border border-secondary">{planet.population}</td>
