@@ -4,7 +4,14 @@ import AppContext from './AppContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([{ name: '' }]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [{
+      column: 'population',
+      comparison: 'maior que',
+      value: '0',
+    }],
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -14,13 +21,55 @@ function Provider({ children }) {
       setData(results);
     }
     fetchData();
-  }, [filters]);
+  }, []);
+
+  // useEffect(() => {
+  //   const params = filters.filterByNumericValues;
+  //   if (params.length > 0) {
+  //     // console.log(data);
+  //     // console.log(typeof params[0].value);
+  //     const { column, comparison, value } = params[0];
+  //     let newData = [];
+  //     if (comparison === 'more') {
+  //       newData = data.filter((planet) => planet[column] > parseFloat(value));
+  //     } else if (comparison === 'less') {
+  //       newData = data.filter((planet) => planet[column] < parseFloat(value));
+  //     } else if (comparison === 'equal') {
+  //       newData = data.filter((planet) => planet[column] == parseFloat(value));
+  //     }
+  //     // console.log(newData);
+  //     // setData(newData);
+  //   }
+  // }, [data, filters]);
 
   function handleChange({ target }) {
-    setFilters({ filterByName: { name: target.value } });
+    setFilters({ ...filters, filterByName: { name: target.value } });
   }
 
-  const context = { data, setData, filters, setFilters, handleChange };
+  function handleClick() {
+    const params = filters.filterByNumericValues;
+    if (params.length > 0) {
+      const { column, comparison, value } = params[0];
+      let newData = [];
+      if (comparison === 'maior que') {
+        newData = data.filter((planet) => planet[column] > parseFloat(value));
+      } else if (comparison === 'menor que') {
+        newData = data.filter((planet) => planet[column] < parseFloat(value));
+      } else if (comparison === 'igual a') {
+        newData = data.filter((row) => parseFloat(row[column]) === parseFloat(value));
+      }
+      setData(newData);
+    }
+  }
+
+  const context = {
+    data,
+    setData,
+    filters,
+    setFilters,
+    handleChange,
+    handleClick,
+  };
 
   return (
     <AppContext.Provider value={ context }>
