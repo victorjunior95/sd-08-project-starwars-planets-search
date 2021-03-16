@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { PlanetsContext } from '../../context/PlantesContext';
+import { PlanetsContext } from '../../context/PlanetsContext';
 import PlanetsLine from './PlanetsLine';
 
-const PlanetsColumn = () => {
-  const { planets } = useContext(PlanetsContext);
+const PlanetsTable = () => {
+  const { filteredNames } = useContext(PlanetsContext);
 
   return (
     <table>
@@ -25,7 +25,7 @@ const PlanetsColumn = () => {
         </tr>
       </thead>
       <tbody>
-        {planets.map(
+        {filteredNames.map(
           (planet) => <PlanetsLine key={ planet.name } planetInfos={ planet } />,
         )}
       </tbody>
@@ -33,4 +33,4 @@ const PlanetsColumn = () => {
   );
 };
 
-export default PlanetsColumn;
+export default PlanetsTable;

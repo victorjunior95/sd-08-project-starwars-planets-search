@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.css';
-import PlanetsColumn from './components/table/PlanetsColumn';
-import PlanetsProvider from './context/PlantesContext';
+import InputSearch from './components/table/InputSearch';
+import PlanetsTable from './components/table/PlanetsTable';
+import PlanetsProvider from './context/PlanetsContext';
 
 function App() {
   return (
     <PlanetsProvider>
-      <PlanetsColumn />
+      <InputSearch />
+      <PlanetsTable />
     </PlanetsProvider>
   );
 }
