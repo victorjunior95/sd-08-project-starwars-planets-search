@@ -8,7 +8,7 @@ export default function StarwarsProvider({ children }) {
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
-      .then((data) => setTables(data.results) || console.log(data));
+      .then((data) => setTables(data.results));
   }, []);
 
   const context = { tables, setTables };
