@@ -26,7 +26,7 @@ function Table() {
       <tbody>
         {filteredPlanets.map((planet, index) => (
           <tr key={ index }>
-            <td>{planet.name}</td>
+            <td data-testid="planet-name">{planet.name}</td>
             <td>{planet.population}</td>
             <td>{planet.terrain}</td>
             <td>{planet.climate}</td>

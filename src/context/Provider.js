@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import StarWarsPlanetsContext from './StarWarsPlanetsContext';
 
+const NUMBER_TO_ORDER = 1;
+
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState({
@@ -10,6 +12,10 @@ function Provider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
@@ -22,7 +28,6 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
-    console.log('ENTROU NO FILTRO');
     const { filterByNumericValues } = filters;
     const filteredPlanetsByName = data
       .filter((planet) => planet.name.toLowerCase()
@@ -48,7 +53,28 @@ function Provider({ children }) {
           ));
       }
     });
-    setFilteredPlanets(filteredPlanetsResult);
+    const orderedAndFilteredPlanetsResult = filteredPlanetsResult
+      .sort((planet1, planet2) => {
+        let planet1Value = '';
+        let planet2Value = '';
+        if (parseFloat(planet1[filters.order.column])) {
+          planet1Value = parseFloat(planet1[filters.order.column]);
+          planet2Value = parseFloat(planet2[filters.order.column]);
+        } else {
+          planet1Value = planet1[filters.order.column];
+          planet2Value = planet2[filters.order.column];
+        }
+        switch (filters.order.sort) {
+        case 'ASC':
+          return planet1Value > planet2Value
+            ? NUMBER_TO_ORDER : -NUMBER_TO_ORDER;
+        case 'DESC':
+          return planet1Value < planet2Value
+            ? NUMBER_TO_ORDER : -NUMBER_TO_ORDER;
+        default: return null;
+        }
+      });
+    setFilteredPlanets(orderedAndFilteredPlanetsResult);
   }, [data, filters]);
 
   const context = {

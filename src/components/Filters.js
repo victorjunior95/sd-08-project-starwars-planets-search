@@ -6,6 +6,8 @@ function Filters() {
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [numberForComparison, setNumberForComparison] = useState('');
+  const [orderColumn, setOrderColumn] = useState('name');
+  const [orderType, setOrderType] = useState('');
 
   const { filters, setFilters } = useContext(StarWarsPlanetsContext);
   const { name } = filters.filterByName;
@@ -27,7 +29,6 @@ function Filters() {
     const selectedColumn = columnOptionsArray
       .find((option) => option.value === columnFilter);
     if (selectedColumn.nextSibling) {
-      console.log(selectedColumn.nextSibling.value);
       setColumnFilter(selectedColumn.nextSibling.value);
     }
     columnOptions.removeChild(selectedColumn);
@@ -37,7 +38,6 @@ function Filters() {
   function removeFilter(event, index) {
     const arrayOfFilters = filters.filterByNumericValues;
     const filterType = arrayOfFilters[index].column;
-    console.log(filterType);
     arrayOfFilters.splice(index, 1);
     setFilters({
       ...filters,
@@ -109,6 +109,52 @@ function Filters() {
           </li>
         ))}
       </ul>
+      <select
+        data-testid="column-sort"
+        value={ orderColumn }
+        onChange={ (e) => setOrderColumn(e.target.value) }
+      >
+        <option value="name">name</option>
+        <option value="population">population</option>
+        <option value="terrain">terrain</option>
+        <option value="climate">climate</option>
+        <option value="gravity">gravity</option>
+        <option value="diameter">diameter</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+      <label htmlFor="ASC">
+        Ascendente
+        <input
+          type="radio"
+          id="ASC"
+          name="order"
+          value="ASC"
+          data-testid="column-sort-input-asc"
+          onClick={ () => setOrderType('ASC') }
+        />
+      </label>
+      <label htmlFor="DESC">
+        Descendente
+        <input
+          type="radio"
+          id="DESC"
+          name="order"
+          value="DESC"
+          data-testid="column-sort-input-desc"
+          onClick={ () => setOrderType('DESC') }
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => setFilters({
+          ...filters, order: { column: orderColumn, sort: orderType },
+        }) }
+      >
+        Ordenar
+      </button>
     </form>
   );
 }
