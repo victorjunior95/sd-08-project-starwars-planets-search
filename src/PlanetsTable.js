@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { planetsContext } from './PlanetsProvider';
+import TableHead from './TableHead';
 
 const PlanetsTable = () => {
   const { filteredPlanets, setName, setNumericFilter } = useContext(planetsContext);
@@ -7,38 +8,20 @@ const PlanetsTable = () => {
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
   // const { column, comparison, value } = filters.filterByNumericValues;
-  const renderTableHeader = () => (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Rotation Period</th>
-        <th>Orbital Period</th>
-        <th>Diameter</th>
-        <th>Climate</th>
-        <th>Gravity</th>
-        <th>Terrain</th>
-        <th>Surface Water</th>
-        <th>Population</th>
-        <th>Films</th>
-        <th>Created</th>
-        <th>Edited</th>
-        <th>URL</th>
-      </tr>
-    </thead>
-  );
+
   const renderTableBody = () => (
     <tbody>
       {
         filteredPlanets.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
-            <td>{parseInt(planet.rotation_period, 10)}</td>
-            <td>{parseInt(planet.orbital_period, 10)}</td>
-            <td>{parseInt(planet.diameter, 10)}</td>
+            <td>{planet.rotation_period}</td>
+            <td>{planet.orbital_period}</td>
+            <td>{planet.diameter}</td>
             <td>{planet.climate}</td>
             <td>{planet.gravity}</td>
             <td>{planet.terrain}</td>
-            <td>{parseInt(planet.surface_water, 10)}</td>
+            <td>{planet.surface_water}</td>
             <td>{planet.population}</td>
             <td>
               {
@@ -65,7 +48,12 @@ const PlanetsTable = () => {
         <input data-testid="name-filter" type="text" onChange={ handleChange } />
       </div>
       <div>
-        <select data-testid="column-filter" onChange={ (e) => setColumn(e.target.value) }>
+        <select
+          data-testid="column-filter"
+          value={ column }
+          onChange={ (e) => setColumn(e.target.value) }
+        >
+          <option value="" selected disabled>Column</option>
           <option value="population">Population</option>
           <option value="orbital_period">Orbiltal Period</option>
           <option value="diameter">Diameter</option>
@@ -74,14 +62,17 @@ const PlanetsTable = () => {
         </select>
         <select
           data-testid="comparison-filter"
+          value={ comparison }
           onChange={ (e) => setComparison(e.target.value) }
         >
+          <option value="" selected disabled>Comparison</option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
         </select>
         <input
           data-testid="value-filter"
+          value={ value }
           type="number"
           step="1"
           onChange={ (e) => setValue(e.target.value) }
@@ -96,7 +87,7 @@ const PlanetsTable = () => {
       </div>
 
       <table>
-        { renderTableHeader()}
+        <TableHead />
         { renderTableBody() }
       </table>
     </>

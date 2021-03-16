@@ -11,13 +11,14 @@ const PlanetsProvider = ({ children }) => {
       filterByName: { name: '' },
       filterByNumericValues: [
         {
-          column: 'population',
-          comparison: 'maior que',
-          value: 0,
+          column: '',
+          comparison: '',
+          value: '',
         },
       ],
     },
   );
+  const { filterByNumericValues } = filters;
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -36,24 +37,24 @@ const PlanetsProvider = ({ children }) => {
     setFilteredPlanets(planetsByName);
   }, [filters.filterByName, planets]);
 
-  useEffect(() => {
-    const { column, comparison, value } = filters.filterByNumericValues[0];
-    if (comparison === 'maior que') {
-      const filteredByComparison = planets
-        .filter((planet) => planet[column] > value);
-      setFilteredPlanets(filteredByComparison);
-    }
-    if (comparison === 'menor que') {
-      const filteredByComparison = planets
-        .filter((planet) => planet[column] > value);
-      setFilteredPlanets(filteredByComparison);
-    }
-    if (comparison === 'igual a') {
-      const filteredByComparison = planets
-        .filter((planet) => planet[column] === value);
-      setFilteredPlanets(filteredByComparison);
-    }
-  }, [filters.filterByNumericValues, planets]);
+  // useEffect(() => {
+  //   const { column, comparison, value } = filters.filterByNumericValues[0];
+  //   if (comparison === 'maior que') {
+  //     const filteredByComparison = planets
+  //       .filter((planet) => planet[column] > value);
+  //     setFilteredPlanets(filteredByComparison);
+  //   }
+  //   if (comparison === 'menor que') {
+  //     const filteredByComparison = planets
+  //       .filter((planet) => planet[column] > value);
+  //     setFilteredPlanets(filteredByComparison);
+  //   }
+  //   if (comparison === 'igual a') {
+  //     const filteredByComparison = planets
+  //       .filter((planet) => planet[column] === value);
+  //     setFilteredPlanets(filteredByComparison);
+  //   }
+  // }, [filters.filterByNumericValues, planets]);
 
   const planetsValue = {
     planets,
@@ -64,7 +65,7 @@ const PlanetsProvider = ({ children }) => {
     filters,
     setNumericFilter: (column, comparison, value) => setFilters(
       { ...filters,
-        filterByNumericValues: [{ column, comparison, value }],
+        filterByNumericValues: [...filterByNumericValues, { column, comparison, value }],
       },
     ),
   };
