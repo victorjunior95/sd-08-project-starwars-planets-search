@@ -7,11 +7,14 @@ function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [filterPlanet, setFilterPlanet] = useState([]);
+  // const [column, setColumn] = useState('population');
+  // const [comparison, setComparison] = useState('maior que');
+  // const [numberValue, setNumberValue] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       const { results } = await fetch(url).then((response) => response.json());
-      console.log(results);
+      // console.log(results);
       setPlanets(results);
     }
     fetchData();
@@ -27,8 +30,31 @@ function Provider({ children }) {
     setSearchName(e.target.value);
   };
 
+  // useEffect(() => {
+  //   let filterOptions = planets;
+  //   filterOptions = filterOptions.filter((planet) => planet.mood.includes((mood))
+  //   && planet.type.includes((type)));
+  //   setAllAnimals(filterOptions);
+  //   return filterMoods;
+  // }, [planets]);
+
+  const filterColumn = (e) => {
+    setColumn(e.target.value);
+  };
+
+  const filterComparison = (e) => {
+    setComparison(e.target.value);
+  };
+
+  const filterNumberValue = (e) => {
+    setNumberValue(e.target.value);
+  };
+
   const data = {
     planets,
+    filterColumn,
+    filterComparison,
+    filterNumberValue,
     searchName,
     filterPlanet,
     setPlanets,
