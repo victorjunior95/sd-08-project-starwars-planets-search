@@ -4,48 +4,64 @@ import buscaPlanetas from './api';
 import StarWarsContext from './context/StarWarsContext';
 import Table from './components/Table';
 import Filters from './context/Filters';
+import Search from './components/Search';
 
 const INITIAL_FILTER = {
-  filters: {
-    filterByName: {
-      name: '',
-    },
+  filterByName: {
+    name: '',
   },
+  filterByNumericValues: [],
 };
 
 function App() {
   const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
   const [filters, setFilters] = useState(INITIAL_FILTER);
-  const [dataf, setDataf] = useState([]);
 
   useEffect(() => {
     buscaPlanetas()
-      .then((resp) => setDataf(resp));
+      .then((resp) => setData(resp));
   }, []);
 
   useEffect(() => {
-    let filteredData = dataf;
-    const { filters: { filterByName: { name } } } = filters;
-    if (dataf !== [] && name !== '') {
-      filteredData = filteredData.filter((item) => item.name.includes(name));
-    }
-    setData(filteredData);
-  }, [dataf, filters]);
+    const { filterByName: { name } } = filters;
+    const filter = data.filter((planet) => (planet.name)
+      .toLowerCase().includes(name.toLowerCase()));
+    setPlanets(filter);
+  }, [data, filters]);
 
-  function setFilter({ target }) {
-    setFilters({
-      ...filters, filters: { filterByName: { name: target.value } },
+  useEffect(() => {
+    const {
+      filterByName: { name },
+      filterByNumericValues,
+    } = filters;
+
+    filterByNumericValues.forEach((fil) => {
+      const { comparison } = fil;
+      const { column } = fil;
+      const { value } = fil;
+      const filter = data.filter((planet) => {
+        const includesName = (planet.name).toLowerCase().includes(name.toLowerCase());
+        switch (comparison) {
+        case ('maior que'):
+          return +(planet[column]) > +(value) && includesName;
+        case ('menor que'):
+          return +(planet[column]) < +(value) && includesName;
+        case ('igual a'):
+          return +(planet[column]) === +(value) && includesName;
+        default:
+          return includesName;
+        }
+      });
+      setPlanets(filter);
     });
-  }
+  }, [data, filters]);
+
   return (
-    <Filters.Provider value={ [filters, setFilter] }>
-      <StarWarsContext.Provider value={ data }>
+    <Filters.Provider value={ { filters, setFilters } }>
+      <StarWarsContext.Provider value={ { data, planets, setPlanets } }>
         <span>Hello, App!</span>
-        <input
-          onChange={ setFilter }
-          placeholder="Buscar Nome"
-          data-testid="name-filter"
-        />
+        <Search />
         <Table />
       </StarWarsContext.Provider>
     </Filters.Provider>
