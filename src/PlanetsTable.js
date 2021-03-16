@@ -57,7 +57,27 @@ const PlanetsTable = () => {
 
   return (
     <>
-      <input data-testid="name-filter" type="text" onChange={ handleChange } />
+      <div>
+        <p>Digite um nome:</p>
+        <input data-testid="name-filter" type="text" onChange={ handleChange } />
+      </div>
+      <div>
+        <select data-testid="column-filter">
+          <option value="population">Population</option>
+          <option value="orbital_period">Orbiltal Period</option>
+          <option value="diameter">Diameter</option>
+          <option value="rotation_period">Rotation Period</option>
+          <option value="surface_water">Surface Water</option>
+        </select>
+        <select data-testid="comparison-filter">
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+        <input data-testid="value-filter" type="number" step="1" />
+        <button data-testid="button-filter" type="button">Adicionar filtro</button>
+      </div>
+
       <table>
         { renderTableHeader()}
         { renderTableBody() }
