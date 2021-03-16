@@ -17,6 +17,37 @@ function inputNameHandle(filtersState, setFilter, { target }) {
   setFilter(responseObj);
 }
 
+function hasInArray(filterByNumericValues, columnFilter) {
+  if (filterByNumericValues.some((e) => e.column === columnFilter.column)) {
+    return filterByNumericValues.map((element) => {
+      if (element.column === columnFilter.column) {
+        return columnFilter;
+      }
+      return element;
+    });
+  }
+  filterByNumericValues.push(columnFilter);
+  return filterByNumericValues;
+}
+
+/* function filterListOptions() {
+  
+} */
+
+function buttonFilterHandle(filtersState, setFilter, columnFilter) {
+  const { filterList, filters: { filterByNumericValues } } = filtersState;
+  const altFiltered = hasInArray(filterByNumericValues, columnFilter);
+  console.log(altFiltered);
+  const responseObj = {
+    ...filtersState,
+    filters: {
+      ...filtersState.filters,
+      filterByNumericValues: altFiltered,
+    },
+  };
+  setFilter(responseObj);
+}
+
 export default function Header() {
   const [columnFilter, setColumnFilter] = useState({
     column: 'population',
@@ -97,6 +128,7 @@ export default function Header() {
       <button
         data-testid="button-filter"
         type="button"
+        onClick={ () => buttonFilterHandle(filtersState, setFilter, columnFilter) }
       >
         Filtrar
       </button>
