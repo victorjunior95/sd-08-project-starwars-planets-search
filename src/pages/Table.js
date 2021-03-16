@@ -8,13 +8,15 @@ function Table() {
 
   const {data, isFetching } = useContext(StarWarsContext);
 
-  console.log(data);
+  // console.log(data);
 
   return data.length>0 && !isFetching ? (
     <div>
       <SearchNameBar />
       <Header />
+      <table>
       {data.map((result, index)=><TableCard key={index} result={result}/>)}
+      </table>
     </div>
   ) : <span>Carregando...</span>
 }

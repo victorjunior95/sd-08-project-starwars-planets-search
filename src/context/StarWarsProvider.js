@@ -1,52 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import StarWarsContext from './StarWarsContext';
-import planetsApi from '../services/planetsApi';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import StarWarsContext from "./StarWarsContext";
 
-function StarWarsProvider({children}) {
+function StarWarsProvider({ children }) {
+  // const filterDefault = {filters: { filterByName: { name: ''}}}
 
-  const [ isFetching, setIsFetching ] = useState(false);
-  const [ data, setData] = useState([]);
-  const [ searchName, setSearchName] = useState('');
-  const [filteredData, setFilteredData]  = useState({fiters: { filterByName: { name: ''}}});
+  const [isFetching, setIsFetching] = useState(false);
+  const [data, setData] = useState([]);
+  const [searchName, setSearchName] = useState("");
+  const [filteredData, setFilteredData] = useState({
+    filters: {
+      filterByName: {
+        name: "",
+      },
+    },
+  });
 
+  const setName = (name) => {
+    setFilteredData((previousState) => ({
+      ...previousState,
+      filters: {
+        ...previousState.filters,
+        filterByName: {
+          name,
+        },
+      },
+    }));
+  };
 
-  // const fetchPlanetsApi = async () => {
-  //   setIsFetching(true);
-  //   const getPlanetsFromAPI = await planetsApi();
-  //   setData(getPlanetsFromAPI.results);
-  //   setIsFetching(false)
-  // }
-
-    useEffect( () => {
+  useEffect(() => {
     async function returnedAPI() {
       setIsFetching(true);
-      const planetResponse = await fetch('https://swapi-trybe.herokuapp.com/api/planets/'); 
+      const planetResponse = await fetch(
+        "https://swapi-trybe.herokuapp.com/api/planets/"
+      );
       const planetResponseJson = await planetResponse.json();
       setData(planetResponseJson.results);
-      return planetResponseJson;
+      // return planetResponseJson;
     }
     returnedAPI();
     setIsFetching(false);
-  }, [])
+  }, []);
 
-  const contextValue = { 
+  const contextValue = {
     isFetching,
     data,
-    // fetchPlanetsApi,
     searchName,
     setSearchName,
     filteredData,
     setFilteredData,
+    setName,
   };
 
   return (
-      <StarWarsContext.Provider
-        value={ contextValue }
-      >
-        { children }
-      </StarWarsContext.Provider>
-    );
+    <StarWarsContext.Provider value={contextValue}>
+      {children}
+    </StarWarsContext.Provider>
+  );
 }
 
 StarWarsProvider.propTypes = {
