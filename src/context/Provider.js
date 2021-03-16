@@ -6,13 +6,29 @@ import getApi from '../services/apiRequest';
 const Provider = ({ children }) => {
   const [dataApi, setDataApi] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+
+  const setName = (name) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      filterByName: {
+        name,
+      },
+    }));
+  };
+
   useEffect(() => {
     getApi().then((result) => {
       setDataApi(result);
       setLoading(false);
     });
   }, []);
-  const data = { dataApi, loading };
+  const data = { dataApi, loading, setName, filters };
   return (
     <AppContext.Provider value={ data }>
       {children}

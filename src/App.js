@@ -5,9 +5,11 @@ import TablePlanets from './Pages/TablePlanets';
 
 function App() {
   return (
-    <Provider>
-      <TablePlanets />
-    </Provider>
+    <div>
+      <Provider>
+        <TablePlanets />
+      </Provider>
+    </div>
   );
 }
 

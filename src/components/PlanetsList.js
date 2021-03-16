@@ -2,9 +2,12 @@ import React, { useContext } from 'react';
 import AppContext from '../context/Context';
 
 function PlanetsList() {
-  const { dataApi } = useContext(AppContext);
+  // const data = useContext(AppContext);
+  // console.log(data);
+  const { dataApi, filters: { filterByName: { name } } } = useContext(AppContext);
+
   return (
-    dataApi.map((data, index) => (
+    dataApi.filter((planet) => planet.name.includes(name)).map((data, index) => (
       <tr key={ index }>
         <td>{ data.name }</td>
         <td>{ data.rotation_period }</td>
