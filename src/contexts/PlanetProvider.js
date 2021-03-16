@@ -6,7 +6,8 @@ function PlanetProvider({ children }) {
   const [planetsList, setPlanetsList] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
-    filterByNumericValues: [{ column: '', comparison: '', value: '' }],
+    filterByNumericValues: [],
+    filterByColumnForm: [{ column: '', comparison: '', value: '' }],
   });
 
   return (

@@ -1,20 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import PlanetContext from '../contexts/PlanetContext';
+import useFilter from '../hooks/useFilter';
 
 function Table() {
-  const { planetsList, filters } = useContext(PlanetContext);
-  const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const { planetsList } = useContext(PlanetContext);
 
-  useEffect(() => {
-    const { filterByName: { name } } = filters;
-
-    if (name) {
-      const filteredByName = planetsList.filter((planet) => planet.name.includes(name));
-      setFilteredPlanets(filteredByName);
-    } else {
-      setFilteredPlanets(planetsList);
-    }
-  }, [planetsList, filters]);
+  const [filteredPlanets] = useFilter();
 
   function getTableHeadInfo() {
     const planetKeys = Object.keys(planetsList[0]);
