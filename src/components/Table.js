@@ -3,7 +3,14 @@ import Header from './Header';
 import PlanetsContext from '../context/MyContext';
 
 const Table = () => {
-  const { planets, filterByName, handleChange, searchName } = useContext(PlanetsContext);
+  const {
+    // fixPlanets,
+    // filterByName,
+    // handleChange,
+    searchName,
+    setSearchName,
+    planets,
+  } = useContext(PlanetsContext);
   return (
     <div>
       <h1>StarWars DataTable Hooks</h1>
@@ -13,8 +20,8 @@ const Table = () => {
           <input
             type="text"
             placeholder="select a planet"
-            name={ searchName }
-            onChange={ filterByName }
+            value={ searchName }
+            onChange={ (e) => setSearchName(e.target.value) }
           />
           <div data-testid="name-filter">
             <span>xxx</span>
@@ -23,7 +30,7 @@ const Table = () => {
         </div>
         <div className="filter">
           <span>Filter by numbers</span>
-          <select data-testid="column-sort" id="sort-selection" onChange={ handleChange }>
+          {/* <select data-testid="column-sort" id="sort-selection" onChange={ handleChange }>
             <option value="name" key="">select</option>
             <option value="name" key="name">name</option>
             <option value="population" key="population">population</option>
@@ -31,7 +38,7 @@ const Table = () => {
             <option value="diameter" key="diameter">diameter</option>
             <option value="rotation_period" key="rotation_period">rotation_period</option>
             <option value="surface_water" key="surface_water">surface_water</option>
-          </select>
+          </select> */}
           <select data-testid="comparison-filter" id="comparison">
             <option value="">select</option>
             <option value="maior que">maior que</option>
