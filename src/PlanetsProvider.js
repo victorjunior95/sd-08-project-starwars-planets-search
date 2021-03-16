@@ -19,7 +19,7 @@ const PlanetsProvider = ({ children }) => {
 
   useEffect(() => {
     const planetsByName = planets
-      .filter((planet) => planet.name.includes(name));
+      .filter((planet) => planet.name.toLowerCase().includes(name));
     setFilteredPlanets(planetsByName);
   }, [name, planets]);
 
