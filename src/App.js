@@ -1,11 +1,14 @@
 import React from 'react';
+import FilterPlanetName from './component/FilterPlanetName';
+import NumericFilter from './component/NumericFilter';
 import Table from './component/Table';
 import StarWarsProvider from './provider/StarWarsProvider';
 
 function App() {
   return (
     <StarWarsProvider>
-      <p>Hello</p>
+      <FilterPlanetName />
+      <NumericFilter />
       <Table />
     </StarWarsProvider>
   );

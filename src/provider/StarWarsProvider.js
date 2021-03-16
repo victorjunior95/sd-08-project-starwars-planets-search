@@ -1,19 +1,31 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import getPlanetsAPI from '../services/Api';
-
-export const SWPlanetsContext = createContext();
+import SWPlanetsContext from '../context/SWPlanetsContext';
 
 function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
+  const [filtersPlanets, setFiltersPlanets] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   useEffect(() => {
     getPlanetsAPI().then((response) => setData(response.results));
-  }, []);
+  }, []); // recebe tudo vindo da API
+
+  useEffect(() => {
+    const { filterByName: { name } } = filtersPlanets;
+    setPlanets(data.filter((planet) => planet.name.includes(name)));
+  }, [data, filtersPlanets]);
 
   const contextValue = {
-    data,
-    setData,
+    planets,
+    setPlanets,
+    filtersPlanets,
+    setFiltersPlanets,
   };
 
   return (

@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { SWPlanetsContext } from '../provider/StarWarsProvider';
+import SWPlanetsContext from '../context/SWPlanetsContext';
+import '../styles/table.css';
 
 function Table() {
-  const { data } = useContext(SWPlanetsContext);
+  const { planets } = useContext(SWPlanetsContext);
   return (
-    <table>
+    <table className="table">
       <thead>
         <tr>
           <th>Name</th>
@@ -23,7 +24,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { data.map((planet) => (
+        { planets.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
