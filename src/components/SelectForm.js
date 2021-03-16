@@ -22,14 +22,15 @@ function SelectForm() {
   function handleClick() {
     setFilters({
       ...filters,
-      filterByNumericValues: {
+      filterByNumericValues: [
         ...filterByNumericValues,
-        ...filterOptions,
-      },
+        {
+          ...filterOptions,
+        }],
     });
     setColumns(columns.filter((curr) => column !== curr));
   }
-
+  console.log(filters);
   return (
     <div>
       <select

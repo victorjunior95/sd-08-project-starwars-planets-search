@@ -38,23 +38,25 @@ function Provider({ children }) {
 
   useEffect(() => {
     const { filterByName: { name },
-      filterByNumericValues: { column, comparison, value } } = filters;
-    const filteredPlanet = data.filter((element) => {
-      const planetName = element.name.includes(name);
-      if (comparison === 'maior que') {
-        return parseInt(element[column], 10) > parseInt(value, 10) && planetName;
-      } if (comparison === 'menor que') {
-        return parseInt(element[column], 10) < parseInt(value, 10) && planetName;
-      } if (comparison === 'igual a') {
-        return parseInt(element[column], 10) === parseInt(value, 10) && planetName;
-      }
-      return planetName;
+      filterByNumericValues } = filters;
+    filterByNumericValues.forEach((filtros) => {
+      const { column, comparison, value } = filtros;
+      const filteredPlanet = data.filter((element) => {
+        const planetName = element.name.includes(name);
+        if (comparison === 'maior que') {
+          return Number(element[column]) > Number(value) && planetName;
+        } if (comparison === 'menor que') {
+          return Number(element[column]) < Number(value) && planetName;
+        } if (comparison === 'igual a') {
+          return Number(element[column]) === Number(value) && planetName;
+        }
+        return planetName;
+      });
+      setPlanets(filteredPlanet);
     });
-    setPlanets(filteredPlanet);
   }, [data, filters]);
 
   const context = { planets, setPlanets, filters, setFilters, data, columns, setColumns };
-  console.log(filters);
 
   return (
     <SWContext.Provider value={ context }>

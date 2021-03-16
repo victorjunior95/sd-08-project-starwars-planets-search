@@ -4,6 +4,7 @@ import Tabela from './components/Tabela';
 import Form from './components/Form';
 import Provider from './context/Provider';
 import SelectForm from './components/SelectForm';
+import SelectedFilters from './components/SelectedFilters';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       </div>
       <Form />
       <SelectForm />
+      <SelectedFilters />
       <Tabela />
     </Provider>
   );
