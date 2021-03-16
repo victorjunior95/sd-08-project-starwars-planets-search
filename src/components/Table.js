@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import Header from './Header';
 import PlanetsContext from '../context/MyContext';
 // import Filters from './Filters';
-// import Body from './Body';
 
 const Table = () => {
   const { planets } = useContext(PlanetsContext);
