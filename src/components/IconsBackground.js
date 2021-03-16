@@ -17,7 +17,6 @@ function IconsBackground() {
       buttonYoda.className = '';
       buttonVader.className = 'selected';
       body.className = 'second-body';
-
     }
   };
 
