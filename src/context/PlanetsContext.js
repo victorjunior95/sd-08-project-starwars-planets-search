@@ -26,10 +26,26 @@ const PlanetsProvider = ({ children }) => {
     setFilteredNames(filtered);
   };
 
+  const filterByNumericValues = ({ column, comparison, value }) => {
+    const FilteredPlanets = planets.filter((planet) => {
+      const targetInfo = Number(planet[column]);
+      const valueCompare = Number(value);
+      if (comparison === 'menor que') {
+        return targetInfo <= valueCompare;
+      }
+      if (comparison === 'maior que') {
+        return targetInfo >= valueCompare;
+      }
+      return targetInfo === valueCompare;
+    });
+    setFilteredNames(FilteredPlanets);
+  };
+
   const context = {
     planets,
     filteredNames,
     filterByName: (text) => filterNamePlanets(text),
+    filterByValues: (filter) => filterByNumericValues(filter),
   };
 
   return (

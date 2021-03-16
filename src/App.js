@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import InputSearch from './components/table/InputSearch';
+import InputSearch from './components/InputSearch';
 import PlanetsTable from './components/table/PlanetsTable';
 import PlanetsProvider from './context/PlanetsContext';
 
