@@ -63,6 +63,7 @@ function SelectForm() {
       <button
         type="button"
         onClick={ handleClick }
+        data-testid="button-filter"
       >
         Filtrar
       </button>

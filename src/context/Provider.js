@@ -32,14 +32,33 @@ function Provider({ children }) {
     setPlanets(filterPlanet);
   }, [data, filters]);
 
+  useEffect(() => {
+    const { filterByName: { name },
+      filterByNumericValues: { column, comparison, value } } = filters;
+    const filterPlanet = data.filter((element) => {
+      const planetName = element.name.includes(name);
+      if (comparison === 'maior que') {
+        return parseInt(element[column], 10) > parseInt(value, 10) && planetName;
+      } if (comparison === 'menor que') {
+        return parseInt(element[column], 10) < parseInt(value, 10) && planetName;
+      } if (comparison === 'igual a') {
+        return parseInt(element[column], 10) === parseInt(value, 10) && planetName;
+      }
+      return planetName;
+    });
+    setPlanets(filterPlanet);
+  }, [data, filters]);
+
   const context = { planets, setPlanets, filters, setFilters, data };
   console.log(filters);
+
   return (
     <SWContext.Provider value={ context }>
       {children}
     </SWContext.Provider>
   );
 }
+
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
