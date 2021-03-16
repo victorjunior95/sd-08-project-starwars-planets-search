@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 // import PropTypes from 'prop-types';
 
 import { Context } from '../context';
+import ActiveFilters from './ActiveFilters';
 import { InputNumber, InputText, Select } from './inputs';
 
 const columns = ['population', 'orbital_period', 'diameter',
@@ -15,6 +16,11 @@ const Header = () => {
   const [columnFilter, setColumnFilter] = useState('');
   const [comparisonFilter, setComparisonFilter] = useState('');
   const [numericFilter, setNumericFilter] = useState('');
+
+  const existingColumnsFilter = filterByNumericValues.map(({ column }) => column);
+
+  const availableColumns = columns.filter((column) => (
+    !existingColumnsFilter.includes(column)));
 
   const handleFilter = () => {
     const filterNumeric = {
@@ -36,7 +42,7 @@ const Header = () => {
         <Select
           name="column-filter"
           label="Column: "
-          options={ columns }
+          options={ availableColumns }
           stateUpdater={ setColumnFilter }
         />
         <Select
@@ -54,6 +60,10 @@ const Header = () => {
           Filter
         </button>
       </section>
+      <ActiveFilters
+        filterArray={ filterByNumericValues }
+        stateUpdater={ setFilterNumeric }
+      />
     </header>
   );
 };
