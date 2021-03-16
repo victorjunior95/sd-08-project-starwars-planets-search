@@ -22,6 +22,12 @@ function Filters() {
       ...filters,
       filterByNumericValues: arrayOfFilters,
     });
+    const columnOptions = document.querySelectorAll('select')[0];
+    const columnOptionsArray = [...columnOptions];
+    const selectedColumn = columnOptionsArray
+      .find((option) => option.value === columnFilter);
+    columnOptions.removeChild(selectedColumn);
+    setNumberForComparison('');
   }
 
   return (
