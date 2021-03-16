@@ -4,7 +4,7 @@ import MyContext from '../context';
 function Table() {
   const {
     data: { results },
-    filters: { filterByName, filterByNumericValues },
+    filters: { filterByName, filterByNumericValues, order },
   } = useContext(MyContext);
   results.forEach((result) => delete result.residents);
   const filteredResults = results
@@ -21,7 +21,22 @@ function Table() {
         return false;
       }
       return acc;
-    }), true));
+    }), true))
+    .sort((a, b) => {
+      const NEGATIVE = -1;
+      if (Number.isNaN(parseInt(a[order.column], 10))) {
+        if (a[order.column.toLowerCase()] > b[order.column.toLowerCase()]) {
+          return order.sort === 'ASC' ? 1 : NEGATIVE;
+        }
+        if (a[order.column.toLowerCase()] < b[order.column.toLowerCase()]) {
+          return order.sort === 'ASC' ? NEGATIVE : 1;
+        }
+        return 0;
+      }
+      return order.sort === 'ASC'
+        ? parseInt(a[order.column], 10) - parseInt(b[order.column], 10)
+        : parseInt(b[order.column], 10) - parseInt(a[order.column], 10);
+    });
 
   const tableData = Object.keys(results[0]);
 
@@ -37,10 +52,13 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {filteredResults.map((planet) => (
+        {filteredResults.sort((a, b) => a.name - b.name).map((planet) => (
           <tr key={ planet.name || 'loading' }>
             {tableData.map((property) => (
-              <td key={ `${planet.name}-${property}` }>
+              <td
+                key={ `${planet.name}-${property}` }
+                data-testid={ `planet-${property}` }
+              >
                 {planet[property]}
               </td>
             ))}

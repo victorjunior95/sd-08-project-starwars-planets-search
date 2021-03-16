@@ -11,6 +11,7 @@ function Provider(props) {
     comparison: 'maior que',
     value: 0,
   });
+  const [order, setOrder] = useState({ column: 'Name', sort: 'ASC' });
   const { children } = props;
 
   async function fetchPlanets() {
@@ -32,9 +33,11 @@ function Provider(props) {
           filterByName,
           filterByNumericValues,
           newFilter,
+          order,
           setFilterByName,
           setFilterByNumericValues,
           updateNewFilter,
+          setOrder,
         },
       } }
     >
