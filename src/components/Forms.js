@@ -31,7 +31,14 @@ function Forms() {
         type="number"
         data-testid="value-filter"
       />
-      <button type="button" data-testid="button-filter" onClick={ handleClick }>Filtrar</button>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClick }
+      >
+        Filtrar
+
+      </button>
     </fieldset>
   );
 }
