@@ -26,8 +26,28 @@ function Filters() {
     const columnOptionsArray = [...columnOptions];
     const selectedColumn = columnOptionsArray
       .find((option) => option.value === columnFilter);
+    if (selectedColumn.nextSibling) {
+      console.log(selectedColumn.nextSibling.value);
+      setColumnFilter(selectedColumn.nextSibling.value);
+    }
     columnOptions.removeChild(selectedColumn);
     setNumberForComparison('');
+  }
+
+  function removeFilter(event, index) {
+    const arrayOfFilters = filters.filterByNumericValues;
+    const filterType = arrayOfFilters[index].column;
+    console.log(filterType);
+    arrayOfFilters.splice(index, 1);
+    setFilters({
+      ...filters,
+      filterByNumericValues: arrayOfFilters,
+    });
+    const option = document.createElement('option');
+    option.value = filterType;
+    option.innerText = filterType;
+    const columnOptions = document.querySelectorAll('select')[0];
+    columnOptions.appendChild(option);
   }
 
   return (
@@ -76,6 +96,19 @@ function Filters() {
       >
         Adicionar
       </button>
+      <ul>
+        {filters.filterByNumericValues.map((filter, index) => (
+          <li key={ filter.column } data-testid="filter">
+            {`Filtro: ${filter.column} ${filter.comparison} ${filter.value}`}
+            <button
+              type="button"
+              onClick={ (e) => removeFilter(e, index) }
+            >
+              x
+            </button>
+          </li>
+        ))}
+      </ul>
     </form>
   );
 }
