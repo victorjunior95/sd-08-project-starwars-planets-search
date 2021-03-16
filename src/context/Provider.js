@@ -5,7 +5,19 @@ import Context from './index';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
-  const context = { data, setData, headers, setHeaders };
+  const [filteredData, setFilteredData] = useState([]);
+  const [filter, setFilter] = useState(
+    { filterByName: { name: '' } },
+  );
+  const context = {
+    data,
+    setData,
+    headers,
+    setHeaders,
+    filter,
+    setFilter,
+    filteredData,
+    setFilteredData };
   return (
     <Context.Provider value={ context }>
       { children }

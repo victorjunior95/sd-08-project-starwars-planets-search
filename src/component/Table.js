@@ -1,19 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Context from '../context';
+import HeaderTable from './HeaderTable';
 import './table.css';
 
 function Table() {
-  const { headers, data } = useContext(Context);
+  const { data, filter, setFilteredData, filteredData } = useContext(Context);
+  useEffect(() => {
+    setFilteredData(data.filter((planets) => planets.name
+      .includes(filter.filterByName.name)));
+  }, [setFilteredData, filter, data]);
 
   return (
     <table>
-      <thead>
-        <tr>
-          {headers.map((header) => <th key={ header }>{ header }</th>)}
-        </tr>
-      </thead>
+      <HeaderTable />
       <tbody>
-        {data.map((planet) => (
+        {filteredData.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
