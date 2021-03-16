@@ -21,11 +21,20 @@ function Table() {
       <tbody>
         { planets.map((planet, i) => (
           <tr key={ i }>
-            { Object.values(planet).map((value, index) => (
-              <td key={ `${index}+${value}` }>
-                { value }
-              </td>
-            )) }
+            { Object.values(planet).map((value, index) => {
+              if (index === 0) {
+                return (
+                  <td key={ `${index}+${value}` } data-testid="planet-name">
+                    { value }
+                  </td>
+                );
+              }
+              return (
+                <td key={ `${index}+${value}` }>
+                  { value }
+                </td>
+              );
+            }) }
           </tr>
         )) }
       </tbody>

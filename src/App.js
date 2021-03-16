@@ -22,7 +22,9 @@ function App() {
   const [currentFilter, setCurrentFilter] = useState([]);
   const [filtersState, setFiltersState] = useState(initialFiltersState);
   const [numericState, setNumericState] = useState({});
+  const [orderState, setOrderState] = useState({});
 
+  const DECIMAL = 10;
   const headers = ['name', 'rotation_period', 'orbital_period',
     'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
     'population', 'films', 'created', 'edited', 'url'];
@@ -36,25 +38,37 @@ function App() {
     fetchAPI();
   }, []);
 
+  function isNumeric(num) {
+    if (parseInt(num, DECIMAL)) {
+      return true;
+    }
+    return false;
+  }
+
   useEffect(() => {
-    const { filters: { filterByName: { name: text } } } = filtersState;
-    const { filters: { filterByNumericValues } } = filtersState;
+    const { filters: { filterByName: { name: text },
+      filterByNumericValues } } = filtersState;
     let filteredByAll = [...allPlanets];
     filteredByAll = filteredByAll.filter(({ name }) => name.includes(text));
     filterByNumericValues.forEach(({ column, comparison, value }) => {
       filteredByAll = filteredByAll.filter((planet) => {
-        if (comparison === 'maior que') {
-          return +planet[column] > +value;
-        }
-        if (comparison === 'menor que') {
-          return +planet[column] < +value;
-        }
-        if (comparison === 'igual a') {
-          return +planet[column] === +value;
-        }
-        return planet;
+        if (comparison === 'maior que') return +planet[column] > +value;
+        if (comparison === 'menor que') return +planet[column] < +value;
+        return +planet[column] === +value;
+        // return planet;
       });
     });
+    const { filters: { order: { column, sort } } } = filtersState;
+    let isNumber = false;
+    if (allPlanets.length > 0) isNumber = isNumeric(allPlanets[0][column]);
+    if (sort === 'ASC' && isNumber) filteredByAll.sort((a, b) => a[column] - b[column]);
+    if (sort === 'DESC' && isNumber) filteredByAll.sort((a, b) => b[column] - a[column]);
+    if (sort === 'ASC' && !isNumber) {
+      filteredByAll.sort((a, b) => a[column].localeCompare(b[column]));
+    }
+    if (sort === 'DESC' && !isNumber) {
+      filteredByAll.sort((a, b) => b[column].localeCompare(a[column]));
+    }
     setCurrentFilter(filteredByAll);
   }, [allPlanets, filtersState]);
 
@@ -72,6 +86,18 @@ function App() {
         ],
       } });
     }
+  }
+
+  function applyOrderFilter() {
+    setFiltersState({ filters: {
+      ...filtersState.filters,
+      order: { ...orderState },
+    } });
+  }
+
+  function handleChangeOrder({ target }) {
+    const { name, value } = target;
+    setOrderState({ ...orderState, [name]: value });
   }
 
   function handleName({ target }) {
@@ -139,13 +165,51 @@ function App() {
       >
         Filtrar
       </button>
-      <label htmlFor="order">
-        <select name="order" id="order">
+      <label htmlFor="column">
+        <select name="column" id="column" onChange={ handleChangeOrder }>
+          <option value="">{' '}</option>
           { headers.map((header) => (
-            <option key={ header } value={ header }>{ header}</option>
+            <option
+              key={ header }
+              value={ header }
+              data-testid="column-sort"
+            >
+              { header}
+            </option>
           ))}
         </select>
       </label>
+      <p>Order By</p>
+      <label htmlFor="ASC">
+        <input
+          type="radio"
+          value="ASC"
+          data-testid="column-sort-input-asc"
+          name="sort"
+          id="ASC"
+          onChange={ handleChangeOrder }
+        />
+        Ascending
+      </label>
+      <label htmlFor="DESC">
+
+        <input
+          id="DESC"
+          type="radio"
+          value="DESC"
+          data-testid="column-sort-input-desc"
+          name="sort"
+          onChange={ handleChangeOrder }
+        />
+        Descending
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ applyOrderFilter }
+      >
+        Ordenar
+      </button>
       <ul>
         { filtersState.filters.filterByNumericValues.map(
           ({ column, comparison, value }, index) => (
