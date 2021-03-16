@@ -1,31 +1,23 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
-const initialFilters = {
-  column: '',
-  comparison: '',
-  value: '',
-};
-
-const initialColumns = [
-  'rotation_period',
-  'orbital_period',
-  'diameter',
-  'surface_water',
-  'population',
-];
-
 export default function FilterFormNumeric() {
-  const { filters, setFilters } = useContext(PlanetsContext);
+  const { filters, setFilters, columns, setColumns } = useContext(PlanetsContext);
 
-  const [filterValues, setFilterValues] = useState(initialFilters);
-  const [columns, setColumns] = useState(initialColumns);
-  const [usedColumns, setUsedColumns] = useState([]);
+  const [filterValues, setFilterValues] = useState({});
 
   const { filterByNumericValues } = filters;
   const { column, comparison, value } = filterValues;
 
   const comparisons = ['maior que', 'menor que', 'igual a'];
+
+  useEffect(() => {
+    setFilterValues({
+      column: columns[0],
+      comparison: 'maior que',
+      value: '0',
+    });
+  }, [columns]);
 
   const handleChange = ({ target }) => {
     setFilterValues({
@@ -37,13 +29,9 @@ export default function FilterFormNumeric() {
   const handleFilter = () => {
     setFilters({
       ...filters,
-      filterByNumericValues: {
-        ...filterByNumericValues,
-        ...filterValues,
-      },
+      filterByNumericValues: [...filterByNumericValues, filterValues],
     });
     setColumns(columns.filter((columnName) => column !== columnName));
-    setUsedColumns([...usedColumns, column]);
   };
 
   return (
@@ -76,11 +64,7 @@ export default function FilterFormNumeric() {
         placeholder="0"
         onChange={ handleChange }
       />
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ handleFilter }
-      >
+      <button type="button" data-testid="button-filter" onClick={ handleFilter }>
         Filter
       </button>
     </>
