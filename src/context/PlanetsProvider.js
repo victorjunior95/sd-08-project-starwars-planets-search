@@ -5,6 +5,13 @@ import getPlanetsAPI from '../services/StarwarsAPI';
 
 function PlanetsProvider({ children }) {
   const initialFilteres = {
+    columnValues: [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ],
     filterByName: {
       name: '',
     },

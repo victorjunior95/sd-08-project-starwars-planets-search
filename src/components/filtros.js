@@ -2,26 +2,31 @@ import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Filtros() {
+  const { filters, setFilters } = useContext(PlanetsContext);
+
   const filterByNumberInitial = {
-    column: 'population',
-    comparison: 'maior_que',
+    column: filters.columnValues[0],
+    comparison: 'maior que',
     value: '',
   };
 
   const [filterByNumber, setFilterByNumber] = useState(filterByNumberInitial);
-  const { filters, setFilters } = useContext(PlanetsContext);
 
   function handleClick() {
+    const columnValues = filters.columnValues
+      .filter((col) => col !== filterByNumber.column);
+    console.log(columnValues);
     setFilters({
       ...filters,
+      columnValues,
       filterByNumericValues: [
         ...filters.filterByNumericValues,
         filterByNumber,
       ],
     });
     setFilterByNumber({
-      column: 'population',
-      comparison: 'maior_que',
+      column: filters.columnValues[0],
+      comparison: 'maior que',
       value: '',
     });
   }
@@ -40,11 +45,13 @@ function Filtros() {
             },
           ) }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          { filters.columnValues.map((col, index) => (
+            <option
+              key={ index }
+              value={ col }
+            >
+              { col }
+            </option>))}
         </select>
         <select
           className="form-select"
