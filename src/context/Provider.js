@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import MyContext from '.';
 
 function Provider(props) {
-  const [planets, setPlanets] = useState({ results: [{ }] });
+  const [planets, setPlanets] = useState({ results: [{ 'loading...': '' }] });
+  const [filterByName, setFilterByName] = useState('');
   const { children } = props;
 
   async function fetchPlanets() {
@@ -18,7 +19,15 @@ function Provider(props) {
   }, []);
 
   return (
-    <MyContext.Provider value={ planets }>
+    <MyContext.Provider
+      value={ {
+        data: planets,
+        filters: {
+          filterByName,
+          setFilterByName,
+        },
+      } }
+    >
       {children}
     </MyContext.Provider>
   );
