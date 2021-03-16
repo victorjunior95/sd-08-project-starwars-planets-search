@@ -9,6 +9,8 @@ function Table() {
     functionLength,
     filterByNumericValuesFunc,
     removed,
+    sorted,
+    setSorted,
   } = useContext(StarWarsContext);
   const { filterByName: { name } } = filters;
   const { filterByNumericValues } = filters;
@@ -28,6 +30,10 @@ function Table() {
   }
   if (filterPlanet !== '' && removed === false) {
     dataFiltered = filterByNumericValuesFunc(filterPlanet, column, comparison, value);
+  }
+  if (sorted === true) {
+    dataFiltered = data;
+    setSorted(!sorted);
   }
   return (
     <table>
@@ -51,7 +57,11 @@ function Table() {
       <tbody>
         {dataFiltered.map((planet) => (
           <tr key={ planet.name }>
-            <td>{planet.name}</td>
+            <td
+              data-testid="planet-name"
+            >
+              {planet.name}
+            </td>
             <td>{planet.rotation_period}</td>
             <td>{planet.orbital_period}</td>
             <td>{planet.diameter}</td>
