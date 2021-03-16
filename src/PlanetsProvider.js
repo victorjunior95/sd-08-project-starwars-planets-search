@@ -5,9 +5,20 @@ export const planetsContext = createContext([]);
 
 const PlanetsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
-  const [name, setName] = useState('');
   const [filteredPlanets, setFilteredPlanets] = useState([]);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(
+    {
+      filterByName: { name: '' },
+      filterByNumericValues: [
+        {
+          column: 'population',
+          comparison: 'maior que',
+          value: 0,
+        },
+      ],
+    },
+  );
+
   useEffect(() => {
     const fetchPlanets = async () => {
       const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -19,17 +30,43 @@ const PlanetsProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    const { name } = filters.filterByName;
     const planetsByName = planets
       .filter((planet) => planet.name.toLowerCase().includes(name));
     setFilteredPlanets(planetsByName);
-  }, [name, planets]);
+  }, [filters.filterByName, planets]);
+
+  useEffect(() => {
+    const { column, comparison, value } = filters.filterByNumericValues[0];
+    if (comparison === 'maior que') {
+      const filteredByComparison = planets
+        .filter((planet) => planet[column] > value);
+      setFilteredPlanets(filteredByComparison);
+    }
+    if (comparison === 'menor que') {
+      const filteredByComparison = planets
+        .filter((planet) => planet[column] > value);
+      setFilteredPlanets(filteredByComparison);
+    }
+    if (comparison === 'igual a') {
+      const filteredByComparison = planets
+        .filter((planet) => planet[column] === value);
+      setFilteredPlanets(filteredByComparison);
+    }
+  }, [filters.filterByNumericValues, planets]);
 
   const planetsValue = {
     planets,
     filteredPlanets,
-    setName: (typedValue) => setName(typedValue),
+    setName: (typedValue) => setFilters(
+      { ...filters, filterByName: { name: typedValue } },
+    ),
     filters,
-    setFilters: (filter) => setFilters(filter),
+    setNumericFilter: (column, comparison, value) => setFilters(
+      { ...filters,
+        filterByNumericValues: [{ column, comparison, value }],
+      },
+    ),
   };
 
   return (
