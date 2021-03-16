@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../contextAPI/PlanetsContext';
 import { INITIAL_COMPARATORS } from '../services/INITIAL';
-import { setNumericFilter } from '../services/filterFunctions';
+import { setNumericFilter, removeFromNumericFilter } from '../services/filterFunctions';
 import './Header.css';
 
 function renderOptionsWithObj(paramObj) {
@@ -11,11 +11,25 @@ function renderOptionsWithObj(paramObj) {
   ));
 }
 
+function renderListFilters(filters, setFilters) {
+  const { filterByNumericValues } = filters;
+  return filterByNumericValues.map(({ column }) => (
+    <div key={ `reactkeyfilters${column}` }>
+      <span>{column}</span>
+      <button
+        type="button"
+        onClick={ () => removeFromNumericFilter(filters, setFilters, column) }
+      >
+        x
+      </button>
+    </div>
+  ));
+}
+
 export default function Header() {
   const {
     columnFilter, headerForm, setHeaderForm, filters, setFilters,
   } = useContext(PlanetsContext);
-  console.log(filters.filterByNumericValues);
   return (
     <header>
       <label htmlFor="nameFilter">
@@ -100,12 +114,8 @@ export default function Header() {
         <span>Descendente</span>
         <input type="radio" name="Descendent" />
       </label>
-
       <div>
-        <span>Filter1</span>
-        <button type="button">x</button>
-        <span>Filter2</span>
-        <button type="button">x</button>
+        { renderListFilters(filters, setFilters) }
       </div>
     </header>
   );

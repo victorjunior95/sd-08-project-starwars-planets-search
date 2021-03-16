@@ -6,10 +6,6 @@ import {
   INITIAL_COLUMN, INITIAL_HEADER_FORM, INITIAL_FILTERS,
 } from '../services/INITIAL';
 
-function filter(arrToFilter) {
-  console.log('filter(f)): ', arrToFilter);
-}
-
 export default function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState();
   const [loadingPlanets, setloadingPlanets] = useState(true);
@@ -18,8 +14,6 @@ export default function PlanetsProvider({ children }) {
   const [filtersApplied, setFiltersApplied] = useState({});
   const [headerForm, setHeaderForm] = useState(INITIAL_HEADER_FORM);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
-
-  if (!loadingPlanets) { filter(planets.results); }
 
   useEffect(() => {
     asyncSetter(fetchPlanets, setPlanets, setloadingPlanets);

@@ -25,9 +25,5 @@ export const INITIAL_FILTERS = {
   filterByName: {
     name: '',
   },
-  filterByNumericValues: [{
-    column: 'population',
-    comparison: 'maior que',
-    value: '100000',
-  }],
+  filterByNumericValues: [],
 };

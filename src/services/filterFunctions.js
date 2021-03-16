@@ -48,3 +48,16 @@ export function setNumericFilter(filters, setter, form) {
     ],
   });
 }
+
+export function removeFromNumericFilter(getter, setter, name) {
+  const { filterByNumericValues } = getter;
+  const setObj = filterByNumericValues.filter((e) => (
+    e.column !== name
+  ));
+  setter({
+    ...getter,
+    filterByNumericValues: [
+      ...setObj,
+    ],
+  });
+}
