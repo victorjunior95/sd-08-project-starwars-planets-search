@@ -1,9 +1,9 @@
-// 5º
+// 5º crio a tabela que vai ser renderizada na tela
 import React, { useContext } from 'react';
-import ContextApi from '../context/Context';
+import ContextApi from '../context/Context'; // importo o context para poder usar os dados
 
 function Table() {
-  const { dataApi } = useContext(ContextApi);
+  const { dataApi, filterName } = useContext(ContextApi); // desestruturo o context pegando o dataApi que é meu estado
 
   return (
     <div>
@@ -28,23 +28,26 @@ function Table() {
 
         <tbody>
           {
-            dataApi ? dataApi.map((item) => (
-              <tr key={ item.name }>
-                <td>{item.name}</td>
-                <td>{item.rotation_period}</td>
-                <td>{item.orbital_period}</td>
-                <td>{item.diameter}</td>
-                <td>{item.climate}</td>
-                <td>{item.gravity}</td>
-                <td>{item.terrain}</td>
-                <td>{item.surface_water}</td>
-                <td>{item.population}</td>
-                <td>{item.films}</td>
-                <td>{item.url}</td>
-                <td>{item.created}</td>
-                <td>{item.edited}</td>
-              </tr>
-            )) : <span>Loading...</span>
+            dataApi
+              ? dataApi.filter((el) => el.name.toLowerCase()
+                .includes(filterName.toLowerCase()))
+                .map((planet) => (
+                  <tr key={ planet.name }>
+                    <td>{planet.name}</td>
+                    <td>{planet.rotation_period}</td>
+                    <td>{planet.orbital_period}</td>
+                    <td>{planet.diameter}</td>
+                    <td>{planet.climate}</td>
+                    <td>{planet.gravity}</td>
+                    <td>{planet.terrain}</td>
+                    <td>{planet.surface_water}</td>
+                    <td>{planet.population}</td>
+                    <td>{planet.films}</td>
+                    <td>{planet.url}</td>
+                    <td>{planet.created}</td>
+                    <td>{planet.edited}</td>
+                  </tr>
+                )) : <span>Loading...</span>
           }
         </tbody>
       </table>
