@@ -8,6 +8,7 @@ function Provider({ children }) {
   const [filteredData, setFilteredData] = useState([]);
   const [filter, setFilter] = useState(
     { filterByName: { name: '' } },
+    { filterByNumericValues: [{}] },
   );
   const context = {
     data,
@@ -34,6 +35,30 @@ function Provider({ children }) {
     };
     fetchPlanets();
   }, [setData, setHeaders, setFilteredData]);
+
+  useEffect(() => {
+    const { filterByName, filterByNumericValues } = filter;
+    if (filterByNumericValues) {
+      setFilteredData(data.filter((planets) => planets.name
+        .includes(filterByName.name))
+        .filter((filtPlanets) => {
+          switch (filterByNumericValues[0].comparison) {
+          case 'maior que':
+            return parseInt(filtPlanets[filterByNumericValues[0].column], 10)
+              > parseInt(filterByNumericValues[0].value, 10);
+          case 'menor que':
+            return parseInt(filtPlanets[filterByNumericValues[0].column], 10)
+              < parseInt(filterByNumericValues[0].value, 10);
+          default:
+            return parseInt(filtPlanets[filterByNumericValues[0].column], 10)
+              === parseInt(filterByNumericValues[0].value, 10);
+          }
+        }));
+    } else {
+      setFilteredData(data.filter((planets) => planets.name
+        .includes(filterByName.name)));
+    }
+  }, [setFilteredData, filter, data]);
 
   return (
     <Context.Provider value={ context }>

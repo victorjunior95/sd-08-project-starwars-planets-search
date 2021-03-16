@@ -1,14 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Context from '../context';
 import HeaderTable from './HeaderTable';
 import './table.css';
 
 function Table() {
-  const { data, filter, setFilteredData, filteredData } = useContext(Context);
-  useEffect(() => {
-    setFilteredData(data.filter((planets) => planets.name
-      .includes(filter.filterByName.name)));
-  }, [setFilteredData, filter, data]);
+  const { filteredData } = useContext(Context);
 
   return (
     <table>
