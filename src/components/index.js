@@ -1,2 +1,2 @@
-export { default as Home } from './Home';
-export { default as Test } from './Test';
+export { default as NumericFilter } from './NumericFilter';
+export { default as SWTable } from './SWTable';
