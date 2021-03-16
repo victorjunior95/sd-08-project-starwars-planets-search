@@ -6,35 +6,37 @@ function TablePlanets() {
   const [searchName, setSearch] = useState('');
   console.log(searchName);
   const { loading } = useContext(AppContext);
-  return loading ? <h2>Loading...</h2> : (
+  return (
     <div>
       <h1>Lista de Planetas</h1>
       <input
         type="text"
         onChange={ (e) => setSearch(e.target.value) }
       />
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Rotation Period</th>
-            <th>Orbital Period</th>
-            <th>Diameter</th>
-            <th>Climate</th>
-            <th>Gravity</th>
-            <th>Terrain</th>
-            <th>Surface Water</th>
-            <th>Population</th>
-            <th>Films</th>
-            <th>Created</th>
-            <th>Edited</th>
-            <th>URL</th>
-          </tr>
-        </thead>
-        <tbody>
-          <PlanetsList />
-        </tbody>
-      </table>
+      {loading ? <h2>Loading...</h2> : (
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Rotation Period</th>
+              <th>Orbital Period</th>
+              <th>Diameter</th>
+              <th>Climate</th>
+              <th>Gravity</th>
+              <th>Terrain</th>
+              <th>Surface Water</th>
+              <th>Population</th>
+              <th>Films</th>
+              <th>Created</th>
+              <th>Edited</th>
+              <th>URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <PlanetsList />
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
