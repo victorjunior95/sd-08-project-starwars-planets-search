@@ -4,12 +4,12 @@ import PlanetsContext from '../context/MyContext';
 
 const Table = () => {
   const {
-    fixPlanets,
+    // fixPlanets,
     // filterByName,
     // handleChange,
     searchName,
     setSearchName,
-    //planets,
+    planets,
   } = useContext(PlanetsContext);
   return (
     <div>
@@ -56,7 +56,7 @@ const Table = () => {
       <table>
         <Header />
         <tbody>
-          {fixPlanets.map((planet) => (
+          {planets.map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>

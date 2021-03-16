@@ -3,30 +3,32 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './MyContext';
 
 const PlanetsProvider = ({ children }) => {
-  // const [fixPlanets, setFixPlanets] = useState([]);
+  const [fixPlanets, setFixPlanets] = useState([]);
   const [planets, setPlanets] = useState([]);
-  const [searchName, setSearchName] = useState(' ');
+  const [searchName, setSearchName] = useState('');
 
   useEffect(() => {
     const fetchPlanets = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets';
       const { results } = await fetch(endpoint).then((response) => response.json());
+      setFixPlanets(results);
       setPlanets(results);
-      // setFixPlanets(results);
     };
     fetchPlanets();
   }, []);
 
-  // const filterByName = (e) => {
-  // searchName = e.target.value;
   useEffect(() => {
-    const filterPlanets = planets
-      .filter((planet) => planet.name.includes((searchName)));
+    let filterPlanets = '';
+    filterPlanets = fixPlanets.filter((planet) => planet.name.includes((searchName)));
     setPlanets(filterPlanets);
-    // return filterPlanets;
-  }, [searchName]);
+  }, [fixPlanets, searchName]);
 
-  const context = { planets, searchName, setSearchName };
+  const context = {
+    planets,
+    searchName,
+    setSearchName,
+  };
+
   return (
     <PlanetsContext.Provider value={ context }>
       {
