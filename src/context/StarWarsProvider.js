@@ -8,23 +8,18 @@ function StarWarsProvider({ children }) {
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState([]);
   const [searchName, setSearchName] = useState("");
-  const [filteredData, setFilteredData] = useState({
-    filters: {
+  const [filters, setFilteredData] = useState({
       filterByName: {
         name: "",
       },
-    },
   });
 
   const setName = (name) => {
     setFilteredData((previousState) => ({
       ...previousState,
-      filters: {
-        ...previousState.filters,
         filterByName: {
           name,
         },
-      },
     }));
   };
 
@@ -47,7 +42,7 @@ function StarWarsProvider({ children }) {
     data,
     searchName,
     setSearchName,
-    filteredData,
+    filters,
     setFilteredData,
     setName,
   };
