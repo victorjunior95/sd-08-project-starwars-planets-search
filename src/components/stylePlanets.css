@@ -1,12 +1,12 @@
 .headThead {
-  background-color: rgb(3, 93, 105); 
+  background-color: rgb(3, 93, 105);
 }
 
-.headThead th { 
-  color: #ffffff;
+.headThead th {
+  color: #fff;
   font-size: 1em;
-  text-transform: uppercase;
   padding: 10px;
+  text-transform: uppercase;
 }
 
 .bodyTbody tr:nth-child( odd ) {
