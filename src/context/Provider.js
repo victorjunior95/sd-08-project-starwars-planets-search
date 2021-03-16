@@ -7,9 +7,14 @@ function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [filterPlanet, setFilterPlanet] = useState([]);
-  // const [column, setColumn] = useState('population');
-  // const [comparison, setComparison] = useState('maior que');
-  // const [numberValue, setNumberValue] = useState(0);
+  const [columnOptions, setColumnOptions] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [size, setSize] = useState(['maior que', 'menor que', 'igual a']);
+  const [preference, setPreference] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -30,35 +35,53 @@ function Provider({ children }) {
     setSearchName(e.target.value);
   };
 
-  // useEffect(() => {
-  //   let filterOptions = planets;
-  //   filterOptions = filterOptions.filter((planet) => planet.mood.includes((mood))
-  //   && planet.type.includes((type)));
-  //   setAllAnimals(filterOptions);
-  //   return filterMoods;
-  // }, [planets]);
-
-  const filterColumn = (e) => {
-    setColumn(e.target.value);
+  const filterPreferences = (e) => {
+    const attribute = e.target.getAttribute('data-testid');
+    if (attribute === 'column-filter') {
+      setPreference({ ...preference, column: e.target.value });
+    } else if (attribute === 'comparison-filter') {
+      setPreference({ ...preference, comparison: e.target.value });
+    } else {
+      setPreference({ ...preference, value: e.target.value });
+    }
   };
 
-  const filterComparison = (e) => {
-    setComparison(e.target.value);
+  const filteredValue = ({ column, comparison, value }) => {
+    const newFiltered = planets.filter((planet) => {
+      const targetInfo = Number(planet[column]);
+      const valueToCompare = Number(value);
+      if (comparison === 'menor que') {
+        return targetInfo < valueToCompare;
+      }
+      if (comparison === 'maior que') {
+        return targetInfo > valueToCompare;
+      }
+      return targetInfo === valueToCompare;
+    });
+    setFilterPlanet(newFiltered);
   };
 
-  const filterNumberValue = (e) => {
-    setNumberValue(e.target.value);
+  const handleClick = () => {
+    const copyColumnOptions = [...columnOptions];
+    const optionToBeRemoved = preference.column;
+    const indexOfOption = copyColumnOptions.indexOf(optionToBeRemoved);
+    copyColumnOptions.splice(indexOfOption, 1);
+    setColumnOptions(copyColumnOptions);
+    filteredValue(preference);
   };
 
   const data = {
     planets,
-    filterColumn,
-    filterComparison,
-    filterNumberValue,
     searchName,
+    columnOptions,
+    size,
     filterPlanet,
+    setSize,
+    setColumnOptions,
     setPlanets,
     filterName,
+    filterPreferences,
+    handleClick,
   };
 
   return (
