@@ -3,7 +3,7 @@ import PlanetsContext from '../context/PlanetsContext';
 import './table.css';
 
 function Table() {
-  const { data, isLoading } = useContext(PlanetsContext);
+  const { planets, isLoading } = useContext(PlanetsContext);
   const headers = [
     'Name', 'Rotation Period', 'Orbital Period', 'Diameter', 'Climate',
     'Gravity', 'Terrain', 'Surface Water', 'Population', 'Films',
@@ -19,7 +19,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet) => (
+        {planets.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
