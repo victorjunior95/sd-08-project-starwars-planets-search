@@ -5,6 +5,7 @@ import fetchPlanets from '../services/StarWarsAPI';
 
 function StarProvider({ children }) {
   const [data, setData] = useState([]);
+  const [inputTextValue, setInputTextValue] = useState('');
 
   const fetchData = async () => {
     setData(await fetchPlanets());
@@ -14,8 +15,14 @@ function StarProvider({ children }) {
     fetchData();
   }, []);
 
+  const handleChange = (e) => {
+    setInputTextValue(e.target.value);
+  };
+
   const context = {
     data,
+    inputTextValue,
+    handleChange,
   };
 
   return (
