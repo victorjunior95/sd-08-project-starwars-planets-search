@@ -19,7 +19,7 @@ body {
 }
 
 @font-face {
-  font-family: star-wars, sans-serif;
+  font-family: star-wars;
   src: url('./fonts/STJEDISE.TTF');
 }
 
