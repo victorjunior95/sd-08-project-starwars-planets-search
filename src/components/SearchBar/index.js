@@ -2,6 +2,7 @@ import React from 'react';
 import InputNamePlanet from '../InputNamePlanet';
 import SelectNumericValues from '../SelectNumericValues';
 import ShowFilterScreen from '../ShowFilterScreen';
+import OrderColumn from '../OderColumn';
 
 function SearchBar() {
   return (
@@ -9,6 +10,7 @@ function SearchBar() {
       <InputNamePlanet />
       <SelectNumericValues />
       <ShowFilterScreen />
+      <OrderColumn />
     </div>
   );
 }

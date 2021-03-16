@@ -34,26 +34,57 @@ function FilterByColumn(planets, setFilter) {
   return result;
 }
 
+function orderColumns(planets, { column, sort }) {
+  if (sort === 'ASC') {
+    if (planets.some((el) => !Number.isNaN(Number(el[column])))) {
+      console.log('aqui');
+      return planets.sort((a, b) => a[column] - b[column]);
+    }
+    return planets.sort((a, b) => a[column].localeCompare(b[column]));
+  }
+
+  if (planets.some((el) => !Number.isNaN(Number(el[column])))) {
+    return planets.sort((a, b) => b[column] - a[column]);
+  }
+
+  return planets.sort((a, b) => b[column].localeCompare(a[column]));
+}
+
 function Filter() {
   const {
     data,
     filters: {
       filterByName: { name },
       filterByNumericValues,
+      order,
     },
+    orderApproved,
+    setOrderApproved,
   } = useContext(StarWarsContext);
 
   const [planets, setPlanets] = useState([]);
 
   useEffect(() => {
-    setPlanets(data);
-  }, [data]);
+    if (orderApproved && data.length > 1) {
+      const isOrderPlanets = orderColumns(data, order);
+      setPlanets(isOrderPlanets);
+      setOrderApproved(false);
+    } else {
+      setPlanets(data);
+    }
+  }, [data, order, orderApproved, setOrderApproved]);
 
   useEffect(() => {
     const planetsFilterName = FilterName(data, name);
     const planetsFilterNumeric = FilterByColumn(planetsFilterName, filterByNumericValues);
-    setPlanets(planetsFilterNumeric);
-  }, [data, filterByNumericValues, name]);
+    if (orderApproved && planetsFilterNumeric.length > 1) {
+      const orderPlanets = orderColumns(planetsFilterNumeric, order);
+      setPlanets(orderPlanets);
+      setOrderApproved(false);
+    } else {
+      setPlanets(planetsFilterNumeric);
+    }
+  }, [data, filterByNumericValues, name, order, orderApproved, setOrderApproved]);
 
   return [planets];
 }

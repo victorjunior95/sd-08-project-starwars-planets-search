@@ -31,33 +31,34 @@ function SelectNumericValues() {
   };
 
   const changeColumnFilter = useCallback(() => {
-    if (filterByNumericValues.length === 0) setTypeColumn(COLUMN_FILTER);
+    if (filterByNumericValues.length === 0) return COLUMN_FILTER;
     const results = COLUMN_FILTER.filter((item) => {
       if (filterByNumericValues.every((el) => el.column !== item)) {
         return item;
       }
       return '';
     });
-    setTypeColumn(results);
+    if (!results.length) return ['---'];
+    return results;
   }, [filterByNumericValues]);
 
   useEffect(() => {
-    changeColumnFilter();
-  }, [changeColumnFilter, filterByNumericValues]);
+    setTypeColumn(changeColumnFilter());
+  }, [changeColumnFilter]);
 
-  const resetForm = () => {
+  useEffect(() => {
     setFilterNumeric({
       column: typeColumn[0],
       comparison: ARR_COMPARISON[0],
       value: '0',
     });
-  };
+  }, [filterByNumericValues, typeColumn]);
 
   const onClickAddFilterNumeric = () => {
     if (filterNumeric.column && filterNumeric.comparison) {
+      // resetForm();
       addFilterByNumeric(filterNumeric);
       setMessage(false);
-      resetForm();
     } else {
       setMessage(true);
     }

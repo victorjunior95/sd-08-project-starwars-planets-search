@@ -8,6 +8,15 @@ function Provider({ children }) {
   const [isLoading, setLoading] = useState(true);
   const [name, setName] = useState('');
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [order, setOrder] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
+  const [orderApproved, setOrderApproved] = useState(true);
+
+  const changeOrderColumn = ({ target: { value, dataset: { setsort } } }) => {
+    setOrder({ ...order, [setsort]: value });
+  };
 
   const addFilterByNumeric = (newFilter) => {
     setFilterByNumericValues([...filterByNumericValues, newFilter]);
@@ -26,10 +35,15 @@ function Provider({ children }) {
         name,
       },
       filterByNumericValues,
+      order,
     },
     setName,
     addFilterByNumeric,
     deleteFilter,
+    order,
+    changeOrderColumn,
+    orderApproved,
+    setOrderApproved,
   });
 
   useEffect(() => {

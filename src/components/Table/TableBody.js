@@ -11,6 +11,11 @@ function TableBody({ contentRow }) {
           </td>
         );
       }
+      if (key === 'name') {
+        return (
+          <td data-testid="planet-name" key={ index }>{ value }</td>
+        );
+      }
       return (
         <td key={ index }>{ value }</td>
       );

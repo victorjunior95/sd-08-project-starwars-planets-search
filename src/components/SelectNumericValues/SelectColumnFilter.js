@@ -11,9 +11,13 @@ function SelectColumnFilter({ column, handleChange, columnFilter }) {
         data-testid="column-filter"
         required
       >
-        { columnFilter.map((el, index) => (
-          <option key={ index } value={ el }>{el}</option>
-        ))}
+        {
+          columnFilter.length === 0
+            ? <option value="">{' '}</option>
+            : (columnFilter.map((el, index) => (
+              <option key={ index } value={ el }>{el}</option>
+            )))
+        }
       </select>
     </div>
   );
