@@ -8,7 +8,7 @@ const tableHeaderContent = ['Name', 'Rotation Period', 'Orbital Period', 'Diamet
   'Edited', 'Url'];
 
 const Table = () => {
-  const { data, isLoading } = useContext(Context);
+  const { data, isLoading, filters: { filterByName } } = useContext(Context);
 
   return (!isLoading
     && (
@@ -19,12 +19,15 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          { data.map((planet) => (
-            <tr key={ planet.name }>
-              { Object.entries(planet)
-                .filter(([key]) => key !== 'residents')
-                .map(([, value]) => (<td key={ value }>{ value }</td>)) }
-            </tr>)) }
+          { data
+            .filter(({ name }) => name.toLowerCase()
+              .includes(filterByName.name.toLowerCase()))
+            .map((planet) => (
+              <tr key={ planet.name }>
+                { Object.entries(planet)
+                  .filter(([key]) => key !== 'residents')
+                  .map(([, value]) => (<td key={ value }>{ value }</td>)) }
+              </tr>)) }
         </tbody>
       </table>)
   );

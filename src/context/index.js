@@ -8,6 +8,7 @@ export const Context = createContext();
 const ContextProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filterName, setFilterName] = useState('');
 
   useEffect(() => {
     async function effect() {
@@ -19,7 +20,18 @@ const ContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <Context.Provider value={ { data, isLoading } }>
+    <Context.Provider
+      value={ {
+        data,
+        isLoading,
+        filters: {
+          filterByName: {
+            name: filterName,
+            setFilter: setFilterName,
+          },
+        },
+      } }
+    >
       { children }
     </Context.Provider>
   );
