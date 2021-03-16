@@ -15,34 +15,79 @@ body {
 }
 
 header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: flex-end;
   text-align: center;
   height: 70px;
   background-color: var(--primary-color);
+  position: relative;
 }
 
-.title {
-  padding-top: 0.8rem;
+.icons-container {
+  margin-left: 5rem;
+}
+
+.title-container {
+  margin-left: 37rem;
+}
+
+.bb8 {
+  position: absolute;
+  right: 3.5vw;
+  top: 1vh;
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secundary-color);
+  height: 5rem;
+  border-radius: 2rem;
+  width: 50vw;
+  margin: 30px auto 0px auto;
 }
 
 .table-container {
   text-align: center;
 }
 table {
-  margin: 20px auto 0px;
-  background-color: var(--primary-color);
+  margin: 30px auto 0px;
   width: 90vw;
   border-radius: 1rem;
+  border-collapse: collapse;
 }
 
-.container-planet {
-  border: 2px solid black;
+tr {
+  background-color: var(--primary-color);
 }
+
+
+thead tr {
+  border-bottom: 30px solid var(--tertiary-color);
+}
+
+tbody tr {
+  border-bottom: 10px solid var(--tertiary-color);
+}
+
 th {
   padding: 3rem 1rem;
+  border-radius: 3px;
+  font-size: 21px;
+  letter-spacing: 1px;
 }
+
 td {
   padding: 0.7rem 1rem;
   text-align: center;
+  max-width: 150px;
+  overflow: auto;
+  font-size: 18px;
+  letter-spacing: 1px;
 }
 
 

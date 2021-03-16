@@ -5,7 +5,8 @@ const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
 export default function Table() {
   const {
-    data,
+    filteredData,
+    setFilteredData,
     isFetching,
     setData,
     setIsFetching,
@@ -13,24 +14,22 @@ export default function Table() {
 
   useEffect(() => {
     const getData = async () => {
+      await setIsFetching(true);
       const content = await fetch(URL).then((res) => res.json()
         .then((obj) => obj)
         .catch((err) => err));
-      await setData(content);
-      setIsFetching(false);
+      await setData(content.results);
+      await setFilteredData(content.results);
+      await setIsFetching(false);
     };
     getData();
   }, []);
-
-  const { results } = data.results ? data : [];
-
-  // teste
 
   return (
     <div className="table-container">
       {isFetching ? <span>Loading</span> : null}
       <table>
-        <thead>
+        <thead className="thead">
           <tr>
             <th>name</th>
             <th>Rotation Period</th>
@@ -48,8 +47,8 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {isFetching ? null : data && results.map((item, index) => (
-            <tr className="container-planet" key={ index }>
+          {isFetching ? null : filteredData && filteredData.map((item, index) => (
+            <tr key={ index }>
               <td>{item.name}</td>
               <td>{item.rotation_period}</td>
               <td>{item.orbital_period}</td>
