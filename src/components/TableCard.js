@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 function TableCard({ result }) {
   return (
-    <div>
       <tbody>
         <tr>
           <td>{result.name}</td>
@@ -21,7 +20,6 @@ function TableCard({ result }) {
           <td>{result.url}</td>
         </tr>
       </tbody>
-    </div>
   );
 }
 
