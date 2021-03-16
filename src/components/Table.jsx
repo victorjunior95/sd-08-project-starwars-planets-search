@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/Context';
+import { orderByValue, orderByTextOrNumber } from '../helpers';
 
 export default function Table() {
   const { planetList, filterByName,
@@ -25,33 +26,15 @@ export default function Table() {
           .filter((planet) => {
             const { column, comparison, value } = filterNumericColumns;
             if (column && comparison && value) {
-              if (comparison === 'igual a') {
-                return Number(planet[column]) === Number(value);
-              }
-              if (comparison === 'maior que') {
-                return Number(planet[column]) > Number(value);
-              }
-              if (comparison === 'menor que') {
-                return Number(planet[column]) < Number(value);
-              }
+              const order = orderByValue(comparison, planet[column], value);
+              return order;
             }
             return planet;
           })
           .sort((a, b) => {
             const { orderColumn, orderType } = orderColumnBy;
-            if (orderColumn !== null && orderType === 'Crescente') {
-              if (a[orderColumn] - b[orderColumn]) {
-                return Number(a[orderColumn]) - Number(b[orderColumn]);
-              }
-              return a[orderColumn].localeCompare(b[orderColumn]);
-            }
-            if (orderColumn !== null && orderType === 'Decrescente') {
-              if (a[orderColumn] - b[orderColumn]) {
-                return Number(b[orderColumn]) - Number(a[orderColumn]);
-              }
-              return b[orderColumn].localeCompare(a[orderColumn]);
-            }
-            return 1;
+            const sortValue = orderByTextOrNumber(a, b, orderColumn, orderType);
+            return sortValue;
           })
           .map((planet) => (
             <tr key={ planet.name }>
