@@ -2,6 +2,12 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../contextAPI/PlanetsContext';
 import './Table.css';
 
+function mapHeader(planets) {
+  const tableHeaderInfo = Object.keys(planets[0])
+    .filter((e) => ( e !== 'residents' && e));
+  return tableHeaderInfo.map((title) => <th key={ `ReactKeyTh${title}` }>{title}</th>);
+}
+
 function mapData(planetsParam) {
   return planetsParam.map((planet) => (
     <tr key={ `ReactKeyTr${planet.name}` }>
@@ -16,22 +22,17 @@ function mapData(planetsParam) {
 }
 
 export default function Table() {
-  const { filteredPlanets } = useContext(PlanetsContext);
-  const tableHeaderInfo = Object.keys(filteredPlanets[0]).filter((e) => (
-    e !== 'residents' && e
-  ));
+  const { planets } = useContext(PlanetsContext);
 
   return (
     <table>
       <thead>
         <tr>
-          {
-            tableHeaderInfo.map((title) => <th key={ `ReactKeyTh${title}` }>{title}</th>)
-          }
+          {mapHeader(planets.results)}
         </tr>
       </thead>
       <tbody>
-        {mapData(filteredPlanets)}
+        {mapData(planets.results)}
       </tbody>
     </table>
   );

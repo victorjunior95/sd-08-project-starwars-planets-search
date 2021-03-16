@@ -1,70 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
+import { asyncSetter, fetchPlanets } from '../services/asyncFunctions';
 
-async function fetchPlanets(setter) {
-  const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-  const response = await fetch(url);
-  const newPlanets = await response.json();
-  setter(newPlanets);
+function filter(arrToFilter, key, comparator, value) {
+  const replaceComma = value.replace(',', '.');
+  const numberValue = parseFloat(replaceComma);
+  return arrToFilter.filter((element) => {
+    const replaceCommaElement = element[key].replace(',', '.');
+    const numberValueElement = parseFloat(replaceCommaElement);
+    switch (comparator) {
+    case 'greater':
+      return numberValueElement > numberValue;
+    case 'smaller':
+      return numberValueElement < numberValue;
+    case 'equal':
+      return numberValueElement === numberValue;
+    default:
+      return false;
+    }
+  });
 }
-
-function planetFilter(planets, filtersState) {
-  const { filters: { filterByName: { name } } } = filtersState;
-  const filteredPlanets = planets.filter((planet) => planet.name.includes(name));
-  return filteredPlanets;
-}
-
-const initializeStateOfFilters = {
-  filters: {
-    filterByName: {
-      name: '',
-    },
-    filterByNumericValues: [],
-  },
-  filterList: [
-    {
-      name: 'Population',
-      id: 'population',
-    },
-    {
-      name: 'Orbital Period',
-      id: 'orbitalPeriod',
-    },
-    {
-      name: 'Rotation Period',
-      id: 'rotationPeriod',
-    },
-    {
-      name: 'Surface Water',
-      id: 'surfaceWater',
-    },
-    {
-      name: 'diameter',
-      id: 'diameter',
-    },
-  ],
-};
 
 export default function PlanetsProvider({ children }) {
-  const [planetsObject, setPlanets] = useState({
-    results: [{ name: 'nothing', residents: 'noresidents' }],
-  });
-  const [filtersState, setFilter] = useState(initializeStateOfFilters);
+  const [planets, setPlanets] = useState();
+  const [loadingPlanets, setloadingPlanets] = useState(true);
+  const [filteredPlanets, setFilteredPlanets] = useState();
 
-  const { results: planets } = planetsObject;
+  if (!loadingPlanets) { filter(planets.results, 'diameter', 'equal', '10465'); }
 
   useEffect(() => {
-    fetchPlanets(setPlanets);
+    asyncSetter(fetchPlanets, setPlanets, setloadingPlanets);
   }, []);
-
-  const filteredPlanets = planetFilter(planets, filtersState);
 
   const ProviderObject = {
     planets,
-    filteredPlanets,
-    filtersState,
-    setFilter,
+    loadingPlanets,
   };
   return (
     <PlanetsContext.Provider value={ ProviderObject }>
