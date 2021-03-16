@@ -4,7 +4,7 @@ import './Table.css';
 
 function mapHeader(planets) {
   const tableHeaderInfo = Object.keys(planets[0])
-    .filter((e) => ( e !== 'residents' && e));
+    .filter((e) => (e !== 'residents' && e));
   return tableHeaderInfo.map((title) => <th key={ `ReactKeyTh${title}` }>{title}</th>);
 }
 

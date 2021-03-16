@@ -1,15 +1,35 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../contextAPI/PlanetsContext';
+import { INITIAL_COMPARATORS } from '../services/INITIAL';
+import { setNumericFilter } from '../services/filterFunctions';
 import './Header.css';
 
+function renderOptionsWithObj(paramObj) {
+  const toRender = Object.entries(paramObj);
+  return toRender.map(([id, name]) => (
+    <option key={ `reactKeyColumn${id}` } value={ id }>{name}</option>
+  ));
+}
+
 export default function Header() {
+  const {
+    columnFilter, headerForm, setHeaderForm, filters, setFilters,
+  } = useContext(PlanetsContext);
+  console.log(filters.filterByNumericValues);
   return (
     <header>
-      <label htmlFor="inputName">
+      <label htmlFor="nameFilter">
         <input
           data-testid="name-filter"
-          name="inputName"
+          name="nameFilter"
           type="text"
+          value={ headerForm.nameFilter }
+          onChange={ ({ target: { value } }) => {
+            setHeaderForm({
+              ...headerForm,
+              nameFilter: value,
+            });
+          } }
         />
       </label>
 
@@ -17,8 +37,13 @@ export default function Header() {
         <select
           data-testid="column-filter"
           name="columnFilter"
+          value={ headerForm.columnFilter }
+          onChange={ ({ target: { value } }) => setHeaderForm({
+            ...headerForm,
+            columnFilter: value,
+          }) }
         >
-          <option>dummie</option>
+          { renderOptionsWithObj(columnFilter) }
         </select>
       </label>
 
@@ -28,10 +53,13 @@ export default function Header() {
       >
         <select
           name="comparisonFilter"
+          value={ headerForm.comparisonFilter }
+          onChange={ ({ target: { value } }) => setHeaderForm({
+            ...headerForm,
+            comparisonFilter: value,
+          }) }
         >
-          <option value="greaterFilter">Maior que</option>
-          <option value="smallerFilter">Menor que</option>
-          <option value="equalFilter">Igual a</option>
+          {renderOptionsWithObj(INITIAL_COMPARATORS)}
         </select>
       </label>
 
@@ -41,12 +69,18 @@ export default function Header() {
           type="number"
           name="valueFilter"
           id="valueFilter"
+          value={ headerForm.valueFilter }
+          onChange={ ({ target: { value } }) => setHeaderForm({
+            ...headerForm,
+            valueFilter: value,
+          }) }
         />
       </label>
 
       <button
         data-testid="button-filter"
         type="button"
+        onClick={ () => setNumericFilter(filters, setFilters, headerForm) }
       >
         Filtrar
       </button>
@@ -54,15 +88,13 @@ export default function Header() {
       <label htmlFor="selectOrder">
         <span>Ordenar</span>
         <select name="selectOrder">
-          <option value="populationOrder">Population</option>
-          <option value="orbitalOrder">Orbital Period</option>
-          <option value="rotationOrder">Rotation Period</option>
+          { renderOptionsWithObj(columnFilter) }
         </select>
       </label>
 
       <label htmlFor="ascendent">
         <span>Ascendente</span>
-        <input type="radio" name="ascendent" />
+        <input type="radio" name="Ascendent" />
       </label>
       <label htmlFor="Descendent">
         <span>Descendente</span>

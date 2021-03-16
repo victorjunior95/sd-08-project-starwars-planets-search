@@ -2,15 +2,22 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 import { asyncSetter, fetchPlanets } from '../services/asyncFunctions';
+import {
+  INITIAL_COLUMN, INITIAL_HEADER_FORM, INITIAL_FILTERS,
+} from '../services/INITIAL';
 
 function filter(arrToFilter) {
-  console.log(arrToFilter);
+  console.log('filter(f)): ', arrToFilter);
 }
 
 export default function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState();
   const [loadingPlanets, setloadingPlanets] = useState(true);
-  const [filteredPlanets, setFilteredPlanets] = useState();
+  // const [filteredPlanets, setFilteredPlanets] = useState();
+  const [columnFilter, setColumnFilter] = useState(INITIAL_COLUMN);
+  const [filtersApplied, setFiltersApplied] = useState({});
+  const [headerForm, setHeaderForm] = useState(INITIAL_HEADER_FORM);
+  const [filters, setFilters] = useState(INITIAL_FILTERS);
 
   if (!loadingPlanets) { filter(planets.results); }
 
@@ -21,6 +28,14 @@ export default function PlanetsProvider({ children }) {
   const ProviderObject = {
     planets,
     loadingPlanets,
+    columnFilter,
+    setColumnFilter,
+    filtersApplied,
+    setFiltersApplied,
+    headerForm,
+    setHeaderForm,
+    filters,
+    setFilters,
   };
   return (
     <PlanetsContext.Provider value={ ProviderObject }>
