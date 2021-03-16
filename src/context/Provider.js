@@ -18,17 +18,17 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
-    let filterPlanets = planets;
-    filterPlanets = planets.filter((planet) => planet.name.includes((searchName)));
+    let filterPlanets = allPlanets;
+    filterPlanets = allPlanets.filter((planet) => planet.name.includes((searchName)));
     setFilterPlanet(filterPlanets);
-  }, [planets, searchName]);
+  }, [allPlanets, searchName]);
 
   const filterName = (e) => {
     setSearchName(e.target.value);
   };
 
   const data = {
-    planets,
+    allPlanets,
     searchName,
     filterPlanet,
     setPlanets,
