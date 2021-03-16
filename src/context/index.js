@@ -4,6 +4,7 @@ import PlanetsContext from './MyContext';
 
 const PlanetsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
+  const [searchName, setSearchName] = useState(' ');
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -14,8 +15,15 @@ const PlanetsProvider = ({ children }) => {
     fetchPlanets();
   }, []);
 
-  const context = { planets };
+  const filterByName = (e) => {
+    setSearchName(e.target.value);
+    let filterPlanets = planets;
+    filterPlanets = planets.filter((planet) => planet.name.includes((e.target.value)));
+    setPlanets(filterPlanets);
+    return filterPlanets;
+  };
 
+  const context = { planets, filterByName, searchName };
   return (
     <PlanetsContext.Provider value={ context }>
       {
