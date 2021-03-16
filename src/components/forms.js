@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PlanetsStarWarsContext from '../context/PlanetsStarWarsContext';
 
 function Forms() {
-  const { handleChange, clickButton } = useContext(PlanetsStarWarsContext);
+  const { handleChange, clickButton, column } = useContext(PlanetsStarWarsContext);
 
   return (
     <form>
@@ -20,12 +20,7 @@ function Forms() {
         name="column"
         onChange={ (event) => handleChange(event) }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        {column.map((option, index) => <option key={ index }>{option}</option>)}
       </select>
       <select
         data-testid="comparison-filter"

@@ -4,7 +4,8 @@ import Forms from '../components/forms';
 import PlanetsStarWarsContext from '../context/PlanetsStarWarsContext';
 
 function Home() {
-  const { fetchAPI, planetsStarWars } = useContext(PlanetsStarWarsContext);
+  const { fetchAPI, planetsStarWars,
+    filters, filterDeleteButton } = useContext(PlanetsStarWarsContext);
 
   useEffect(() => {
     fetchAPI();
@@ -13,6 +14,14 @@ function Home() {
   return (
     <>
       <Forms />
+      { !filters.filterByNumericValues.length ? <span>{}</span>
+        : filters.filterByNumericValues
+          .map((filter, index) => (
+            <div key={ index } data-testid="filter">
+              <p>{`${filter.column} ${filter.comparison} ${filter.value}`}</p>
+              <button type="button" onClick={ () => filterDeleteButton(index) }>x</button>
+            </div>
+          )) }
       <table>
         <thead>
           <tr>
