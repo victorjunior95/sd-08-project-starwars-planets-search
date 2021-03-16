@@ -31,13 +31,12 @@ function hasInArray(filterByNumericValues, columnFilter) {
 }
 
 /* function filterListOptions() {
-  
 } */
 
 function buttonFilterHandle(filtersState, setFilter, columnFilter) {
   const { filterList, filters: { filterByNumericValues } } = filtersState;
   const altFiltered = hasInArray(filterByNumericValues, columnFilter);
-  console.log(altFiltered);
+  console.log(filterList);
   const responseObj = {
     ...filtersState,
     filters: {
