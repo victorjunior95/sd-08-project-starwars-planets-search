@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 import Header from '../components/Header';
 import TableCard from '../components/TableCard';
@@ -12,15 +12,16 @@ function Table() {
       filterByName: { name },
     },
   } = useContext(StarWarsContext);
+
   const filteredData = data.filter((value) => value.name.includes(name));
-  console.log(filteredData, name);
+
   return data.length > 0 && !isFetching ? (
     <div>
       <SearchNameBar />
       <Header />
       <table>
         {filteredData.map((result, index) => (
-          <TableCard key={index} result={result} />
+          <TableCard key={ index } result={ result } />
         ))}
       </table>
     </div>

@@ -2,12 +2,8 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function SearchNameBar() {
-  const { searchName, setSearchName, setName, filteredData } = useContext(StarWarsContext);
-  const handleChange = ({ target }) => {
-    setSearchName(target.value);
-  };
+  const { setName, filteredData } = useContext(StarWarsContext);
 
-  // setName(searchName);
   console.log(filteredData);
   return (
     <div>
@@ -17,7 +13,7 @@ function SearchNameBar() {
           data-testid="text-input"
           type="text"
           name="searchName"
-          onChange={(e)=> setName(e.target.value)}
+          onChange={ (e) => setName(e.target.value) }
         />
       </label>
     </div>

@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import StarWarsContext from "./StarWarsContext";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import StarWarsContext from './StarWarsContext';
 
 function StarWarsProvider({ children }) {
-  // const filterDefault = {filters: { filterByName: { name: ''}}}
-
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState([]);
-  const [searchName, setSearchName] = useState("");
+  const [searchName, setSearchName] = useState('');
   const [filters, setFilteredData] = useState({
-      filterByName: {
-        name: "",
-      },
+    filterByName: {
+      name: '',
+    },
   });
 
   const setName = (name) => {
     setFilteredData((previousState) => ({
       ...previousState,
-        filterByName: {
-          name,
-        },
+      filterByName: {
+        name,
+      },
     }));
   };
 
@@ -27,11 +25,10 @@ function StarWarsProvider({ children }) {
     async function returnedAPI() {
       setIsFetching(true);
       const planetResponse = await fetch(
-        "https://swapi-trybe.herokuapp.com/api/planets/"
+        'https://swapi-trybe.herokuapp.com/api/planets/',
       );
       const planetResponseJson = await planetResponse.json();
       setData(planetResponseJson.results);
-      // return planetResponseJson;
     }
     returnedAPI();
     setIsFetching(false);
@@ -48,7 +45,7 @@ function StarWarsProvider({ children }) {
   };
 
   return (
-    <StarWarsContext.Provider value={contextValue}>
+    <StarWarsContext.Provider value={ contextValue }>
       {children}
     </StarWarsContext.Provider>
   );
