@@ -9,7 +9,6 @@ const StarWarsProvider = ({ children }) => {
   // useState -> criar 'states'
   const [allData, setAllData] = useState([]);
   const [data, setData] = useState([]);
-  // const [column, setColumn] = useState([]);
   const [titles, setTitles] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
@@ -22,16 +21,14 @@ const StarWarsProvider = ({ children }) => {
         value: '',
       },
     ],
-    // filterByColumns: [
-    //   {
-    //     population: 'population',
-    //     orbital_period: 'orbital_period',
-    //     diameter: 'diameter',
-    //     rotation_period: 'rotation_period',
-    //     surface_water: 'surface_water',
-    //   },
-    // ],
   });
+  const [newColumn, setNewColumn] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
   const planetsAPI = async () => {
@@ -74,20 +71,6 @@ const StarWarsProvider = ({ children }) => {
     });
   };
 
-  // const {
-  //   population,
-  // orbital_period,
-  // diameter,
-  // rotation_period,
-  // surface_wate,
-  // } = filters.filterByColumns;
-  // useEffect -> aqui, similar ao 'componentDidUpdate'
-  // useEffect(() => {
-  //   const filterData = allData.filter((array) => array.population.includes(population));
-
-  //   setColumn(filterData);
-  // }, [allData, population]);
-
   const filterComparison = (value) => {
     setFilters({
       ...filters,
@@ -108,6 +91,9 @@ const StarWarsProvider = ({ children }) => {
     });
   };
 
+  // Auxílio dos meus queridos amigos:
+  // Adriano (https://github.com/adrianoforcellini)
+  // Arnaelcio (https://github.com/Arnaelcio)
   const { column, comparison, value } = filters.filterByNumericValues;
   const buttonFilter = () => {
     const filterNumData = allData.filter((item) => {
@@ -122,30 +108,16 @@ const StarWarsProvider = ({ children }) => {
       }
       return null;
     });
-    // setColumn(column);
     setData(filterNumData);
+    const filterNewColumn = newColumn.filter((select) => select !== column);
+    setNewColumn(filterNewColumn);
   };
-
-  // const { column, comparison, value } = filters.filterByNumericValues;
-  // useEffect(() => {
-  //   const filterNumData = allData.filter((item) => {
-  //     switch (column) {
-  //     case (comparison === 'maior que'):
-  //       return item[column] * 1 > value;
-  //     case (comparison === 'menor que'):
-  //       return item[column] * 1 < value;
-  //     case (comparison === 'igual a'):
-  //       return item[column] === value;
-  //     default:
-  //       return null;
-  //     }
-  //   });
-  //   setData(filterNumData);
-  // }, [allData, column, comparison, value]);
+  // ----------------------------------------------------------------------
 
   const context = {
     data,
     titles,
+    newColumn,
     filterName,
     filterColumn,
     filterComparison,

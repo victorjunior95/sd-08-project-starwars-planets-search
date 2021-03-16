@@ -8,11 +8,8 @@ function SearchHeader() {
     filterComparison,
     filterValue,
     buttonFilter,
+    newColumn,
   } = useContext(StarWarsContext);
-
-  const columnName = [
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-  ];
 
   const comparisonName = ['maior que', 'menor que', 'igual a'];
 
@@ -27,7 +24,7 @@ function SearchHeader() {
         onChange={ (event) => filterColumn(event.target.value) }
         data-testid="column-filter"
       >
-        { columnName.map(
+        { newColumn.map(
           (
             column,
           ) => <option key={ column } value={ column }>{ column }</option>,
