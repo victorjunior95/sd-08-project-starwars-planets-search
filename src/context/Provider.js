@@ -3,8 +3,19 @@ import PropTypes from 'prop-types';
 import planetsContext from './planetsContext';
 
 const Provider = ({ children }) => {
-  const [planets, setPlanets] = useState([]);
+  const [planets, setPlanets] = useState([
+    { films: [],
+      diameter: 0,
+      orbital_period: 0,
+      population: 0,
+      residents: [],
+      rotation_period: 0,
+      surface_water: 0,
+    }]);
   const [name, setName] = useState('');
+  const [filters, setFilters] = useState([]);
+  const [columnOptions, setColumnOptions] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
 
   useEffect(() => {
     const getData = async () => {
@@ -19,21 +30,49 @@ const Provider = ({ children }) => {
     setName(target.value);
   };
 
-  const filters = {
+  const allFilters = {
     filters: {
       filterByName: {
         name,
       },
+      filterByNumericValues: filters,
     },
   };
 
-  const data = {
-    ...filters,
-    planets,
-    handleChangeName,
+  const filteringValue = (filter) => {
+    const newFiltered = planets.filter((planet) => {
+      const targetInfo = Number(planet[filter.column]);
+      const valueToCompare = Number(filter.value);
+      if (filter.comparison === 'menor que') {
+        return targetInfo < valueToCompare;
+      }
+      if (filter.comparison === 'maior que') {
+        return targetInfo > valueToCompare;
+      }
+      return targetInfo === valueToCompare;
+    });
+    return setPlanets(newFiltered);
   };
 
-  console.log(filters);
+  const newFilter = (filter) => {
+    setFilters([...filters, filter]);
+    filteringValue(filter);
+    const newOptions = [...columnOptions];
+    const optionToBeRemoved = filter.column;
+    const indexOfOption = newOptions.indexOf(optionToBeRemoved);
+    newOptions.splice(indexOfOption, 1);
+    setColumnOptions(newOptions);
+  };
+
+  const data = {
+    ...allFilters,
+    planets,
+    handleChangeName,
+    newFilter,
+    columnOptions,
+  };
+
+  console.log(allFilters.filters.filterByNumericValues);
 
   return (
     <planetsContext.Provider value={ data }>

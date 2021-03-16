@@ -3,7 +3,7 @@ import planetsContext from '../context/planetsContext';
 
 const Table = () => {
   const { planets, filters: { filterByName: { name } } } = useContext(planetsContext);
-
+  // criar o filtro aqui
   return (
     <div>
       <table>
@@ -37,8 +37,8 @@ const Table = () => {
                 <td>{planet.rotation_period}</td>
                 <td>{planet.surface_water}</td>
                 <td>{planet.terrain}</td>
-                <td>{planet.films}</td>
-                <td>{planet.residents}</td>
+                <td>{planet.films.length}</td>
+                <td>{planet.residents.length}</td>
                 <td>{planet.created}</td>
                 <td>{planet.edited}</td>
               </tr>
