@@ -4,7 +4,7 @@ import PlanetRow from './PlanetRow';
 import './styles.css';
 
 const PlanetsTable = () => {
-  const { planets } = useContext(PlanetsContext);
+  const { filteredPlanets } = useContext(PlanetsContext);
 
   return (
     <table>
@@ -26,7 +26,7 @@ const PlanetsTable = () => {
         </tr>
       </thead>
       <tbody>
-        {planets.map(
+        {filteredPlanets.map(
           (planet) => <PlanetRow key={ planet.name } planetInfos={ planet } />,
         )}
       </tbody>
