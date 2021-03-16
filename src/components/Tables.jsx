@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import StarwarsContext from '../context/StarwarsContext';
 
 import tableHeaders from '../common/tableHeaders';
 
 export default function Tables() {
-  const [tables, setTables] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const endpoint = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-      const data = await endpoint.json();
-      setTables(data.results);
-      console.log(data.results);
-    };
-    fetchData();
-  }, []);
-
+  const { tables } = useContext(StarwarsContext);
   return (
     <table>
       <thead>
