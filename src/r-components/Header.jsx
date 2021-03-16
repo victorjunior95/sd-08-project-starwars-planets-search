@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../contextAPI/PlanetsContext';
 import { INITIAL_COMPARATORS } from '../services/INITIAL';
-import { setNumericFilter, removeFromNumericFilter } from '../services/filterFunctions';
+import { setNumericFilter, removeFromNumericFilter, removeFilterOption,
+} from '../services/filterFunctions';
 import './Header.css';
 
 function renderOptionsWithObj(paramObj) {
@@ -26,13 +27,9 @@ function renderListFilters(filters, setFilters) {
   ));
 }
 
-function removeFilterOption({ filterByNumericValues }, getter, setter) {
-  console.log(filterByNumericValues);
-}
-
 export default function Header() {
   const {
-    columnFilter, setColumnFilter, headerForm, setHeaderForm, filters, setFilters,
+    columnFilter, headerForm, setHeaderForm, filters, setFilters,
   } = useContext(PlanetsContext);
   return (
     <header>
@@ -64,7 +61,7 @@ export default function Header() {
             columnFilter: value,
           }) }
         >
-          { renderOptionsWithObj(columnFilter) }
+          { renderOptionsWithObj(removeFilterOption(filters, columnFilter)) }
         </select>
       </label>
 
@@ -103,7 +100,6 @@ export default function Header() {
         type="button"
         onClick={ () => {
           setNumericFilter(filters, setFilters, headerForm);
-          removeFilterOption(filters, columnFilter, setColumnFilter);
         } }
       >
         Filtrar

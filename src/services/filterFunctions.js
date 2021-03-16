@@ -62,6 +62,15 @@ export function removeFromNumericFilter(getter, setter, name) {
   });
 }
 
+export function removeFilterOption({ filterByNumericValues }, getter) {
+  const persistentFilters = { ...getter };
+  console.log(persistentFilters);
+  filterByNumericValues.forEach((e) => {
+    delete persistentFilters[e.column];
+  });
+  return persistentFilters;
+}
+
 export function filterJunction(arrToFilter, { filterByName, filterByNumericValues }) {
   const { name } = filterByName;
   const filteredName = filterArrayObjByString(arrToFilter, 'name', name);
