@@ -1,17 +1,41 @@
-import React, { useEffect } from 'react';
-import planetsAPI from '../services/planetsAPI';
+import React, { useContext } from 'react';
+import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  useEffect(() => {
-    const fetchPlanets = async () => {
-      const response = await planetsAPI();
-      console.log(response);
-    };
-    fetchPlanets();
-  });
+  const { data, isLoading } = useContext(PlanetsContext);
+  const headers = [
+    'Name', 'Rotation Period', 'Orbital Period', 'Diameter', 'Climate',
+    'Gravity', 'Terrain', 'Surface Water', 'Population', 'Films',
+    'Created', 'Edited', 'Url'];
+
+  if (isLoading) return <span>Loading...</span>;
 
   return (
-    <h2>Tabela de planetas!</h2>
+    <table>
+      <thead>
+        <tr>
+          {headers.map((header, index) => <th key={ index }>{header}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((planet) => (
+          <tr key={ planet.name }>
+            <td>{planet.name}</td>
+            <td>{planet.rotation_period}</td>
+            <td>{planet.orbital_period}</td>
+            <td>{planet.diameter}</td>
+            <td>{planet.cliamte}</td>
+            <td>{planet.gravity}</td>
+            <td>{planet.terrain}</td>
+            <td>{planet.surface_water}</td>
+            <td>{planet.population}</td>
+            <td>{planet.films}</td>
+            <td>{planet.created}</td>
+            <td>{planet.edited}</td>
+            <td>{planet.url}</td>
+          </tr>))}
+      </tbody>
+    </table>
   );
 }
 
