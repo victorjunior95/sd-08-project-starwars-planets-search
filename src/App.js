@@ -1,9 +1,16 @@
 import React from 'react';
 import './App.css';
+import Provider from './context/Provider';
+import TablePage from './pages/TablePage';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+
+  // 4º
+    <Provider>
+      {/* 7º */}
+      <TablePage />
+    </Provider>
   );
 }
 
