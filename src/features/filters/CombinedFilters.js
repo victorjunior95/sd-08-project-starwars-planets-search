@@ -11,14 +11,16 @@ function CombinedFilters() {
     updateNewFilter,
   } = filters;
 
+  const forbidden = filterByNumericValues.map((filter) => filter.column);
+  const filterableColumns = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ];
+
   return (
     <form>
       <SelectFilter selector="column">
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {filterableColumns.filter((column) => !forbidden.includes(column))
+          .map((column) => <option key={ column } value={ column }>{column}</option>)}
       </SelectFilter>
       <SelectFilter selector="comparison">
         <option value="maior que">maior que</option>

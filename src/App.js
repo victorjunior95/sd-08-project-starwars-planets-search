@@ -3,13 +3,13 @@ import './App.css';
 import Provider from './context/Provider';
 import Table from './features/Table';
 import SearchBar from './features/SearchBar';
-import CombinedFilters from './features/filters/CombinedFilters';
+import FilterBlock from './features/FilterBlock';
 
 function App() {
   return (
     <Provider>
       <SearchBar />
-      <CombinedFilters />
+      <FilterBlock />
       <Table />
     </Provider>
   );
