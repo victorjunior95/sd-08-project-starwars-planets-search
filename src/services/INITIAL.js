@@ -18,7 +18,7 @@ export const INITIAL_HEADER_FORM = {
   nameFilter: '',
   columnFilter: 'rotation_period',
   comparisonFilter: 'greater',
-  valueFilter: '',
+  valueFilter: '0',
 };
 
 export const INITIAL_FILTERS = {

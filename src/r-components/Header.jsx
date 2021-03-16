@@ -37,11 +37,14 @@ export default function Header() {
           data-testid="name-filter"
           name="nameFilter"
           type="text"
-          value={ headerForm.nameFilter }
+          value={ filters.filterByName.name }
           onChange={ ({ target: { value } }) => {
-            setHeaderForm({
-              ...headerForm,
-              nameFilter: value,
+            setFilters({
+              ...filters,
+              filterByName: {
+                ...filters.filterByName,
+                name: value,
+              },
             });
           } }
         />

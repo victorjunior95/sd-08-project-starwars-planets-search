@@ -7,7 +7,8 @@ export function removeKeysArrayObj(arrayObjToRemove, key) {
 }
 
 export function filterArrayObjByString(arrToFilter, key, expression) {
-  arrToFilter.filter((e) => e[key].includes(expression));
+  const expressionLower = expression.toLowerCase();
+  return arrToFilter.filter((e) => e[key].includes(expressionLower));
 }
 
 export function filterArrayObjByNumber(arrToFilter, key, comparator, value) {
