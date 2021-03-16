@@ -5,7 +5,7 @@ function SearchBar() {
   const { filterByName, setFilterName } = useContext(ContextApi);
   return (
     <label htmlFor="search">
-      Filtrar:
+      Buscar por nome:
       <input
         type="text"
         name="search"

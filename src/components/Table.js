@@ -1,9 +1,8 @@
-// 5º crio a tabela que vai ser renderizada na tela
 import React, { useContext } from 'react';
-import ContextApi from '../context/Context'; // importo o context para poder usar os dados
+import ContextApi from '../context/Context';
 
 function Table() {
-  const { dataApi, filterName } = useContext(ContextApi); // desestruturo o context pegando o dataApi que é meu estado
+  const { dataApi, filterName } = useContext(ContextApi);
 
   return (
     <div>

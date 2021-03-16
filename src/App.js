@@ -3,14 +3,13 @@ import './App.css';
 import Provider from './context/Provider';
 import TablePage from './pages/TablePage';
 import SearchBar from './components/SearchBar';
+import CustomFilters from './components/CustomFilters';
 
 function App() {
   return (
-
-  // 4º importo o provider e passo ele fora de todos os componentes
     <Provider>
-      {/* 7º importo o componente para renderizar na tela */}
       <SearchBar />
+      <CustomFilters />
       <TablePage />
     </Provider>
   );
