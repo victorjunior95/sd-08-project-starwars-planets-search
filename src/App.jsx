@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
+import Tables from './components/Tables';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <Tables />
   );
 }
 
