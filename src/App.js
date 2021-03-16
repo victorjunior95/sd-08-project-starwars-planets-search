@@ -1,8 +1,8 @@
 import React from 'react';
-import TableOfPlanets from './pages/TableOfPlanets';
+import Table from './pages/Table';
 
 function App() {
-  return <TableOfPlanets />;
+  return <Table />;
 }
 
 export default App;

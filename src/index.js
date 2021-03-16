@@ -7,5 +7,5 @@ ReactDOM.render(
   <StarWarsProvider>
     <App />
   </StarWarsProvider>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );

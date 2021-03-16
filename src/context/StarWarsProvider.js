@@ -1,40 +1,44 @@
-import React from "react";
-import StarWarsContext from "./StarWarsContext";
-import planetsApi from "../services/planetsApi";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import StarWarsContext from './StarWarsContext';
+import planetsApi from '../services/planetsApi';
 
-class StarWarsProvider extends React.Component {
-  constructor() {
-    super();
+function StarWarsProvider({children}) {
 
-    this.state = {
-      isFetching: false,
-      error: null,
-      arrayOfResults: [],
-    };
+  const [ isFetching, setIsFetching ] = useState(false);
+  const [ data, setData] = useState([]);
+  const [filteredData, setFilteredData]  = useState('');
 
-    this.fetchPlanetsApi = this.fetchPlanetsApi.bind(this);
+  const [searchName, setSearchName] = useState('');
+
+  const fetchPlanetsApi = async () => {
+    setIsFetching(true);
+    const getPlanetsFromAPI = await planetsApi();
+    setData(getPlanetsFromAPI.results);
+    setIsFetching(false)
   }
 
-  fetchPlanetsApi() {
-    this.setState({ isFetching: true }, async () => {
-      const { results } = await planetsApi();
-      this.setState({
-        arrayOfResults: results,
-        isFetching: false,
-      });
-    });
-  }
+  const contextValue = { 
+    isFetching,
+    data,
+    fetchPlanetsApi,
+    searchName,
+    setSearchName,
+    filteredData,
+    setFilteredData,
+  };
 
-  render() {
-    const { children } = this.props;
-    return (
+  return (
       <StarWarsContext.Provider
-        value={ { ...this.state, fetchPlanetsApi: this.fetchPlanetsApi } }
+        value={ contextValue }
       >
-        {children}
+        { children }
       </StarWarsContext.Provider>
     );
-  }
 }
+
+StarWarsProvider.propTypes = {
+  children: PropTypes.element.isRequired,
+};
 
 export default StarWarsProvider;
