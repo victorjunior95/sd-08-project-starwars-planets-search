@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import './stylePlanets.css';
 
 function PlanetTbody({ value }) {
@@ -25,5 +25,7 @@ function PlanetTbody({ value }) {
     </tbody>
   );
 }
-
+PlanetTbody.propTypes = {
+  value: PropTypes.arrayOf(PropTypes.value).isRequired,
+};
 export default PlanetTbody;
