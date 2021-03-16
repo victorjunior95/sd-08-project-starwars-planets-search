@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-// import tableContructor from '../../helpers/tableContructor';
-// import data from '../../mock/data.json';
 import getPlanetsApi from '../../services/getPlanetsAPI';
 
 import '../../styles/table-of-planets.css';
 
-export default function TableOfPlanets() {
-  const [state, setState] = useState([]);
+export default function TableOfPlanets(props) {
+  const { state, setState } = props;
 
   const getPlanetsApiAndSetState = async () => {
     const data = await getPlanetsApi();
-    setState(data);
+    setState({ ...state, results: data });
   };
 
   useEffect(() => {
@@ -35,7 +34,7 @@ export default function TableOfPlanets() {
         <th role="columnheader">Editado</th>
         <th role="columnheader">URL</th>
       </tr>
-      { state.map((planet) => (
+      { state.results.map((planet) => (
         <tr key={ planet.name }>
           <td>{ planet.name }</td>
           <td>{ planet.rotation_period }</td>
@@ -55,3 +54,8 @@ export default function TableOfPlanets() {
     </table>
   );
 }
+
+TableOfPlanets.propTypes = {
+  state: PropTypes.arrayOf.isRequired,
+  setState: PropTypes.func.isRequired,
+};
