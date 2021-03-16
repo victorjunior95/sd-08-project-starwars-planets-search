@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import getData from '../services';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-function Table() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    getData()
-      .then((response) => setData(response));
-  }, []);
+function Table({ data }) {
   return (
     <table>
       <thead>
@@ -51,5 +45,9 @@ function Table() {
     </table>
   );
 }
+
+Table.propTypes = {
+  data: PropTypes.arrayOf(Array).isRequired,
+};
 
 export default Table;
