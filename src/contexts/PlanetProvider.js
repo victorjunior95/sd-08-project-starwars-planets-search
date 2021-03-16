@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetContext from './PlanetContext';
-import { getPlanetsList } from '../services/PlanetsAPI';
 
 function PlanetProvider({ children }) {
-  const [planetsList, setPlanetsList] = useState({});
-
-  async function fetchPlanetsList() {
-    const planetsFromAPI = await getPlanetsList();
-    setPlanetsList(planetsFromAPI);
-  }
+  const [planetsList, setPlanetsList] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
   return (
-    <PlanetContext.Provider value={ { planetsList, fetchPlanetsList } }>
+    <PlanetContext.Provider
+      value={ {
+        planetsList,
+        setPlanetsList,
+        filters,
+        setFilters,
+      } }
+    >
       { children }
     </PlanetContext.Provider>
   );

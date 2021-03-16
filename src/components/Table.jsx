@@ -1,19 +1,27 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetContext from '../contexts/PlanetContext';
 
 function Table() {
-  const { fetchPlanetsList, planetsList } = useContext(PlanetContext);
+  const { planetsList, filters } = useContext(PlanetContext);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
-    fetchPlanetsList();
-  }, [fetchPlanetsList]);
+    const { filterByName: { name } } = filters;
+
+    if (name) {
+      const filteredByName = planetsList.filter((planet) => planet.name.includes(name));
+      setFilteredPlanets(filteredByName);
+    } else {
+      setFilteredPlanets(planetsList);
+    }
+  }, [planetsList, filters]);
 
   function getTableHeadInfo() {
     const planetKeys = Object.keys(planetsList[0]);
     return planetKeys.filter((key) => key !== 'residents');
   }
 
-  if (planetsList.length) {
+  if (filteredPlanets.length) {
     const headInfo = getTableHeadInfo();
     return (
       <table>
@@ -25,7 +33,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { planetsList.map((planet) => (
+          { filteredPlanets.map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
@@ -46,12 +54,8 @@ function Table() {
       </table>
     );
   }
-
   return (
-    <>
-      <span>table</span>
-      <span>Loading...</span>
-    </>
+    <span>Loading...</span>
   );
 }
 
