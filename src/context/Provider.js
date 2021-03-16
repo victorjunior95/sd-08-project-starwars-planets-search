@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Context from './index';
 
@@ -17,7 +17,24 @@ function Provider({ children }) {
     filter,
     setFilter,
     filteredData,
-    setFilteredData };
+    setFilteredData,
+  };
+
+  useEffect(() => {
+    const fetchPlanets = async () => {
+      const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+      const { results } = await fetch(endpoint).then((res) => res.json());
+      const formatData = results.reduce((planets, next) => {
+        delete next.residents;
+        return [...planets, next];
+      }, []);
+      setData(formatData);
+      setHeaders(Object.keys(formatData[0]));
+      setFilteredData(formatData);
+    };
+    fetchPlanets();
+  }, [setData, setHeaders, setFilteredData]);
+
   return (
     <Context.Provider value={ context }>
       { children }
