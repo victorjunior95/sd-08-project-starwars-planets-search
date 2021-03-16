@@ -7,7 +7,6 @@ const PlanetsTable = () => {
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
-  // const { column, comparison, value } = filters.filterByNumericValues;
 
   const renderTableBody = () => (
     <tbody>
