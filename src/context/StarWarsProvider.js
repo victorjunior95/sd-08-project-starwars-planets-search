@@ -9,6 +9,11 @@ function StarWarsProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: {
+      column: 'population',
+      comparison: 'maior que',
+      value: 0,
+    },
   });
 
   // Simula componentDidMount() das classes
@@ -21,9 +26,26 @@ function StarWarsProvider({ children }) {
 
   // Simula componentDidUpdate() das classes
   useEffect(() => {
-    // console.log('Atualizado');
-    const { filterByName: { name } } = filters;
-    const filter = data.filter((planet) => planet.name.includes(name));
+    const {
+      filterByName: { name },
+      filterByNumericValues: { column, comparison, value },
+    } = filters;
+
+    const filter = data.filter((planet) => {
+      const includesName = planet.name.includes(name);
+
+      switch (comparison) {
+      case ('maior que'):
+        return Number(planet[column]) > Number((value)) && includesName;
+      case ('menor que'):
+        return Number(planet[column]) < Number(value) && includesName;
+      case ('igual a'):
+        return Number(planet[column]) === Number(value) && includesName;
+      default:
+        return includesName;
+      }
+    });
+
     setPlanets(filter);
   }, [data, filters]);
 
