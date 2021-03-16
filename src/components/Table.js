@@ -5,7 +5,7 @@ import StarWarsPlanetsContext from '../context/StarWarsPlanetsContext';
 function Table() {
   const { filteredPlanets } = useContext(StarWarsPlanetsContext);
   return (
-    <table>
+    <table className="table is-narrow">
       <thead>
         <tr>
           <th>Name</th>

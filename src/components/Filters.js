@@ -51,110 +51,133 @@ function Filters() {
   }
 
   return (
-    <form>
-      <input
-        type="text"
-        data-testid="name-filter"
-        placeholder="Filtrar por nome"
-        value={ name }
-        onChange={ (e) => setFilters({ ...filters,
-          filterByName: { name: e.target.value },
-        }) }
-      />
-      <br />
-      <select
-        data-testid="column-filter"
-        value={ columnFilter }
-        onChange={ (e) => setColumnFilter(e.target.value) }
-      >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
-      </select>
-      <select
-        data-testid="comparison-filter"
-        value={ comparisonFilter }
-        onChange={ (e) => setComparisonFilter(e.target.value) }
-      >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
-      </select>
-      <input
-        type="number"
-        data-testid="value-filter"
-        placeholder="Número"
-        value={ numberForComparison }
-        onChange={ (e) => setNumberForComparison(e.target.value) }
-      />
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ addFilter }
-      >
-        Adicionar
-      </button>
-      <ul>
-        {filters.filterByNumericValues.map((filter, index) => (
-          <li key={ filter.column } data-testid="filter">
-            {`Filtro: ${filter.column} ${filter.comparison} ${filter.value}`}
-            <button
-              type="button"
-              onClick={ (e) => removeFilter(e, index) }
+    <form className="box">
+      <div className="container name-filter-container">
+        <input
+          type="text"
+          className="input"
+          data-testid="name-filter"
+          placeholder="Filtrar por nome"
+          value={ name }
+          onChange={ (e) => setFilters({ ...filters,
+            filterByName: { name: e.target.value },
+          }) }
+        />
+      </div>
+      <div className="level container numeric-filter-container">
+        <div className="select is-rounded">
+          <select
+            data-testid="column-filter"
+            value={ columnFilter }
+            onChange={ (e) => setColumnFilter(e.target.value) }
+          >
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </div>
+        <div className="select is-rounded">
+          <select
+            data-testid="comparison-filter"
+            value={ comparisonFilter }
+            onChange={ (e) => setComparisonFilter(e.target.value) }
+          >
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
+          </select>
+        </div>
+        <input
+          type="number"
+          className="input"
+          data-testid="value-filter"
+          placeholder="Número"
+          value={ numberForComparison }
+          onChange={ (e) => setNumberForComparison(e.target.value) }
+        />
+        <button
+          type="button"
+          className="button is-rounded is-info"
+          data-testid="button-filter"
+          onClick={ addFilter }
+        >
+          Adicionar
+        </button>
+      </div>
+      <div className="level container tabs is-centered">
+        <ul className="level">
+          {filters.filterByNumericValues.map((filter, index) => (
+            <li
+              key={ filter.column }
+              data-testid="filter"
             >
-              x
-            </button>
-          </li>
-        ))}
-      </ul>
-      <select
-        data-testid="column-sort"
-        value={ orderColumn }
-        onChange={ (e) => setOrderColumn(e.target.value) }
-      >
-        <option value="name">name</option>
-        <option value="population">population</option>
-        <option value="terrain">terrain</option>
-        <option value="climate">climate</option>
-        <option value="gravity">gravity</option>
-        <option value="diameter">diameter</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
-      </select>
-      <label htmlFor="ASC">
-        Ascendente
-        <input
-          type="radio"
-          id="ASC"
-          name="order"
-          value="ASC"
-          data-testid="column-sort-input-asc"
-          onClick={ () => setOrderType('ASC') }
-        />
-      </label>
-      <label htmlFor="DESC">
-        Descendente
-        <input
-          type="radio"
-          id="DESC"
-          name="order"
-          value="DESC"
-          data-testid="column-sort-input-desc"
-          onClick={ () => setOrderType('DESC') }
-        />
-      </label>
-      <button
-        type="button"
-        data-testid="column-sort-button"
-        onClick={ () => setFilters({
-          ...filters, order: { column: orderColumn, sort: orderType },
-        }) }
-      >
-        Ordenar
-      </button>
+              {`Filtro: ${filter.column} ${filter.comparison} ${filter.value}`}
+              <button
+                type="button"
+                className="delete"
+                onClick={ (e) => removeFilter(e, index) }
+              >
+                x
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="level container order-container">
+        <div className="select is-rounded">
+          <select
+            data-testid="column-sort"
+            value={ orderColumn }
+            onChange={ (e) => setOrderColumn(e.target.value) }
+          >
+            <option value="name">name</option>
+            <option value="population">population</option>
+            <option value="terrain">terrain</option>
+            <option value="climate">climate</option>
+            <option value="gravity">gravity</option>
+            <option value="diameter">diameter</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </div>
+        <div>
+          <label className="radio" htmlFor="ASC">
+            Ascendente
+            <input
+              type="radio"
+              id="ASC"
+              name="order"
+              value="ASC"
+              data-testid="column-sort-input-asc"
+              onClick={ () => setOrderType('ASC') }
+            />
+          </label>
+          <label className="radio" htmlFor="DESC">
+            Descendente
+            <input
+              type="radio"
+              id="DESC"
+              name="order"
+              value="DESC"
+              data-testid="column-sort-input-desc"
+              onClick={ () => setOrderType('DESC') }
+            />
+          </label>
+        </div>
+        <button
+          type="button"
+          className="button is-rounded is-info"
+          data-testid="column-sort-button"
+          onClick={ () => setFilters({
+            ...filters, order: { column: orderColumn, sort: orderType },
+          }) }
+        >
+          Ordenar
+        </button>
+      </div>
     </form>
   );
 }
