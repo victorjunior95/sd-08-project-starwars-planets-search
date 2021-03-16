@@ -8,7 +8,7 @@ import PlanetsProvider from './context/PlanetsProvider';
 function App() {
   return (
     <PlanetsProvider>
-      <span>Hello, App!</span>
+      <h1>Star Wars Planet Searcher</h1>
       <FilterForm />
       <ActiveFilters />
       <Table />

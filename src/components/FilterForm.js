@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import FilterFormNumeric from './FilterFormNumeric';
+import SortForm from './SortForm';
 
 export default function FilterForm() {
   const { filters, setFilters } = useContext(PlanetsContext);
@@ -25,6 +26,7 @@ export default function FilterForm() {
         placeholder="Search by name"
       />
       <FilterFormNumeric />
+      <SortForm />
     </form>
   );
 }

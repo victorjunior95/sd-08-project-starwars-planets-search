@@ -2,6 +2,27 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 
+const ORDER_POSITIVE = 1;
+const ORDER_NEGATIVE = -1;
+
+const sortArray = (array, order) => [
+  ...array.sort((planetA, planetB) => {
+    let columnA = parseInt(planetA[order.column], 10)
+      ? parseInt(planetA[order.column], 10)
+      : planetA[order.column];
+    let columnB = parseInt(planetB[order.column], 10)
+      ? parseInt(planetB[order.column], 10)
+      : planetB[order.column];
+    if (columnA === 'unknown') columnA = Infinity;
+    if (columnB === 'unknown') columnB = Infinity;
+    if (columnA > columnB && order.sort === 'ASC') return ORDER_POSITIVE;
+    if (columnA < columnB && order.sort === 'ASC') return ORDER_NEGATIVE;
+    if (columnA > columnB && order.sort === 'DESC') return ORDER_NEGATIVE;
+    if (columnA < columnB && order.sort === 'DESC') return ORDER_POSITIVE;
+    return 0;
+  }),
+];
+
 const initialColumns = [
   'rotation_period',
   'orbital_period',
@@ -14,11 +35,17 @@ const filterOptions = {
   filterByName: {
     name: '',
   },
-  filterByNumericValues: [{
-    column: '',
-    comparison: '',
-    value: '',
-  }],
+  filterByNumericValues: [
+    {
+      column: '',
+      comparison: '',
+      value: '',
+    },
+  ],
+  order: {
+    column: 'name',
+    sort: 'ASC',
+  },
 };
 
 function PlanetsProvider({ children }) {
@@ -34,23 +61,28 @@ function PlanetsProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    const { filterByName: { name }, filterByNumericValues } = filters;
+    const {
+      filterByName: { name },
+      filterByNumericValues,
+      order,
+    } = filters;
     filterByNumericValues.forEach((filterValues) => {
       const { column, comparison, value } = filterValues;
-      const filter = data.filter((planet) => {
+      const filteredArray = data.filter((planet) => {
         const includesName = planet.name.toLowerCase().includes(name.toLowerCase());
         switch (comparison) {
-        case ('maior que'):
+        case 'maior que':
           return parseInt(planet[column], 10) > parseInt(value, 10) && includesName;
-        case ('menor que'):
+        case 'menor que':
           return parseInt(planet[column], 10) < parseInt(value, 10) && includesName;
-        case ('igual a'):
+        case 'igual a':
           return parseInt(planet[column], 10) === parseInt(value, 10) && includesName;
         default:
           return includesName;
         }
       });
-      setPlanets(filter);
+      const sortedArray = sortArray(filteredArray, order);
+      setPlanets(sortedArray);
     });
   }, [data, filters]);
 
