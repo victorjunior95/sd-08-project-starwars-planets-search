@@ -4,11 +4,17 @@ import SWContext from './SWContext';
 import getAPI from '../services';
 
 const INITIAL_STATE = {
-  filters: {
-    filterByName: {
-      name: '',
-    },
+  filterByName: {
+    name: '',
   },
+  filterByNumericValues: [
+    {
+      column: '',
+      comparison: '',
+      value: '',
+    },
+  ],
+
 };
 
 function Provider({ children }) {
@@ -21,12 +27,13 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
-    const { filters: { filterByName: { name } } } = filters;
+    const { filterByName: { name } } = filters;
     const filterPlanet = data.filter((element) => element.name.includes(name));
     setPlanets(filterPlanet);
   }, [data, filters]);
 
   const context = { planets, setPlanets, filters, setFilters, data };
+  console.log(filters);
   return (
     <SWContext.Provider value={ context }>
       {children}
