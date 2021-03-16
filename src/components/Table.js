@@ -6,11 +6,48 @@ function Table() {
     data,
     inputTextValue,
     handleChange,
+    setColumn,
+    setComparison,
+    setValue,
+    handleClickValues,
   } = useContext(StarContext);
 
   return (
     <div>
       <input type="text" data-testid="name-filter" onChange={ handleChange } />
+      <select
+        data-testid="column-filter"
+        name="column"
+        onChange={ (e) => setColumn(e.target.value) }
+      >
+        <option>population</option>
+        <option>orbital_period</option>
+        <option>diameter</option>
+        <option>rotation_period</option>
+        <option>surface_water</option>
+      </select>
+      <select
+        data-testid="comparison-filter"
+        name="comparison"
+        onChange={ (e) => setComparison(e.target.value) }
+      >
+        <option>maior que</option>
+        <option>menor que</option>
+        <option>igual a</option>
+      </select>
+      <input
+        type="number"
+        data-testid="value-filter"
+        name="value"
+        onChange={ (e) => setValue(e.target.value) }
+      />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClickValues }
+      >
+        Filter
+      </button>
       <table>
         <thead>
           <tr>
