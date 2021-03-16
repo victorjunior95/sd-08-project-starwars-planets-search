@@ -12,19 +12,20 @@ body {
 
 table {
   background-color: silver;
-  border-color: white;
   border: solid 2px;
+  border-color: white;
   color: black;
   width: 100%;
 }
 
 table th {
-  background-color: white
+  background-color: white;
 }
 
 table td {
   border: solid 1px white;
 }
+
 h1 {
   text-align: center;
 }
@@ -45,8 +46,8 @@ h1 {
 
 button {
   border-color: white;
-  color:red;
-  cursor:pointer;
+  color:  red;
+  cursor: pointer;
   font-size: 16px;
   margin-left: 10px;
   width: 25px;
