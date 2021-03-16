@@ -34,6 +34,14 @@ function Search() {
     });
   };
 
+  const removeFilter = (i) => {
+    const newNumeric = filters.filterByNumericValues;
+    newNumeric.splice(i, 1);
+    const newFilters = { ...filters, filterByNumericValues: [...newNumeric] };
+    console.log(newFilters);
+    setFilters({ ...newFilters });
+  };
+
   return (
 
     <div>
@@ -87,6 +95,16 @@ function Search() {
       >
         Buscar
       </button>
+
+      <section>
+        <ul>
+          {filters.filterByNumericValues.map((fil, index) => (
+            <li data-testid="filter" key={ index }>
+              {`${fil.column} ${fil.comparison}: ${fil.value}`}
+              <button type="button" onClick={ () => removeFilter(index) }>X</button>
+            </li>))}
+        </ul>
+      </section>
     </div>
   );
 }
