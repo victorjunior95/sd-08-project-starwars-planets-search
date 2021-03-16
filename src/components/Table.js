@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import './table.css';
 
 function Table() {
   const { data, isLoading } = useContext(PlanetsContext);
@@ -24,12 +25,14 @@ function Table() {
             <td>{planet.rotation_period}</td>
             <td>{planet.orbital_period}</td>
             <td>{planet.diameter}</td>
-            <td>{planet.cliamte}</td>
+            <td>{planet.climate}</td>
             <td>{planet.gravity}</td>
             <td>{planet.terrain}</td>
             <td>{planet.surface_water}</td>
             <td>{planet.population}</td>
-            <td>{planet.films}</td>
+            <td>
+              {planet.films.map((film, index) => <p key={ index }>{film}</p>)}
+            </td>
             <td>{planet.created}</td>
             <td>{planet.edited}</td>
             <td>{planet.url}</td>
