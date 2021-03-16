@@ -9,6 +9,7 @@ const ContextProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterName, setFilterName] = useState('');
+  const [filterNumeric, setFilterNumeric] = useState([]);
 
   useEffect(() => {
     async function effect() {
@@ -29,6 +30,8 @@ const ContextProvider = ({ children }) => {
             name: filterName,
             setFilter: setFilterName,
           },
+          filterByNumericValues: filterNumeric,
+          setFilterNumeric,
         },
       } }
     >
