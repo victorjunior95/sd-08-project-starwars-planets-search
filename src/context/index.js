@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './MyContext';
 
 const PlanetsProvider = ({ children }) => {
-  const [fixPlanets, setFixPlanets] = useState([]);
+  // const [fixPlanets, setFixPlanets] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [searchName, setSearchName] = useState(' ');
 
@@ -12,7 +12,7 @@ const PlanetsProvider = ({ children }) => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets';
       const { results } = await fetch(endpoint).then((response) => response.json());
       setPlanets(results);
-      setFixPlanets(results);
+      // setFixPlanets(results);
     };
     fetchPlanets();
   }, []);
@@ -20,7 +20,7 @@ const PlanetsProvider = ({ children }) => {
   // const filterByName = (e) => {
   // searchName = e.target.value;
   useEffect(() => {
-    const filterPlanets = fixPlanets
+    const filterPlanets = planets
       .filter((planet) => planet.name.includes((searchName)));
     setPlanets(filterPlanets);
     // return filterPlanets;

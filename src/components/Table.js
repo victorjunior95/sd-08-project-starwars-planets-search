@@ -4,12 +4,12 @@ import PlanetsContext from '../context/MyContext';
 
 const Table = () => {
   const {
-    // fixPlanets,
+    fixPlanets,
     // filterByName,
     // handleChange,
     searchName,
     setSearchName,
-    planets,
+    //planets,
   } = useContext(PlanetsContext);
   return (
     <div>
@@ -30,7 +30,7 @@ const Table = () => {
         </div>
         <div className="filter">
           <span>Filter by numbers</span>
-          {/* <select data-testid="column-sort" id="sort-selection" onChange={ handleChange }>
+          <select data-testid="column-sort" id="sort-selection">
             <option value="name" key="">select</option>
             <option value="name" key="name">name</option>
             <option value="population" key="population">population</option>
@@ -38,7 +38,7 @@ const Table = () => {
             <option value="diameter" key="diameter">diameter</option>
             <option value="rotation_period" key="rotation_period">rotation_period</option>
             <option value="surface_water" key="surface_water">surface_water</option>
-          </select> */}
+          </select>
           <select data-testid="comparison-filter" id="comparison">
             <option value="">select</option>
             <option value="maior que">maior que</option>
@@ -56,7 +56,7 @@ const Table = () => {
       <table>
         <Header />
         <tbody>
-          {planets.map((planet) => (
+          {fixPlanets.map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
