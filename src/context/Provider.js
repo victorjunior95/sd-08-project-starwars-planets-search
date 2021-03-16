@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import SWContext from './SWContext';
 import getAPI from '../services';
 
+const INITIAL_COLUMNS = ['population', 'orbital_period',
+  'diameter', 'rotation_period', 'surface_water'];
+
 const INITIAL_STATE = {
   filterByName: {
     name: '',
@@ -21,6 +24,7 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [filters, setFilters] = useState(INITIAL_STATE);
+  const [columns, setColumns] = useState(INITIAL_COLUMNS);
 
   useEffect(() => {
     getAPI().then((response) => setData(response));
@@ -35,7 +39,7 @@ function Provider({ children }) {
   useEffect(() => {
     const { filterByName: { name },
       filterByNumericValues: { column, comparison, value } } = filters;
-    const filterPlanet = data.filter((element) => {
+    const filteredPlanet = data.filter((element) => {
       const planetName = element.name.includes(name);
       if (comparison === 'maior que') {
         return parseInt(element[column], 10) > parseInt(value, 10) && planetName;
@@ -46,10 +50,10 @@ function Provider({ children }) {
       }
       return planetName;
     });
-    setPlanets(filterPlanet);
+    setPlanets(filteredPlanet);
   }, [data, filters]);
 
-  const context = { planets, setPlanets, filters, setFilters, data };
+  const context = { planets, setPlanets, filters, setFilters, data, columns, setColumns };
   console.log(filters);
 
   return (
@@ -62,4 +66,5 @@ function Provider({ children }) {
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
 export default Provider;

@@ -2,11 +2,9 @@ import React, { useState, useContext } from 'react';
 import SWContext from '../context/SWContext';
 
 const COMPARISON_OPTIONS = ['maior que', 'menor que', 'igual a'];
-const COLUMN_OPTIONS = ['population', 'orbital_period',
-  'diameter', 'rotation_period', 'surface_water'];
 
 function SelectForm() {
-  const { filters, setFilters } = useContext(SWContext);
+  const { filters, setFilters, columns, setColumns } = useContext(SWContext);
   const [filterOptions, setFilterOptions] = useState(
     { column: '', comparison: '', value: 0 },
   );
@@ -29,6 +27,7 @@ function SelectForm() {
         ...filterOptions,
       },
     });
+    setColumns(columns.filter((curr) => column !== curr));
   }
 
   return (
@@ -39,7 +38,7 @@ function SelectForm() {
         value={ column }
         onChange={ handleChange }
       >
-        {COLUMN_OPTIONS.map((option, index) => (
+        {columns.map((option, index) => (
           <option key={ index }>{option}</option>
         ))}
       </select>
