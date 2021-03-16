@@ -10,7 +10,7 @@ export default function TableOfPlanets(props) {
 
   const getPlanetsApiAndSetState = async () => {
     const data = await getPlanetsApi();
-    setState({ ...state, results: data });
+    setState({ ...state, results: data, fixResults: data });
   };
 
   useEffect(() => {
@@ -19,38 +19,42 @@ export default function TableOfPlanets(props) {
 
   return (
     <table width="100%">
-      <tr className="header-table">
-        <th role="columnheader">Nome</th>
-        <th role="columnheader">Periodo rotacional</th>
-        <th role="columnheader">Periodo orbital</th>
-        <th role="columnheader">Diametro</th>
-        <th role="columnheader">Clima</th>
-        <th role="columnheader">Gravidade</th>
-        <th role="columnheader">Terreno</th>
-        <th role="columnheader">Água da superfície</th>
-        <th role="columnheader">População</th>
-        <th role="columnheader">Filmes</th>
-        <th role="columnheader">Criado</th>
-        <th role="columnheader">Editado</th>
-        <th role="columnheader">URL</th>
-      </tr>
-      { state.results.map((planet) => (
-        <tr key={ planet.name }>
-          <td>{ planet.name }</td>
-          <td>{ planet.rotation_period }</td>
-          <td>{ planet.orbital_period }</td>
-          <td>{ planet.diameter }</td>
-          <td>{ planet.climate }</td>
-          <td>{ planet.gravity }</td>
-          <td>{ planet.terrain }</td>
-          <td>{ planet.surface_water }</td>
-          <td>{ planet.population }</td>
-          <td>{ planet.films }</td>
-          <td>{ planet.created }</td>
-          <td>{ planet.edited }</td>
-          <td>{ planet.url }</td>
+      <thead>
+        <tr className="header-table">
+          <th>Nome</th>
+          <th>Periodo rotacional</th>
+          <th>Periodo orbital</th>
+          <th>Diametro</th>
+          <th>Clima</th>
+          <th>Gravidade</th>
+          <th>Terreno</th>
+          <th>Água da superfície</th>
+          <th>População</th>
+          <th>Filmes</th>
+          <th>Criado</th>
+          <th>Editado</th>
+          <th>URL</th>
         </tr>
-      )) }
+      </thead>
+      <tbody>
+        { state.fixResults.map((planet) => (
+          <tr key={ planet.name }>
+            <td>{ planet.name }</td>
+            <td>{ planet.rotation_period }</td>
+            <td>{ planet.orbital_period }</td>
+            <td>{ planet.diameter }</td>
+            <td>{ planet.climate }</td>
+            <td>{ planet.gravity }</td>
+            <td>{ planet.terrain }</td>
+            <td>{ planet.surface_water }</td>
+            <td>{ planet.population }</td>
+            <td>{ planet.films }</td>
+            <td>{ planet.created }</td>
+            <td>{ planet.edited }</td>
+            <td>{ planet.url }</td>
+          </tr>
+        )) }
+      </tbody>
     </table>
   );
 }

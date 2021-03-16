@@ -7,6 +7,7 @@ export default function Home() {
   const [state, setState] = useState({
     results: [],
     filters: { filterByName: { name: '' } },
+    fixResults: [],
   });
   return (
     <>
