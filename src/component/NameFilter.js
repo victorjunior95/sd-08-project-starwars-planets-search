@@ -3,11 +3,11 @@ import Context from '../context';
 
 function NameFilter() {
   const [planetName, setPlanetName] = useState('');
-  const { setFilter } = useContext(Context);
+  const { filter, setFilter } = useContext(Context);
 
   const onChange = (e) => {
     setPlanetName(e.target.value);
-    setFilter({ filterByName: { name: e.target.value } });
+    setFilter({ ...filter, filterByName: { name: e.target.value } });
   };
 
   return (
