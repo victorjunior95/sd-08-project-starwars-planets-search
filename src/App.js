@@ -1,12 +1,19 @@
 import React from 'react';
 import './App.css';
+import SearchByName from './components/SearchByName';
 import Table from './components/Table';
+import PlanetsProvider from './context/PlanetsProvider';
 
 function App() {
   return (
-    <section>
-      <Table />
-    </section>
+    <PlanetsProvider>
+      <section>
+        <div>
+          <SearchByName />
+        </div>
+        <Table />
+      </section>
+    </PlanetsProvider>
   );
 }
 

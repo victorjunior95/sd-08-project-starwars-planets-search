@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import fetchPlanets from '../services/API_STAR_WARS';
+import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
   const [planets, setPlanets] = useState([]);
+  const {
+    filters: { filterByName: { name } },
+  } = useContext(PlanetsContext);
 
   useEffect(() => {
     const getPlanets = async () => {
       const results = await fetchPlanets();
-      setPlanets(results);
+      const filterPlanets = await results.filter((planet) => planet.name.includes(name));
+      setPlanets(filterPlanets);
     };
     getPlanets();
-  }, []);
+  }, [name]);
 
   return (
     <table>
