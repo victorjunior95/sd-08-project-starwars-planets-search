@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import '../styles/FormFilter.css';
 
 function FormFilter() {
   const [filterValues, setFilterValues] = useState({
@@ -38,8 +39,7 @@ function FormFilter() {
   const comparationFilter = [
     'maior que', 'menor que', 'igual a'];
   return (
-    <form>
-      {/* {console.log(columnFilter)} */}
+    <form className="form-filter">
       <select
         onChange={ handleChange }
         name="column"

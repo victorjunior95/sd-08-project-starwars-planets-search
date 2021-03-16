@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 import theads from '../data/theads';
+import '../styles/FormOrder.css';
 
 function FormOrder() {
   const { changeOrder } = useContext(StarWarsContext);
@@ -13,7 +14,7 @@ function FormOrder() {
   };
 
   return (
-    <form>
+    <form className="form-order">
       <label htmlFor="column">
         Ordem:
         <select

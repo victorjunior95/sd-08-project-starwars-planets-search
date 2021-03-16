@@ -80,24 +80,29 @@ function Table() {
       .filter((f) => f[0] !== 'residents'));
 
   return (
-    <table className="planets-table">
-      <thead>
-        <tr>
-          {theads.map((e, index) => <th key={ index }>{e}</th>)}
-        </tr>
-      </thead>
-      <tbody>
-        {newData.map((elem, index) => (
-          <tr key={ index }>
-            {elem.map((e) => {
-              if (e[0] === 'name') {
-                return <td key={ e[0] } data-testid="planet-name">{e[1]}</td>;
-              }
-              return <td key={ e[0] }>{e[1]}</td>;
-            })}
-          </tr>))}
-      </tbody>
-    </table>
+    <div className="table-body">
+      <div className="planets-table">
+        <table>
+          <thead>
+            <tr>
+              {theads.map((e, index) => <th key={ index }>{e}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {newData.map((elem, index) => (
+              <tr key={ index }>
+                {elem.map((e) => {
+                  if (e[0] === 'name') {
+                    return <td key={ e[0] } data-testid="planet-name">{e[1]}</td>;
+                  }
+                  return <td key={ e[0] }>{e[1]}</td>;
+                })}
+              </tr>))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   );
 }
 

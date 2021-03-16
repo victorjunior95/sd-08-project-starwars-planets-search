@@ -2,3 +2,10 @@
   margin: 0;
   padding: 0;
 }
+
+body {
+  background-image: url('./images/yoda_in_star_wars_battlefront_4k-wide.jpg');
+  background-size: cover;
+  overflow: hidden;
+  width: 100vw;
+}
