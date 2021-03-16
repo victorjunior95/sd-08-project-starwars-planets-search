@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function SearchNameBar() {
-  const { setName, filteredData } = useContext(StarWarsContext);
+  const { setName } = useContext(StarWarsContext);
 
-  console.log(filteredData);
   return (
     <div>
       <label htmlFor="text" data-testid="text-input-label">

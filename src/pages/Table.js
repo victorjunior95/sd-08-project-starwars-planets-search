@@ -19,11 +19,9 @@ function Table() {
     <div>
       <SearchNameBar />
       <Header />
-      <table>
-        {filteredData.map((result, index) => (
-          <TableCard key={ index } result={ result } />
-        ))}
-      </table>
+      {filteredData.map((result, index) => (
+        <TableCard key={index} result={result} />
+      ))}
     </div>
   ) : (
     <span>Carregando...</span>
