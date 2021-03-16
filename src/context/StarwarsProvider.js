@@ -6,12 +6,9 @@ export default function StarwarsProvider({ children }) {
   const [tables, setTables] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const endpoint = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-      const data = await endpoint.json();
-      setTables(data.results);
-    };
-    fetchData();
+    fetch('https://swapi-trybe.herokuapp.com/api/planets/')
+      .then((response) => response.json())
+      .then((data) => setTables(data.results) || console.log(data));
   }, []);
 
   const context = { tables, setTables };

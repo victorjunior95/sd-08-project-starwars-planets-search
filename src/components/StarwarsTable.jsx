@@ -18,7 +18,7 @@ export default function Tables() {
       </thead>
       <tbody>
         { tables.map((item, index) => (
-          <tr key={ index }>
+          <tr key={ index } className="row">
             <td>{ item.name }</td>
             <td>{ item.rotation_period }</td>
             <td>{ item.orbital_period }</td>
