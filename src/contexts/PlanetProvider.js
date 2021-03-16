@@ -4,7 +4,10 @@ import PlanetContext from './PlanetContext';
 
 function PlanetProvider({ children }) {
   const [planetsList, setPlanetsList] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [{ column: '', comparison: '', value: '' }],
+  });
 
   return (
     <PlanetContext.Provider
