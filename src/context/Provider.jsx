@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
-const URL = 'https://swapi-trybe.herokuapp.com/api/planets';
+const URL = 'https://swapi.dev/api/planets/';
 
 function getPlanetsAPI() {
   return fetch(URL).then((response) => (
@@ -14,27 +14,41 @@ function getPlanetsAPI() {
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     getPlanetsAPI().then(({ results }) => {
       results.forEach((result) => delete result.residents);
       setData(results);
     });
-  }, []);
+  }, [data, name]);
 
-  const context = {
-    data,
+  function handleChange({ target }) {
+    setName(target.value);
+  }
+
+  const filters = {
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
   };
+
+  const context = { ...filters, data, handleChange };
 
   return (
     <Context.Provider value={ context }>
-      { children}
+      { children }
     </Context.Provider>
   );
 };
 
 Provider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element),
+  ]).isRequired,
 };
 
 export default Provider;

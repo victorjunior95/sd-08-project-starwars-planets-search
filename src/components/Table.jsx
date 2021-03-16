@@ -3,7 +3,7 @@ import Context from '../context/Context';
 import './Table.css';
 
 const Table = () => {
-  const { data } = useContext(Context);
+  const { data, filters: { filterByName: { name } } } = useContext(Context);
 
   function renderRow(planet, index) {
     return (
@@ -18,8 +18,7 @@ const Table = () => {
   }
 
   return (
-    <>
-      <h1>Star Wars Planets</h1>
+    <div>
       <table>
         <thead>
           <tr>
@@ -30,9 +29,13 @@ const Table = () => {
             ))}
           </tr>
         </thead>
-        <tbody>{ data.map((planet, index) => renderRow(planet, index)) }</tbody>
+        <tbody>
+          { data
+            .filter((planet) => planet.name.includes(name))
+            .map((planet, key) => renderRow(planet, key)) }
+        </tbody>
       </table>
-    </>
+    </div>
   );
 };
 
