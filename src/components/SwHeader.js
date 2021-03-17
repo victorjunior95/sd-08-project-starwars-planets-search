@@ -129,7 +129,10 @@ function SwHeader() {
           data-testid="column-sort"
           onChange={ ({ target }) => setColumnOrderName(target.value) }
         >
-          {['name', 'orbital_period', 'climate', 'terrain', 'films', 'url'].map(
+          {['name', 'rotation_period',
+            'diameter',
+            'surface_water',
+            'population', 'orbital_period', 'climate', 'terrain', 'films', 'url'].map(
             (columnOptionSort) => (
               <option key={ columnOptionSort } value={ columnOptionSort }>
                 {columnOptionSort}
@@ -167,14 +170,13 @@ function SwHeader() {
         </button>
       </div>
 
-      <ul className="swFilterList">
+      <ul className="swFilterList" data-testid="filter">
         {!filteredColumns
           || filteredColumns.map((filteredColumn) => (
             <li key={ filteredColumn }>
               {filteredColumn}
               <button
                 type="button"
-                data-testid="filter"
                 onClick={ () => handleRemoveFiltering(
                   filteredColumn,
                 ) }
