@@ -3,7 +3,7 @@ import { ContextFromStarWars } from '../contexts/ContextFromStarWars';
 
 function SwHeader() {
   const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('maior que');
+  const [comparison, setComparison] = useState('');
   const [valueNumber, setValueNumber] = useState(0);
   const [btnColumns, setBtnColumns] = useState([]);
   const [radioSort, setRadioSort] = useState('');
@@ -26,14 +26,14 @@ function SwHeader() {
     setFilteredPlanets,
   } = useContext(ContextFromStarWars);
 
-  const handleAddSort = () => {
+  const handleColumnOrder = () => {
     setSort({
       sorted: radioSort,
       column: columnSort,
     });
   };
 
-  const handleAddColumn = (text) => {
+  const handleRemoveFiltering = (text) => {
     const newColumn = text.replace('X', '');
 
     const removeBtnColumn = btnColumns.filter(
@@ -46,26 +46,28 @@ function SwHeader() {
 
     setInstructionToFilter(removeFilter);
     setFilteredPlanets(planets);
-
     setBtnColumns(removeBtnColumn);
     setColumns([...columns, newColumn]);
   };
 
-  const handleClick = () => {
-    setInstructionToFilter([
-      ...instructionToFilter,
-      {
-        column,
-        comparison,
-        value: valueNumber,
-      },
-    ]);
+  const handleColumnFiltering = () => {
+    if (comparison.length > 0) {
+      setInstructionToFilter([
+        ...instructionToFilter,
+        {
+          column,
+          comparison,
+          value: valueNumber,
+        },
+      ]);
 
-    const columnsFilter = columns.filter(
-      (columnFilter) => columnFilter !== column,
-    );
-    setColumns(columnsFilter);
-    setBtnColumns([...btnColumns, column]);
+      const columnsFilter = columns.filter(
+        (columnFilter) => columnFilter !== column,
+      );
+      setColumns(columnsFilter);
+      setBtnColumns([...btnColumns, column]);
+      setComparison('');
+    }
   };
 
   return (
@@ -85,6 +87,7 @@ function SwHeader() {
           data-testid="column-filter"
           onChange={ ({ target }) => setColumn(target.value) }
         >
+
           {columns.map((element) => (
             <option key={ element } value={ element }>
               {element}
@@ -98,6 +101,9 @@ function SwHeader() {
           data-testid="comparison-filter"
           onChange={ ({ target }) => setComparison(target.value) }
         >
+          <option value="">
+            option
+          </option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
@@ -109,7 +115,11 @@ function SwHeader() {
           value={ valueNumber }
           onChange={ ({ target }) => setValueNumber(target.value) }
         />
-        <button type="button" data-testid="button-filter" onClick={ handleClick }>
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleColumnFiltering }
+        >
           Filter
         </button>
       </div>
@@ -153,13 +163,13 @@ function SwHeader() {
         <button
           type="button"
           data-testid="column-sort-button"
-          onClick={ handleAddSort }
+          onClick={ handleColumnOrder }
         >
           Sort
         </button>
       </div>
 
-      <ul className="swBtnFilters">
+      <ul className="swFilterList">
         {!btnColumns
           || btnColumns.map((element) => (
             <li key={ element }>
@@ -167,7 +177,9 @@ function SwHeader() {
               <button
                 type="button"
                 data-testid="filter"
-                onClick={ ({ target }) => handleAddColumn(target.parentNode.innerText) }
+                onClick={ ({ target }) => handleRemoveFiltering(
+                  target.parentNode.innerText,
+                ) }
               >
                 X
               </button>
