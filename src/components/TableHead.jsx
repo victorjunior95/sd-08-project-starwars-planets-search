@@ -8,7 +8,7 @@ function TableHead() {
         <th>Diâmetro</th>
         <th>Período Orbital</th>
         <th>Período de Rotação</th>
-        <th>Superfície da água</th>
+        <th>Água da Superfície</th>
         <th>Clima</th>
         <th>Criado em</th>
         <th>Filmes</th>

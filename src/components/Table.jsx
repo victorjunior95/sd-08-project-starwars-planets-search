@@ -2,15 +2,19 @@ import React from 'react';
 
 import TableHead from './TableHead';
 import TableBody from './TableBody';
+import Filters from './Filters';
 
 function Table() {
   return (
-    <table border="1">
-      <TableHead />
-      <tbody>
-        <TableBody />
-      </tbody>
-    </table>
+    <>
+      <Filters />
+      <table border="1">
+        <TableHead />
+        <tbody>
+          <TableBody />
+        </tbody>
+      </table>
+    </>
   );
 }
 
