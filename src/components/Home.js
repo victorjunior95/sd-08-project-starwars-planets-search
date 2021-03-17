@@ -1,4 +1,5 @@
 import React from 'react';
+import Filter from './Filter';
 import Table from './Table';
 
 function Home() {
@@ -6,6 +7,7 @@ function Home() {
     <>
       {/* <Header /> */}
       <main>
+        <Filter />
         <Table />
       </main>
     </>

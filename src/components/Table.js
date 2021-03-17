@@ -1,55 +1,79 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { requesting, data } = useContext(PlanetsContext);
+  const [data, setData] = useState([]);
 
-  if (requesting) return <p>Loading...</p>;
+  const {
+    requesting,
+    planets,
+    // setFilters,
+    // setFilterByName,
+    // filterByName,
+    setPlanetsFiltered,
+    planetsFiltered,
+    // applyFilter,
+  } = useContext(PlanetsContext);
+
+  function setList() {
+    if (planetsFiltered.length) {
+      setData(planetsFiltered);
+    } else {
+      setData(planets);
+    }
+  }
+
+  useEffect(() => setList());
+  useEffect(() => {
+    if (!document.querySelector('#inputSearch')
+      .value.length) return setPlanetsFiltered(planets);
+  });
 
   return (
-    <table className="table table-hover table-bordered table-dark">
-      <caption>Planets list</caption>
-      <thead>
-        <tr className="text-warning">
-          <th scope="col" className="align-middle text-center">#</th>
-          <th scope="col" className="align-middle text-center">Name</th>
-          <th scope="col" className="align-middle text-center">Rotation Period</th>
-          <th scope="col" className="align-middle text-center">Orbital Period</th>
-          <th scope="col" className="align-middle text-center">Diameter</th>
-          <th scope="col" className="align-middle text-center">Climate</th>
-          <th scope="col" className="align-middle text-center">Gravity</th>
-          <th scope="col" className="align-middle text-center">Terrain</th>
-          <th scope="col" className="align-middle text-center">Surface Water</th>
-          <th scope="col" className="align-middle text-center">Population</th>
-          <th scope="col" className="align-middle text-center">Films</th>
-          <th scope="col" className="align-middle text-center">Created</th>
-          {/* <th scope="col" className="align-middle text-center">Edited</th> */}
-          <th scope="col" className="align-middle text-center">URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((planet, index) => (
-          <tr key={ planet.name }>
-            <th scope="row">{index + 1}</th>
-            <td className="align-middle">{planet.name}</td>
-            <td className="align-middle">{planet.rotation_period}</td>
-            <td className="align-middle">{planet.orbital_period}</td>
-            <td className="align-middle">{planet.diameter}</td>
-            <td className="align-middle">{planet.climate}</td>
-            <td className="align-middle">{planet.gravity}</td>
-            <td className="align-middle">{planet.terrain}</td>
-            <td className="align-middle">{planet.surface_water}</td>
-            <td className="align-middle">{planet.population}</td>
-            <td className="align-middle">
-              {planet.films.map((filme) => (<div key={ filme }>{filme}</div>))}
-            </td>
-            <td className="align-middle">{planet.created}</td>
-            {/* <td className="align-middle">{planet.edited}</td> */}
-            <td className="align-middle">{planet.url}</td>
-          </tr>))}
-      </tbody>
-    </table>
+    <>
+      <table className="table table-hover table-bordered table-dark">
+        <caption>Planets list</caption>
+        <thead>
+          <tr className="text-warning">
+            <th>#</th>
+            <th>Name</th>
+            <th>Rotation Period</th>
+            <th>Orbital Period</th>
+            <th>Diameter</th>
+            <th>Climate</th>
+            <th>Gravity</th>
+            <th>Terrain</th>
+            <th>Surface Water</th>
+            <th>Population</th>
+            <th>Films</th>
+            <th>Created</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {!requesting && data.map((planet, index) => (
+            <tr key={ planet.name }>
+              <td>{index + 1}</td>
+              <td>{planet.name}</td>
+              <td>{planet.rotation_period}</td>
+              <td>{planet.orbital_period}</td>
+              <td>{planet.diameter}</td>
+              <td>{planet.climate}</td>
+              <td>{planet.gravity}</td>
+              <td>{planet.terrain}</td>
+              <td>{planet.surface_water}</td>
+              <td>{planet.population}</td>
+              <td>
+                {planet.films.map((filme) => (<div key={ filme }>{filme}</div>))}
+              </td>
+              <td>{planet.created}</td>
+              <td>{planet.url}</td>
+            </tr>))}
+        </tbody>
+      </table>
+      {requesting && <p>Loading...</p>}
+    </>
   );
 }
 
