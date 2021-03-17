@@ -8,6 +8,8 @@ function PlanetProvider({ children }) {
     filterByName: { name: '' },
     filterByNumericValues: [],
     filterByColumnForm: [{ column: '', comparison: '', value: '' }],
+    order: { column: 'Name', sort: 'ASC' },
+    sorted: false,
   });
 
   return (

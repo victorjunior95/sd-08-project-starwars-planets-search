@@ -9,7 +9,8 @@ const useFilterByName = () => {
     filters,
   } = useContext(PlanetContext);
 
-  const { filterByName: { name }, filterByNumericValues } = filters;
+  const {
+    filterByName: { name }, filterByNumericValues } = filters;
 
   useEffect(() => {
     if (name !== '') {

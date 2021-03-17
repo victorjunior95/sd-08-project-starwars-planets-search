@@ -3,12 +3,29 @@ import PlanetContext from '../contexts/PlanetContext';
 import useFilterByColumn from '../hooks/useFilterByColumn';
 import useFilterByName from '../hooks/useFilterByName';
 
+function sortList(list, columnSort, sortType) {
+  if (sortType === 'ASC') {
+    list.sort((a, b) => a[columnSort].localeCompare(b[columnSort], undefined, {
+      numeric: true,
+      sensitivity: 'base',
+    }));
+  }
+  if (sortType === 'DESC') {
+    list.sort((a, b) => b[columnSort].localeCompare(a[columnSort], undefined, {
+      numeric: true,
+      sensitivity: 'base',
+    }));
+  }
+  console.log(list);
+  return list;
+}
+
 function Table() {
   const {
     planetsList,
     filters,
   } = useContext(PlanetContext);
-  const { filterByNumericValues } = filters;
+  const { filterByNumericValues, order: { column, sort }, sorted } = filters;
 
   const [filteredByName] = useFilterByName();
   const [filteredByColumn] = useFilterByColumn();
@@ -23,6 +40,8 @@ function Table() {
 
   if (listOfPlanets.length) {
     const headInfo = getTableHeadInfo();
+    if (sorted) { sortList(listOfPlanets, column, sort); }
+
     return (
       <table>
         <thead>
@@ -35,7 +54,7 @@ function Table() {
         <tbody>
           { listOfPlanets.map((planet) => (
             <tr key={ planet.name }>
-              <td>{ planet.name }</td>
+              <td data-testid="planet-name">{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
               <td>{ planet.orbital_period }</td>
               <td>{ planet.diameter }</td>

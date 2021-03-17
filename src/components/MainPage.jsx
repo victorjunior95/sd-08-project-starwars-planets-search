@@ -9,15 +9,32 @@ class MainPage extends Component {
     super();
 
     this.fetchPlanetsList = this.fetchPlanetsList.bind(this);
+    this.sortInicialList = this.sortInicialList.bind(this);
   }
 
   componentDidMount() {
     this.fetchPlanetsList();
   }
 
+  sortInicialList(list) {
+    const NEG = -1;
+    const POS = 1;
+    list.sort((a, b) => {
+      if (a.name < b.name) {
+        return NEG;
+      }
+      if (a.name > b.name) {
+        return POS;
+      }
+      return 0;
+    });
+    return list;
+  }
+
   async fetchPlanetsList() {
     const { setPlanetsList } = this.context;
     const planetsFromAPI = await getPlanetsList();
+    this.sortInicialList(planetsFromAPI);
     setPlanetsList(planetsFromAPI);
   }
 

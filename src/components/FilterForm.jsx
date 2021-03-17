@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PlanetContext from '../contexts/PlanetContext';
 import FilterByColumn from './FilterByColumn';
 import FilterByName from './FilterByName';
+import SortForm from './SortForm';
 
 function FilterForm() {
   const { filters, setFilters } = useContext(PlanetContext);
@@ -46,6 +47,7 @@ function FilterForm() {
     <form>
       <FilterByName />
       <FilterByColumn />
+      <SortForm />
       { applyFilter() }
     </form>
   );
