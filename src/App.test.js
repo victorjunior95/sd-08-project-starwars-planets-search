@@ -235,7 +235,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
   });
 
-  it.only('Filtre utilizando a comparação "igual a"', async () => {
+  it('Filtre utilizando a comparação "igual a"', async () => {
     await act(async () => {
       render(<App />);
     });
