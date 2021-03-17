@@ -31,14 +31,10 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
-    const { filterByName: { name } } = filters;
-    const filterPlanet = data.filter((element) => element.name.includes(name));
-    setPlanets(filterPlanet);
-  }, [data, filters]);
-
-  useEffect(() => {
-    const { filterByName: { name },
-      filterByNumericValues } = filters;
+    const {
+      filterByName: { name },
+      filterByNumericValues,
+    } = filters;
     filterByNumericValues.forEach((filtros) => {
       const { column, comparison, value } = filtros;
       const filteredPlanet = data.filter((element) => {

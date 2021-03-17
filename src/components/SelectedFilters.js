@@ -9,21 +9,21 @@ function SelectedFilters() {
     setColumns([...columns, column]);
     setFilters({
       ...filters,
-      filterByNumericValues: filterByNumericValues.filter((element) => (
-        element.column !== column
+      filterByNumericValues: filterByNumericValues.filter((newFilter) => (
+        newFilter.column !== column
       )),
     });
   }
 
   return (
     <div>
-      {filterByNumericValues.map((acc, index) => {
-        const { column, comparison, value } = acc;
-        if (!column) return 'Não há filtros.';
+      {filterByNumericValues.map((option, index) => {
+        const { column, comparison, value } = option;
+        if (!column) return <span key={ index } />;
         return (
           <div key={ index } data-testid="filter">
-            <p>{`${column} -- ${comparison} -- ${value}`}</p>
-            <button onClick={ () => handleDelete(column) } type="button">deletar</button>
+            <span>{`Options: 1: ${column} 2: ${comparison} 3: ${value}`}</span>
+            <button onClick={ () => handleDelete(column) } type="button">X</button>
           </div>
         );
       })}

@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { Table } from 'react-bootstrap';
+import Table from 'react-bootstrap/Table';
 import SWContext from '../context/SWContext';
 
 function Tabela() {
   const { planets } = useContext(SWContext);
 
   return (
-    <Table striped bordered hover responsive>
+    <Table striped bordered hover variant="dark" size="sm">
       <thead>
         <tr>
           <th>Name</th>

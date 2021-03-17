@@ -28,9 +28,8 @@ function SelectForm() {
           ...filterOptions,
         }],
     });
-    setColumns(columns.filter((curr) => column !== curr));
+    setColumns(columns.filter((selectedColumn) => column !== selectedColumn));
   }
-  console.log(filters);
   return (
     <div>
       <select

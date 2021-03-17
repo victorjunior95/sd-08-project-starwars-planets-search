@@ -5,6 +5,7 @@ import Form from './components/Form';
 import Provider from './context/Provider';
 import SelectForm from './components/SelectForm';
 import SelectedFilters from './components/SelectedFilters';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
