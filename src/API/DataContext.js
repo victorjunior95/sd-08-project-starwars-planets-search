@@ -7,6 +7,10 @@ export const DataContext = createContext();
 const GlobalDataContext = ({ children }) => {
   const [data, setData] = useState([]);
   const [stateOn, setStateOn] = useState(false);
+
+  const [searchName, setSearchName] = useState('');
+  const [filterPlanet, setFilterPlanet] = useState([]);
+
   useEffect(() => {
     (async () => {
       setStateOn(true);
@@ -16,9 +20,24 @@ const GlobalDataContext = ({ children }) => {
     })();
   }, []);
 
+  useEffect(() => {
+    const filterPlanets = data.filter((planet) => planet.name.includes((searchName)));
+    setFilterPlanet(filterPlanets);
+  }, [data, searchName]);
+
+  const filterName = ({ target }) => setSearchName(target.value);
+
+  const context = {
+    data,
+    searchName,
+    filterPlanet,
+    setData,
+    filterName,
+  };
+
   return (
-    <DataContext.Provider value={ { data } }>
-      { stateOn ? 'Loading' : children}
+    <DataContext.Provider value={ context }>
+      { stateOn ? 'Loading' : children }
     </DataContext.Provider>
   );
 };
