@@ -1,8 +1,16 @@
 import React, { useContext } from 'react';
-import Context from './Context';
+import Context from '../Context/Contexto';
 
 const Table = () => {
-  const { filtroPlaneta, procurarNome, setProcurarNome } = useContext(Context);
+  const {
+    filtroPlaneta,
+    procurarNome,
+    setProcurarNome,
+    options,
+    tamanho,
+    filtro,
+    handleClick,
+  } = useContext(Context);
   return (
     <div>
       <h1>Starwars Planets Search</h1>
@@ -15,6 +23,24 @@ const Table = () => {
           value={ procurarNome }
         />
       </label>
+      <select data-testid="column-filter" onChange={ filtro }>
+        {options.map((key) => (
+          <option key={ key }>{key}</option>
+        ))}
+      </select>
+      <select data-testid="comparison-filter" onChange={ filtro }>
+        {tamanho.map((key) => (
+          <option key={ key }>{key}</option>
+        ))}
+      </select>
+      <input type="number" data-testid="value-filter" onChange={ filtro } />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClick }
+      >
+        Add Filtro
+      </button>
       <br />
       <br />
       <table>

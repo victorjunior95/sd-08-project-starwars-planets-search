@@ -1,6 +1,6 @@
 import React from 'react';
-import ProviderPlanet from './Provider';
-import Table from './Table';
+import ProviderPlanet from './Context/Provider';
+import Table from './Componets/Table';
 import './App.css';
 
 function App() {
