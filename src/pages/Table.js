@@ -13,7 +13,8 @@ function Table() {
     },
   } = useContext(StarWarsContext);
 
-  const filteredData = data.filter((value) => value.name.includes(name));
+  const filteredData = data
+    .filter((value) => value.name.toLowerCase().includes(name.toLowerCase()));
   return data.length > 0 && !isFetching ? (
     <div>
       <SearchNameBar />
