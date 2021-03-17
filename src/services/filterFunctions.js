@@ -16,19 +16,14 @@ export function filterArrayObjByNumber(arrToFilter, key, comparator, value) {
   return arrToFilter.filter((e) => {
     const replaceCommaElement = e[key].replace(',', '.');
     const numberValueElement = parseFloat(replaceCommaElement);
-    console.log(comparator);
     switch (comparator) {
     case 'maior que':
-      console.log(`${numberValueElement} > ${numberValue}`);
       return numberValueElement > numberValue;
     case 'menor que':
-      console.log(`${numberValueElement} < ${numberValue}`);
       return numberValueElement < numberValue;
     case 'igual a':
-      console.log(`${numberValueElement} = ${numberValue}`);
       return numberValueElement === numberValue;
     default:
-      console.log(`${numberValueElement} ? ${numberValue}`);
       return false;
     }
   });

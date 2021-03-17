@@ -100,7 +100,6 @@ export default function Header() {
         type="button"
         onClick={ () => {
           setNumericFilter(filters, setFilters, headerForm);
-          console.log(headerForm);
         } }
       >
         Filtrar
