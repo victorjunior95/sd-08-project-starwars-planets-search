@@ -24,7 +24,7 @@ function FilterForm() {
       return (
         <div>
           {filterByNumericValues.map((filter, index) => (
-            <div key={ index }>
+            <div key={ index } data-testid="filter">
               <span>{ `Column: ${filter.column}` }</span>
               <span>{ `Comparison: ${filter.comparison}` }</span>
               <span>{ `Value: ${filter.value}` }</span>

@@ -88,6 +88,7 @@ function FilterByColumn() {
           onChange={ (e) => handleChangeByColumn(e) }
           data-testid="comparison-filter"
         >
+          <option value="" disabled>choose here</option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
