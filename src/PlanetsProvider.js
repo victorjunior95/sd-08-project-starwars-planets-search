@@ -19,20 +19,23 @@ const PlanetsProvider = ({ children }) => {
       const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const { results } = await fetch(url).then((res) => res.json());
       console.log('results', results);
-      setPlanets(results || []);
+      setFilteredPlanets(results || []);
     };
     fetchPlanets();
   }, []);
 
   useEffect(() => {
+    // criar filtro numerico pela manhã
+  });
+
+  useEffect(() => {
     const { name } = filters.filterByName;
-    const planetsByName = planets
+    const planetsByName = filteredPlanets
       .filter((planet) => planet.name.toLowerCase().includes(name));
     setFilteredPlanets(planetsByName);
-  }, [filters, planets]);
+  }, [filteredPlanets, filters]);
 
   const planetsValue = {
-    planets,
     filteredPlanets,
     setName: (typedValue) => setFilters(
       { ...filters, filterByName: { name: typedValue } },
