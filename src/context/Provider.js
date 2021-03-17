@@ -8,7 +8,7 @@ function Provider({ children }) {
   const [filteredData, setFilteredData] = useState([]);
   const [filter, setFilter] = useState(
     { filterByName: { name: '' } },
-    { filterByNumericValues: [{}] },
+    { filterByNumericValues: [] },
   );
   const context = {
     data,
@@ -38,25 +38,27 @@ function Provider({ children }) {
 
   useEffect(() => {
     const { filterByName, filterByNumericValues } = filter;
+    setFilteredData(data.filter((planets) => planets.name
+      .includes(filterByName.name)));
     if (filterByNumericValues) {
       setFilteredData(data.filter((planets) => planets.name
         .includes(filterByName.name))
-        .filter((filtPlanets) => {
-          switch (filterByNumericValues[0].comparison) {
-          case 'maior que':
-            return parseInt(filtPlanets[filterByNumericValues[0].column], 10)
-              > parseInt(filterByNumericValues[0].value, 10);
-          case 'menor que':
-            return parseInt(filtPlanets[filterByNumericValues[0].column], 10)
-              < parseInt(filterByNumericValues[0].value, 10);
-          default:
-            return parseInt(filtPlanets[filterByNumericValues[0].column], 10)
-              === parseInt(filterByNumericValues[0].value, 10);
-          }
-        }));
-    } else {
-      setFilteredData(data.filter((planets) => planets.name
-        .includes(filterByName.name)));
+        .filter((filtPlanets) => filterByNumericValues
+          .every((planet) => {
+            if (planet.comparison === 'maior que') {
+              return parseInt(filtPlanets[planet.column], 10)
+                  > parseInt(planet.value, 10);
+            }
+            if (planet.comparison === 'menor que') {
+              return parseInt(filtPlanets[planet.column], 10)
+                  < parseInt(planet.value, 10);
+            }
+            // if (planet.comparison === 'igual') {
+            return parseInt(filtPlanets[planet.column], 10)
+                  === parseInt(planet.value, 10);
+            // }
+            // return false;
+          })));
     }
   }, [setFilteredData, filter, data]);
 

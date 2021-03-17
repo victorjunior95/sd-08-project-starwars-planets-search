@@ -4,6 +4,7 @@ import './App.css';
 import Table from './component/Table';
 import NameFilter from './component/NameFilter';
 import NumericFilter from './component/NumericFilter';
+import FiltersChoices from './component/FiltersChoices';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <main>
         <NameFilter />
         <NumericFilter />
+        <FiltersChoices />
         <Table />
       </main>
     </Provider>

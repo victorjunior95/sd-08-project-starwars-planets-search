@@ -6,7 +6,7 @@ const filterOptions = ['population', 'orbital_period', 'diameter',
 function NumericFilter() {
   const { filter, setFilter } = useContext(Context);
   const [column, setColumn] = useState(filterOptions[0]);
-  const [comparison, setComparison] = useState('maiorQue');
+  const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
   const { filterByNumericValues } = filter;
   const handleClick = () => {
