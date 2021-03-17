@@ -8,21 +8,30 @@ import fetchPlanetsData from '../services/StarWarsPlanetsApi';
 function Provider({ children }) {
   const [isFetching, setIsFetching] = useState(true);
   const [data, setData] = useState([]);
-  const [availableColumnFilters, setAvailableColumnFilters] = useState([
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
     filterByNumericValues: [],
   });
+  const [columnOptions, setcolumnOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+  const [numericFilterValues, setNumericFilterValues] = useState({
+    column: columnOptions[0],
+    comparison: 'maior que',
+    value: 0,
+  });
 
-  function onChangeName(id, value) {
+  function onChangeNumericFilter(id, value) {
+    setNumericFilterValues({ ...numericFilterValues, [id]: value });
+  }
+
+  function onChangeNameFilter(id, value) {
     setFilters({ ...filters, filterByName: { [id]: value } });
   }
 
@@ -44,17 +53,33 @@ function Provider({ children }) {
     getPlanets();
   }, []);
 
+  useEffect(() => {
+    const usedOptions = filters.filterByNumericValues.map((filter) => filter.column);
+    setcolumnOptions((previousState) => previousState
+      .filter((column) => !usedOptions.includes(column)));
+  }, [filters]);
+
+  useEffect(() => {
+    setNumericFilterValues({
+      column: columnOptions[0],
+      comparison: 'maior que',
+      value: 0,
+    });
+  }, [columnOptions]);
+
+  const value = {
+    columnOptions,
+    numericFilterValues,
+    isFetching,
+    data,
+    filters,
+    onChangeNameFilter,
+    onClickAddFilter,
+    onChangeNumericFilter,
+  };
+
   return (
-    <Context.Provider
-      value={ {
-        isFetching,
-        data,
-        availableColumnFilters,
-        filters,
-        onChangeName,
-        onClickAddFilter,
-      } }
-    >
+    <Context.Provider value={ value }>
       { children }
     </Context.Provider>
   );

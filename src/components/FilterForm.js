@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import Context from '../context/Context';
 
-const comparisonFilter = [
+const comparisonOptions = [
   'maior que',
   'menor que',
   'igual a',
@@ -33,7 +33,7 @@ function renderSelectInput(name, options, callback, value) {
         value={ value }
       >
         { options.map((option) => (
-          <option key={ option }>
+          <option key={ option } value={ option }>
             { option }
           </option>
         ))}
@@ -44,45 +44,48 @@ function renderSelectInput(name, options, callback, value) {
 
 function FilterForm() {
   const {
-    availableColumnFilters,
+    columnOptions,
     filters,
-    onChangeName,
+    numericFilterValues,
+    onChangeNameFilter,
+    onChangeNumericFilter,
     onClickAddFilter,
   } = useContext(Context);
 
-  const [currentFilters, setCurrentFilters] = useState({
-    column: 'diameter',
-    comparison: 'maior que',
-    value: 0,
-  });
-
-  function onChangeNumeric(id, value) {
-    setCurrentFilters({ ...currentFilters, [id]: value });
-  }
-
   function handleClick(event) {
     event.preventDefault();
-    onClickAddFilter(currentFilters);
+    onClickAddFilter(numericFilterValues);
   }
 
   return (
-    <form>
-      { renderTextInput('name', onChangeName, filters.filterByName.name) }
-      { renderSelectInput(
-        'column', availableColumnFilters, onChangeNumeric, currentFilters.column,
-      ) }
-      { renderSelectInput(
-        'comparison', comparisonFilter, onChangeNumeric, currentFilters.comparison,
-      ) }
-      { renderTextInput('value', onChangeNumeric, currentFilters.value) }
-      <button
-        data-testid="button-filter"
-        type="submit"
-        onClick={ handleClick }
-      >
-        Filter
-      </button>
-    </form>
+    <>
+      <form>
+        { renderTextInput('name', onChangeNameFilter, filters.filterByName.name) }
+        { renderSelectInput(
+          'column', columnOptions, onChangeNumericFilter, numericFilterValues.column,
+        ) }
+        { renderSelectInput(
+          'comparison', comparisonOptions,
+          onChangeNumericFilter, numericFilterValues.comparison,
+        ) }
+        { renderTextInput('value', onChangeNumericFilter, numericFilterValues.value) }
+        <button
+          data-testid="button-filter"
+          type="submit"
+          onClick={ handleClick }
+        >
+          Filter
+        </button>
+      </form>
+      <ul>
+        <h4>Active Filters</h4>
+        { filters.filterByNumericValues.length > 0
+          && filters.filterByNumericValues.map((filter) => (
+            <li key={ filter.column }>
+              { `${filter.column} ${filter.comparison} ${filter.value} X` }
+            </li>))}
+      </ul>
+    </>
   );
 }
 
