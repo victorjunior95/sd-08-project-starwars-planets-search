@@ -5,6 +5,9 @@ function SwHeader() {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [valueNumber, setValueNumber] = useState(0);
+  const [btnColumns, setBtnColumns] = useState([]);
+  const [radioSort, setRadioSort] = useState('');
+  const [columnSort, setColumnSort] = useState('name');
   const [columns, setColumns] = useState([
     'population',
     'orbital_period',
@@ -14,23 +17,55 @@ function SwHeader() {
   ]);
 
   const {
+    setSort,
     inputName,
     setInputName,
     setInstructionToFilter,
+    instructionToFilter,
+    planets,
+    setFilteredPlanets,
   } = useContext(ContextFromStarWars);
 
+  const handleAddSort = () => {
+    setSort({
+      sorted: radioSort,
+      column: columnSort,
+    });
+  };
+
+  const handleAddColumn = (text) => {
+    const newColumn = text.replace('X', '');
+
+    const removeBtnColumn = btnColumns.filter(
+      (element) => element !== newColumn,
+    );
+
+    const removeFilter = instructionToFilter.filter(
+      (find) => find.column !== newColumn,
+    );
+
+    setInstructionToFilter(removeFilter);
+    setFilteredPlanets(planets);
+
+    setBtnColumns(removeBtnColumn);
+    setColumns([...columns, newColumn]);
+  };
+
   const handleClick = () => {
-    setInstructionToFilter(
+    setInstructionToFilter([
+      ...instructionToFilter,
       {
         column,
         comparison,
         value: valueNumber,
       },
+    ]);
 
+    const columnsFilter = columns.filter(
+      (columnFilter) => columnFilter !== column,
     );
-
-    const columnsFilter = columns.filter((columnFilter) => columnFilter !== column);
     setColumns(columnsFilter);
+    setBtnColumns([...btnColumns, column]);
   };
 
   return (
@@ -42,46 +77,103 @@ function SwHeader() {
         value={ inputName }
         onChange={ ({ target }) => setInputName(target.value) }
       />
-      <select
-        value={ column }
-        name="column"
-        data-testid="column-filter"
-        onChange={ ({ target }) => setColumn(target.value) }
-      >
-        { columns.map((element) => (
-          <option
-            key={ element }
-            value={ element }
-          >
-            {element}
-          </option>)) }
-      </select>
 
-      <select
-        value={ comparison }
-        name="comparison"
-        data-testid="comparison-filter"
-        onChange={ ({ target }) => setComparison(target.value) }
-      >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
-      </select>
-      <input
-        type="number"
-        data-testid="value-filter"
-        placeholder="amount"
-        value={ valueNumber }
-        onChange={ ({ target }) => setValueNumber(target.value) }
-      />
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ handleClick }
-      >
-        Filter
-      </button>
+      <div className="swHeaderFilterColumns">
+        <select
+          value={ column }
+          name="column"
+          data-testid="column-filter"
+          onChange={ ({ target }) => setColumn(target.value) }
+        >
+          {columns.map((element) => (
+            <option key={ element } value={ element }>
+              {element}
+            </option>
+          ))}
+        </select>
 
+        <select
+          value={ comparison }
+          name="comparison"
+          data-testid="comparison-filter"
+          onChange={ ({ target }) => setComparison(target.value) }
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+        <input
+          type="number"
+          data-testid="value-filter"
+          placeholder="amount"
+          value={ valueNumber }
+          onChange={ ({ target }) => setValueNumber(target.value) }
+        />
+        <button type="button" data-testid="button-filter" onClick={ handleClick }>
+          Filter
+        </button>
+      </div>
+
+      <div className="swHeaderColumnSort">
+        <select
+          value={ columnSort }
+          name="comparison"
+          data-testid="column-sort"
+          onChange={ ({ target }) => setColumnSort(target.value) }
+        >
+          {['name', 'orbital_period', 'climate', 'terrain', 'films', 'url'].map(
+            (columnOptionSort) => (
+              <option key={ columnOptionSort } value={ columnOptionSort }>
+                {columnOptionSort}
+              </option>
+            ),
+          )}
+        </select>
+        <label htmlFor="asc">
+          ASC:
+          <input
+            data-testid="column-sort-input-asc"
+            type="radio"
+            name="sort"
+            value="ASC"
+            onClick={ ({ target }) => setRadioSort(target.value) }
+          />
+        </label>
+
+        <label htmlFor="desc">
+          DESC:
+          <input
+            data-testid="column-sort-input-desc"
+            type="radio"
+            name="sort"
+            value="DESC"
+            onClick={ ({ target }) => setRadioSort(target.value) }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ handleAddSort }
+        >
+          Sort
+        </button>
+      </div>
+
+      <ul className="swBtnFilters">
+        {!btnColumns
+          || btnColumns.map((element) => (
+            <li key={ element }>
+              {element}
+              <button
+                type="button"
+                data-testid="filter"
+                onClick={ ({ target }) => handleAddColumn(target.parentNode.innerText) }
+              >
+                X
+              </button>
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }

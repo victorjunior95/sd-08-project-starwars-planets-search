@@ -1,6 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSwapiPlanets } from '../services/swapi';
+import { createSortPlanets } from '../controller/orderColumn';
+import { createCondition } from '../controller/conditionFilter';
 
 const ContextFromStarWars = createContext();
 const { Provider, Consumer } = ContextFromStarWars;
@@ -9,18 +11,12 @@ function ContextFromStarWarsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [inputName, setInputName] = useState('');
   const [filteredPlanets, setFilteredPlanets] = useState([]);
-
-  const createCondition = (planetsData) => ({
-    maior_que: (keyToFilter, amount) => planetsData
-      .filter((planet) => +planet[keyToFilter] > +amount),
-    menor_que: (keyToFilter, amount) => planetsData
-      .filter((planet) => +planet[keyToFilter] < +amount),
-    igual_a: (keyToFilter, amount) => planetsData
-      .filter((planet) => +planet[keyToFilter] === +amount),
-  });
-
   const [instructionToFilter,
-    setInstructionToFilter] = useState();
+    setInstructionToFilter] = useState([]);
+  const [sort, setSort] = useState({
+    sorted: 'ASC',
+    column: 'name',
+  });
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -43,17 +39,21 @@ function ContextFromStarWarsProvider({ children }) {
   useEffect(() => {
     function conditionFromFilter() {
       if (instructionToFilter) {
-        const condition = createCondition(planets);
-        const key = Object.values(instructionToFilter)[0];
-        const method = Object.values(instructionToFilter)[1]
-          .replace(' ', '_');
-        const amount = Object.values(instructionToFilter)[2];
-        const results = condition[method](key, amount);
-        setFilteredPlanets(() => results);
+        instructionToFilter.forEach((currentValue) => {
+          const condition = createCondition(planets);
+          const key = Object.values(currentValue)[0];
+          const method = Object.values(currentValue)[1]
+            .replace(' ', '_');
+          const amount = Object.values(currentValue)[2];
+          const results = condition[method](key, amount);
+          setFilteredPlanets(() => results);
+        });
       }
     }
     conditionFromFilter();
   }, [instructionToFilter, planets]);
+
+  const sortPlanets = createSortPlanets(sort.column);
 
   const contextValue = {
     planets,
@@ -63,6 +63,8 @@ function ContextFromStarWarsProvider({ children }) {
     instructionToFilter,
     setFilteredPlanets,
     setInstructionToFilter,
+    sortPlanets: sortPlanets[sort.sorted],
+    setSort,
   };
 
   return (
