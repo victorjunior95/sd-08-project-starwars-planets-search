@@ -5,6 +5,7 @@ const FilterForm = () => {
   const {
     filterName,
     setFilterName,
+    columns,
     setColumn,
     setComparison,
     setValue,
@@ -13,13 +14,6 @@ const FilterForm = () => {
       filterByNumericValues: [{ column, comparison, value }],
     },
   } = useStateValue();
-  const columns = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
   const comparisonSelect = ['maior que', 'menor que', 'igual a'];
   return (
     <div>

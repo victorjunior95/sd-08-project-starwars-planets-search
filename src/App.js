@@ -11,7 +11,15 @@ function App() {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
+  const [columns, setColumns] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
   const filterAction = () => {
+    setColumns(columns.filter((columnName) => columnName !== column));
     setData(advancedFilter);
   };
   useEffect(() => {
@@ -43,6 +51,7 @@ function App() {
   }, []);
   const providerValue = {
     data,
+    columns,
     filters: {
       filterByName: {
         name: filterName,
