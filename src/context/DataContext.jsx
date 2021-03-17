@@ -5,11 +5,8 @@ export const DateContext = createContext([]);
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState([]);
-  // const [selectedData, setSelectedData] = useState({});
-
-  // const changeSelectedData = (name)=> {
-
-  // }
+  const [searchName, setSearchName] = useState('');
+  const [filterPlanet, setFilterPlanet] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,8 +17,26 @@ const DataProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    let filterPlanets = data;
+    filterPlanets = data.filter((planet) => planet.name.includes((searchName)));
+    setFilterPlanet(filterPlanets);
+  }, [data, searchName]);
+
+  const filterName = (e) => {
+    setSearchName(e.target.value);
+  };
+
+  const store = {
+    data,
+    searchName,
+    filterPlanet,
+    setData,
+    filterName,
+  };
+
   return (
-    <DateContext.Provider value={ data }>
+    <DateContext.Provider value={ store }>
       {
         children
       }

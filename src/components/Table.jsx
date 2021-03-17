@@ -2,10 +2,20 @@ import React, { useContext } from 'react';
 import { DateContext } from '../context/DataContext';
 
 const Table = () => {
-  const data = useContext(DateContext);
+  const { filterName, searchName, filterPlanet } = useContext(DateContext);
 
   return (
-    <h1>
+    <>
+      <h1> StormTrooper, consulte o planeta de sua próxima missão no campo abaixo </h1>
+      <label htmlFor="searchInput">
+        Faça sua busca:
+        <input
+          data-testid="name-filter"
+          type="text"
+          onChange={ filterName }
+          value={ searchName }
+        />
+      </label>
       <table border="1">
         <caption>Lista de Planetas</caption>
         <thead>
@@ -26,8 +36,9 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {filterPlanet.map((item, index) => (
             <tr key={ item.name }>
+              <td>{index + 1}</td>
               <td>{item.name}</td>
               <td>{item.rotation_period}</td>
               <td>{item.orbital_period}</td>
@@ -44,7 +55,7 @@ const Table = () => {
           ))}
         </tbody>
       </table>
-    </h1>
+    </>
   );
 };
 
