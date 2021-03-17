@@ -7,6 +7,11 @@ const DataProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [filterPlanet, setFilterPlanet] = useState([]);
+  const [filterNumber, setFilterNumber] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '100000',
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +28,23 @@ const DataProvider = ({ children }) => {
     setFilterPlanet(filterPlanets);
   }, [data, searchName]);
 
+  const handleClick = () => {
+    setData([]);
+    const { column, comparison, value } = filterNumber;
+    if (comparison === 'maior que') {
+      return setData(data
+        .filter((item) => Number(item[column]) > Number(value)));
+    }
+    if (comparison === 'menor que') {
+      return setData(data
+        .filter((item) => Number(item[column]) < Number(value)));
+    }
+    if (comparison === 'igual a') {
+      return setData(data
+        .filter((item) => Number(item[column]) === Number(value)));
+    }
+  };
+
   const filterName = (e) => {
     setSearchName(e.target.value);
   };
@@ -33,6 +55,9 @@ const DataProvider = ({ children }) => {
     filterPlanet,
     setData,
     filterName,
+    filterNumber,
+    handleClick,
+    setFilterNumber,
   };
 
   return (

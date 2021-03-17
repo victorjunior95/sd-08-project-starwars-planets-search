@@ -2,13 +2,15 @@ import React, { useContext } from 'react';
 import { DateContext } from '../context/DataContext';
 
 const Table = () => {
-  const { filterName, searchName, filterPlanet } = useContext(DateContext);
+  const {
+    filterName, searchName, filterPlanet, filterNumber, setFilterNumber, handleClick,
+  } = useContext(DateContext);
 
   return (
     <>
       <h1> StormTrooper, consulte o planeta de sua próxima missão no campo abaixo </h1>
       <label htmlFor="searchInput">
-        Faça sua busca:
+        Faça sua busca por nome:
         <input
           data-testid="name-filter"
           type="text"
@@ -16,6 +18,56 @@ const Table = () => {
           value={ searchName }
         />
       </label>
+
+      Faça sua busca por colunas:
+      <select
+        data-testid="column-filter"
+        name="column"
+        onChange={ (e) => setFilterNumber(
+          { ...filterNumber, column: e.target.value },
+        ) }
+      >
+        <option value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+
+      Maior/Menor/Igual:
+
+      <select
+        data-testid="comparison-filter"
+        name="comparison"
+        onChange={ (e) => setFilterNumber(
+          { ...filterNumber, comparison: e.target.value },
+        ) }
+      >
+        <option value="maior que">maior que</option>
+        <option value="igual a">igual a</option>
+        <option value="menor que">menor que</option>
+      </select>
+
+      <label htmlFor="numberInput">
+        Insira o número:
+        <input
+          data-testid="value-filter"
+          name="value"
+          type="number"
+          onChange={ (e) => setFilterNumber(
+            { ...filterNumber, value: e.target.value },
+          ) }
+        />
+      </label>
+
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClick }
+      >
+        Filtrar
+      </button>
+
       <table border="1">
         <caption>Lista de Planetas</caption>
         <thead>
@@ -28,7 +80,7 @@ const Table = () => {
             <th>Clima</th>
             <th>Força Gravitacional</th>
             <th>Tipo de Terreno</th>
-            <th>Presença de Água</th>
+            <th>Qtde de Água</th>
             <th>População</th>
             <th>Aparição em Filmes</th>
             <th>Criado em</th>
