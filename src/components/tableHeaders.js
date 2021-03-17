@@ -1,20 +1,27 @@
 import React from 'react';
 import myContext from '../context/dataContext';
 
-function tableHeaders() {
+function tralala() {
   return (
     <myContext.Consumer>
       {(data) => (
-        (data[0])
-          ? <thead>
-            {' '}
-            <tr>
-              {Object.keys(data[0]).filter((head) => head !== 'residents')
-                .map((cada) => <th key={ cada }>{cada}</th>) }
-            </tr>
-            </thead>
-          : <h1>Espera</h1>) }
+        <thead>
+          <tr>
+            {Object.keys(data[0]).filter((head) => head !== 'residents')
+              .map((cada) => <th key={ cada }>{cada}</th>) }
+          </tr>
+        </thead>
+      ) }
     </myContext.Consumer>
+  );
+}
+
+function tableHeaders() {
+  return (
+    <myContext.Consumer>
+      {(data) => ((data[0]) ? tralala() : <h1>Espera</h1>)}
+    </myContext.Consumer>
+
   );
 }
 
