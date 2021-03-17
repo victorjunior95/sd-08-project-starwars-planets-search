@@ -33,21 +33,19 @@ function SwHeader() {
     });
   };
 
-  const handleRemoveFiltering = (text) => {
-    const newColumn = text.replace('X', '');
-
-    const removeBtnColumn = filteredColumns.filter(
-      (element) => element !== newColumn,
+  const handleRemoveFiltering = (selector) => {
+    const removeFilteredColumn = filteredColumns.filter(
+      (filteredColumn) => filteredColumn !== selector,
     );
 
     const removeFilter = instructionToFilter.filter(
-      (find) => find.column !== newColumn,
+      (find) => find.column !== selector,
     );
 
     setInstructionToFilter(removeFilter);
     setFilteredPlanets(planets);
-    setFilteredColumns(removeBtnColumn);
-    setColumns([...columns, newColumn]);
+    setFilteredColumns(removeFilteredColumn);
+    setColumns([...columns, selector]);
   };
 
   const handleColumnFiltering = () => {
@@ -171,14 +169,14 @@ function SwHeader() {
 
       <ul className="swFilterList">
         {!filteredColumns
-          || filteredColumns.map((element) => (
-            <li key={ element }>
-              {element}
+          || filteredColumns.map((filteredColumn) => (
+            <li key={ filteredColumn }>
+              {filteredColumn}
               <button
                 type="button"
                 data-testid="filter"
-                onClick={ ({ target }) => handleRemoveFiltering(
-                  target.parentNode.innerText,
+                onClick={ () => handleRemoveFiltering(
+                  filteredColumn,
                 ) }
               >
                 X
