@@ -37,7 +37,14 @@ const Table = () => {
       <tr key={ key }>
         { Object.entries(planet).map(([prop, info], index) => (
           <td key={ index } data-testid={ prop === 'name' ? 'planet-name' : null }>
-            { Array.isArray(info) ? info.join('\n') : info.toString() }
+            { Array.isArray(info)
+              ? (
+                <ul>
+                  { info.map((currentInfo, infoIndex) => (
+                    <li key={ infoIndex }>{ currentInfo }</li>))}
+                </ul>
+              )
+              : info.toString() }
           </td>
         )) }
       </tr>
@@ -58,7 +65,7 @@ const Table = () => {
   filteredPlanets.sort((planetA, planetB) => {
     let result = null;
     if (isStringColumn) {
-      result = planetA[orderColumn].localeCompare(planetB[orderColumn]);
+      result = String(planetA[orderColumn]).localeCompare(String(planetB[orderColumn]));
     } else {
       const numberA = columnToNumber(planetA[orderColumn]);
       const numberB = columnToNumber(planetB[orderColumn]);
@@ -68,29 +75,20 @@ const Table = () => {
   });
 
   return (
-    <table className={ styles.table }>
-      <thead>
-        <tr>
-          { columns.map((header, index) => (
-            <th key={ index }>{header}</th>)) }
-        </tr>
-      </thead>
-      <tbody>
-        { filteredPlanets.map((planet, key) => renderPlanetRow(planet, key)) }
-      </tbody>
-    </table>
+    <div className={ styles.tableContainer }>
+      <table className={ styles.table }>
+        <thead>
+          <tr>
+            { columns.map((header, index) => (
+              <th key={ index }>{header}</th>)) }
+          </tr>
+        </thead>
+        <tbody>
+          { filteredPlanets.map((planet, key) => renderPlanetRow(planet, key)) }
+        </tbody>
+      </table>
+    </div>
   );
 };
 
 export default Table;
-
-// .sort((planetA, planetB) => {
-//   let result = null;
-//   console.log(planetA[orderColumn]);
-//   if (Number.isNaN(planetA[orderColumn])) {
-//     result = planetA[orderColumn].localeCompare(planetB[orderColumn]);
-//   } else {
-//     result = planetA[orderColumn] - planetB[orderColumn];
-//   }
-//   return orderSort === 'ASC' ? result : result * -'1';
-// })

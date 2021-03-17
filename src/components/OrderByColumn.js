@@ -1,13 +1,15 @@
 import React, { useContext, useState } from 'react';
 import StarWarsContext from '../contexts/StarWarsContext';
 
+import styles from '../styles/components/OrderByColumn.module.css';
+
 const OrderByColumn = () => {
   const { columns, orderColumn, changeOrderColumn,
     changeOrderSort } = useContext(StarWarsContext);
   const [sort, setSort] = useState('ASC');
 
   return (
-    <>
+    <div className={ styles.orderColumnContainer }>
       <select
         data-testid="column-sort"
         value={ orderColumn }
@@ -46,7 +48,7 @@ const OrderByColumn = () => {
       >
         Ordernar
       </button>
-    </>
+    </div>
   );
 };
 

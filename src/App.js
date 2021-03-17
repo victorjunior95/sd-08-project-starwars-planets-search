@@ -7,12 +7,18 @@ import ColumnFilter from './components/ColumnFilter';
 import FiltersList from './components/FiltersList';
 import OrderByColumn from './components/OrderByColumn';
 
+import styles from './styles/App.module.css';
+
 function App() {
   return (
     <StarWarsProvider>
-      <NameFilter />
-      <ColumnFilter />
-      <OrderByColumn />
+      <div className={ styles.controlsContainer }>
+        <div className={ styles.controls }>
+          <NameFilter />
+          <OrderByColumn />
+          <ColumnFilter />
+        </div>
+      </div>
       <FiltersList />
       <Table />
     </StarWarsProvider>

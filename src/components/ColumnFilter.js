@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import StarWarsContext from '../contexts/StarWarsContext';
 
+import styles from '../styles/components/ColumnFilter.module.css';
+
 const columnOptions = ['population', 'orbital_period', 'diameter',
   'rotation_period', 'surface_water'];
 
@@ -24,7 +26,7 @@ const ColumnFilter = () => {
   }
 
   return (
-    <>
+    <div className={ styles.columnFilterContainer }>
       <select
         data-testid="column-filter"
         value={ column }
@@ -60,7 +62,7 @@ const ColumnFilter = () => {
       >
         Adicionar filtro
       </button>
-    </>
+    </div>
   );
 };
 
