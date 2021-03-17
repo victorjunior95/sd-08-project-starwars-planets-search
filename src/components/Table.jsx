@@ -1,18 +1,27 @@
 import React, { useContext } from 'react';
 import PlanetContext from '../contexts/PlanetContext';
-import useFilter from '../hooks/useFilter';
+import useFilterByColumn from '../hooks/useFilterByColumn';
+import useFilterByName from '../hooks/useFilterByName';
 
 function Table() {
-  const { planetsList } = useContext(PlanetContext);
+  const {
+    planetsList,
+    filters,
+  } = useContext(PlanetContext);
+  const { filterByNumericValues } = filters;
 
-  const [filteredPlanets] = useFilter();
+  const [filteredByName] = useFilterByName();
+  const [filteredByColumn] = useFilterByColumn();
+
+  const listOfPlanets = (filterByNumericValues.length > 0)
+    ? filteredByColumn : filteredByName;
 
   function getTableHeadInfo() {
     const planetKeys = Object.keys(planetsList[0]);
     return planetKeys.filter((key) => key !== 'residents');
   }
 
-  if (filteredPlanets.length) {
+  if (listOfPlanets.length) {
     const headInfo = getTableHeadInfo();
     return (
       <table>
@@ -24,7 +33,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { filteredPlanets.map((planet) => (
+          { listOfPlanets.map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
