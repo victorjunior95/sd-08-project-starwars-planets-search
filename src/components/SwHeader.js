@@ -5,9 +5,9 @@ function SwHeader() {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('');
   const [valueNumber, setValueNumber] = useState(0);
-  const [btnColumns, setBtnColumns] = useState([]);
-  const [radioSort, setRadioSort] = useState('');
-  const [columnSort, setColumnSort] = useState('name');
+  const [filteredColumns, setFilteredColumns] = useState([]);
+  const [columnOrderType, setColumnOrderType] = useState('');
+  const [columnOrderName, setColumnOrderName] = useState('name');
   const [columns, setColumns] = useState([
     'population',
     'orbital_period',
@@ -28,15 +28,15 @@ function SwHeader() {
 
   const handleColumnOrder = () => {
     setSort({
-      sorted: radioSort,
-      column: columnSort,
+      sorted: columnOrderType,
+      column: columnOrderName,
     });
   };
 
   const handleRemoveFiltering = (text) => {
     const newColumn = text.replace('X', '');
 
-    const removeBtnColumn = btnColumns.filter(
+    const removeBtnColumn = filteredColumns.filter(
       (element) => element !== newColumn,
     );
 
@@ -46,7 +46,7 @@ function SwHeader() {
 
     setInstructionToFilter(removeFilter);
     setFilteredPlanets(planets);
-    setBtnColumns(removeBtnColumn);
+    setFilteredColumns(removeBtnColumn);
     setColumns([...columns, newColumn]);
   };
 
@@ -65,7 +65,7 @@ function SwHeader() {
         (columnFilter) => columnFilter !== column,
       );
       setColumns(columnsFilter);
-      setBtnColumns([...btnColumns, column]);
+      setFilteredColumns([...filteredColumns, column]);
       setComparison('');
     }
   };
@@ -126,10 +126,10 @@ function SwHeader() {
 
       <div className="swHeaderColumnSort">
         <select
-          value={ columnSort }
+          value={ columnOrderName }
           name="comparison"
           data-testid="column-sort"
-          onChange={ ({ target }) => setColumnSort(target.value) }
+          onChange={ ({ target }) => setColumnOrderName(target.value) }
         >
           {['name', 'orbital_period', 'climate', 'terrain', 'films', 'url'].map(
             (columnOptionSort) => (
@@ -146,7 +146,7 @@ function SwHeader() {
             type="radio"
             name="sort"
             value="ASC"
-            onClick={ ({ target }) => setRadioSort(target.value) }
+            onClick={ ({ target }) => setColumnOrderType(target.value) }
           />
         </label>
 
@@ -157,7 +157,7 @@ function SwHeader() {
             type="radio"
             name="sort"
             value="DESC"
-            onClick={ ({ target }) => setRadioSort(target.value) }
+            onClick={ ({ target }) => setColumnOrderType(target.value) }
           />
         </label>
         <button
@@ -170,8 +170,8 @@ function SwHeader() {
       </div>
 
       <ul className="swFilterList">
-        {!btnColumns
-          || btnColumns.map((element) => (
+        {!filteredColumns
+          || filteredColumns.map((element) => (
             <li key={ element }>
               {element}
               <button
