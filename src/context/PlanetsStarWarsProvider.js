@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import PlanetsStarWarsContext from './PlanetsStarWarsContext';
 
+const NUMBER_ONE_NEGATIVE = -1;
+
 function PlanetsStarWarsProvider({ children }) {
   const filtersObject = {
     filterByName: {
       name: '',
     },
     filterByNumericValues: [],
+    order: {},
   };
 
   const filterByNumericObjetc = {
@@ -22,13 +25,7 @@ function PlanetsStarWarsProvider({ children }) {
   const [column, setColumn] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [filterNumeric, setFilterNumeric] = useState(filterByNumericObjetc);
-
-  const fetchAPI = async () => {
-    const planetsStarWarsAPI = await fetch('https://swapi-trybe.herokuapp.com/api/planets');
-    const planetsStarWarsJSON = await planetsStarWarsAPI.json();
-    setPlanetStarWars(planetsStarWarsJSON.results);
-    setPlanetStarWarsAUX(planetsStarWarsJSON.results);
-  };
+  const [filterSort, setFilterSort] = useState({ column: '', sort: '' });
 
   const handleChange = ({ target }) => {
     if (target.name === 'filterByName') {
@@ -36,37 +33,95 @@ function PlanetsStarWarsProvider({ children }) {
       const filtersPlanets = planetsStarWarsAUX
         .filter((planet) => planet.name.includes(target.value));
       setPlanetStarWars(filtersPlanets);
+    } else if (target.name === 'order') {
+      setFilterSort({ ...filterSort, column: target.value.toLowerCase() });
+    } else if (target.name === 'sort') {
+      setFilterSort({ ...filterSort, [target.name]: target.value });
     } else {
       setFilterNumeric({ ...filterNumeric, [target.name]: target.value });
     }
   };
 
-  const clickButton = () => {
-    filters.filterByNumericValues.push(filterNumeric);
-    column.splice(column.indexOf(filterNumeric.column), 1);
-    setColumn(column);
+  const clickButton = (click = 0) => {
+    if (click === 0) {
+      filters.filterByNumericValues.push(filterNumeric);
+      column.splice(column.indexOf(filterNumeric.column), 1);
+      setColumn(column);
+    }
+
+    let planets = [];
+    if (filters.filterByNumericValues.length > 1) {
+      planets = planetsStarWars;
+    } else {
+      planets = planetsStarWarsAUX;
+    }
 
     if (filterNumeric.comparison === 'maior que') {
-      const filtersLarger = planetsStarWarsAUX
+      const filtersLarger = planets
         .filter((planet) => parseFloat(planet[filterNumeric.column])
         > parseFloat(filterNumeric.value));
       setPlanetStarWars(filtersLarger);
     } else if (filterNumeric.comparison === 'menor que') {
-      const filtersSmaller = planetsStarWarsAUX
+      const filtersSmaller = planets
         .filter((planet) => parseFloat(planet[filterNumeric.column])
         < parseFloat(filterNumeric.value));
       setPlanetStarWars(filtersSmaller);
     } else if (filterNumeric.comparison === 'igual a') {
-      const filtersEqual = planetsStarWarsAUX
+      const filtersEqual = planets
         .filter((planet) => planet[filterNumeric.column] === filterNumeric.value);
       setPlanetStarWars(filtersEqual);
+    } else {
+      setPlanetStarWars(planets);
+      console.log('entriu aqui');
     }
+
+    setFilterNumeric(filterByNumericObjetc);
   };
 
   const filterDeleteButton = (index) => {
-    column.push(filters.filterByNumericValues[index].column);
+    setColumn([...column, filters.filterByNumericValues[index].column]);
     filters.filterByNumericValues.splice(index, 1);
-    setPlanetStarWars(planetsStarWarsAUX);
+    if (!filters.filterByNumericValues.length) {
+      setPlanetStarWars(planetsStarWarsAUX);
+    }
+  };
+
+  const sortString = (array) => {
+    if (array.sort === 'asc') {
+      planetsStarWars.sort((a, b) => {
+        if (a[array.column] > b[array.column]) {
+          return 1;
+        }
+        if (b[array.column] > a[array.column]) {
+          return NUMBER_ONE_NEGATIVE;
+        }
+        return 0;
+      });
+    } else if (filterSort.sort === 'desc') {
+      planetsStarWars.sort((a, b) => {
+        if (b[array.column] > a[array.column]) {
+          return 1;
+        }
+        if (a[array.column] > b[array.column]) {
+          return NUMBER_ONE_NEGATIVE;
+        }
+        return 0;
+      });
+    }
+  };
+
+  const buttonSort = () => {
+    setFilters({ ...filters, order: filterSort });
+    if (filterSort.column === 'name') {
+      sortString(filterSort);
+    } else if (filterSort.column === 'population'
+      || filterSort.column === 'orbital_period') {
+      if (filterSort.sort === 'asc') {
+        planetsStarWars.sort((a, b) => a[filterSort.column] - b[filterSort.column]);
+      } else if (filterSort.sort === 'desc') {
+        planetsStarWars.sort((a, b) => b[filterSort.column] - a[filterSort.column]);
+      }
+    }
   };
 
   return (
@@ -74,10 +129,13 @@ function PlanetsStarWarsProvider({ children }) {
       value={ { planetsStarWars,
         filters,
         column,
-        fetchAPI,
+        filterNumeric,
+        setPlanetStarWars,
+        setPlanetStarWarsAUX,
         handleChange,
         clickButton,
-        filterDeleteButton } }
+        filterDeleteButton,
+        buttonSort } }
     >
       {children}
     </PlanetsStarWarsContext.Provider>

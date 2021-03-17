@@ -3,13 +3,30 @@ import Table from '../components/table';
 import Forms from '../components/forms';
 import PlanetsStarWarsContext from '../context/PlanetsStarWarsContext';
 
+const NUMBER_ONE_NEGATIVE = -1;
+
 function Home() {
-  const { fetchAPI, planetsStarWars,
-    filters, filterDeleteButton } = useContext(PlanetsStarWarsContext);
+  const { planetsStarWars,
+    filters, filterDeleteButton,
+    setPlanetStarWars, setPlanetStarWarsAUX } = useContext(PlanetsStarWarsContext);
 
   useEffect(() => {
+    const fetchAPI = async () => {
+      const planetsStarWarsAPI = await fetch('https://swapi-trybe.herokuapp.com/api/planets');
+      const planetsStarWarsJSON = await planetsStarWarsAPI.json();
+      setPlanetStarWars(planetsStarWarsJSON.results.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (b.name > a.name) {
+          return NUMBER_ONE_NEGATIVE;
+        }
+        return 0;
+      }));
+      setPlanetStarWarsAUX(planetsStarWarsJSON.results);
+    };
     fetchAPI();
-  }, []);
+  }, [setPlanetStarWars, setPlanetStarWarsAUX]);
 
   return (
     <>
