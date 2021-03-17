@@ -1,5 +1,8 @@
 import React, { useState, useContext } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import SWContext from '../context/SWContext';
+import './SelectForm.css';
 
 const COMPARISON_OPTIONS = ['maior que', 'menor que', 'igual a'];
 
@@ -32,40 +35,53 @@ function SelectForm() {
   }
   return (
     <div>
-      <select
-        name="column"
-        data-testid="column-filter"
-        value={ column }
-        onChange={ handleChange }
-      >
-        {columns.map((option, index) => (
-          <option key={ index }>{option}</option>
-        ))}
-      </select>
-      <select
-        name="comparison"
-        data-testid="comparison-filter"
-        value={ comparison }
-        onChange={ handleChange }
-      >
-        {COMPARISON_OPTIONS.map((option, index) => (
-          <option key={ index }>{option}</option>
-        ))}
-      </select>
-      <input
-        name="value"
-        type="number"
-        data-testid="value-filter"
-        value={ value }
-        onChange={ handleChange }
-      />
-      <button
-        type="button"
-        onClick={ handleClick }
-        data-testid="button-filter"
-      >
-        Filtrar
-      </button>
+      <Form>
+        <Form.Group controlId="exampleForm.SelectCustom">
+          <Form.Label>Column option</Form.Label>
+          <Form.Control
+            name="column"
+            data-testid="column-filter"
+            value={ column }
+            onChange={ handleChange }
+            as="select"
+            custom
+          >
+            {columns.map((option, index) => (
+              <option key={ index }>{option}</option>
+            ))}
+          </Form.Control>
+        </Form.Group>
+        <Form.Label>Compare</Form.Label>
+        <Form.Control
+          name="comparison"
+          data-testid="comparison-filter"
+          value={ comparison }
+          onChange={ handleChange }
+          as="select"
+          custom
+        >
+          {COMPARISON_OPTIONS.map((option, index) => (
+            <option key={ index }>{option}</option>
+          ))}
+        </Form.Control>
+        <Form.Label>Numéro da população</Form.Label>
+        <Form.Control
+          name="value"
+          type="number"
+          data-testid="value-filter"
+          value={ value }
+          onChange={ handleChange }
+        />
+        <Button
+          className="Button"
+          onClick={ handleClick }
+          data-testid="button-filter"
+          type="button"
+          variant="dark"
+        >
+          Filtrar
+        </Button>
+      </Form>
     </div>
   );
 }

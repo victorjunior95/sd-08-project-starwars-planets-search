@@ -10,13 +10,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <Provider>
-      <div>
-        <span>Welcome to Start Wars Planets Page</span>
+      <div className="App">
+        <div>
+          Welcome to Start Wars Planets Page
+        </div>
+        <Form />
+        <SelectForm />
+        <SelectedFilters />
+        <Tabela />
       </div>
-      <Form />
-      <SelectForm />
-      <SelectedFilters />
-      <Tabela />
     </Provider>
   );
 }

@@ -6,7 +6,7 @@ function Tabela() {
   const { planets } = useContext(SWContext);
 
   return (
-    <Table striped bordered hover variant="dark" size="sm">
+    <Table striped bordered hover variant="dark" size="sm" responsive>
       <thead>
         <tr>
           <th>Name</th>
