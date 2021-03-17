@@ -10,14 +10,12 @@ export const INITIAL_COMPARATORS = {
   greater: 'maior que',
   equal: 'igual a',
   smaller: 'menor que',
-  // greaterEqual: 'Surface Water',
-  // smallerEqual: 'Population',
 };
 
 export const INITIAL_HEADER_FORM = {
   nameFilter: '',
   columnFilter: 'rotation_period',
-  comparisonFilter: 'greater',
+  comparisonFilter: 'igual a',
   valueFilter: '0',
 };
 

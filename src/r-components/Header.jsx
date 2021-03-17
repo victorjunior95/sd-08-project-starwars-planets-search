@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../contextAPI/PlanetsContext';
-import { INITIAL_COMPARATORS } from '../services/INITIAL';
 import { setNumericFilter, removeFromNumericFilter, removeFilterOption,
 } from '../services/filterFunctions';
 import './Header.css';
@@ -55,7 +54,6 @@ export default function Header() {
         <select
           data-testid="column-filter"
           name="columnFilter"
-          value={ headerForm.columnFilter }
           onChange={ ({ target: { value } }) => setHeaderForm({
             ...headerForm,
             columnFilter: value,
@@ -77,7 +75,9 @@ export default function Header() {
             comparisonFilter: value,
           }) }
         >
-          {renderOptionsWithObj(INITIAL_COMPARATORS)}
+          <option value="igual a">igual a</option>
+          <option value="menor que">menor que</option>
+          <option value="maior que">maior que</option>
         </select>
       </label>
 
@@ -100,6 +100,7 @@ export default function Header() {
         type="button"
         onClick={ () => {
           setNumericFilter(filters, setFilters, headerForm);
+          console.log(headerForm);
         } }
       >
         Filtrar
