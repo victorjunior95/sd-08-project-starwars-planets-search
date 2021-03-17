@@ -51,9 +51,7 @@ const ProviderPlanet = ({ children }) => {
   const filtroValor = ({ column, comparison, value }) => {
     const novoFiltro = planetas.filter((planeta) => {
       const optionValor = Number(planeta[column]);
-      console.log(optionValor);
       const valueToCompare = Number(value);
-      console.log(valueToCompare);
       if (comparison === 'menor que') {
         return optionValor < valueToCompare;
       }
@@ -62,7 +60,6 @@ const ProviderPlanet = ({ children }) => {
       }
       return optionValor === valueToCompare;
     });
-    console.log(novoFiltro);
     setFiltroPlaneta(novoFiltro);
   };
 
@@ -72,7 +69,7 @@ const ProviderPlanet = ({ children }) => {
     const indexOption = copyOptions.indexOf(optionSelecionada);
     copyOptions.splice(indexOption, 1);
     setOptions(copyOptions);
-    filtroValor(filtro);
+    filtroValor(filtros);
   };
 
   const data = {
