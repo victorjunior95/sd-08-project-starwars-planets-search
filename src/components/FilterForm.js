@@ -54,7 +54,7 @@ function FilterForm() {
 
   function handleClick(event) {
     event.preventDefault();
-    onClickAddFilter(numericFilterValues);
+    onClickAddFilter();
   }
 
   return (
@@ -77,8 +77,8 @@ function FilterForm() {
           Filter
         </button>
       </form>
+      <h4>Active Filters</h4>
       <ul>
-        <h4>Active Filters</h4>
         { filters.filterByNumericValues.length > 0
           && filters.filterByNumericValues.map((filter) => (
             <li key={ filter.column }>

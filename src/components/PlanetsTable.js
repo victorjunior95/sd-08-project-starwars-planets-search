@@ -6,10 +6,21 @@ import '../styles/PlanetsTable.css';
 function PlanetsTable() {
   const { isFetching, data, filters } = useContext(Context);
 
-  const dataAfterFilter = data
+  const dataAfterNameFilter = data
     .filter((planetData) => planetData.name.includes(filters.filterByName.name));
 
-  const renderData = dataAfterFilter.map((planetData) => Object.entries(planetData)
+  const dataAfterNumericFilter = filters.filterByNumericValues.reduce((acc, filter) => {
+    const { comparison, column, value } = filter;
+    const comparisonFunctions = {
+      'maior que': (columnData) => parseInt(columnData, 10) > parseInt(value, 10),
+      'menor que': (columnData) => parseInt(columnData, 10) < parseInt(value, 10),
+      'igual a': (columnData) => parseInt(columnData, 10) === parseInt(value, 10),
+    };
+    return acc
+      .filter((planetData) => comparisonFunctions[comparison](planetData[column]));
+  }, dataAfterNameFilter);
+
+  const renderData = dataAfterNumericFilter.map((planetData) => Object.entries(planetData)
     .filter((planetInfo) => planetInfo[0] !== 'residents'));
 
   return (

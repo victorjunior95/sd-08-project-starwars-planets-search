@@ -14,7 +14,7 @@ function Provider({ children }) {
     },
     filterByNumericValues: [],
   });
-  const [columnOptions, setcolumnOptions] = useState([
+  const [columnOptions, setColumnOptions] = useState([
     'population',
     'orbital_period',
     'diameter',
@@ -35,10 +35,10 @@ function Provider({ children }) {
     setFilters({ ...filters, filterByName: { [id]: value } });
   }
 
-  function onClickAddFilter(newFilter) {
+  function onClickAddFilter() {
     setFilters({
       ...filters,
-      filterByNumericValues: [...filters.filterByNumericValues, newFilter],
+      filterByNumericValues: [...filters.filterByNumericValues, numericFilterValues],
     });
   }
 
@@ -55,7 +55,7 @@ function Provider({ children }) {
 
   useEffect(() => {
     const usedOptions = filters.filterByNumericValues.map((filter) => filter.column);
-    setcolumnOptions((previousState) => previousState
+    setColumnOptions((previousState) => previousState
       .filter((column) => !usedOptions.includes(column)));
   }, [filters]);
 
