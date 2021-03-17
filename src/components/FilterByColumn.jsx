@@ -40,37 +40,61 @@ function FilterByColumn() {
     }
   }
 
-  return (
-    <div>
+  function generateOptions() {
+    const allOptions = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+    let filterOptions = [];
+    if (filterByNumericValues.length > 0) {
+      const usedFilters = filterByNumericValues.map((filter) => filter.column);
+      usedFilters.forEach((filter) => {
+        filterOptions = allOptions.filter((option) => option !== filter);
+      });
+    } else {
+      filterOptions = allOptions;
+    }
+
+    return (
       <label htmlFor="column">
+        Filter by column:
         <select
           id="column"
           value={ column }
           onChange={ (e) => handleChangeByColumn(e) }
           data-testid="column-filter"
         >
-          <option value="">column filter</option>
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            filterOptions.map((op) => (
+              <option key={ op } value={ op }>{ op }</option>
+            ))
+          }
         </select>
       </label>
+    );
+  }
+
+  return (
+    <div>
+      { generateOptions() }
       <label htmlFor="comparison">
+        Comparison operator:
         <select
           id="comparison"
           value={ comparison }
           onChange={ (e) => handleChangeByColumn(e) }
           data-testid="comparison-filter"
         >
-          <option value="">comparison filter</option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
         </select>
       </label>
       <label htmlFor="filterByNumericValues">
+        By the value:
         <input
           type="number"
           id="value"
