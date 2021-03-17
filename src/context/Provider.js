@@ -7,11 +7,20 @@ const Provider = ({ children }) => {
   const [dataApi, setDataApi] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [filters, setFilters] = useState({
+  const filter = {
     filterByName: {
       name: '',
     },
-  });
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '100000',
+      },
+    ],
+  };
+
+  const [filters, setFilters] = useState(filter);
 
   const setName = (name) => {
     setFilters((prevState) => ({
@@ -28,7 +37,14 @@ const Provider = ({ children }) => {
       setLoading(false);
     });
   }, []);
-  const data = { dataApi, loading, setName, filters };
+
+  const data = {
+    dataApi,
+    loading,
+    setName,
+    filters,
+    setFilters,
+  };
   return (
     <AppContext.Provider value={ data }>
       {children}
