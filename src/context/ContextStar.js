@@ -1,6 +1,6 @@
 import React from 'react';
 
-let liso = [];
+const liso = [];
 export const getList = async () => {
   await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
     .then((res) => res.json())

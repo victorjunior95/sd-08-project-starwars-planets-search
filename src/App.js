@@ -17,6 +17,8 @@ function App() {
   };
 
   const [state, setstate] = useState(initialState);
+  console.log(state);
+  console.log(typeof (setstate));
 
   return (
     <div>
