@@ -5,15 +5,19 @@ const filterOptions = ['population', 'orbital_period', 'diameter',
   'rotation_period', 'surface_water'];
 function NumericFilter() {
   const { filter, setFilter } = useContext(Context);
+  const [filters, setFilters] = useState(filterOptions);
   const [column, setColumn] = useState(filterOptions[0]);
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
   const { filterByNumericValues } = filter;
   const handleClick = () => {
+    const newFilters = filters;
+    newFilters.splice(filters.indexOf(column), 1);
     setFilter({ ...filter,
       filterByNumericValues: filterByNumericValues
         ? [...filterByNumericValues, { column, comparison, value }]
         : [{ column, comparison, value }] });
+    setFilters(newFilters);
   };
   return (
     <div>
@@ -26,7 +30,7 @@ function NumericFilter() {
           value={ column }
           onChange={ (e) => setColumn(e.target.value) }
         >
-          {filterOptions.map((opt) => <option key={ opt }>{ opt }</option>)}
+          {filters.map((opt) => <option key={ opt }>{ opt }</option>)}
         </select>
       </label>
       <label htmlFor="comparison">
