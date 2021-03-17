@@ -11,6 +11,7 @@ const Table = () => {
   const [headers, setHeaders] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [filters, setFilter] = useState([]);
+
   useEffect(() => {
     setFilter(
       data.filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase())),
