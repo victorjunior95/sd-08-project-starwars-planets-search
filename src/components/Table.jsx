@@ -1,29 +1,11 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import tableContext from '../context/tableContext';
-
-const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
 export default function Table() {
   const {
-    filteredData,
-    setFilteredData,
     isFetching,
-    setData,
-    setIsFetching,
+    filteredData,
   } = useContext(tableContext);
-
-  useEffect(() => {
-    const getData = async () => {
-      await setIsFetching(true);
-      const content = await fetch(URL).then((res) => res.json()
-        .then((obj) => obj)
-        .catch((err) => err));
-      await setData(content.results);
-      await setFilteredData(content.results);
-      await setIsFetching(false);
-    };
-    getData();
-  }, []);
 
   return (
     <div className="table-container">

@@ -1,11 +1,10 @@
-const filtering = async (data, filters, setFilteredData) => {
-  const { filterByName } = filters;
-  const { name: nameFilter } = filterByName;
+const filtering = (data, filters, setFilteredData) => {
+  const { filterByName: { name: nameFilter } } = filters;
   const newResults = data.filter(
     ({ name }) => name.toLowerCase()
       .includes(nameFilter.toLowerCase()),
   );
-  await setFilteredData(newResults);
+  setFilteredData(newResults);
 };
 
 export default filtering;

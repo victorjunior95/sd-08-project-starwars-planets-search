@@ -4,8 +4,8 @@ import tableContext from './tableContext';
 
 export default function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState(
     {
       filterByName: {
