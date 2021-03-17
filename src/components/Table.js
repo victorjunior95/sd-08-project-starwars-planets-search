@@ -1,21 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
-import fetchPlanets from '../services/API_STAR_WARS';
+import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import PlanetCard from './PlanetCard';
 
 function Table() {
-  const [planets, setPlanets] = useState([]);
-  const {
-    filters: { filterByName: { name } },
-  } = useContext(PlanetsContext);
-
-  useEffect(() => {
-    const getPlanets = async () => {
-      const results = await fetchPlanets();
-      const filterPlanets = await results.filter((planet) => planet.name.includes(name));
-      setPlanets(filterPlanets);
-    };
-    getPlanets();
-  }, [name]);
+  const { planets } = useContext(PlanetsContext);
 
   return (
     <table>
@@ -38,23 +26,9 @@ function Table() {
       </thead>
       <tbody>
         {
-          planets.map((item) => (
-            <tr key={ item.name }>
-              <td>{item.name}</td>
-              <td>{item.rotation_period}</td>
-              <td>{item.orbital_period}</td>
-              <td>{item.diameter}</td>
-              <td>{item.climate}</td>
-              <td>{item.gravity}</td>
-              <td>{item.terrain}</td>
-              <td>{item.surface_water}</td>
-              <td>{item.population}</td>
-              <td>{item.films[0]}</td>
-              <td>{item.created}</td>
-              <td>{item.edited}</td>
-              <td>{item.url}</td>
-            </tr>
-          ))
+          (planets === undefined)
+            ? ''
+            : planets.map((item) => <PlanetCard key={ item.name } item={ item } />)
         }
       </tbody>
     </table>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
+import fetchPlanets from '../services/API_STAR_WARS';
 
 function PlanetsProvider({ children }) {
   const [name, setName] = useState('');
@@ -9,6 +10,23 @@ function PlanetsProvider({ children }) {
     const { value } = target;
     setName(value);
   };
+
+  const [storedPlanets, setStoredPlanets] = useState([]);
+  const [planets, setPlanets] = useState([]);
+
+  useEffect(() => {
+    const apiResults = async () => {
+      const results = await fetchPlanets();
+      setStoredPlanets(results);
+      setPlanets(results);
+    };
+    apiResults();
+  }, []);
+
+  useEffect(() => {
+    const filterPlanets = storedPlanets.filter((planet) => planet.name.includes(name));
+    setPlanets(filterPlanets);
+  }, [name]);
 
   const provide = {
     filters: {
@@ -19,6 +37,7 @@ function PlanetsProvider({ children }) {
     function: {
       handleChange,
     },
+    planets,
   };
 
   return (
