@@ -1,7 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import MyDataContext from '../context/Context';
 
-function Table({ data }) {
+function Table() {
+  const { filteredData } = useContext(MyDataContext);
+
   return (
     <table>
       <thead>
@@ -23,7 +25,7 @@ function Table({ data }) {
       </thead>
       <tbody>
         {
-          data.map((planet, index) => (
+          filteredData.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.climate}</td>
               <td>{planet.created}</td>
@@ -45,9 +47,5 @@ function Table({ data }) {
     </table>
   );
 }
-
-Table.propTypes = {
-  data: PropTypes.arrayOf(Array).isRequired,
-};
 
 export default Table;
