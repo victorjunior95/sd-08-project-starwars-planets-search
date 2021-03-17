@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import StarWarsContext from "../context/StarWarsContext";
-import Header from "../components/Header";
-import TableCard from "../components/TableCard";
-import SearchNameBar from "../components/SearchNameBar";
+import React, { useContext } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
+import Header from '../components/Header';
+import TableCard from '../components/TableCard';
+import SearchNameBar from '../components/SearchNameBar';
 
 function Table() {
   const {
@@ -20,7 +20,7 @@ function Table() {
       <table>
         <Header />
         {filteredData.map((result, index) => (
-          <TableCard key={index} result={result} />
+          <TableCard key={ index } result={ result } />
         ))}
       </table>
     </div>
