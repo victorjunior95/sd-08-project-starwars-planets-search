@@ -1,15 +1,15 @@
 export const INITIAL_COLUMN = {
-  rotation_period: 'Rotation Period',
-  orbital_period: 'Orbital Period',
-  diameter: 'Diameter',
-  surface_water: 'Surface Water',
-  population: 'Population',
+  rotation_period: 'rotation_period',
+  orbital_period: 'orbital_period',
+  diameter: 'diameter',
+  surface_water: 'surface_water',
+  population: 'population',
 };
 
 export const INITIAL_COMPARATORS = {
-  greater: 'Maior',
-  smaller: 'Menor que',
-  equal: 'Igual a',
+  greater: 'maior que',
+  equal: 'igual a',
+  smaller: 'menor que',
   // greaterEqual: 'Surface Water',
   // smallerEqual: 'Population',
 };

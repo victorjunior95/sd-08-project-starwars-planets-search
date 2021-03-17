@@ -15,7 +15,7 @@ function renderOptionsWithObj(paramObj) {
 function renderListFilters(filters, setFilters) {
   const { filterByNumericValues } = filters;
   return filterByNumericValues.map(({ column }) => (
-    <div key={ `reactkeyfilters${column}` }>
+    <div data-testid='filter' key={ `reactkeyfilters${column}` }>
       <span>{column}</span>
       <button
         type="button"
@@ -66,10 +66,10 @@ export default function Header() {
       </label>
 
       <label
-        data-testid="comparison-filter"
         htmlFor="comparisonFilter"
       >
         <select
+          data-testid="comparison-filter"
           name="comparisonFilter"
           value={ headerForm.comparisonFilter }
           onChange={ ({ target: { value } }) => setHeaderForm({
