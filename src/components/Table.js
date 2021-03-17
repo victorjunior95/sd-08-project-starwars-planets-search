@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import './Table.css';
 
 function Table() {
   const {
@@ -67,9 +68,13 @@ function Table() {
 
   return (
     <div>
-      <h1>Projeto Star Wars - Trybe</h1>
+      <section className="clouds">
+        <h2>Star Wars</h2>
+        <h1>Trybe</h1>
+      </section>
       <div>
         <input
+          className="margin input-text-number"
           type="text"
           data-testid="name-filter"
           onChange={ ({ target }) => {
@@ -79,6 +84,7 @@ function Table() {
       </div>
       <div>
         <select
+          className="margin"
           name="column"
           data-testid="column-filter"
           onChange={ ({ target }) => {
@@ -92,6 +98,7 @@ function Table() {
           ))}
         </select>
         <select
+          className="margin"
           name="comparison"
           data-testid="comparison-filter"
           onChange={ ({ target }) => {
@@ -103,6 +110,7 @@ function Table() {
           <option value="igual a">igual a</option>
         </select>
         <input
+          className="margin input-text-number"
           name="value"
           type="number"
           data-testid="value-filter"
@@ -112,6 +120,7 @@ function Table() {
           } }
         />
         <button
+          className="margin btn"
           type="button"
           data-testid="button-filter"
           onClick={ filterData }
@@ -119,8 +128,9 @@ function Table() {
           Filtrar
         </button>
         <label htmlFor="column-sort">
-          Ordenar
+          <h1>Ordenar</h1>
           <select
+            className="margin"
             name="column"
             data-testid="column-sort"
             onChange={ (e) => setOrderValues(e) }
@@ -137,8 +147,9 @@ function Table() {
           </select>
         </label>
         <label htmlFor="asc">
-          Ascendente
+          <h1>Ascendente</h1>
           <input
+            className="margin"
             required
             name="sort"
             id="asc"
@@ -149,8 +160,9 @@ function Table() {
           />
         </label>
         <label htmlFor="desc">
-          Descendente
+          <h1>Descendente</h1>
           <input
+            className="margin"
             required
             name="sort"
             id="desc"
@@ -161,6 +173,7 @@ function Table() {
           />
         </label>
         <button
+          className="margin btn"
           type="button"
           data-testid="column-sort-button"
         >
@@ -180,6 +193,7 @@ function Table() {
           </div>
         ))}
       </div>
+
       <table>
         <thead>
           <tr>
@@ -202,7 +216,7 @@ function Table() {
           {filterPlanets()
             .sort(setOrder)
             .map((Planet, index) => (
-              <tr key={ index }>
+              <tr className="table" key={ index }>
                 <td data-testid="planet-name">{Planet.name}</td>
                 <td>{Planet.rotation_period}</td>
                 <td>{Planet.orbital_period}</td>

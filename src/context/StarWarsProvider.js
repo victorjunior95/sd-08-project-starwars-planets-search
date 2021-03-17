@@ -80,7 +80,7 @@ function StarWarsProvider({ children }) {
           Planet,
           filter.column,
           filter.comparison,
-          filter.value, filter,
+          filter.value,
         )
       ))));
     };
@@ -98,7 +98,7 @@ function StarWarsProvider({ children }) {
     });
   };
 
-  // Consultei o PR do colega Cezar Augusto para ordenação PR: https://github.com/tryber/sd-07-project-starwars-datatable-hooks/pull/97
+  // Consultei o link https://stackoverflow.com/questions/7000851/array-sort-doesnt-sort-numbers-correctly
   const setOrder = (elem1, elem2) => {
     const { column, sort } = filters.order;
     function desc(a, b) {
