@@ -15,7 +15,7 @@ function renderOptionsWithObj(paramObj) {
 function renderListFilters(filters, setFilters) {
   const { filterByNumericValues } = filters;
   return filterByNumericValues.map(({ column }) => (
-    <div data-testid='filter' key={ `reactkeyfilters${column}` }>
+    <div data-testid="filter" key={ `reactkeyfilters${column}` }>
       <span>{column}</span>
       <button
         type="button"
