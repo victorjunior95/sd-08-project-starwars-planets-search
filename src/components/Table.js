@@ -20,10 +20,11 @@ const Table = () => {
           <input
             type="text"
             placeholder="select a planet"
+            data-testid="name-filter"
             value={ searchName }
             onChange={ (e) => setSearchName(e.target.value) }
           />
-          <div data-testid="name-filter">
+          <div>
             <span>xxx</span>
             <button type="button">X</button>
           </div>
@@ -31,8 +32,7 @@ const Table = () => {
         <div className="filter">
           <span>Filter by numbers</span>
           <select data-testid="column-sort" id="sort-selection">
-            <option value="name" key="">select</option>
-            <option value="name" key="name">name</option>
+            <option value="" key="">select</option>
             <option value="population" key="population">population</option>
             <option value="orbital_period" key="orbital_period">orbital_period</option>
             <option value="diameter" key="diameter">diameter</option>
@@ -50,6 +50,13 @@ const Table = () => {
             type="number"
             id="value"
           />
+          <button
+            type="button"
+            data-testid="button-filter"
+            // onClick={ handleClickNum }
+          >
+            Filter
+          </button>
         </div>
         <div className="filter" />
       </div>

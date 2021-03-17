@@ -37,7 +37,7 @@ h1 {
   height: 50px;
   padding-left: 50px;
   padding-top: 10px;
-  width: 100%;
+  width: 97%;
 }
 
 .filter {
@@ -46,9 +46,9 @@ h1 {
 
 button {
   border-color: white;
-  color: red;
+  color: black;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 12px;
   margin-left: 10px;
-  width: 25px;
+  width: 55px;
 }

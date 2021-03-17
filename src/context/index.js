@@ -17,6 +17,7 @@ const PlanetsProvider = ({ children }) => {
     fetchPlanets();
   }, []);
 
+  // Com ajuda do colega de turma Jean P. Franco - Trybe Turma 08
   useEffect(() => {
     let filterPlanets = '';
     filterPlanets = fixPlanets.filter((planet) => planet.name.includes((searchName)));
