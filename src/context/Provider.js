@@ -42,6 +42,12 @@ function Provider({ children }) {
     });
   }
 
+  function onClickRemoveFilter(column) {
+    const updateNumericFilter = filters.filterByNumericValues
+      .filter((filter) => filter.column !== column);
+    setFilters({ ...filters, filterByNumericValues: updateNumericFilter });
+  }
+
   async function getPlanets() {
     setIsFetching(true);
     const planetsData = await fetchPlanetsData();
@@ -75,6 +81,7 @@ function Provider({ children }) {
     filters,
     onChangeNameFilter,
     onClickAddFilter,
+    onClickRemoveFilter,
     onChangeNumericFilter,
   };
 

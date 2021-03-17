@@ -50,11 +50,24 @@ function FilterForm() {
     onChangeNameFilter,
     onChangeNumericFilter,
     onClickAddFilter,
+    onClickRemoveFilter,
   } = useContext(Context);
 
   function handleClick(event) {
     event.preventDefault();
     onClickAddFilter();
+  }
+
+  function renderRemoveFilterButton(id) {
+    return (
+      <button
+        id={ id }
+        onClick={ (event) => onClickRemoveFilter(event.target.id) }
+        type="button"
+      >
+        x
+      </button>
+    );
   }
 
   return (
@@ -81,8 +94,9 @@ function FilterForm() {
       <ul>
         { filters.filterByNumericValues.length > 0
           && filters.filterByNumericValues.map((filter) => (
-            <li key={ filter.column }>
-              { `${filter.column} ${filter.comparison} ${filter.value} X` }
+            <li data-testid="filter" key={ filter.column }>
+              { `${filter.column} ${filter.comparison} ${filter.value} ` }
+              { renderRemoveFilterButton(filter.column) }
             </li>))}
       </ul>
     </>
