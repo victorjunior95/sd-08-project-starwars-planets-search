@@ -37,7 +37,7 @@ function SelectForm() {
     <div>
       <Form>
         <Form.Group controlId="exampleForm.SelectCustom">
-          <Form.Label>Column option</Form.Label>
+          <Form.Label>Opções de filtro:</Form.Label>
           <Form.Control
             name="column"
             data-testid="column-filter"
@@ -51,7 +51,7 @@ function SelectForm() {
             ))}
           </Form.Control>
         </Form.Group>
-        <Form.Label>Compare</Form.Label>
+        <Form.Label>Compare:</Form.Label>
         <Form.Control
           name="comparison"
           data-testid="comparison-filter"
@@ -64,7 +64,7 @@ function SelectForm() {
             <option key={ index }>{option}</option>
           ))}
         </Form.Control>
-        <Form.Label>Numéro da população</Form.Label>
+        <Form.Label>Quantidade:</Form.Label>
         <Form.Control
           name="value"
           type="number"

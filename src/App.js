@@ -6,14 +6,13 @@ import Provider from './context/Provider';
 import SelectForm from './components/SelectForm';
 import SelectedFilters from './components/SelectedFilters';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import image from './images/unnamed.png';
 
 function App() {
   return (
     <Provider>
       <div className="App">
-        <div>
-          Welcome to Start Wars Planets Page
-        </div>
+        <img className="Image" src={ image } alt="Star Wars!" />
         <Form />
         <SelectForm />
         <SelectedFilters />
