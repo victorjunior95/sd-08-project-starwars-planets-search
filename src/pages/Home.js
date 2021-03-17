@@ -6,8 +6,22 @@ import TableOfPlanets from '../components/TableOfPlanets';
 export default function Home() {
   const [state, setState] = useState({
     results: [],
-    filters: { filterByName: { name: '' } },
     fixResults: [],
+    column: 'population',
+    comparison: 'maior que',
+    value: '0',
+    filters: {
+      filterByName: {
+        name: '',
+      },
+      filterByNumericValues: [
+        {
+          column: 'population',
+          comparison: 'maior que',
+          value: '100000',
+        },
+      ],
+    },
   });
   return (
     <>

@@ -1,10 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function SubmitFilter() {
-  // const { state, setState } = props;
+export default function SubmitFilter(props) {
+  const { submitSearch } = props;
+
   return (
-    <button type="button">
+    <button
+      onClick={ submitSearch }
+      type="button"
+      data-testid="button-filter"
+    >
       Filtrar
     </button>
   );
 }
+
+SubmitFilter.propTypes = {
+  submitSearch: PropTypes.func.isRequired,
+};
