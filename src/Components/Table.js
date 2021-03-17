@@ -30,6 +30,8 @@ function Table() {
     tableHeaders = Object.keys(data[0]);
   }
 
+  data.forEach((obj) => delete obj.residents);
+
   useEffect(() => {
     setFilteredData(data.filter((obj) => obj.name.includes(name)));
   }, [data, setFilteredData, name]);
@@ -62,12 +64,8 @@ function Table() {
       <tbody>
         {filteredData.map((obj) => (
           <tr key={ obj.name }>
-            {Object.entries(obj).map((values, index) => {
-              if (values[0] !== 'residents') {
-                return (<td key={ `${obj.name}${index}` }>{values[1]}</td>);
-              }
-              return null;
-            })}
+            {Object.entries(obj)
+              .map((values, index) => <td key={ `${obj.name}${index}` }>{values[1]}</td>)}
           </tr>
         ))}
       </tbody>
@@ -79,12 +77,9 @@ function Table() {
       <thead>
         <tr>
           {!isFetching
-            ? tableHeaders.map((header) => {
-              if (header !== 'residents') {
-                return <th key={ header } scope="col">{header}</th>;
-              }
-              return null;
-            }) : <th>Carregando...</th>}
+            ? tableHeaders
+              .map((header) => <th key={ header } scope="col">{header}</th>)
+            : <th>Carregando...</th>}
         </tr>
       </thead>
       {!isFetching ? renderTbody() : <tbody><tr><th>Carregando...</th></tr></tbody>}

@@ -14,8 +14,13 @@ function Provider({ children }) {
   const [filteredData, setFilteredData] = useState([]);
   const [filterByName, setFilterByName] = useState(false);
 
+  async function fetchApi() {
+    const results = await requestApi().then((response) => response.results);
+    setData(results);
+  }
+
   useEffect(() => {
-    requestApi().then((response) => setData(response.results));
+    fetchApi();
     setIsFetching(false);
   }, []);
 
