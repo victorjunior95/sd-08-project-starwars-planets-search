@@ -1,10 +1,33 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../Context/PlanetsContext';
 
 function Table() {
-  const { allPlanets } = useContext(PlanetsContext);
+  const { allPlanets,
+    filteredArray,
+    setFilteredArray,
+    searchName,
+    setSearchName } = useContext(PlanetsContext);
+  useEffect(() => {
+    const resultFilter = allPlanets.filter((planet) => planet.name.includes(searchName));
+    setFilteredArray(resultFilter);
+  }, [allPlanets, setFilteredArray, searchName]);
+
+  function handleChange({ target }) {
+    setSearchName(target.value);
+  }
   return (
     <div>
+      <div>
+        <form>
+          <input
+            type="text"
+            name="name"
+            data-testid="name-filter"
+            placeholder="Digite o nome do planeta"
+            onChange={ handleChange }
+          />
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -24,7 +47,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {allPlanets.map((planet, index) => (
+          {filteredArray.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
