@@ -16,15 +16,21 @@ function PlanetsList() {
 
   return (
     dataApi
-      .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
+      // .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
       .filter((planet) => {
         if (comparison === 'maior que') {
-          return planet[column] > parseFloat(value);
+          return planet[column] > parseFloat(value)
+          && planet.name.toLowerCase().includes(name.toLowerCase());
+        }
+        if (comparison === 'menor que') {
+          return planet[column] < parseFloat(value)
+          && planet.name.toLowerCase().includes(name.toLowerCase());
         }
         if (comparison === 'igual a') {
-          return planet[column] === value;
+          return planet[column] === value
+          && planet.name.toLowerCase().includes(name.toLowerCase());
         }
-        return planet[column] < parseFloat(value);
+        return planet.name.toLowerCase().includes(name.toLowerCase());
       })
 
       .map((data, index) => (
