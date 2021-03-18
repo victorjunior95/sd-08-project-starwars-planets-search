@@ -2,16 +2,47 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StarwarsContext from './StarwarsContext';
 
+const filterFields = {
+  filterByName: {
+    name: '',
+  },
+  filterByNumericValues: [],
+};
+
 export default function StarwarsProvider({ children }) {
   const [tables, setTables] = useState([]);
+  const [planets, setPlanets] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filter, setFilter] = useState(filterFields);
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
-      .then((data) => setTables(data.results));
+      .then((data) => setPlanets(data.results));
   }, []);
 
-  const context = { tables, setTables };
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  console.log(filter.filterByNumericValues);
+
+  useEffect(() => {
+    const result = planets.filter((item) => item.name.toLowerCase().includes(searchTerm));
+    setTables(result);
+  }, [searchTerm, planets]);
+
+  const context = {
+    tables,
+    setTables,
+    searchTerm,
+    setSearchTerm,
+    filter,
+    setFilter,
+    handleChange,
+    planets,
+    setPlanets,
+  };
 
   return (
     <StarwarsContext.Provider value={ context }>
