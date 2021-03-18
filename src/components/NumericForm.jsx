@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import tableContext from '../context/tableContext';
 
 export default function NumericForm() {

@@ -22,6 +22,7 @@ const filtering = (data, filters, setFilteredData) => {
         return flag;
       },
     );
+    return newResults;
   });
 
   setFilteredData(newResults);
