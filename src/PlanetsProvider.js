@@ -12,28 +12,49 @@ const PlanetsProvider = ({ children }) => {
       filterByNumericValues: [],
     },
   );
-  const { filterByNumericValues } = filters;
-
   useEffect(() => {
     const fetchPlanets = async () => {
       const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const { results } = await fetch(url).then((res) => res.json());
       console.log('results', results);
-      setFilteredPlanets(results || []);
+      setPlanets(results || []);
     };
     fetchPlanets();
   }, []);
 
   useEffect(() => {
-    // criar filtro numerico pela manhã
-  });
+    const filterPlanetsByName = () => {
+      const { name } = filters.filterByName;
+      const planetsByName = planets
+        .filter((planet) => planet.name.toLowerCase().includes(name));
+      return planetsByName;
+    };
 
-  useEffect(() => {
-    const { name } = filters.filterByName;
-    const planetsByName = filteredPlanets
-      .filter((planet) => planet.name.toLowerCase().includes(name));
-    setFilteredPlanets(planetsByName);
-  }, [filteredPlanets, filters]);
+    const filterPlanetsByNumericValues = (planetsArray, numericFilterObject) => {
+      const { column, comparison, value } = numericFilterObject;
+      const planetsFilteredByNumericValues = planetsArray.filter((planet) => {
+        const columnValue = Number(planet[column]);
+        const compareValue = Number(value);
+        if (comparison === 'menor que') {
+          return columnValue < compareValue;
+        }
+        if (comparison === 'maior que') {
+          return columnValue > compareValue;
+        }
+        return columnValue === compareValue;
+      });
+      return planetsFilteredByNumericValues;
+    };
+    // criar filtro numerico pela manhã
+    const newPlanets = filterPlanetsByName();
+    if (filters.filterByNumericValues.length > 0) {
+      const newValuePlanets = filters.filterByNumericValues
+        .reduce((acc, curr) => (filterPlanetsByNumericValues(acc, curr)), newPlanets);
+      setFilteredPlanets(newValuePlanets);
+    } else {
+      setFilteredPlanets(newPlanets);
+    }
+  }, [filters]);
 
   const planetsValue = {
     filteredPlanets,
@@ -43,7 +64,7 @@ const PlanetsProvider = ({ children }) => {
     filters,
     setNumericFilter: (column, comparison, value) => setFilters(
       { ...filters,
-        filterByNumericValues: [...filterByNumericValues, { column, comparison, value }],
+        filterByNumericValues: [...filters.filterByNumericValues, { column, comparison, value }],
       },
     ),
   };
