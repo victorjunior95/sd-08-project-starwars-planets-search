@@ -7,31 +7,24 @@ function PlanetsList() {
     filters: { filterByName: { name },
     } } = useContext(AppContext);
 
-  const { column, comparison, value } = filterByNumericValues[0];
-  // console.log(column, comparison, parseFloat(value));
-
-  // const dataApiFilteredByName = dataApi
-  // .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()));
-  // ('maior que') return planet[column] > value
-
   return (
     dataApi
-      // .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
-      .filter((planet) => {
+      .filter((planet) => filterByNumericValues.every((element) => {
+        const { column, comparison, value } = element;
         if (comparison === 'maior que') {
           return planet[column] > parseFloat(value)
-          && planet.name.toLowerCase().includes(name.toLowerCase());
+            && planet.name.toLowerCase().includes(name.toLowerCase());
         }
         if (comparison === 'menor que') {
           return planet[column] < parseFloat(value)
-          && planet.name.toLowerCase().includes(name.toLowerCase());
+            && planet.name.toLowerCase().includes(name.toLowerCase());
         }
         if (comparison === 'igual a') {
           return planet[column] === value
-          && planet.name.toLowerCase().includes(name.toLowerCase());
+            && planet.name.toLowerCase().includes(name.toLowerCase());
         }
         return planet.name.toLowerCase().includes(name.toLowerCase());
-      })
+      }))
 
       .map((data, index) => (
         <tr key={ index }>

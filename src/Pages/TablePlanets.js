@@ -29,8 +29,9 @@ function TablePlanets() {
   const addFilter = () => {
     setFilters({
       ...filters,
-      filterByNumericValues: [numericFilters],
+      filterByNumericValues: [...filterByNumericValues, numericFilters],
     });
+
     setAddFilterElement(true);
   };
 
@@ -100,22 +101,24 @@ function TablePlanets() {
         Add Filter
       </button>
       { addFilterElement
-        ? (
-          <div>
-            <button
-              type="button"
-              className="btn btn-info"
-              data-testid="button-filter"
-            >
-              {
-                `${filterByNumericValues[0].column} - ${
-                  filterByNumericValues[0].comparison} - ${
-                  filterByNumericValues[0].value}`
-              }
-            </button>
-            <button type="button" className="btn btn-info">X</button>
-          </div>
-        ) : '' }
+        ? filterByNumericValues
+          .map((option) => {
+            if (!option.column) return '';
+            return (
+              <div key={ option.column }>
+                <button
+                  type="button"
+                  className="btn btn-info"
+                  data-testid="button-filter"
+                >
+                  {`${option.column} - ${
+                    option.comparison
+                  } - ${option.value}`}
+                </button>
+                <button type="button" className="btn btn-info">X</button>
+              </div>
+            );
+          }) : '' }
       {loading ? <h2>Loading...</h2> : (
         <table className="table table-dark table-hover">
           <thead>
