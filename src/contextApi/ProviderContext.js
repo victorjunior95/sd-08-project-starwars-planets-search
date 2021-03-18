@@ -19,7 +19,7 @@ function ProviderContext({ children }) {
         .then((planetsInfo) => {
           fixData(planetsInfo.results);
           fixFilterData(planetsInfo.results);
-        })
+        });
     }
     waitApi();
   }, []);
@@ -30,7 +30,7 @@ function ProviderContext({ children }) {
     const filterByName = data.filter((element) => element.name.includes(name));
 
     fixFilterData(filterByName);
-  }, [name]);
+  }, [name, data]);
 
   const value = { data, filters, fixFilters, filterData };
 

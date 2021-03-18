@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import createContext from '../contextApi/createContext';
-import Loading from './Loading';
 
 function TableHeader() {
   const { filterData } = useContext(createContext);
@@ -12,8 +11,8 @@ function TableHeader() {
           Nenhum planeta correspondente
         </td>
       </tr>
-    )
-  };
+    );
+  }
 
   filterData.forEach((element) => delete element.residents);
   const keys = Object.keys(filterData[0]);
