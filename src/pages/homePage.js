@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import Table from '../components/table';
 import Forms from '../components/forms';
 import PlanetsStarWarsContext from '../context/PlanetsStarWarsContext';
+import './homePage.css';
 
 const NUMBER_ONE_NEGATIVE = -1;
 
@@ -39,22 +40,22 @@ function Home() {
               <button type="button" onClick={ () => filterDeleteButton(index) }>x</button>
             </div>
           )) }
-      <table>
-        <thead>
+      <table className="table">
+        <thead className="table-head">
           <tr>
             <th>Name</th>
-            <th>rotation_period</th>
-            <th>orbital_period</th>
-            <th>diameter</th>
-            <th>climate</th>
-            <th>gravity</th>
-            <th>terrain</th>
-            <th>surface_water</th>
-            <th>population</th>
-            <th>residents</th>
-            <th>films</th>
-            <th>created</th>
-            <th>edited</th>
+            <th>Rotation Period</th>
+            <th>Orbital Period</th>
+            <th>Diameter</th>
+            <th>Climate</th>
+            <th>Gravity</th>
+            <th>Terrain</th>
+            <th>Surface Water</th>
+            <th>Population</th>
+            <th>Residents</th>
+            <th>Films</th>
+            <th>Created</th>
+            <th>Edited</th>
           </tr>
         </thead>
         <Table planets={ planetsStarWars } />
