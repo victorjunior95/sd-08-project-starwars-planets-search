@@ -4,14 +4,14 @@ import Context from '../context';
 const filterOptions = ['population', 'orbital_period', 'diameter',
   'rotation_period', 'surface_water'];
 function NumericFilter() {
-  const { filter, setFilter } = useContext(Context);
-  const [filters, setFilters] = useState(filterOptions);
+  const { filter, setFilter, filters, setFilters } = useContext(Context);
   const [column, setColumn] = useState(filterOptions[0]);
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
   const { filterByNumericValues } = filter;
+
   const handleClick = () => {
-    const newFilters = filters;
+    const newFilters = [...filters];
     newFilters.splice(filters.indexOf(column), 1);
     setFilter({ ...filter,
       filterByNumericValues: filterByNumericValues
@@ -19,6 +19,7 @@ function NumericFilter() {
         : [{ column, comparison, value }] });
     setFilters(newFilters);
   };
+
   return (
     <div>
       <label htmlFor="filter">

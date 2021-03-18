@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Context from './index';
+import { filterOptions } from '../services';
 
 function Provider({ children }) {
+  const [filters, setFilters] = useState([...filterOptions]);
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -17,6 +19,8 @@ function Provider({ children }) {
     setHeaders,
     filter,
     setFilter,
+    filters,
+    setFilters,
     filteredData,
     setFilteredData,
   };
@@ -38,8 +42,6 @@ function Provider({ children }) {
 
   useEffect(() => {
     const { filterByName, filterByNumericValues } = filter;
-    setFilteredData(data.filter((planets) => planets.name
-      .includes(filterByName.name)));
     if (filterByNumericValues) {
       setFilteredData(data.filter((planets) => planets.name
         .includes(filterByName.name))
@@ -47,18 +49,18 @@ function Provider({ children }) {
           .every((planet) => {
             if (planet.comparison === 'maior que') {
               return parseInt(filtPlanets[planet.column], 10)
-                  > parseInt(planet.value, 10);
+          > parseInt(planet.value, 10);
             }
             if (planet.comparison === 'menor que') {
               return parseInt(filtPlanets[planet.column], 10)
-                  < parseInt(planet.value, 10);
+          < parseInt(planet.value, 10);
             }
-            // if (planet.comparison === 'igual') {
             return parseInt(filtPlanets[planet.column], 10)
-                  === parseInt(planet.value, 10);
-            // }
-            // return false;
+        === parseInt(planet.value, 10);
           })));
+    } else {
+      setFilteredData(data.filter((planets) => planets.name
+        .includes(filterByName.name)));
     }
   }, [setFilteredData, filter, data]);
 
