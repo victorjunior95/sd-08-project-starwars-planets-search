@@ -1,18 +1,29 @@
 import React, { useContext } from 'react';
 import createContext from '../contextApi/createContext';
+import Loading from './Loading';
 
 function TableHeader() {
-  const { data } = useContext(createContext);
+  const { filterData } = useContext(createContext);
 
-  data.forEach((element) => delete element.residents);
-  const keys = Object.keys(data[0]);
+  if (filterData.length === 0) {
+    return (
+      <tr>
+        <td>
+          Nenhum planeta correspondente
+        </td>
+      </tr>
+    )
+  };
+
+  filterData.forEach((element) => delete element.residents);
+  const keys = Object.keys(filterData[0]);
   const estilo = { border: '1px solid black' };
 
   return (
-    data.map((element, index) => (
-      <tr key={ index }>
+    filterData.map((element, index) => (
+      <tr key={ `${index}-header` }>
         { keys.map((infor) => (
-          <td key={ element.name } style={ estilo }>
+          <td style={ estilo }>
             { element[infor] }
           </td>
         ))}

@@ -11,7 +11,7 @@ function TableBody() {
   return (
     <tr>
       { keys.map((element, index) => (
-        <th style={ estilo } key={ index }>{ element }</th>
+        <th style={ estilo } key={ `${ index }-planets` }>{ element }</th>
       )) }
     </tr>
   );

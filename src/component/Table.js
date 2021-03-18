@@ -3,6 +3,7 @@ import createContext from '../contextApi/createContext';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import Loading from './Loading';
+import Filters from './Filters';
 
 function Table() {
   const { data } = useContext(createContext);
@@ -10,14 +11,17 @@ function Table() {
 
   if (data.length !== 0) {
     return (
-      <table style={ estilo }>
-        <thead>
-          <TableHeader />
-        </thead>
-        <tbody>
-          <TableBody />
-        </tbody>
-      </table>
+      <div>
+        <Filters />
+        <table style={ estilo }>
+          <thead>
+            <TableHeader />
+          </thead>
+          <tbody>
+            <TableBody />
+          </tbody>
+        </table>
+      </div>
     );
   }
   return (
