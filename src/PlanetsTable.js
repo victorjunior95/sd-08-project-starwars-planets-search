@@ -58,19 +58,17 @@ const PlanetsTable = () => {
           value={ column }
           onChange={ (e) => setColumn(e.target.value) }
         >
-          <option value="" selected disabled>Column</option>
-          <option value="population">Population</option>
-          <option value="orbital_period">Orbiltal Period</option>
-          <option value="diameter">Diameter</option>
-          <option value="rotation_period">Rotation Period</option>
-          <option value="surface_water">Surface Water</option>
+          <option value="population">population</option>
+          <option value="orbital_period">orbiltal_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
         </select>
         <select
           data-testid="comparison-filter"
           value={ comparison }
           onChange={ (e) => setComparison(e.target.value) }
         >
-          <option value="" selected disabled>Comparison</option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
