@@ -1,14 +1,16 @@
 import React from 'react';
 import './App.css';
-import PlanetsProvider from './Context/PlanetsProvider';
+import StarWarsProvider from './Context/StarWarsProvider';
 import Table from './Components/Table';
+import Form from './Components/Form';
 
 function App() {
   return (
-    <PlanetsProvider>
-      <h2>Star Wars</h2>
+    <StarWarsProvider>
+      <h2>STAR WARS</h2>
+      <Form />
       <Table />
-    </PlanetsProvider>
+    </StarWarsProvider>
   );
 }
 

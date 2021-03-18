@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import PlanetsContext from '../Context/PlanetsContext';
+import StarWarsContext from '../Context/StarWarsContext';
 
 function Table() {
-  const { data } = useContext(PlanetsContext);
+  const { filterPlanet } = useContext(StarWarsContext);
+
   return (
     <table className="table table-dark table-bordered table-responsive">
       <thead>
-        <tr>
+        <tr className="text-center">
           <th>Name</th>
           <th>Rotation_period</th>
           <th>Orbital_period</th>
@@ -23,8 +24,8 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((p, index) => (
-          <tr key={ index }>
+        {filterPlanet.map((p, index) => (
+          <tr className="text-center" key={ index }>
             <td>{p.name}</td>
             <td>{p.rotation_period}</td>
             <td>{p.orbital_period}</td>
@@ -41,6 +42,7 @@ function Table() {
           </tr>))}
       </tbody>
     </table>
+
   );
 }
 
