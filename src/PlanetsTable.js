@@ -117,12 +117,18 @@ const PlanetsTable = () => {
         {
           filterByNumericValues && filterByNumericValues
             .map((each) => (
-              <li key={ each }>
+              <li key={ each } data-testid="filter">
                 {each.column}
                 {' '}
                 { each.comparison}
                 {' '}
                 {each.value}
+                <button
+                  type="button"
+                  // onClick={ () => setFilters()}  definir logica de deletar o filtro
+                >
+                  X
+                </button>
               </li>))
         }
       </div>
