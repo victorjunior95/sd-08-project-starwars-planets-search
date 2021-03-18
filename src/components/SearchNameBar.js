@@ -16,14 +16,15 @@ function SearchNameBar() {
   const [comparison, setComparison] = useState('');
   const [number, setNumberFilter] = useState(0);
 
-  const comparisonFilter = ['', 'Maior que', 'Menor que', 'Igual a'];
+  const comparisonFilter = ['', 'maior que', 'menor que', 'igual a'];
 
   return (
     <div>
       <label htmlFor="text" data-testid="text-input-label">
         Inclui o texto no nome:
         <input
-          data-testid="text-input"
+          id="text"
+          data-testid="name-filter"
           type="text"
           name="searchName"
           onChange={ (e) => setName(e.target.value) }
@@ -32,6 +33,7 @@ function SearchNameBar() {
       <label htmlFor="selectFilter">
         Selecione o filtro:
         <select
+          id="selectFilter"
           name="selectFilter"
           data-testid="column-filter"
           value={ column }
@@ -47,6 +49,7 @@ function SearchNameBar() {
       <label htmlFor="selectComparison">
         Selecione a comparação
         <select
+          id="selectComparison"
           name="selectComparison"
           data-testid="comparison-filter"
           value={ comparison }
