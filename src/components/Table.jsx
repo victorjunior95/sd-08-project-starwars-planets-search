@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { PlanetsContext } from '../context/planetsContext';
 
 const Table = () => {
-  const { planets, fetching } = useContext(PlanetsContext);
+  const { planetsData, fetching } = useContext(PlanetsContext);
   return (
     <>
       <table>
@@ -24,7 +24,7 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          { !fetching && planets.map((planet) => (
+          { !fetching && planetsData.map((planet) => (
             <tr key={ planet.name }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
