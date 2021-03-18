@@ -45,7 +45,6 @@ const PlanetsProvider = ({ children }) => {
       });
       return planetsFilteredByNumericValues;
     };
-    // criar filtro numerico pela manhã
     const newPlanets = filterPlanetsByName();
     if (filters.filterByNumericValues.length > 0) {
       const newValuePlanets = filters.filterByNumericValues
