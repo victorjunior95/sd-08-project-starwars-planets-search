@@ -14,10 +14,9 @@ function ChipsFilters() {
     <div>
       { filterByNumericValues
         && filterByNumericValues.map((chip, index) => (
-          <div key={ index }>
+          <div data-testid="filter" key={ index }>
             { `${chip.column} ${comparisonWord(chip)} ${chip.value} ` }
             <button
-              data-testid="filter"
               onClick={ () => handleClearFilter(chip) }
               type="button"
             >

@@ -292,7 +292,7 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
 
   const removeFilter = async () => {
     const filters = await screen.findAllByTestId(REMOVE_FILTER_SELECTOR);
-    fireEvent.click(filters[0]);
+    fireEvent.click(filters[0].querySelector('button'));
   };
 
   it('Adicione um filtro e verifique se a tabela foi atualizada com as informações filtradas, depois remova o filtro e verifice se os valores da tabela voltaram ao original', async () => {
