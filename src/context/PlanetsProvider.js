@@ -29,17 +29,17 @@ function PlanetsProvider({ children }) {
   useEffect(() => {
     const { filterByName: { name } } = filters;
     const { filterByNumericValues } = filters;
-    const filteredByName = data
+    let filteredByName = data
       .filter((planet) => planet.name.toUpperCase().includes(name.toUpperCase()));
     if (filterByNumericValues.length === 0) setPlanets(filteredByName);
     else {
       filterByNumericValues.forEach(({ column, comparison, value }) => {
-        const filteredPlanets = planets.filter((planet) => {
+        filteredByName = filteredByName.filter((planet) => {
           if (comparison === 'maior que') return parseInt(planet[column], 10) > value;
           if (comparison === 'menor que') return parseInt(planet[column], 10) < value;
           return planet[column] === value;
         });
-        setPlanets(filteredPlanets);
+        setPlanets(filteredByName);
       });
     }
   }, [data, filters]);
