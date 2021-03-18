@@ -12,7 +12,7 @@ function TableHeader() {
     data.map((element, index) => (
       <tr key={ index }>
         { keys.map((infor) => (
-          <td key={ index } style={ estilo }>
+          <td key={ element.name } style={ estilo }>
             { element[infor] }
           </td>
         ))}

@@ -1,10 +1,13 @@
 import React from 'react';
 import './App.css';
+import ProviderContext from './contextApi/ProviderContext';
 import Table from './component/Table';
 
 function App() {
   return (
-    <Table />
+    <ProviderContext>
+      <Table />
+    </ProviderContext>
   );
 }
 
