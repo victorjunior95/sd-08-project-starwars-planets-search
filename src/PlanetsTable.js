@@ -16,6 +16,7 @@ const PlanetsTable = () => {
     setName,
     setNumericFilter,
     filters,
+    setFilters,
   } = useContext(planetsContext);
   const { filterByNumericValues } = filters;
   const [column, setColumn] = useState('population');
@@ -109,6 +110,17 @@ const PlanetsTable = () => {
       </div>
     </form>
   );
+
+  const handleClick = (delcolumn) => {
+    const newNumericFilters = filterByNumericValues
+      .filter((filt) => filt.column !== delcolumn);
+    console.log(newNumericFilters);
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...newNumericFilters],
+    });
+  };
+
   return (
     <>
       {availableFilters.length > 0 ? renderForm() : <p>No more filters</p>}
@@ -125,7 +137,7 @@ const PlanetsTable = () => {
                 {each.value}
                 <button
                   type="button"
-                  // onClick={ () => setFilters()}  definir logica de deletar o filtro
+                  onClick={ () => handleClick(each.column) }
                 >
                   X
                 </button>

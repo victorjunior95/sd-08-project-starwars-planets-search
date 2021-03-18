@@ -63,7 +63,7 @@ const PlanetsProvider = ({ children }) => {
       { ...filters, filterByName: { name: typedValue } },
     ),
     filters,
-    setFilters: (logic) => setFilters(logic),
+    setFilters: (newFilters) => setFilters(newFilters),
     setNumericFilter: (column, comparison, value) => setFilters(
       { ...filters,
         filterByNumericValues:
