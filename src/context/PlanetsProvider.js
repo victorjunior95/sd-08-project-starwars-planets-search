@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 import planetsAPI from '../services/planetsAPI';
 
-const allFilters = {
+const InitialFilter = {
   filterByName: {
     name: '',
   },
+  filterByNumericValues: [],
 };
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [filters, setFilters] = useState(allFilters);
+  const [filters, setFilters] = useState(InitialFilter);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,9 +28,20 @@ function PlanetsProvider({ children }) {
 
   useEffect(() => {
     const { filterByName: { name } } = filters;
+    const { filterByNumericValues } = filters;
     const filteredByName = data
       .filter((planet) => planet.name.toUpperCase().includes(name.toUpperCase()));
-    setPlanets(filteredByName);
+    if (filterByNumericValues.length === 0) setPlanets(filteredByName);
+    else {
+      filterByNumericValues.forEach(({ column, comparison, value }) => {
+        const filteredPlanets = planets.filter((planet) => {
+          if (comparison === 'maior que') return parseInt(planet[column], 10) > value;
+          if (comparison === 'menor que') return parseInt(planet[column], 10) < value;
+          return planet[column] === value;
+        });
+        setPlanets(filteredPlanets);
+      });
+    }
   }, [data, filters]);
 
   const context = { planets, isLoading, filters, setFilters };

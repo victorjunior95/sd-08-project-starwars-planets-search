@@ -20,6 +20,7 @@ function Form() {
         Planet:
         <input
           id="input-search"
+          name="name"
           value={ name }
           onChange={ handleChange }
           data-testid="name-filter"
