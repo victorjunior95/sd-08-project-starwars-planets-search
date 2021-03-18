@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Context from '../context';
 
 const filterOptions = ['population', 'orbital_period', 'diameter',
@@ -9,6 +9,10 @@ function NumericFilter() {
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
   const { filterByNumericValues } = filter;
+
+  useEffect(() => {
+    setColumn(filters[0]);
+  }, [filters]);
 
   const handleClick = () => {
     const newFilters = [...filters];

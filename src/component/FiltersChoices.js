@@ -17,7 +17,7 @@ function FiltersChoices() {
   if (filter.filterByNumericValues) {
     return filter.filterByNumericValues
       .map(({ column, comparison, value }, i) => (
-        <div key={ i }>
+        <div key={ i } data-testid="filter">
           <span>
             {`${column} ${comparison} ${value}`}
             {' '}
