@@ -6,6 +6,9 @@ import StarWarsContext from './StarWarsContext';
 const StarWarsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     getPlanet().then((items) => {
@@ -16,9 +19,16 @@ const StarWarsProvider = ({ children }) => {
 
   const filters = {
     filters: {
-      filtersByName: {
+      filterByName: {
         name,
       },
+      filterByNumericValues: [
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
     },
   };
 
@@ -28,6 +38,9 @@ const StarWarsProvider = ({ children }) => {
         planets,
         ...filters,
         setName,
+        setColumn,
+        setComparison,
+        setValue,
       } }
     >
       { children }
