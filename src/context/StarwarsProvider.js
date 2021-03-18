@@ -6,6 +6,7 @@ import getStarwarsPlanet from '../service/Api';
 function StarwarsProvider({ children }) {
   const [starwarsData, setStarwarsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filterByName, setFilterByName] = useState('');
 
   const fetchStarwarsPlanets = async () => {
     setIsLoading(true);
@@ -19,8 +20,32 @@ function StarwarsProvider({ children }) {
     fetchStarwarsPlanets();
   }, []);
 
+  const filterName = ({ target }) => {
+    setFilterByName(target.value);
+    // let filterPlanets = starwarsData;
+    // filterPlanets = starwarsData.filter((data) => data.name.includes((filterByName)));
+    // setStarwarsData(filterPlanets);
+    // return filterPlanets;
+  };
+
+  const filters = {
+    filters: {
+      filterByName: {
+        name: filterByName,
+      },
+    },
+  };
+
+  const state = {
+    ...filters,
+    starwarsData,
+    isLoading,
+    filterName,
+    filterByName,
+  };
+
   return (
-    <starwarsContext.Provider value={ { starwarsData, isLoading } }>
+    <starwarsContext.Provider value={ state }>
       { children }
     </starwarsContext.Provider>
   );

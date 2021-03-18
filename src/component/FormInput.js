@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // import PropTypes from 'prop-types';
 
+import StarwarsContext from '../context/StarwarsContext';
+
 function FormInput() {
+  const { filterName, filterByName } = useContext(StarwarsContext);
+  console.log(filterByName);
+
   // const { starwarsData, setStarwarsData } = useState('');
   // const { isLoading, setIsLoading } = useState(true);
   // const { filterName, setFilterName } = useState({
@@ -32,8 +37,8 @@ function FormInput() {
         type="text"
         name="value-planet"
         data-testid="name-filter"
-        // value={ value }
-        // onChange={ this.handleChange }
+        value={ filterByName }
+        onChange={ filterName }
         placeholder="Pesquise nome do planeta"
       />
     );
