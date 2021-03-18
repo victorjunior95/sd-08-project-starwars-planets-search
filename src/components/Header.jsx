@@ -3,7 +3,7 @@ import ContextStars from '../context/ContextStar';
 
 function Header() {
   const contexto = useContext(ContextStars);
-  console.log(contexto.state);
+  console.log(contexto.filters);
   return (
     <div>
       <input type="text" data-testid="name-filter" />
