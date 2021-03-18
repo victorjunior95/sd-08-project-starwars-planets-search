@@ -16,11 +16,12 @@ const ProviderPlanet = ({ children }) => {
   const [options, setOptions] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [tamanho, setTamanho] = useState(['maior que', 'menor que', 'igual a']);
-  const [filtros, setFiltros] = useState({
-    column: 'population', // options
-    comparison: 'maior que', // tamanho
-    value: '100000',
-  });
+  const [filtros, setFiltros] = useState([{
+    column: '', // options
+    comparison: '', // tamanho
+    value: '',
+  }]);
+  const [delet, setDelet] = useState([]);
 
   useEffect(() => {
     async function fechtData() {
@@ -32,8 +33,8 @@ const ProviderPlanet = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    let filtroNome = [];
-    filtroNome = planetas.filter((planeta) => planeta.name.includes((procurarNome)));
+    const filtroNome = planetas
+      .filter((planeta) => planeta.name.includes((procurarNome)));
     setFiltroPlaneta(filtroNome);
   }, [planetas, procurarNome]);
 
@@ -72,6 +73,11 @@ const ProviderPlanet = ({ children }) => {
     filtroValor(filtros);
   };
 
+  // useEffect(() => {
+  //   const remove = filtro.filter((item) => item !== delet);
+  //   setFiltroPlaneta(remove);
+  // }, [delet]);
+
   const data = {
     procurarNome,
     setProcurarNome,
@@ -81,6 +87,8 @@ const ProviderPlanet = ({ children }) => {
     setTamanho,
     filtro,
     handleClick,
+    setDelet,
+    filtros,
   };
 
   return (

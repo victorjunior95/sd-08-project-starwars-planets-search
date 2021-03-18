@@ -10,6 +10,7 @@ const Table = () => {
     tamanho,
     filtro,
     handleClick,
+    filtros,
   } = useContext(Context);
   return (
     <div>
@@ -42,6 +43,23 @@ const Table = () => {
         Add Filtro
       </button>
       <br />
+      <table>
+        <thead>
+          <th>Name:</th>
+          <th>Population:</th>
+          <th>Size:</th>
+        </thead>
+        <tbody>
+          {filtros.map((item, index) => (
+            <tr key={ index }>
+              <td>{ item.column }</td>
+              <td>{ item.comparison }</td>
+              <td>{ item.value }</td>
+              <td><button type="button">Excluir Filtro</button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <br />
       <table>
         <thead>
