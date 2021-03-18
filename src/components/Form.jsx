@@ -4,18 +4,21 @@ import Planets from '../context/PlanetsContext';
 
 function Form() {
   const { store: {
-    filters, filterByName, filterPlanetsWithValues, columns, setColumns },
+    filters, filterByName, setFilters, columns, setColumns },
   } = React.useContext(Planets);
   const [name, setName] = React.useState('');
   const [comparison, setComparison] = React.useState('maior que');
   const [value, setValue] = React.useState('');
-  const [column, setColumn] = React.useState(columns[0]);
+  const [column, setColumn] = React.useState('');
 
   function handleChange({ target }) {
-    // filters.filterByName.name = target.value;
     setName(target.value);
     filterByName(target.value);
   }
+
+  React.useEffect(() => {
+    setColumn(columns[0]);
+  }, [columns]);
 
   function handleFilter({ target }) {
     if (target.name === 'column-filter') setColumn(target.value);
@@ -25,12 +28,8 @@ function Form() {
 
   function saveFilters() {
     const newValues = filters.filterByNumericValues;
-    const checkIfExist = newValues.find((item) => item.column === column);
-    if (!checkIfExist) {
-      filters.filterByNumericValues = [...newValues, { column, comparison, value }];
-      // setFilters({ ...filters });
-      filterPlanetsWithValues(filters.filterByNumericValues);
-    }
+    filters.filterByNumericValues = [...newValues, { column, comparison, value }];
+    setFilters({ ...filters });
     setColumns(columns.filter((item) => item !== column));
     setColumn(columns[0]);
   }
