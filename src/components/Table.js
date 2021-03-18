@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { StarWarsContext } from '../context/StarWarsContext';
+import FilterNumbers from './FilterNumbers';
 
 function Table() {
   const { filters, inputText, handleChange } = useContext(StarWarsContext);
@@ -16,6 +17,7 @@ function Table() {
           value={ inputText }
         />
       </label>
+      <FilterNumbers />
       <table>
         <thead>
           <tr>
