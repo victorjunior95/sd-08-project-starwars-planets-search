@@ -6,7 +6,7 @@ function TableBody() {
 
   data.forEach((element) => delete element.residents);
   const keys = Object.keys(data[0]);
-  const estilo = { border: '1px solid black'};
+  const estilo = { border: '1px solid black' };
 
   return (
     <tr>
@@ -14,7 +14,7 @@ function TableBody() {
         <th style={ estilo } key={ index }>{ element }</th>
       )) }
     </tr>
-  )
+  );
 }
 
 export default TableBody;
