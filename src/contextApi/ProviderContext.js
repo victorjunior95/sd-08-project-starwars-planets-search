@@ -9,9 +9,9 @@ function ProviderContext({ children }) {
   useEffect(() => {
     async function waitApi() {
       await fetch(url)
-      .then((response) => response.json())
+        .then((response) => response.json())
         .then((planetsInfo) => fixData(planetsInfo.results));
-      }
+    }
     waitApi();
   }, []);
   const value = { data };
@@ -24,6 +24,6 @@ function ProviderContext({ children }) {
 
 ProviderContext.propTypes = {
   children: PropTypes.node.isRequired,
-}
+};
 
 export default ProviderContext;

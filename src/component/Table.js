@@ -22,7 +22,7 @@ function Table() {
   }
   return (
     <Loading />
-  )
+  );
 }
 
 export default Table;
