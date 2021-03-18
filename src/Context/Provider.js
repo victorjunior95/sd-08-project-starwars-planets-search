@@ -15,7 +15,7 @@ const ProviderPlanet = ({ children }) => {
     comparison: 'maior que', // tamanho
     value: '10000',
   });
-  // const [delet, setDelet] = useState([]);
+  const [tabela, setTabela] = useState([]);
 
   useEffect(() => {
     async function fechtData() {
@@ -30,7 +30,7 @@ const ProviderPlanet = ({ children }) => {
     const filtroNome = planetas
       .filter((planeta) => planeta.name.includes((procurarNome)));
     setFiltroPlaneta(filtroNome);
-  }, [planetas, procurarNome]);
+  }, [procurarNome]);
 
   const filtro = (e) => {
     const attribute = e.target.getAttribute('data-testid');
@@ -65,12 +65,14 @@ const ProviderPlanet = ({ children }) => {
     copyOptions.splice(indexOption, 1);
     setOptions(copyOptions);
     filtroValor(filtros);
+    setTabela([...tabela, filtros]);
   };
 
-  // useEffect(() => {
-  //   const remove = filtro.filter((item) => item !== delet);
-  //   setFiltroPlaneta(remove);
-  // }, [delet]);
+  const handleDelet = ({ target }) => {
+    const remove = tabela.filter((item) => item.column !== target.column);
+    console.log(remove);
+    setTabela(remove);
+  };
 
   const data = {
     procurarNome,
@@ -81,7 +83,8 @@ const ProviderPlanet = ({ children }) => {
     setTamanho,
     filtro,
     handleClick,
-    // setDelet,
+    handleDelet,
+    tabela,
     filtros,
   };
 
