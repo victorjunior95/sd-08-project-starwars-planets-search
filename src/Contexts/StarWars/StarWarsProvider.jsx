@@ -5,6 +5,7 @@ import StarWarsContext from './StarWarsContext';
 
 const StarWarsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     getPlanet().then((items) => {
@@ -13,11 +14,30 @@ const StarWarsProvider = ({ children }) => {
     });
   }, []);
 
+  const filters = {
+    filters: {
+      filtersByName: {
+        name,
+      },
+    },
+  };
+
   return (
-    <StarWarsContext.Provider value={ planets }>{ children }</StarWarsContext.Provider>
+    <StarWarsContext.Provider
+      value={ {
+        planets,
+        ...filters,
+        setName,
+      } }
+    >
+      { children }
+    </StarWarsContext.Provider>
   );
 };
 StarWarsProvider.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 export default StarWarsProvider;
