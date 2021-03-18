@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
-  const [planetsList, setList] = useState([]);
+  const [data, setData] = useState([]);
   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
   useEffect(() => {
     fetch(url).then((response) => response.json())
-      .then((result) => setList(result.results));
+      .then((result) => setData(result.results));
   }, []);
 
-  const context = { planetsList, setList };
+  const context = { data, setData };
 
   return (
     <PlanetsContext.Provider value={ context }>{ children }</PlanetsContext.Provider>
