@@ -26,6 +26,6 @@ function PlanetTbody({ value }) {
   );
 }
 PlanetTbody.propTypes = {
-  value: PropTypes.arrayOf(PropTypes.value).isRequired,
+  value: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 export default PlanetTbody;

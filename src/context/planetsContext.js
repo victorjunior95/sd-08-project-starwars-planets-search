@@ -5,6 +5,7 @@ export const PlanetsContext = createContext([]);
 
 const PlanetsProvider = ({ children }) => {
   const [planets, setPlanetes] = useState([]);
+  // const [filterName, setFilterName] = useState('');
 
   useEffect(() => {
     const fetchPlants = async () => {
@@ -26,6 +27,6 @@ const PlanetsProvider = ({ children }) => {
 };
 
 PlanetsProvider.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.string).isRequired,
+  children: PropTypes.node.isRequired,
 };
 export default PlanetsProvider;
