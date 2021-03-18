@@ -12,12 +12,20 @@ function StarWarsProvider({ children }) {
     },
     filterByNumericValues: [
       {
-        column: 'population',
-        comparison: 'maior que',
-        value: '0',
+        column: '',
+        comparison: '',
+        value: '',
+
       },
     ],
   });
+  const [columns, setColumns] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   useEffect(() => {
     getPlanetsAPI().then((response) => setData(response.results));
@@ -25,23 +33,24 @@ function StarWarsProvider({ children }) {
 
   useEffect(() => {
     const {
-      filterByName: { name },
-      filterByNumericValues: { column, comparison, value },
-    } = filtersPlanets;
-    const filterAll = data.filter((planet) => {
-      const planetFilterName = planet.name.includes(name);
-      if (comparison === 'maior que') {
-        return Number(planet[column]) > Number(value) && planetFilterName;
-      }
-      if (comparison === 'menor que') {
-        return Number(planet[column]) < Number(value) && planetFilterName;
-      }
-      if (comparison === 'igual a') {
-        return Number(planet[column]) === Number(value) && planetFilterName;
-      }
-      return planetFilterName;
+      filterByName: { name }, filterByNumericValues } = filtersPlanets;
+    filterByNumericValues.forEach((itensFilter) => {
+      const { column, comparison, value } = itensFilter;
+      const filterAll = data.filter((planet) => {
+        const planetFilterName = planet.name.toLowerCase().includes(name.toLowerCase());
+        if (comparison === 'maior que') {
+          return Number(planet[column]) > Number(value) && planetFilterName;
+        }
+        if (comparison === 'menor que') {
+          return Number(planet[column]) < Number(value) && planetFilterName;
+        }
+        if (comparison === 'igual a') {
+          return Number(planet[column]) === Number(value) && planetFilterName;
+        }
+        return planetFilterName;
+      });
+      setPlanets(filterAll);
     });
-    setPlanets(filterAll);
   }, [data, filtersPlanets]);
 
   const contextValue = {
@@ -49,6 +58,8 @@ function StarWarsProvider({ children }) {
     setPlanets,
     filtersPlanets,
     setFiltersPlanets,
+    columns,
+    setColumns,
   };
 
   return (

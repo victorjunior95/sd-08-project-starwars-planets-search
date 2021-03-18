@@ -1,15 +1,30 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SWPlanetsContext from '../context/SWPlanetsContext';
+import '../styles/header.css';
 
 function NumericFilter() {
-  const { filtersPlanets, setFiltersPlanets } = useContext(SWPlanetsContext);
-  const [filterNumbers, setFilterNumbers] = useState({
-    column: 'population',
-    comparison: 'maior que',
+  const {
+    filtersPlanets,
+    setFiltersPlanets,
+    columns,
+    setColumns,
+  } = useContext(SWPlanetsContext);
+
+  const [filterNumbers, setFilterNumbers] = useState({ // criei esse state
+    column: '',
+    comparison: '',
     value: 0,
   });
   const { filterByNumericValues } = filtersPlanets;
   const { column, comparison, value } = filterNumbers;
+
+  useEffect(() => {
+    setFilterNumbers({
+      column: columns[0],
+      comparison: 'maior que',
+      value: '0',
+    });
+  }, [columns]);
 
   const handleChange = (event) => {
     setFilterNumbers({
@@ -21,26 +36,23 @@ function NumericFilter() {
   const handleClickFilter = () => {
     setFiltersPlanets({
       ...filtersPlanets,
-      filterByNumericValues: {
+      filterByNumericValues: [
         ...filterByNumericValues,
-        ...filterNumbers,
-      },
+        filterNumbers,
+      ],
     });
+    setColumns(columns.filter((selectedColumn) => column !== selectedColumn));
   };
 
   return (
-    <div>
+    <div className="inputs-number">
       <select
         name="column"
         data-testid="column-filter"
         onChange={ handleChange }
         value={ column }
       >
-        <option key="rotation_period">rotation_period</option>
-        <option key="orbital_period">orbital_period</option>
-        <option key="diameter">diameter</option>
-        <option key="surface_water">surface_water</option>
-        <option key="population">population</option>
+        {columns.map((columnItem) => <option key={ columnItem }>{columnItem}</option>)}
       </select>
       <select
         name="comparison"
@@ -63,9 +75,11 @@ function NumericFilter() {
         type="button"
         data-testid="button-filter"
         onClick={ handleClickFilter }
+        className="button-filter"
       >
         Filter
       </button>
+      <ul />
     </div>
   );
 }
