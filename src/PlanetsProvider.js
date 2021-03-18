@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export const planetsContext = createContext([]);
 
 const PlanetsProvider = ({ children }) => {
+  // variaveis do estado
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filters, setFilters] = useState(
@@ -12,6 +13,7 @@ const PlanetsProvider = ({ children }) => {
       filterByNumericValues: [],
     },
   );
+  // realiza a requisição dos planetas e seta no estado
   useEffect(() => {
     const fetchPlanets = async () => {
       const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -21,7 +23,7 @@ const PlanetsProvider = ({ children }) => {
     };
     fetchPlanets();
   }, []);
-
+  // realiza os filtros de forma cumulativa
   useEffect(() => {
     const filterPlanetsByName = () => {
       const { name } = filters.filterByName;
@@ -54,7 +56,7 @@ const PlanetsProvider = ({ children }) => {
       setFilteredPlanets(newPlanets);
     }
   }, [filters, planets]);
-
+  // cria a variavel a ser passada como valor para o provider
   const planetsValue = {
     filteredPlanets,
     setName: (typedValue) => setFilters(

@@ -1,6 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { planetsContext } from './PlanetsProvider';
 import TableHead from './TableHead';
+
+const FILTERS = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
 
 const PlanetsTable = () => {
   const {
@@ -10,9 +18,10 @@ const PlanetsTable = () => {
     filters,
   } = useContext(planetsContext);
   const { filterByNumericValues } = filters;
-  const [column, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
-  const [value, setValue] = useState('');
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('0');
+  const [availableFilters, setAvailableFilters] = useState(FILTERS);
 
   const renderTableBody = () => (
     <tbody>
@@ -46,8 +55,18 @@ const PlanetsTable = () => {
     setName(target.value);
   };
 
-  return (
-    <>
+  useEffect(() => {
+    setAvailableFilters(FILTERS
+      .filter((filt) => !filterByNumericValues
+        .find((numFil) => numFil.column === filt)));
+  }, [filterByNumericValues]);
+
+  useEffect(() => {
+    setColumn(availableFilters[0]);
+  }, [availableFilters]);
+
+  const renderForm = () => (
+    <form>
       <div>
         <p>Digite um nome:</p>
         <input data-testid="name-filter" type="text" onChange={ handleChange } />
@@ -58,11 +77,11 @@ const PlanetsTable = () => {
           value={ column }
           onChange={ (e) => setColumn(e.target.value) }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            availableFilters
+              .map((each) => <option key={ each } value={ each }>{each}</option>)
+
+          }
         </select>
         <select
           data-testid="comparison-filter"
@@ -88,19 +107,22 @@ const PlanetsTable = () => {
           Adicionar filtro
         </button>
       </div>
+    </form>
+  );
+  return (
+    <>
+      {availableFilters.length > 0 ? renderForm() : <p>No more filters</p>}
       <div>
         <p>Active filters:</p>
         {
           filterByNumericValues && filterByNumericValues
             .map((each) => (
               <li key={ each }>
-                `
                 {each.column}
                 {' '}
                 { each.comparison}
                 {' '}
                 {each.value}
-                `
               </li>))
         }
       </div>
