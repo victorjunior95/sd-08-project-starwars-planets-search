@@ -22,7 +22,10 @@ function TableHeader() {
     filterData.map((element, index) => (
       <tr key={ `${index}-header` }>
         { keys.map((infor) => (
-          <td style={ estilo }>
+          <td
+            style={ estilo }
+            key={ infor }
+          >
             { element[infor] }
           </td>
         ))}
