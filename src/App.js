@@ -1,45 +1,46 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import './App.css';
-import contextStar from './context/ContextStar';
+import PlanetProvider from './context/PlanetProvider';
 
 function App() {
-  const contexto = useContext(contextStar);
-  console.log(contexto);
-
-  const initialState = {
-    filters: {
-      filterByName: { name: '' },
-      filterByNumericValues: [
-        { column: '', comparison: '', value: '' },
-        { column: '', comparison: '', value: '' },
-      ],
-    },
-  };
-
-  const [state, setstate] = useState(initialState);
-  console.log(state);
-  console.log(typeof (setstate));
-
   return (
-    <div>
-      <input type="text" data-testid="name-filter" />
-      <input type="text" data-testid="value-filter" />
+    <PlanetProvider>
+      <div>
+        <input type="text" data-testid="name-filter" />
+        <input type="text" data-testid="value-filter" />
 
-      <select name="column" data-testid="column-filter">
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-      </select>
+        <select name="column" data-testid="column-filter">
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+        </select>
 
-      <select name="comparison" data-testid="comparison-filter">
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
-      </select>
+        <select name="comparison" data-testid="comparison-filter">
+          <option value=">">maior que</option>
+          <option value="<">menor que</option>
+          <option value="===">igual a</option>
+        </select>
 
-      <input type="number" data-testid="value-filter" />
+        <input type="number" data-testid="value-filter" />
 
-      <button type="button" data-testid="button-filter">Filtrar</button>
-    </div>
+        <button type="button" data-testid="button-filter">Filtrar</button>
+
+        <table>
+          <tr>
+            <th>coluna1</th>
+            <th>coluna2</th>
+          </tr>
+          <tr>
+            <td>informação</td>
+            <td>0000</td>
+          </tr>
+          <tr>
+            <td>planeta</td>
+            <td>xablau</td>
+          </tr>
+        </table>
+
+      </div>
+    </PlanetProvider>
 
   );
 }

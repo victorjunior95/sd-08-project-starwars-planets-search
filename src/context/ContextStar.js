@@ -1,16 +1,5 @@
 import React from 'react';
 
-const liso = [];
-export const getList = async () => {
-  await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
-    .then((res) => res.json())
-    .then(async ({ results }) => {
-      console.log(results);
-      liso.push(await results);
-      return (results.map((planet) => (delete planet.residents)));
-    });
-};
-getList();
-const ContextStars = React.createContext(liso);
-console.log(liso);
+const ContextStars = React.createContext();
+
 export default ContextStars;
