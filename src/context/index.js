@@ -6,6 +6,25 @@ const PlanetsProvider = ({ children }) => {
   const [fixPlanets, setFixPlanets] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [searchName, setSearchName] = useState('');
+  const [newColumn, setNewColumn] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
+  });
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -24,10 +43,61 @@ const PlanetsProvider = ({ children }) => {
     setPlanets(filterPlanets);
   }, [fixPlanets, searchName]);
 
+  const columnFiltered = (value) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: {
+        ...filters.filterByNumericValues,
+        column: value,
+      },
+    });
+  };
+
+  const comparisonFiltered = (value) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: {
+        ...filters.filterByNumericValues,
+        comparison: value,
+      },
+    });
+  };
+
+  const numberFiltered = (value) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: {
+        ...filters.filterByNumericValues,
+        value,
+      },
+    });
+  };
+
+  const filterByNumber = () => {
+    const { column, comparison, value } = filters.filterByNumericValues;
+    const numFiltered = planets.filter((element) => {
+      switch (comparison) {
+      case 'maior que': return element[column] * 1 > value;
+      case 'menor que': return element[column] * 1 < value;
+      case 'igual a': return element[column] === value;
+      default: return false;
+      }
+    });
+    setPlanets(numFiltered);
+    const filterNewColumn = newColumn.filter((select) => select !== column);
+    setNewColumn(filterNewColumn);
+  };
+
   const context = {
     planets,
     searchName,
     setSearchName,
+    filterByNumber,
+    numberFiltered,
+    columnFiltered,
+    comparisonFiltered,
+    newColumn,
+    // filterList,
   };
 
   return (

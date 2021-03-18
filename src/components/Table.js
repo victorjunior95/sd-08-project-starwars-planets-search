@@ -4,13 +4,17 @@ import PlanetsContext from '../context/MyContext';
 
 const Table = () => {
   const {
-    // fixPlanets,
-    // filterByName,
-    // handleChange,
+    planets,
     searchName,
     setSearchName,
-    planets,
+    filterByNumber,
+    numberFiltered,
+    columnFiltered,
+    comparisonFiltered,
+    newColumn,
+    filterList,
   } = useContext(PlanetsContext);
+
   return (
     <div>
       <h1>StarWars DataTable Hooks</h1>
@@ -25,22 +29,26 @@ const Table = () => {
             onChange={ (e) => setSearchName(e.target.value) }
           />
           <div>
-            <span>xxx</span>
+            <span>{filterList}</span>
             <button type="button">X</button>
           </div>
         </div>
         <div className="filter">
-          <span>Filter by numbers</span>
-          <select data-testid="column-sort" id="sort-selection">
-            <option value="" key="">select</option>
-            <option value="population" key="population">population</option>
-            <option value="orbital_period" key="orbital_period">orbital_period</option>
-            <option value="diameter" key="diameter">diameter</option>
-            <option value="rotation_period" key="rotation_period">rotation_period</option>
-            <option value="surface_water" key="surface_water">surface_water</option>
+          <span>Filter by number</span>
+          <select
+            data-testid="column-filter"
+            onChange={ (e) => columnFiltered(e.target.value) }
+          >
+            { newColumn.map(
+              (
+                column,
+              ) => <option key={ column } value={ column }>{ column }</option>,
+            )}
           </select>
-          <select data-testid="comparison-filter" id="comparison">
-            <option value="">select</option>
+          <select
+            data-testid="comparison-filter"
+            onChange={ (e) => comparisonFiltered(e.target.value) }
+          >
             <option value="maior que">maior que</option>
             <option value="menor que">menor que</option>
             <option value="igual a">igual a</option>
@@ -48,12 +56,13 @@ const Table = () => {
           <input
             data-testid="value-filter"
             type="number"
-            id="value"
+            onChange={ (event) => numberFiltered(event.target.value) }
+            placeholder="type a number"
           />
           <button
             type="button"
             data-testid="button-filter"
-            // onClick={ handleClickNum }
+            onClick={ () => filterByNumber() }
           >
             Filter
           </button>
