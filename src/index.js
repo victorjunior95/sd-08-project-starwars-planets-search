@@ -6,5 +6,6 @@ import ProviderContext from './contextApi/ProviderContext';
 ReactDOM.render(
   <ProviderContext>
     <App />
-  </ProviderContext>
-  , document.getElementById('root'));
+  </ProviderContext>,
+  document.getElementById('root')
+);
