@@ -3,7 +3,8 @@ import { DataContext } from '../API/DataContext';
 
 const Table = () => {
   const {
-    filterName, searchName, filterPlanet, filterNumberValue, setfilterNumberValue, handleClick,
+    filterName,
+    searchName, filterPlanet, filterNumberValue, setfilterNumberValue, handleClick,
   } = useContext(DataContext);
 
   return (
