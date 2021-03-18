@@ -43,7 +43,7 @@ const Table = () => {
         Add Filtro
       </button>
       <br />
-      <table>
+      {/* <table>
         <thead>
           <th>Name:</th>
           <th>Population:</th>
@@ -59,7 +59,7 @@ const Table = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
       <br />
       <table>
         <thead>

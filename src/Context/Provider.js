@@ -7,21 +7,15 @@ const ProviderPlanet = ({ children }) => {
   const [planetas, setPlanetas] = useState([]);
   const [filtroPlaneta, setFiltroPlaneta] = useState([]);
   const [procurarNome, setProcurarNome] = useState('');
-  //   filters: {
-  //     filterByName: {
-  //       name: '',
-  //     },
-  //   },
-  // });
   const [options, setOptions] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [tamanho, setTamanho] = useState(['maior que', 'menor que', 'igual a']);
-  const [filtros, setFiltros] = useState([{
-    column: '', // options
-    comparison: '', // tamanho
-    value: '',
-  }]);
-  const [delet, setDelet] = useState([]);
+  const [filtros, setFiltros] = useState({
+    column: 'population', // options
+    comparison: 'maior que', // tamanho
+    value: '10000',
+  });
+  // const [delet, setDelet] = useState([]);
 
   useEffect(() => {
     async function fechtData() {
@@ -87,7 +81,7 @@ const ProviderPlanet = ({ children }) => {
     setTamanho,
     filtro,
     handleClick,
-    setDelet,
+    // setDelet,
     filtros,
   };
 
