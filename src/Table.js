@@ -35,21 +35,26 @@ function Table() {
         ],
       },
     });
+    const arr = Array.from(document.querySelector('.compar'));
+    const arr1 = Array.from(document.querySelector('.column'));
+
+    arr.find((element) => element.value === comparison && element.remove());
+    arr1.find((element) => element.value === column && element.remove());
   }
-  /*  function handleValuesCo({ target }) {
-    setText({
+
+  function removeFilter(values) {
+    setText((previous) => ({
+      ...text,
       filters: {
         ...text.filters,
-        filterByNumericValues: [
-          {
-            column: target.value,
-          },
-        ],
-      },
-    });
-  } */
+        filterByNumericValues:
+         previous.filters.filterByNumericValues
+           .filter((e) => !Object.values(e).includes(values)),
 
-  console.log(text);
+      },
+    }));
+  }
+
   return (
     <div>
       <label htmlFor="search label">
@@ -61,6 +66,7 @@ function Table() {
         />
       </label>
       <select
+        className="column"
         data-testid="column-filter"
         onChange={ ({ target }) => setColumn(target.value) }
       >
@@ -71,6 +77,7 @@ function Table() {
         <option>surface_water</option>
       </select>
       <select
+        className="compar"
         data-testid="comparison-filter"
         onChange={ (e) => setCompa(e.target.value) }
       >
@@ -90,6 +97,15 @@ function Table() {
       >
         Adicionar Filtro
       </button>
+      {text.filters.filterByNumericValues.map(
+        ({ column: column1, comparison: comparison1, value: value1 }, index) => (
+          <div data-testid="filter" key={ index }>
+            <p>{`${column1} ${comparison1} ${value1}`}</p>
+            <button type="button" onClick={ () => removeFilter(value1) }>X</button>
+          </div>
+        ),
+      )}
+
       <table>
         <thead>
           <tr>

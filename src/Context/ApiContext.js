@@ -71,6 +71,7 @@ function StarWarsData({ children }) {
     comparison,
     column,
     value,
+    dataFilterSet,
 
   };
   return (
