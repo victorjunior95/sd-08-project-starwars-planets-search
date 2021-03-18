@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import { DataContext } from '../API/DataContext';
 
 const Table = () => {
-  const { filterName, searchName, filterPlanet } = useContext(DataContext);
+  const {
+    filterName, searchName, filterPlanet, filterNumberValue, setfilterNumberValue, handleClick,
+  } = useContext(DataContext);
 
   return (
     <>
@@ -14,6 +16,45 @@ const Table = () => {
         onChange={ filterName }
         value={ searchName }
       />
+      <select
+        data-testid="column-filter"
+        name="column"
+        onChange={ ({ target }) => setfilterNumberValue(
+          { ...filterNumberValue, column: target.value },
+        ) }
+      >
+        <option id="pop" value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+      <select
+        data-testid="comparison-filter"
+        name="comparison"
+        onChange={ ({ target }) => setfilterNumberValue(
+          { ...filterNumberValue, comparison: target.value },
+        ) }
+      >
+        <option value="maior que">maior que</option>
+        <option value="igual a">igual a</option>
+        <option value="menor que">menor que</option>
+      </select>
+      <input
+        data-testid="value-filter"
+        name="value"
+        type="number"
+        onChange={ ({ target }) => setfilterNumberValue(
+          { ...filterNumberValue, value: target.value },
+        ) }
+      />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClick }
+      >
+        Filter
+      </button>
       <table id="lista">
         <thead>
           <tr>

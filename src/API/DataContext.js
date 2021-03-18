@@ -7,9 +7,13 @@ export const DataContext = createContext();
 const GlobalDataContext = ({ children }) => {
   const [data, setData] = useState([]);
   const [stateOn, setStateOn] = useState(false);
-
   const [searchName, setSearchName] = useState('');
   const [filterPlanet, setFilterPlanet] = useState([]);
+  const [filterNumberValue, setfilterNumberValue] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '100000',
+  });
 
   useEffect(() => {
     (async () => {
@@ -25,6 +29,23 @@ const GlobalDataContext = ({ children }) => {
     setFilterPlanet(filterPlanets);
   }, [data, searchName]);
 
+  const handleClick = () => {
+    document.getElementById('pop').remove();
+    const { column, comparison, value } = filterNumberValue;
+    switch (comparison) {
+    case 'maior que':
+      return setData(data
+        .filter((planet) => Number(planet[column]) > Number(value)));
+    case 'menor que':
+      return setData(data
+        .filter((planet) => Number(planet[column]) < Number(value)));
+    case 'igual a':
+      return setData(data
+        .filter((planet) => Number(planet[column]) === Number(value)));
+    default: return setData(FETCH_API());
+    }
+  };
+
   const filterName = ({ target }) => setSearchName(target.value);
 
   const context = {
@@ -33,6 +54,9 @@ const GlobalDataContext = ({ children }) => {
     filterPlanet,
     setData,
     filterName,
+    handleClick,
+    filterNumberValue,
+    setfilterNumberValue,
   };
 
   return (
