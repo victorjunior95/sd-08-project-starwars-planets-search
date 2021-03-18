@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { PlanetsContext } from '../context/planetsContext';
 import PlanetTbody from './PlanetTbody';
 import PlanetThead from './PlanetThead';
