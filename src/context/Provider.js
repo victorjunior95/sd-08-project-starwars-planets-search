@@ -11,6 +11,7 @@ function Provider({ children }) {
   const [filter, setFilter] = useState(
     { filterByName: { name: '' } },
     { filterByNumericValues: [] },
+    { order: { column: 'name', sort: 'ASC' } },
   );
   const context = {
     data,
