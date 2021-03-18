@@ -4,7 +4,7 @@ import PlanetsContext from '../context/PlanetsContext';
 function SearchByName() {
   const {
     filters: { filterByName: { name } },
-    function: { handleChange },
+    function: { handleName },
   } = useContext(PlanetsContext);
 
   return (
@@ -15,7 +15,7 @@ function SearchByName() {
         type="text"
         data-testid="name-filter"
         value={ name }
-        onChange={ handleChange }
+        onChange={ handleName }
       />
     </label>
   );
