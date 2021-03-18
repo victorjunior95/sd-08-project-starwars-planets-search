@@ -8,13 +8,14 @@ import testData from '../testData';
 function PlanetsProvider({ children }) {
   const [initialData, setInitialData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [filters, setFilters] = useState({ filterByName: {}, filterByNumericValues: [] });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' }, filterByNumericValues: [] });
   const [dataFiltered, setDataFiltered] = useState([]);
   const [numberFilter, setNumberFilter] = useState(
     { column: '', comparison: '', value: '' },
   );
 
-  useEffect(() => { // componentDidMount
+  useEffect(() => {
     getPlanets().then(({ results }) => {
       results.forEach((result) => delete result.residents);
       setInitialData(results);
@@ -25,19 +26,14 @@ function PlanetsProvider({ children }) {
 
   useEffect(() => {
     const VALUE_TO_ERASE = -1;
-    if (initialData[0]) {
-      const filterList = initialData.filter(({ name }) => (
-        name.toLowerCase().indexOf(filters.filterByName.toLowerCase()) !== VALUE_TO_ERASE
-      ));
-      setDataFiltered(filterList);
-    }
-  }, [filters.filterByName]);
+    const { filterByName, filterByNumericValues } = filters;
+    let filterList = initialData.filter(({ name }) => (
+      name.toLowerCase().indexOf(filterByName.name.toLowerCase()) !== VALUE_TO_ERASE
+    ));
+    setDataFiltered(filterList);
 
-  useEffect(() => {
-    let numericFilter = dataFiltered;
-    const { filterByNumericValues } = filters;
     filterByNumericValues.forEach(({ column, comparison, value }) => {
-      numericFilter = numericFilter.filter((info) => {
+      filterList = filterList.filter((info) => {
         const infoColumn = parseInt(info[column], 10);
         const valueInt = parseInt(value, 10);
         if (comparison === 'maior que') return (infoColumn > valueInt);
@@ -45,14 +41,14 @@ function PlanetsProvider({ children }) {
         if (comparison === 'igual a') return (infoColumn === valueInt);
         return true;
       });
-      setDataFiltered(numericFilter);
+      setDataFiltered(filterList);
     });
-  }, [filters.filterByNumericValues]);
+  }, [filters]);
 
   const handleChange = ({ target }) => {
     switch (target.name) {
     case 'name':
-      setFilters({ ...filters, filterByName: target.value });
+      setFilters({ ...filters, filterByName: { name: target.value } });
       break;
     case 'data':
       setNumberFilter({ ...numberFilter, column: target.value });
@@ -72,8 +68,22 @@ function PlanetsProvider({ children }) {
       filterByNumericValues: [...filters.filterByNumericValues, numberFilter] });
   };
 
+  const handleClearFilter = (chip) => {
+    const listClear = filters.filterByNumericValues.filter((num) => (num !== chip));
+    setFilters({ ...filters,
+      filterByNumericValues: listClear });
+  };
+
   const contextValues = {
-    dataFiltered, isLoading, filters, handleChange, numberFilter, handleClick };
+    dataFiltered,
+    isLoading,
+    filters,
+    handleChange,
+    numberFilter,
+    handleClick,
+    handleClearFilter,
+  };
+
   return (
     <PlanetsContext.Provider value={ contextValues }>
       {children}

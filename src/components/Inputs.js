@@ -3,13 +3,26 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function Inputs() {
   const {
-    filters: { filtersByName }, handleChange, numberFilter, handleClick,
+    filters: { filtersByName, filterByNumericValues },
+    handleChange,
+    numberFilter,
+    handleClick,
   } = useContext(PlanetsContext);
 
-  const dropDownColumn = [
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const dropDownColumn = () => {
+    const columns = [
+      '', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    let disabledColumns = columns;
+    filterByNumericValues.forEach(({ column }) => {
+      disabledColumns = disabledColumns.filter((arr) => {
+        if (!arr) return false;
+        return arr !== column;
+      });
+    });
+    return disabledColumns;
+  };
 
-  const dropDownRange = ['maior que', 'menor que', 'igual a'];
+  const dropDownRange = ['', 'maior que', 'menor que', 'igual a'];
 
   return (
     <>
@@ -23,21 +36,23 @@ function Inputs() {
       />
 
       <select data-testid="column-filter" name="data" onChange={ handleChange }>
-        <option label="Column" />
-        { dropDownColumn.map((data) => (
-          <option key={ data } value={ data }>
-            { data }
-          </option>
-        )) }
+        { dropDownColumn().map((data) => {
+          if (data === '') return (<option label="Column" />);
+          return (
+            <option key={ data } value={ data }>
+              { data }
+            </option>);
+        }) }
       </select>
 
       <select data-testid="comparison-filter" name="range" onChange={ handleChange }>
-        <option label="Comparison" />
-        { dropDownRange.map((range) => (
-          <option key={ range } value={ range }>
-            { range }
-          </option>
-        )) }
+        { dropDownRange.map((range) => {
+          if (range === '') return (<option label="Comparison" />);
+          return (
+            <option key={ range } value={ range }>
+              { range }
+            </option>);
+        }) }
       </select>
 
       <input
