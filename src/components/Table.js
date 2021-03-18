@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react';
-// import MyContext from '../context/Context';
+import React, { useContext, useEffect } from 'react';
+import MyContext from '../context/Context';
 import getPlanetsApi from '../services/getApi';
 
 function Table() {
-  const [state, setState] = useState({
-    planetsTable: [],
-  });
+  const { state, setState } = useContext(MyContext);
   async function getPlanetsApiAndSetState() {
     const getPlanets = await getPlanetsApi();
     setState({
       ...state,
       planetsTable: getPlanets,
+      fetchPlanets: getPlanets,
     });
   }
   useEffect(() => {
     getPlanetsApiAndSetState();
   }, []);
-  // const context = useContext(MyContext);
   return (
     <table>
       <thead>
