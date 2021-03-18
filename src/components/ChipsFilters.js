@@ -17,6 +17,7 @@ function ChipsFilters() {
           <div key={ index }>
             { `${chip.column} ${comparisonWord(chip)} ${chip.value} ` }
             <button
+              data-testid="filter"
               onClick={ () => handleClearFilter(chip) }
               type="button"
             >
