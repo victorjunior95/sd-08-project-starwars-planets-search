@@ -54,7 +54,7 @@ const PlanetsProvider = ({ children }) => {
     } else {
       setFilteredPlanets(newPlanets);
     }
-  }, [filters]);
+  }, [filters, planets]);
 
   const planetsValue = {
     filteredPlanets,
