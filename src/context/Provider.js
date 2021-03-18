@@ -62,11 +62,9 @@ function Provider({ children }) {
   };
 
   const handleClick = () => {
-    const copyColumnOptions = [...columnOptions];
-    const optionToBeRemoved = preference.column;
-    const indexOfOption = copyColumnOptions.indexOf(optionToBeRemoved);
-    copyColumnOptions.splice(indexOfOption, 1);
-    setColumnOptions(copyColumnOptions);
+    let copyColumn = columnOptions;
+    copyColumn = columnOptions.filter((column) => column !== preference.column);
+    setColumnOptions(copyColumn);
     filteredValue(preference);
   };
 
