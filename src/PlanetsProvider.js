@@ -65,7 +65,8 @@ const PlanetsProvider = ({ children }) => {
     filters,
     setNumericFilter: (column, comparison, value) => setFilters(
       { ...filters,
-        filterByNumericValues: [...filters.filterByNumericValues, { column, comparison, value }],
+        filterByNumericValues:
+        [...filters.filterByNumericValues, { column, comparison, value }],
       },
     ),
   };
