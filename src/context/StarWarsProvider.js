@@ -2,15 +2,24 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
 
+const standardFilter = {
+  filterByName: {
+    name: '',
+  },
+  filterByNumericValues: [
+    {
+      column: '',
+      comparison: '',
+      value: '',
+    },
+  ],
+};
+
 function StarWarsProvider({ children }) {
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState([]);
   const [searchName, setSearchName] = useState('');
-  const [filters, setFilteredData] = useState({
-    filterByName: {
-      name: '',
-    },
-  });
+  const [filters, setFilteredData] = useState(standardFilter);
 
   const setName = (name) => {
     setFilteredData((previousState) => ({
@@ -20,6 +29,19 @@ function StarWarsProvider({ children }) {
       },
     }));
   };
+
+  // const setNumericValues = (column, comparison, value) => {
+  //   setFilteredData((previousState) => ({
+  //     ...previousState,
+  //     filterByNumericValues: [
+  //       {
+  //         column,
+  //         comparison,
+  //         value,
+  //       },
+  //     ],
+  //   }));
+  // };
 
   useEffect(() => {
     async function returnedAPI() {
