@@ -8,23 +8,25 @@ import fetchPlanetsData from '../services/StarWarsPlanetsApi';
 function Provider({ children }) {
   const [isFetching, setIsFetching] = useState(true);
   const [data, setData] = useState([]);
+  const [columnOptions, setColumnOptions] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
-  const [columnOptions, setColumnOptions] = useState([
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ]);
   const [numericFilterValues, setNumericFilterValues] = useState({
     column: columnOptions[0],
     comparison: 'maior que',
     value: 0,
+  });
+  const [orderFilterValues, setOrderFilterValues] = useState({
+    column: 'name',
+    sort: 'ASC',
   });
 
   function onChangeNumericFilter(id, value) {
@@ -33,6 +35,14 @@ function Provider({ children }) {
 
   function onChangeNameFilter(id, value) {
     setFilters({ ...filters, filterByName: { [id]: value } });
+  }
+
+  function onChangeOrderFilter(name, value) {
+    setOrderFilterValues({ ...orderFilterValues, [name]: value });
+  }
+
+  function setOrderFilter() {
+    setFilters({ ...filters, order: { ...orderFilterValues } });
   }
 
   function onClickAddFilter() {
@@ -61,8 +71,13 @@ function Provider({ children }) {
 
   useEffect(() => {
     const usedOptions = filters.filterByNumericValues.map((filter) => filter.column);
-    setColumnOptions((previousState) => previousState
-      .filter((column) => !usedOptions.includes(column)));
+    setColumnOptions([
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ].filter((column) => !usedOptions.includes(column)));
   }, [filters]);
 
   useEffect(() => {
@@ -74,15 +89,18 @@ function Provider({ children }) {
   }, [columnOptions]);
 
   const value = {
-    columnOptions,
-    numericFilterValues,
     isFetching,
     data,
     filters,
+    columnOptions,
+    numericFilterValues,
+    orderFilterValues,
     onChangeNameFilter,
+    onChangeNumericFilter,
+    onChangeOrderFilter,
+    setOrderFilter,
     onClickAddFilter,
     onClickRemoveFilter,
-    onChangeNumericFilter,
   };
 
   return (

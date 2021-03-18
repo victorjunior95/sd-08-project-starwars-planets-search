@@ -6,6 +6,20 @@ import '../styles/PlanetsTable.css';
 function PlanetsTable() {
   const { isFetching, data, filters } = useContext(Context);
 
+  function sortData(dataTable) {
+    const sortColumn = filters.order.column;
+    const isString = !parseInt(dataTable[0][sortColumn], 10);
+    const isAscending = filters.order.sort === 'ASC';
+    const DECRESCENT = -1;
+    const order = isAscending ? 1 : DECRESCENT;
+
+    return dataTable.sort((a, b) => (isString
+      ? (a[sortColumn].localeCompare(b[sortColumn])) * order
+      : (a[sortColumn] - b[sortColumn]) * order));
+  }
+
+  if (!isFetching) sortData(data);
+
   const dataAfterNameFilter = data
     .filter((planetData) => planetData.name.includes(filters.filterByName.name));
 
@@ -39,7 +53,12 @@ function PlanetsTable() {
             { renderData.map((dataBodyRow, indexR) => (
               <tr key={ indexR }>
                 { dataBodyRow.map((dataBodyColumn, indexC) => (
-                  <td key={ indexC }>{ dataBodyColumn[1] }</td>
+                  <td
+                    data-testid={ dataBodyColumn[0] === 'name' && 'planet-name' }
+                    key={ indexC }
+                  >
+                    { dataBodyColumn[1] }
+                  </td>
                 ))}
               </tr>))}
           </tbody>

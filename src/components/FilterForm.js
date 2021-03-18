@@ -2,12 +2,6 @@ import React, { useContext } from 'react';
 
 import Context from '../context/Context';
 
-const comparisonOptions = [
-  'maior que',
-  'menor que',
-  'igual a',
-];
-
 function renderTextInput(name, callback, value) {
   return (
     <label htmlFor={ name }>
@@ -42,16 +36,51 @@ function renderSelectInput(name, options, callback, value) {
   );
 }
 
+function renderSortSelectInput(options, callback, value) {
+  return (
+    <label htmlFor="column">
+      Sort By
+      <select
+        data-testid="column-sort"
+        id="column"
+        name="column"
+        onChange={ ({ target }) => callback(target.name, target.value) }
+        value={ value }
+      >
+        { options.map((option_) => (
+          <option key={ option_ } value={ option_ }>
+            { option_ }
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 function FilterForm() {
   const {
-    columnOptions,
+    isFetching,
+    data,
     filters,
+    columnOptions,
     numericFilterValues,
+    orderFilterValues,
     onChangeNameFilter,
     onChangeNumericFilter,
+    onChangeOrderFilter,
+    setOrderFilter,
     onClickAddFilter,
     onClickRemoveFilter,
   } = useContext(Context);
+
+  const comparisonOptions = [
+    'maior que',
+    'menor que',
+    'igual a',
+  ];
+
+  const sortOptions = !isFetching && Object.keys(data[0])
+    .filter((key) => key !== 'residents').map((dataHeadColumn) => dataHeadColumn);
 
   function handleClick(event) {
     event.preventDefault();
@@ -88,6 +117,42 @@ function FilterForm() {
           onClick={ handleClick }
         >
           Filter
+        </button>
+      </form>
+      <form>
+        { !isFetching && renderSortSelectInput(
+          sortOptions, onChangeOrderFilter, orderFilterValues.column,
+        ) }
+        <label htmlFor="sort-asc">
+          ASC
+          <input
+            checked={ orderFilterValues.sort === 'ASC' }
+            data-testid="column-sort-input-asc"
+            id="sort-asc"
+            name="sort"
+            onChange={ ({ target }) => onChangeOrderFilter(target.name, target.value) }
+            type="radio"
+            value="ASC"
+          />
+        </label>
+        <label htmlFor="sort-desc">
+          DESC
+          <input
+            checked={ orderFilterValues.sort === 'DESC' }
+            data-testid="column-sort-input-desc"
+            id="sort-desc"
+            name="sort"
+            onChange={ ({ target }) => onChangeOrderFilter(target.name, target.value) }
+            type="radio"
+            value="DESC"
+          />
+        </label>
+        <button
+          data-testid="column-sort-button"
+          onClick={ (event) => { event.preventDefault(); setOrderFilter(); } }
+          type="submit"
+        >
+          Sort
         </button>
       </form>
       <h4>Active Filters</h4>
