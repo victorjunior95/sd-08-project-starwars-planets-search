@@ -8,16 +8,15 @@ function Table() {
   const {
     requesting,
     planets,
-    // setFilters,
-    // setFilterByName,
-    // filterByName,
     setPlanetsFiltered,
     planetsFiltered,
-    // applyFilter,
+    numericFilteredPlanets,
   } = useContext(PlanetsContext);
 
   function setList() {
-    if (planetsFiltered.length) {
+    if (numericFilteredPlanets.length) {
+      setData(numericFilteredPlanets);
+    } else if (planetsFiltered.length) {
       setData(planetsFiltered);
     } else {
       setData(planets);

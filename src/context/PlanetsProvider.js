@@ -8,8 +8,16 @@ function PlanetsProvider({ children }) {
   const [requesting, setRequesting] = useState(false);
   const [planets, setPlanets] = useState([]);
   const [planetsFiltered, setPlanetsFiltered] = useState([]);
+  const [numericFilteredPlanets, setNumericFilteredPlanets] = useState([]);
   const [filterByName, setFilterByName] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
+  const [filterByNumericValues, setFilterByNumericValues] = useState(
+    {
+      column: '',
+      comparison: '',
+      value: 0,
+    },
+  );
 
   const fetchPlanets = async () => {
     setRequesting(true);
@@ -18,26 +26,57 @@ function PlanetsProvider({ children }) {
     setRequesting(false);
   };
 
-  const setFilters = (name) => {
-    setFilterByName(name);
+  const setFilters = (name, col, parameter, num) => {
+    if (typeof (name) !== 'undefined') {
+      setFilterByName(name);
+    }
+    if (typeof (col) !== 'undefined') {
+      setFilterByNumericValues({ column: col, comparison: parameter, value: num });
+    }
     setIsFiltered(false);
   };
 
   function applyFilter() {
+    setRequesting(true);
     if (filterByName && !isFiltered) {
-      setRequesting(true);
       const planetsForFilter = planets.slice();
-      const newPlanetsFiltered = planetsForFilter.filter(
+      const namePlanetsFiltered = planetsForFilter.filter(
         (planet) => planet.name.includes(filterByName),
       );
-      setPlanetsFiltered(newPlanetsFiltered);
-      setIsFiltered(true);
-      setRequesting(false);
+      setPlanetsFiltered(namePlanetsFiltered);
+    }
+
+    if (filterByNumericValues.column.length && !isFiltered) {
+      let planetsForNumericFilter = [];
+      let newNumericFilteredPlanets = [];
+
+      if (planetsFiltered.length) {
+        planetsForNumericFilter = planetsFiltered.slice();
+      } else {
+        planetsForNumericFilter = planets.slice();
+      }
+
+      if (filterByNumericValues.comparison === 'maior que') {
+        newNumericFilteredPlanets = planetsForNumericFilter.filter((planet) => (
+          parseInt(planet[filterByNumericValues.column], 10)
+          > parseInt(filterByNumericValues.value, 10)));
+      } else if (filterByNumericValues.comparison === 'menor que') {
+        newNumericFilteredPlanets = planetsForNumericFilter.filter((planet) => (
+          parseInt(planet[filterByNumericValues.column], 10)
+          < parseInt(filterByNumericValues.value, 10)));
+      } else {
+        newNumericFilteredPlanets = planetsForNumericFilter.filter((planet) => (
+          parseInt(planet[filterByNumericValues.column], 10)
+          === parseInt(filterByNumericValues.value, 10)));
+      }
+      setNumericFilteredPlanets(newNumericFilteredPlanets);
     }
     if (!filterByName && isFiltered) {
       setPlanetsFiltered('');
       setIsFiltered(false);
     }
+    setIsFiltered(true);
+    setRequesting(false);
   }
 
   useEffect(() => { fetchPlanets(); }, []);
@@ -54,6 +93,7 @@ function PlanetsProvider({ children }) {
         setPlanetsFiltered,
         planetsFiltered,
         applyFilter,
+        numericFilteredPlanets,
       } }
     >
       {children}
