@@ -18,6 +18,7 @@ const PlanetsProvider = ({ children }) => {
       const { results } = await fetch(url).then((res) => res.json());
       console.log('results', results);
       setPlanets(results || []);
+      setFilteredPlanets(results || []);
     };
     fetchPlanets();
   }, []);
