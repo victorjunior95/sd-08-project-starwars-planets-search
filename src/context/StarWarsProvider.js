@@ -7,11 +7,6 @@ const standardFilter = {
     name: '',
   },
   filterByNumericValues: [
-    {
-      column: '',
-      comparison: '',
-      value: '',
-    },
   ],
 };
 
@@ -30,18 +25,16 @@ function StarWarsProvider({ children }) {
     }));
   };
 
-  // const setNumericValues = (column, comparison, value) => {
-  //   setFilteredData((previousState) => ({
-  //     ...previousState,
-  //     filterByNumericValues: [
-  //       {
-  //         column,
-  //         comparison,
-  //         value,
-  //       },
-  //     ],
-  //   }));
-  // };
+  const addFilterNumericValue = (column, comparison, value) => {
+    setFilteredData((previousState) => ({
+      ...previousState,
+      filterByNumericValues: [...previousState.filterByNumericValues, {
+        column,
+        comparison,
+        value,
+      }],
+    }));
+  };
 
   useEffect(() => {
     async function returnedAPI() {
@@ -64,6 +57,7 @@ function StarWarsProvider({ children }) {
     filters,
     setFilteredData,
     setName,
+    addFilterNumericValue,
   };
 
   return (

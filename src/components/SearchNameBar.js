@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function SearchNameBar() {
-  const { setName } = useContext(StarWarsContext);
+  const { setName, addFilterNumericValue } = useContext(StarWarsContext);
   const columnFilter = [
     '',
     'population',
@@ -11,6 +11,10 @@ function SearchNameBar() {
     'rotation_period',
     'surface_water',
   ];
+
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [number, setNumberFilter] = useState(0);
 
   const comparisonFilter = ['', 'Maior que', 'Menor que', 'Igual a'];
 
@@ -30,7 +34,8 @@ function SearchNameBar() {
         <select
           name="selectFilter"
           data-testid="column-filter"
-          onChange={ (e) => console.log(e.target.value) }
+          value={ column }
+          onChange={ (e) => setColumn(e.target.value) }
         >
           {columnFilter.map((element) => (
             <option value={ element } key={ element }>
@@ -44,7 +49,8 @@ function SearchNameBar() {
         <select
           name="selectComparison"
           data-testid="comparison-filter"
-          onChange={ (e) => console.log(e.target.value) }
+          value={ comparison }
+          onChange={ (e) => setComparison(e.target.value) }
         >
           {comparisonFilter.map((element) => (
             <option key={ element } value={ element }>
@@ -59,9 +65,17 @@ function SearchNameBar() {
           data-testid="value-filter"
           type="number"
           name="numberFilter"
-          onChange={ (e) => console.log(e.target.value) }
+          value={ number }
+          onChange={ (e) => setNumberFilter(e.target.value) }
         />
       </label>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => addFilterNumericValue(column, comparison, number) }
+      >
+        Filtrar
+      </button>
     </div>
   );
 }
