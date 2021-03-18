@@ -65,11 +65,6 @@ function Provider({ children }) {
     let copyFilterColumn = filterColumn;
     copyFilterColumn = filterColumn.filter((column) => column !== selected.column);
     setFilterColumn(copyFilterColumn);
-    // const copyFilterColumn = [...filterColumn];
-    // const optionToBeRemoved = selected.column;
-    // const indexOfOption = copyFilterColumn.indexOf(optionToBeRemoved);
-    // copyFilterColumn.splice(indexOfOption, 1);
-    // setFilterColumn(copyFilterColumn);
     filteredValue(selected);
   }
 
