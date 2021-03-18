@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import { Form, FormControl } from 'react-bootstrap';
 import tableContext from '../context/tableContext';
+import NumericForm from './NumericForm';
 
 export default function Filters() {
-  const { setFilters } = useContext(tableContext);
+  const { setFilters, filters } = useContext(tableContext);
 
   const handleInput = ({ target }) => {
     const { name, value } = target;
-    setFilters({ [name]: { name: value } });
+    setFilters({ ...filters, [name]: { name: value } });
   };
 
   return (
@@ -23,6 +24,7 @@ export default function Filters() {
           onChange={ (event) => handleInput(event) }
         />
       </Form>
+      <NumericForm />
     </section>
   );
 }
