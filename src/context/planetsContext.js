@@ -5,7 +5,6 @@ export const PlanetsContext = createContext([]);
 
 const PlanetsProvider = ({ children }) => {
   const [planets, setPlanetes] = useState([]);
-  // const [filterName, setFilterName] = useState('');
 
   useEffect(() => {
     const fetchPlants = async () => {
