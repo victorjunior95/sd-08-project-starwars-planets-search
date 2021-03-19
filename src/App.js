@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import PlanetContext from './components/Context';
+
+import Table from './components/Table';
 
 function App() {
   return (
-    <span>starwars!</span>
+    <PlanetContext.Provider>
+      <Table />
+    </PlanetContext.Provider>
   );
 }
 
