@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSwapiPlanets } from '../services/swapi';
-import { createSortPlanets } from '../controller/orderColumn';
-import { createCondition } from '../controller/conditionFilter';
+import { createSortPlanets } from '../utils/orderColumn';
+import { createCondition } from '../utils/conditionFilter';
 
 const ContextFromStarWars = createContext();
 const { Provider, Consumer } = ContextFromStarWars;
