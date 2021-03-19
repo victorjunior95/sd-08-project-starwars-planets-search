@@ -1,35 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 import Home from './Components/Home';
 
 import SWContext from './Context/SWContext';
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      value: '',
-      planets: [],
-    };
+function App() {
+  const [planets, setPlanets] = useState([]);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [filters, setFilters] = useState({});
+  const [isFiltered, setIsFiltered] = useState(false);
 
-    this.setPlanets = this.setPlanets.bind(this);
-  }
-
-  setPlanets() {
-    fetch('https://swapi-trybe.herokuapp.com/api/planets/')
+  const getPlanets = () => {
+    fetch('https://swapi.dev/api/planets/')
       .then((data) => data.json())
-      .then((response) => this.setState({ planets: response.results }));
-  }
+      .then((response) => setPlanets(response.results));
+  };
 
-  render() {
-    return (
-      <SWContext.Provider value={ { ...this.state, setPlanets: this.setPlanets } }>
-        <h1>Star Wars Planet Search</h1>
-        <Home />
-      </SWContext.Provider>
-    );
-  }
+  const filterByName = (e) => {
+    if (e.target.value === '') return setIsFiltered(false);
+    setFilteredPlanets(planets.filter((planet) => planet.name.includes(e.target.value)));
+    setIsFiltered(true);
+  };
+
+  return (
+    <SWContext.Provider
+      value={ {
+        planets,
+        filteredPlanets,
+        filters,
+        isFiltered,
+        filterByName,
+        getPlanets,
+        setFilters,
+        setFilteredPlanets,
+        setIsFiltered,
+      } }
+    >
+      <h1>Star Wars Planet Search</h1>
+      <Home />
+    </SWContext.Provider>
+  );
 }
 
 export default App;

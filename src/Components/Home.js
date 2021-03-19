@@ -1,12 +1,14 @@
 import React from 'react';
+import Filter from './Filter';
 import Table from './Table';
 
-class Home extends React.Component {
-  render() {
-    return (
+function Home() {
+  return (
+    <>
+      <Filter />
       <Table />
-    );
-  }
+    </>
+  );
 }
 
 export default Home;
