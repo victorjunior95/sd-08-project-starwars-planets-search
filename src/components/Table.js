@@ -19,9 +19,12 @@ function Table() {
         <tbody>
           { dataFiltered[0] && dataFiltered.map((infos) => (
             <tr key={ infos.name }>
-              { Object.values(infos).map((info, idx) => (
-                <td key={ idx }>{ info }</td>
-              )) }
+              { Object.values(infos).map((info, idx) => {
+                if (idx === 0) {
+                  return (<td data-testid="planet-name" key={ idx }>{ info }</td>);
+                }
+                return <td key={ idx }>{ info }</td>;
+              }) }
             </tr>
           )) }
         </tbody>

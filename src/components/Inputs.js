@@ -5,8 +5,10 @@ function Inputs() {
   const {
     filters: { filtersByName, filterByNumericValues },
     handleChange,
+    dataFiltered,
     numberFilter,
     handleClick,
+    ordered,
   } = useContext(PlanetsContext);
 
   const dropDownColumn = () => {
@@ -37,7 +39,7 @@ function Inputs() {
 
       <select data-testid="column-filter" name="data" onChange={ handleChange }>
         { dropDownColumn().map((data) => {
-          if (data === '') return (<option label="Column" />);
+          if (data === '') return (<option label="Choose column" />);
           return (
             <option key={ data } value={ data }>
               { data }
@@ -66,11 +68,57 @@ function Inputs() {
 
       <button
         data-testid="button-filter"
+        disabled={ !numberFilter.column }
+        name="filter"
         onClick={ handleClick }
         type="button"
       >
         Search
       </button>
+
+      <select data-testid="column-sort" name="sort-column" onChange={ handleChange }>
+        <option label="Sort Column" />
+        { dataFiltered[0]
+          && Object.keys(dataFiltered[0]).map((column) => (
+            <option key={ column } value={ column }>
+              { column }
+            </option>
+          )) }
+      </select>
+
+      <label htmlFor="sort">
+        <input
+          checked={ ordered.sort === 'ASC' }
+          data-testid="column-sort-input-asc"
+          id="sort"
+          name="sort"
+          onClick={ handleChange }
+          type="radio"
+          value="ASC"
+        />
+        Ascendente
+        <input
+          checked={ ordered.sort === 'DESC' }
+          data-testid="column-sort-input-desc"
+          id="sort"
+          name="sort"
+          onClick={ handleChange }
+          type="radio"
+          value="DESC"
+        />
+        Descendente
+      </label>
+
+      <button
+        data-testid="column-sort-button"
+        disabled={ !ordered.column }
+        name="ordination"
+        onClick={ handleClick }
+        type="button"
+      >
+        Sort
+      </button>
+
     </>
   );
 }

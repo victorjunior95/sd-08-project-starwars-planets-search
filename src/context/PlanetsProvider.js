@@ -9,17 +9,65 @@ function PlanetsProvider({ children }) {
   const [initialData, setInitialData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
-    filterByName: { name: '' }, filterByNumericValues: [] });
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+    order: { column: 'name', sort: 'ASC' } });
   const [dataFiltered, setDataFiltered] = useState([]);
   const [numberFilter, setNumberFilter] = useState(
     { column: '', comparison: '', value: '' },
   );
+  const [ordered, setOrdered] = useState(
+    { column: '', sort: 'ASC' },
+  );
+
+  const conversion = (item) => {
+    const UNICODE_DEC_ZERO = 48;
+    const UNICODE_DEC_NOVE = 57;
+    if (item[filters.order.column].charCodeAt(0) >= UNICODE_DEC_ZERO
+        && item[filters.order.column].charCodeAt(0) <= UNICODE_DEC_NOVE) {
+      return parseInt(item[filters.order.column], 10);
+    }
+    return item[filters.order.column].toUpperCase();
+  };
+
+  const ascendente = (list) => (
+    list.sort((a, b) => {
+      const A_MENOR_QUE_B = -1;
+      const A_MAIOR_QUE_A = 1;
+      const columnA = conversion(a);
+      const columnB = conversion(b);
+      if (columnA < columnB) return A_MENOR_QUE_B;
+      if (columnA > columnB) return A_MAIOR_QUE_A;
+      return 0;
+    })
+  );
+
+  const descendente = (list) => (
+    list.sort((a, b) => {
+      const A_MENOR_QUE_B = -1;
+      const A_MAIOR_QUE_A = 1;
+      const columnA = conversion(a);
+      const columnB = conversion(b);
+      if (columnA > columnB) return A_MENOR_QUE_B;
+      if (columnA < columnB) return A_MAIOR_QUE_A;
+      return 0;
+    })
+  );
+
+  const sorting = (listToOrder) => {
+    if (filters.order.sort === 'ASC') {
+      return ascendente(listToOrder);
+    }
+    if (filters.order.sort === 'DESC') {
+      return descendente(listToOrder);
+    }
+  };
 
   useEffect(() => {
     getPlanets().then(({ results }) => {
-      results.forEach((result) => delete result.residents);
+      results.forEach((result) => delete result.residents === 'ressidentes');
       setInitialData(results);
-      setDataFiltered(testData.results);
+      setDataFiltered(sorting(testData.results));
       setIsLoading(false);
     });
   }, []);
@@ -43,6 +91,7 @@ function PlanetsProvider({ children }) {
       });
       setDataFiltered(filterList);
     });
+    setDataFiltered(sorting(filterList));
   }, [filters]);
 
   const handleChange = ({ target }) => {
@@ -59,13 +108,29 @@ function PlanetsProvider({ children }) {
     case 'number':
       setNumberFilter({ ...numberFilter, value: target.value });
       break;
+    case 'sort-column':
+      setOrdered({ ...ordered, column: target.value });
+      break;
+    case 'sort':
+      setOrdered({ ...ordered, sort: target.value });
+      break;
     default: break;
     }
   };
 
-  const handleClick = () => {
-    setFilters({ ...filters,
-      filterByNumericValues: [...filters.filterByNumericValues, numberFilter] });
+  const handleClick = ({ target }) => {
+    const { column, sort } = ordered;
+    switch (target.name) {
+    case 'filter':
+      setFilters({ ...filters,
+        filterByNumericValues: [...filters.filterByNumericValues, numberFilter] });
+      break;
+    case 'ordination':
+      setFilters({ ...filters,
+        order: { column, sort } });
+      break;
+    default: break;
+    }
   };
 
   const handleClearFilter = (chip) => {
@@ -82,6 +147,7 @@ function PlanetsProvider({ children }) {
     numberFilter,
     handleClick,
     handleClearFilter,
+    ordered,
   };
 
   return (
