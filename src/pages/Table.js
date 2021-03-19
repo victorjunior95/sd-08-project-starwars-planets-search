@@ -18,7 +18,7 @@ function Table() {
     const result2 = filterByNumericValues.map((filtered)=> data.filter((element)=>element[filtered.column]>filtered.value)
     );
 
-    console.log(filterByNumericValues);
+    console.log(result2[result2.length-1]);
     // console.log(data[0]);
     // console.log(filterByNumericValues[0].value);
     const newData = data.filter((element)=>element[filterByNumericValues[0].column]>filterByNumericValues[0].value)

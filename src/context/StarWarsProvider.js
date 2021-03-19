@@ -15,6 +15,7 @@ function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [filters, setFilteredData] = useState(standardFilter);
+  const [allFilteredNumbers, setAllFilteredNumbers] = useState('');
 
   const setName = (name) => {
     setFilteredData((previousState) => ({
@@ -58,6 +59,8 @@ function StarWarsProvider({ children }) {
     setFilteredData,
     setName,
     addFilterNumericValue,
+    allFilteredNumbers,
+    setAllFilteredNumbers,
   };
 
   return (
