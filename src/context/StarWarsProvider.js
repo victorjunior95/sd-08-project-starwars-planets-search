@@ -50,6 +50,18 @@ function StarWarsProvider({ children }) {
     setIsFetching(false);
   }, []);
 
+  // useEffect(() => {
+  //   const { filterByName: { name }, filterByNumericValues} = filters;
+  //   const filteredData3 = data
+  //   .filter((value) => value.name.toLowerCase().includes(name.toLowerCase()));
+    
+  //   const result3 = filterByNumericValues.map((filtered)=> filteredData3.filter((element)=>element[filtered.column]>filtered.value)
+  //   );
+
+  //   // console.log(result3[result3.length-1]);
+  // },[filters])
+
+
   const contextValue = {
     isFetching,
     data,

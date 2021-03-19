@@ -14,20 +14,17 @@ function Table() {
     },
   } = useContext(StarWarsContext);
   
+  const filteredData = data
+    .filter((value) => value.name.toLowerCase().includes(name.toLowerCase()));
+
   if(filterByNumericValues.length>0) {
     const result2 = filterByNumericValues.map((filtered)=> data.filter((element)=>element[filtered.column]>filtered.value)
     );
-
-    console.log(result2[result2.length-1]);
-    // console.log(data[0]);
-    // console.log(filterByNumericValues[0].value);
-    const newData = data.filter((element)=>element[filterByNumericValues[0].column]>filterByNumericValues[0].value)
-    // console.log(newData)
+    
+  console.log(result2);
   }
-  
 
-  const filteredData = data
-    .filter((value) => value.name.toLowerCase().includes(name.toLowerCase()));
+
   return data.length > 0 && !isFetching ? (
     <div>
       <SearchNameBar />
