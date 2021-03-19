@@ -55,8 +55,7 @@ function StarWarsProvider({ children }) {
     setFilterPlanet(newFiltered);
   };
   const handleClick = () => {
-    let copyColumn = columnOptions;
-    copyColumn = columnOptions.filter((column) => column !== preferences.column);
+    const copyColumn = columnOptions.filter((column) => column !== preferences.column);
     setColumnOptions(copyColumn);
     filterPreferences(preferences);
   };
