@@ -8,8 +8,6 @@ const Table = () => {
       filterByNumericValues },
   } = useContext(StarWarsContext);
 
-  const { column, comparison, value } = filterByNumericValues[0];
-
   const headers = planets[0] || [];
 
   const evaluate = (a, b, op) => {
@@ -45,12 +43,10 @@ const Table = () => {
       </thead>
       <tbody>
         {
-          planets
-            .filter((planet) => (name ? (planet.name).includes(name) : true))
-            .filter((planet) => (value
-              ? evaluate(planet[column], value, comparison)
-              : true
-            ))
+          filterByNumericValues
+            .reduce((acc, { column, value, comparison }) => acc
+              .filter((planet) => evaluate(planet[column], value, comparison)), planets)
+            .filter((planet) => (planet.name).includes(name))
             .map((planet, index) => (
               <tr key={ index }>
                 {

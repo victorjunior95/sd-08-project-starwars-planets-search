@@ -2,57 +2,61 @@ import React, { useContext, useState } from 'react';
 import StarWarsContext from '../Contexts/StarWars/StarWarsContext';
 
 const Filters = () => {
-  const { filters: { filterByName: { name } },
-    setName,
-    setColumn,
-    setComparison,
-    setValue,
+  const { filters:
+    { filterByName: { name },
+      filterByNumericValues },
+  setName,
+  setFiltersByNumericValues,
   } = useContext(StarWarsContext);
 
-  const [localColumn, setLocalColumn] = useState('population');
-  const [localComparison, setLocalComparison] = useState('maior que');
-  const [localValue, setLocalValue] = useState('');
+  const columns = ['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water'];
+  const comparisons = ['maior que', 'menor que', 'igual a'];
+
+  const [column, setColumn] = useState(columns[0]);
+  const [comparison, setComparison] = useState(comparisons[0]);
+  const [value, setValue] = useState('');
+  const [unavailableFilters, setUnavailableFilters] = useState([]);
 
   return (
     <>
       <input
         value={ name }
         data-testid="name-filter"
-        onChange={ ({ target: { value } }) => setName(value) }
+        onChange={ ({ target: { value: v } }) => setName(v) }
       />
 
       <select
         data-testid="column-filter"
-        onChange={ ({ target: { value } }) => setLocalColumn(value) }
+        onChange={ ({ target: { value: v } }) => setColumn(v) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {columns.filter((c) => !unavailableFilters.includes(c))
+          .filter((c) => !unavailableFilters.includes(c))
+          .map((c, i) => <option value={ c } key={ i }>{c}</option>)}
       </select>
 
       <select
         data-testid="comparison-filter"
-        onChange={ ({ target: { value } }) => setLocalComparison(value) }
+        onChange={ ({ target: { value: v } }) => setComparison(v) }
       >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
+        {comparisons.map((c, i) => <option value={ c } key={ i }>{c}</option>)}
       </select>
 
       <input
         data-testid="value-filter"
-        onChange={ ({ target: { value } }) => setLocalValue(value) }
+        onChange={ ({ target: { value: v } }) => setValue(v) }
       />
 
       <button
         type="button"
         data-testid="button-filter"
+        disabled={ !value }
         onClick={ () => {
-          setColumn(localColumn);
-          setComparison(localComparison);
-          setValue(localValue);
+          setFiltersByNumericValues([...filterByNumericValues,
+            { column, comparison, value }]);
+          unavailableFilters.push(column);
+          setUnavailableFilters([...unavailableFilters]);
+          setColumn(columns.filter((c) => !unavailableFilters.includes(c))[0]);
         } }
       >
         filter

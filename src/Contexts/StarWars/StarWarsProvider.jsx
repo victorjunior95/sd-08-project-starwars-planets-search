@@ -6,9 +6,7 @@ import StarWarsContext from './StarWarsContext';
 const StarWarsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
-  const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('maior que');
-  const [value, setValue] = useState('');
+  const [filtersByNumericValues, setFiltersByNumericValues] = useState([]);
 
   useEffect(() => {
     getPlanet().then((items) => {
@@ -22,13 +20,7 @@ const StarWarsProvider = ({ children }) => {
       filterByName: {
         name,
       },
-      filterByNumericValues: [
-        {
-          column,
-          comparison,
-          value,
-        },
-      ],
+      filterByNumericValues: filtersByNumericValues,
     },
   };
 
@@ -38,19 +30,19 @@ const StarWarsProvider = ({ children }) => {
         planets,
         ...filters,
         setName,
-        setColumn,
-        setComparison,
-        setValue,
+        setFiltersByNumericValues,
       } }
     >
       { children }
     </StarWarsContext.Provider>
   );
 };
+
 StarWarsProvider.propTypes = {
   children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
   ]).isRequired,
 };
+
 export default StarWarsProvider;
