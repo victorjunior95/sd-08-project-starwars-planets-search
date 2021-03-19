@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import StarContext from './StarContext';
 import fetchAPI from '../services/index';
 
@@ -16,5 +17,8 @@ const StarProvider = ({ children }) => {
       {children}
     </StarContext.Provider>
   );
+};
+StarProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 export default StarProvider;
