@@ -23,6 +23,13 @@ function PlanetsProvider({ children }) {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('0');
+  const [columnOptions, setColumnOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   function handleColumn({ target }) { setColumn(target.value); }
   function handleComparison({ target }) { setComparison(target.value); }
@@ -33,13 +40,16 @@ function PlanetsProvider({ children }) {
   function addFilter() {
     const newFilter = [...filterByNumericValues, { column, comparison, value }];
     setfilterByNumericValues(newFilter);
+    const newColumnOptions = columnOptions.filter((item) => item !== column);
+    setColumnOptions(newColumnOptions);
+    setColumn(columnOptions[0]);
   }
 
   const [planetsWithFilter, setPlanetsWithFilter] = useState([]);
 
   useEffect(() => {
     filterByNumericValues.forEach((filterName) => {
-      const newPlanets = storedPlanets.filter((item) => {
+      const newPlanets = planets.filter((item) => {
         if (item[filterName.column] === 'unknown') return false;
         if (filterName.comparison === 'maior que') {
           return parseInt(item[filterName.column], 10) > parseInt(filterName.value, 10);
@@ -52,9 +62,9 @@ function PlanetsProvider({ children }) {
         }
         return false;
       });
-      console.log(newPlanets);
       setPlanetsWithFilter(newPlanets);
     });
+    if (filterByNumericValues.length === 0) setPlanetsWithFilter([]);
   }, [filterByNumericValues]);
 
   useEffect(() => {
@@ -63,6 +73,12 @@ function PlanetsProvider({ children }) {
       : planetsWithFilter.filter((planet) => planet.name.includes(name));
     setPlanets(filterPlanets);
   }, [name, planetsWithFilter]);
+
+  function deleteFilter(columnName) {
+    const newFilterList = filterByNumericValues
+      .filter((item) => item.column !== columnName);
+    setfilterByNumericValues(newFilterList);
+  }
 
   const provide = {
     filters: {
@@ -77,6 +93,7 @@ function PlanetsProvider({ children }) {
       handleComparison,
       handleValue,
       addFilter,
+      deleteFilter,
     },
     planets,
     inputsValues: {
@@ -84,6 +101,7 @@ function PlanetsProvider({ children }) {
       comparison,
       value,
     },
+    columnOptions,
   };
 
   return (

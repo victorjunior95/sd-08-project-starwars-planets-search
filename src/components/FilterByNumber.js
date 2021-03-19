@@ -8,12 +8,17 @@ function FilterByNumber() {
       comparison,
       value,
     },
+    filters: {
+      filterByNumericValues,
+    },
     function: {
       handleColumn,
       handleComparison,
       handleValue,
       addFilter,
+      deleteFilter,
     },
+    columnOptions,
   } = useContext(PlanetsContext);
 
   return (
@@ -23,11 +28,7 @@ function FilterByNumber() {
         value={ column }
         onChange={ handleColumn }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        {columnOptions.map((item) => <option key={ item }>{item}</option>)}
       </select>
       <select
         data-testid="comparison-filter"
@@ -51,6 +52,18 @@ function FilterByNumber() {
       >
         Adicionar Filtro
       </button>
+      <br />
+      {filterByNumericValues.map((item) => (
+        <div key={ item.column } data-testid="filter">
+          <span>{`${item.column} ${item.comparison} ${item.value}`}</span>
+          <button
+            type="button"
+            onClick={ () => deleteFilter(item.column) }
+          >
+            X
+          </button>
+        </div>
+      ))}
     </>
   );
 }
