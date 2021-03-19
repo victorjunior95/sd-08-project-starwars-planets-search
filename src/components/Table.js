@@ -26,6 +26,27 @@ const Table = () => {
       <tbody>
         {data
           .filter((planet) => planet.name.includes(name))
+          .filter((planet) => { // créditos ao Julio Kauer da minha antiga turma 07 que me ajudou a desenvolver esse filtro;
+            let match = true;
+            const { filterByNumericValues } = filters;
+            if (filterByNumericValues === []) return true;
+            filterByNumericValues.forEach((currFilter) => {
+              switch (currFilter.comparison) {
+              case 'maior que':
+                match = match && parseFloat(planet[currFilter.column]) > currFilter.value;
+                break;
+              case 'menor que':
+                match = match && parseFloat(planet[currFilter.column]) < currFilter.value;
+                break;
+              case 'igual a':
+                match = match && planet[currFilter.column] === currFilter.value;
+                break;
+              default:
+                match = true;
+              }
+            });
+            return match;
+          })
           .map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
