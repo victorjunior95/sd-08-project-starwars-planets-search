@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
-import PlanetContext from './components/Context';
-
+import ProviderStarWars from './Context/ProviderStarWars';
 import Table from './components/Table';
 
 function App() {
   return (
-    <PlanetContext.Provider>
+    <ProviderStarWars>
       <Table />
-    </PlanetContext.Provider>
+    </ProviderStarWars>
   );
 }
 
