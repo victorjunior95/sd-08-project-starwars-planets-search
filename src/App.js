@@ -1,12 +1,13 @@
 import React from 'react';
-import { SWTable } from './components';
 import './App.css';
-import { SWProvider } from './context/SWContext';
+import Table from './components/SWTable';
+import SWProvider from './context/SWProvider';
 
 function App() {
   return (
     <SWProvider>
-      <SWTable />
+      <h1>Mais um projeto...</h1>
+      <Table />
     </SWProvider>
   );
 }
