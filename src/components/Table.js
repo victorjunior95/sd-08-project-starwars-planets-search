@@ -2,26 +2,80 @@ import React, { useContext, useEffect } from 'react';
 import MyContext from '../MyContext';
 
 function Table() {
+
+  const columnFilter = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const filterComparison = ['maior que', 'menor que', 'igual a'];
   const {
-    data, fetchPlanets, nameFilter, setNameFilter, filterByName, setFilter,
+    data, fetchPlanets, name, setNameFilter, filterByName, setFilter,
+    setColumn, setComparison, setValue,
+    filterExample: { filters: { filterByNumericValues } },
   } = useContext(MyContext);
   useEffect(() => {
     fetchPlanets();
   }, []);
-
   const handleFilterName = (e) => {
     setNameFilter((e.target.value));
-    const filtering = data.filter((planet) => planet.name.includes(e.target.value));
-    setFilter(filtering);
+    const filteringByName = data.filter((planet) => planet.name.includes(e.target.value));
+    setFilter(filteringByName);
   };
+
+  const handleFilterByNumber = () => {
+    const { column, comparison, value } = filterByNumericValues[0];
+    let filteringByValue;
+    if (comparison === 'maior que') {
+      filteringByValue = data.filter((planet) => planet[column] > value);
+      setFilter(filteringByValue);
+    }
+    if (comparison === 'menor que') {
+      filteringByValue = data.filter((planet) => planet[column] < value);
+      setFilter(filteringByValue);
+    }
+    if (comparison === 'igual a') {
+      filteringByValue = data.filter((planet) => Number(planet[column]) === value);
+      setFilter(filteringByValue);
+    }
+  };
+
   return (
     <div>
-      <input
-        data-testid="name-filter"
-        value={ nameFilter }
-        type="text"
-        onChange={ handleFilterName }
-      />
+      <section>
+        <input
+          data-testid="name-filter"
+          value={ name }
+          type="text"
+          onChange={ handleFilterName }
+        />
+        <div>
+          <select
+            data-testid="column-filter"
+            value={ filterByNumericValues.column }
+            onChange={ ({ target }) => setColumn(target.value) }
+          >
+            {columnFilter.map((elem) => <option key={ elem }>{elem}</option>)}
+          </select>
+          <select
+            data-testid="comparison-filter"
+            value={ filterByNumericValues.comparison }
+            onChange={ ({ target }) => setComparison(target.value) }
+          >
+            {filterComparison.map((elem) => <option key={ elem }>{elem}</option>)}
+          </select>
+          <input
+            type="number"
+            data-testid="value-filter"
+            value={ filterByNumericValues.value }
+            onChange={ ({ target }) => setValue(Number(target.value)) }
+          />
+          <button
+            data-testid="button-filter"
+            type="button"
+            onClick={ () => handleFilterByNumber() }
+          >
+            Filtrar
+          </button>
+        </div>
+      </section>
       <table>
         <thead>
           <tr>

@@ -4,8 +4,11 @@ import MyContext from './MyContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [nameFilter, setNameFilter] = useState('');
+  const [name, setNameFilter] = useState('');
   const [filterByName, setFilter] = useState([]);
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('');
 
   const fetchPlanets = async () => {
     const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -15,10 +18,27 @@ function Provider({ children }) {
     });
   };
 
+  const filterExample = {
+    filters: {
+      filterByName: {
+        name,
+      },
+      filterByNumericValues: [{
+        column,
+        comparison,
+        value,
+      }],
+    },
+  };
+
   const MyContextValue = {
+    setColumn,
+    setComparison,
+    setValue,
+    filterExample,
     data,
     fetchPlanets,
-    nameFilter,
+    name,
     setNameFilter,
     setData,
     filterByName,
