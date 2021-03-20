@@ -3,7 +3,6 @@ import StarWarsContext from '../Contexts/StarWars/StarWarsContext';
 
 const FilterRemover = () => {
   const { filters: { filterByNumericValues },
-    setUnavailableFilters, unavailableFilters,
     setFiltersByNumericValues } = useContext(StarWarsContext);
 
   return (
@@ -18,8 +17,6 @@ const FilterRemover = () => {
             onClick={ () => {
               setFiltersByNumericValues(filterByNumericValues
                 .filter((filter) => filter.column !== column));
-              setUnavailableFilters(unavailableFilters
-                .filter((filter) => filter !== column));
             } }
           >
             x

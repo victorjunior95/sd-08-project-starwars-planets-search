@@ -7,8 +7,6 @@ const Filters = () => {
       filterByNumericValues },
   setName,
   setFiltersByNumericValues,
-  setUnavailableFilters,
-  unavailableFilters,
   } = useContext(StarWarsContext);
 
   const columns = ['population', 'orbital_period', 'diameter',
@@ -31,8 +29,8 @@ const Filters = () => {
         data-testid="column-filter"
         onChange={ ({ target: { value: v } }) => setColumn(v) }
       >
-        {columns.filter((c) => !unavailableFilters.includes(c))
-          .filter((c) => !unavailableFilters.includes(c))
+        {filterByNumericValues.reduce((acc, filter) => acc
+          .filter((c) => c !== filter.column), columns)
           .map((c, i) => <option value={ c } key={ i }>{c}</option>)}
       </select>
 
@@ -55,9 +53,8 @@ const Filters = () => {
         onClick={ () => {
           setFiltersByNumericValues([...filterByNumericValues,
             { column, comparison, value }]);
-          unavailableFilters.push(column);
-          setUnavailableFilters([...unavailableFilters]);
-          setColumn(columns.filter((c) => !unavailableFilters.includes(c))[0]);
+          setColumn(filterByNumericValues.reduce((acc, filter) => acc
+            .filter((c) => c !== filter.column), columns));
         } }
       >
         filter
