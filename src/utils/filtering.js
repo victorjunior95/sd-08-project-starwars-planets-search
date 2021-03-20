@@ -1,7 +1,9 @@
 const filtering = (data, filters, setFilteredData) => {
   const { filterByName: { name } } = filters;
   const { filterByNumericValues } = filters;
-  let newResults = data;
+  let newResults = data.filter(
+    (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
+  );
   filterByNumericValues.map((item) => {
     const { comparison, column, value } = item;
     newResults = newResults.filter(

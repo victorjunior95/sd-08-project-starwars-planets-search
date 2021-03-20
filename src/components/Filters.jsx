@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Form, FormControl } from 'react-bootstrap';
 import tableContext from '../context/tableContext';
 import NumericForm from './NumericForm';
+import ListOfFilters from './ListOfFilters';
 
 export default function Filters() {
   const { setFilters, filters } = useContext(tableContext);
@@ -25,6 +26,7 @@ export default function Filters() {
         />
       </Form>
       <NumericForm />
+      <ListOfFilters />
     </section>
   );
 }

@@ -11,25 +11,29 @@ export default function Provider({ children }) {
       filterByName: {
         name: '',
       },
-      filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: 0,
-        },
-      ],
+      filterByNumericValues: [],
     },
   );
+
+  const [columns, setColumns] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const context = {
     data,
     isFetching,
     filters,
     filteredData,
+    columns,
     setData,
     setIsFetching,
     setFilters,
     setFilteredData,
+    setColumns,
   };
 
   return (

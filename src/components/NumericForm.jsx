@@ -1,15 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import tableContext from '../context/tableContext';
 
 export default function NumericForm() {
-  const { setFilters, filters } = useContext(tableContext);
-  const [columns, setColumns] = useState([
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ]);
+  const {
+    setFilters,
+    filters,
+    columns,
+    setColumns,
+  } = useContext(tableContext);
+
+  const { filterByNumericValues } = filters;
+
+  const [isEmpty, setIsEmpty] = useState(false);
 
   const [numericFilter, setNumericFilter] = useState({
     column: 'population',
@@ -19,8 +21,16 @@ export default function NumericForm() {
 
   const comparisonSelect = ['maior que', 'menor que', 'igual a'];
 
+  // desabilita o botão de filtrar caso o select esteja vazio
+  useEffect(() => {
+    if (columns.length === 0) {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+  }, [columns]);
+
   const { value, column, comparison } = numericFilter;
-  const { filterByNumericValues } = filters;
 
   const handleInput = ({ target }) => {
     setNumericFilter({ ...numericFilter, [target.name]: target.value });
@@ -30,7 +40,12 @@ export default function NumericForm() {
     setColumns(columns.filter((option) => option !== column));
     setFilters({ ...filters,
       filterByNumericValues: [...filterByNumericValues, numericFilter] });
-    setNumericFilter({ ...numericFilter, column: columns[0] });
+    //
+    if (column === columns[0]) {
+      setNumericFilter({ ...numericFilter, column: columns[1] });
+    } else {
+      setNumericFilter({ ...numericFilter, column: columns[0] });
+    }
   };
 
   return (
@@ -53,7 +68,12 @@ export default function NumericForm() {
           onChange={ handleInput }
         >
           {comparisonSelect.map(
-            (item) => <option key={ item }>{item}</option>,
+            (item) => {
+              if (item === '') {
+                return null;
+              }
+              return <option key={ item }>{item}</option>;
+            },
           )}
         </select>
       </label>
@@ -70,6 +90,7 @@ export default function NumericForm() {
         data-testid="button-filter"
         type="button"
         onClick={ handleClick }
+        disabled={ isEmpty }
       >
         Filtrar
       </button>
