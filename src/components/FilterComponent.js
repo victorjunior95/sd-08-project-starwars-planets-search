@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import NewContext from '../context/NewContext';
+import NumericalFilter from './NumericalFilter';
 
 export default function FilterComponent() {
   const { filter, setFilter } = useContext(NewContext);
@@ -24,6 +25,7 @@ export default function FilterComponent() {
         onChange={ handleChange }
         data-testid="name-filter"
       />
+      <NumericalFilter />
     </form>
   );
 }

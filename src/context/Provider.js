@@ -9,21 +9,41 @@ function Provider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: {
+      column: '',
+      comparison: '',
+      value: '',
+    },
   });
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const data = await response.json();
-      console.log(data.results);
+      // console.log(data.results);
       setInfo(data.results);
     }
     fetchData();
-  }, [info]);
+  }, []);
 
   useEffect(() => {
-    const { filterByName: { name } } = filter;
-    const filters = info.filter((data) => data.name.includes(name));
+    const { filterByName: { name },
+      filterByNumericValues: { column, comparison, value } } = filter;
+
+    const filters = info.filter((data) => {
+      const nameFound = data.name.includes(name);
+      switch (comparison) {
+      case ('maior que'):
+        return (parseInt(data[column], 10) > parseInt(value, 10) && nameFound);
+        // lembrete para erro "-missing radix parameter- https://stackoverflow.com/questions/7818903/jslint-says-missing-radix-parameter"
+      case ('menor que'):
+        return (parseInt(data[column], 10) < parseInt(value, 10) && nameFound);
+      case ('igual a'):
+        return (parseInt(data[column], 10) === parseInt(value, 10) && nameFound);
+      default:
+        return nameFound;
+      }
+    });
     setPlanet(filters);
   }, [info, filter]);
 
