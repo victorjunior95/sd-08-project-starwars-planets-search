@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import MyContext from '../MyContext';
 
 function Table() {
-
   const columnFilter = [
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   const filterComparison = ['maior que', 'menor que', 'igual a'];
