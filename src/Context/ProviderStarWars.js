@@ -3,6 +3,7 @@ import ContextStarWars from './ContextStarWars';
 
 function ProviderStarWars({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [planetsFiltered, setPlanetsFiltered] = useState([]);
 
   useEffect(() => {
     const fetchStarWarsAPI = async () => {
@@ -18,8 +19,18 @@ function ProviderStarWars({ children }) {
     fetchStarWarsAPI();
   }, []);
 
+  const planetsFilter = (planetsName) => {
+    const filter = planets.filter(({ name }) => name.includes(planetsName));
+    setPlanetsFiltered(filter);
+  };
+
+  const allContext = {
+    planets,
+    planetsFilter,
+  };
+
   return (
-    <ContextStarWars.Provider value={ { planets } }>
+    <ContextStarWars.Provider value={ allContext }>
       { children }
     </ContextStarWars.Provider>
   );

@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import ContextStarWars from '../Context/ContextStarWars';
 
 function Table() {
-  const { planets } = useContext(ContextStarWars);
-  console.log(planets[0]);
+  const { planets, planetsFilter, planetsFiltered } = useContext(ContextStarWars);
+  console.log(ContextStarWars);
   return (
     <table>
       <thead>
