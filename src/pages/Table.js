@@ -24,7 +24,6 @@ function Table() {
     const result2 = filterByNumericValues.map((filtered) =>
       data.filter((element) => element[filtered.column] > filtered.value)
     );
-    console.log(data);
     console.log(filterByNumericValues);
     // filterByNumericValues.forEach((element) => {
     //   const { column, comparison, value } = element;
