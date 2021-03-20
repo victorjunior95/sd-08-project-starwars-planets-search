@@ -6,6 +6,7 @@ import StarWarsContext from './StarWarsContext';
 const StarWarsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
+  const [unavailableFilters, setUnavailableFilters] = useState([]);
   const [filtersByNumericValues, setFiltersByNumericValues] = useState([]);
 
   useEffect(() => {
@@ -31,6 +32,8 @@ const StarWarsProvider = ({ children }) => {
         ...filters,
         setName,
         setFiltersByNumericValues,
+        setUnavailableFilters,
+        unavailableFilters,
       } }
     >
       { children }

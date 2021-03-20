@@ -7,6 +7,8 @@ const Filters = () => {
       filterByNumericValues },
   setName,
   setFiltersByNumericValues,
+  setUnavailableFilters,
+  unavailableFilters,
   } = useContext(StarWarsContext);
 
   const columns = ['population', 'orbital_period', 'diameter',
@@ -16,7 +18,6 @@ const Filters = () => {
   const [column, setColumn] = useState(columns[0]);
   const [comparison, setComparison] = useState(comparisons[0]);
   const [value, setValue] = useState('');
-  const [unavailableFilters, setUnavailableFilters] = useState([]);
 
   return (
     <>
