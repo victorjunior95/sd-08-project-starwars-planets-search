@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import ContextStar from './ContextStar';
 
-const initialState = {
-
-  filterByName: { name: '' },
+const initialstate = {
+  filterByName: { name: 'tat' },
   filterByNumericValues: [
     { column: '', comparison: '', value: '' },
     { column: '', comparison: '', value: '' },
   ],
-};
 
-// console.log(liso);
+};
 
 function PlanetProvider({ children }) {
   const [planets, setplanets] = useState([]);
-  const [filters, setfilters] = useState(initialState);
+  const [filters, setfilters] = useState(initialstate);
+  // const [contname, setcontname] = useState(0);
 
   useEffect(() => {
     const getList = async () => {
@@ -29,7 +28,11 @@ function PlanetProvider({ children }) {
   }, []);
 
   return (
-    <ContextStar.Provider value={ { planets, filters, setfilters } }>
+    <ContextStar.Provider
+      value={ {
+        planets, setplanets, filters, setfilters,
+      } }
+    >
       { children }
     </ContextStar.Provider>
   );
