@@ -2,14 +2,26 @@ import React, { useContext, useEffect } from 'react';
 import MyContext from '../MyContext';
 
 function Table() {
-  const { data, fetchPlanets } = useContext(MyContext);
+  const {
+    data, fetchPlanets, nameFilter, setNameFilter, filterByName, setFilter,
+  } = useContext(MyContext);
   useEffect(() => {
     fetchPlanets();
-  }, [fetchPlanets]);
+  }, []);
+
+  const handleFilterName = (e) => {
+    setNameFilter((e.target.value));
+    const filtering = data.filter((planet) => planet.name.includes(e.target.value));
+    setFilter(filtering);
+  };
   return (
     <div>
-      <p>Olá</p>
-      {/* {data[0] !== undefined ? console.log(data[0]) : <p>Carregando</p>} */}
+      <input
+        data-testid="name-filter"
+        value={ nameFilter }
+        type="text"
+        onChange={ handleFilterName }
+      />
       <table>
         <thead>
           <tr>
@@ -19,7 +31,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {filterByName.map((item) => (
             <tr key={ item.name }>
               <td>{item.name}</td>
               <td>{item.rotation_period}</td>
