@@ -5,13 +5,20 @@ import fetchAPI from '../services/index';
 
 const StarProvider = ({ children }) => {
   const [listPlanet, setListPlanet] = useState([]);
+  const [filterName, setFilterName] = useState('');
+
   const fechPlanets = async () => {
     setListPlanet(await fetchAPI());
   };
   useEffect(() => {
     fechPlanets();
   }, []);
-  const context = { listPlanet };
+
+  const handleChange = (event) => {
+    setFilterName(event.target.value);
+  };
+
+  const context = { listPlanet, filterName, handleChange };
   return (
     <StarContext.Provider value={ context }>
       {children}
