@@ -4,18 +4,6 @@ import starWarsApi from '../Data';
 
 function TodoProvider({ children }) {
   const [table, setTable] = useState([]);
-  const [filters, setFilters] = useState({
-    filterByName: {
-      name: '',
-    },
-    filterByNumericValues: [
-      {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    ],
-  });
 
   useEffect(() => {
     async function getPlanet() {
@@ -25,9 +13,13 @@ function TodoProvider({ children }) {
     getPlanet();
   }, []);
 
+  const contextValue = {
+    table,
+  };
+
   return (
     <div>
-      <TodoContext.Provider value={ { table, filters, setTable, setFilters } }>
+      <TodoContext.Provider value={ contextValue }>
         {children}
       </TodoContext.Provider>
     </div>

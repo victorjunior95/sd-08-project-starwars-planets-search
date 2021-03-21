@@ -1,82 +1,56 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import TodoContext from '../context/TodoContext';
 
 function Table() {
-  const { table, setFilters, filters, filters: { filterByName: { name } }, filters: { filterByNumericValues: [{ column, comparison, value }] } } = useContext(TodoContext);
-  const [bt, setBt] = useState(false);
+  const { table } = useContext(TodoContext);
 
-  const hundleOnClick = () => {
-    const result = table.filter((obj) => {
-      if (bt === false) return obj.name.includes(name);
-      if (comparison === 'maior que>') return Number(obj[column]) > Number(value);
-      if (comparison === 'menor que') return Number(obj[column]) < Number(value);
-      if (comparison === 'igual a') return Number(obj[column]) === Number(value);
-    });
-
-    return result.map((result) => (
-      <tbody key={ result.name }>
+  function renderRow(item, index) {
+    return (
+      <tbody key={ index }>
         <tr>
-          <td>{result.name}</td>
-          <td>{result.climate}</td>
-          <td>{result.created}</td>
-          <td>{result.diameter}</td>
-          <td>{result.edited}</td>
-          <td>{result.gravity}</td>
-          <td>{result.orbital_period}</td>
-          <td>{result.population}</td>
-          <td>{result.rotation_period}</td>
-          <td>{result.surface_water}</td>
-          <td>{result.terrain}</td>
-          <td>{result.url}</td>
-          <td>{result.films}</td>
+          <td>{item.name}</td>
+          <td>{item.climate}</td>
+          <td>{item.created}</td>
+          <td>{item.diameter}</td>
+          <td>{item.edited}</td>
+          <td>{item.gravity}</td>
+          <td>{item.orbital_period}</td>
+          <td>{item.population}</td>
+          <td>{item.rotation_period}</td>
+          <td>{item.surface_water}</td>
+          <td>{item.terrain}</td>
+          <td>{item.url}</td>
+          <td>{item.films}</td>
         </tr>
-      </tbody>));
-  };
+      </tbody>);
+  }
 
-  const hundleButton = () => {
-    setBt(true);
-    hundleOnClick();
-  };
-
-  const renderTable = () => (
-    <thead>
-      <tr>
-        <th><h3>Name</h3></th>
-        <th><h3>Climate</h3></th>
-        <th><h3>Created</h3></th>
-        <th><h3>Diameter</h3></th>
-        <th><h3>Edited</h3></th>
-        <th><h3>Gravity</h3></th>
-        <th><h3>Orbital_period</h3></th>
-        <th><h3>Population</h3></th>
-        <th><h3>Rotation_period</h3></th>
-        <th><h3>Surface_water</h3></th>
-        <th><h3>Terrain</h3></th>
-        <th><h3>Url</h3></th>
-        <th><h3>Films</h3></th>
-      </tr>
-    </thead>
-  );
-
-  const getName = (event) => {
-    setFilters(
-      {
-        ...filters,
-        [event.target.name]: {
-          name: event.target.value,
-        },
-      },
-    );
-  };
+  function renderIndex() {
+    return (
+      <thead>
+        <tr>
+          <th><h3>Name</h3></th>
+          <th><h3>Climate</h3></th>
+          <th><h3>Created</h3></th>
+          <th><h3>Diameter</h3></th>
+          <th><h3>Edited</h3></th>
+          <th><h3>Gravity</h3></th>
+          <th><h3>Orbital_period</h3></th>
+          <th><h3>Population</h3></th>
+          <th><h3>Rotation_period</h3></th>
+          <th><h3>Surface_water</h3></th>
+          <th><h3>Terrain</h3></th>
+          <th><h3>Url</h3></th>
+          <th><h3>Films</h3></th>
+        </tr>
+      </thead>);
+  }
 
   return (
     <div>
-      <button onClick={ hundleButton } type="button" data-testid="button-filter">Filtrar</button>
-      Nome:
-      <input data-testid="name-filter" name="filterByName" onChange={ getName } />
       <table>
-        {renderTable()}
-        {hundleOnClick()}
+        {renderIndex()}
+        {table.map((item, index) => item !== 'residents' && renderRow(item, index))}
       </table>
     </div>
   );
