@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import TodoContext from '../context/TodoContext';
 
 function NumberFilter() {
-  const [column, setColumn] = useState('population');
+  const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
   const { createFilter, removedFilter } = useContext(TodoContext);
@@ -11,6 +11,8 @@ function NumberFilter() {
     'rotation_period', 'surface_water'];
 
   const arrayComparison = ['maior que', 'menor que', 'igual a'];
+
+  console.log(column);
 
   const filterDelete = () => {
     if (column === 'population') {
