@@ -11,7 +11,7 @@ const SWProvider = ({ children }) => {
   const [filterByInput, setFilterByInput] = useState([planets]);
   const [compareOptions, setToCompareOptions] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
-  const comparingParameter = ['maior que', 'menos que', 'igual a'];
+  const comparingParameter = ['maior que', 'menor que', 'igual a'];
   const [theComparing, setTheComparing] = useState({
     subject: 'population',
     isThan: 'maior que',
