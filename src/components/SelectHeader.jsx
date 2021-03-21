@@ -10,7 +10,7 @@ const filterHeader = [
 ];
 
 export default function SelectHeader() {
-  const { filter, setFilter } = useContext(StarwarsContext);
+  const { filters, setFilters } = useContext(StarwarsContext);
   const [select, setSelect] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -25,10 +25,10 @@ export default function SelectHeader() {
   };
 
   const filterButton = () => {
-    setFilter({
-      ...filter,
+    setFilters({
+      ...filters,
       filterByNumericValues: [
-        ...filter.filterByNumericValues,
+        ...filters.filterByNumericValues,
         select,
       ],
     });

@@ -13,7 +13,7 @@ export default function StarwarsProvider({ children }) {
   const [tables, setTables] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState(filterFields);
+  const [filters, setFilters] = useState(filterFields);
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -25,7 +25,7 @@ export default function StarwarsProvider({ children }) {
     setSearchTerm(event.target.value);
   };
 
-  console.log(filter.filterByNumericValues);
+  console.log(filters.filterByNumericValues);
 
   useEffect(() => {
     const result = planets.filter((item) => item.name.toLowerCase().includes(searchTerm));
@@ -37,8 +37,8 @@ export default function StarwarsProvider({ children }) {
     setTables,
     searchTerm,
     setSearchTerm,
-    filter,
-    setFilter,
+    filters,
+    setFilters,
     handleChange,
     planets,
     setPlanets,

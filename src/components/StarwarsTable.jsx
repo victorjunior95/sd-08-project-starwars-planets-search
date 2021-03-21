@@ -4,7 +4,7 @@ import StarwarsContext from '../context/StarwarsContext';
 import tableHeaders from '../common/tableHeaders';
 
 export default function Tables() {
-  const { tables } = useContext(StarwarsContext);
+  const { planets } = useContext(StarwarsContext);
   return (
     <table>
       <thead>
@@ -17,7 +17,7 @@ export default function Tables() {
         </tr>
       </thead>
       <tbody>
-        { tables.map((item, index) => (
+        { planets.map((item, index) => (
           <tr key={ index } className="row">
             <td>{ item.name }</td>
             <td>{ item.rotation_period }</td>
