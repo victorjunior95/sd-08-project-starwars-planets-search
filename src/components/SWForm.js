@@ -52,7 +52,7 @@ function SWForm() {
         data-testid="button-filter"
         onClick={ handleClick }
       >
-        FilterPreferences
+        Filtrar resultados
       </button>
     </div>
 
