@@ -3,6 +3,7 @@ import { Form, FormControl } from 'react-bootstrap';
 import tableContext from '../context/tableContext';
 import NumericForm from './NumericForm';
 import ListOfFilters from './ListOfFilters';
+import Sort from './Sort';
 
 export default function Filters() {
   const { setFilters, filters } = useContext(tableContext);
@@ -27,6 +28,7 @@ export default function Filters() {
       </Form>
       <NumericForm />
       <ListOfFilters />
+      <Sort />
     </section>
   );
 }

@@ -31,7 +31,7 @@ export default function Table() {
         <tbody>
           {isFetching ? null : filteredData && filteredData.map((item, index) => (
             <tr key={ index }>
-              <td>{item.name}</td>
+              <td data-testid="planet-name">{item.name}</td>
               <td>{item.rotation_period}</td>
               <td>{item.orbital_period}</td>
               <td>{item.diameter}</td>

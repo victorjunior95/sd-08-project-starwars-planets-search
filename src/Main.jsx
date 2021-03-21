@@ -20,6 +20,10 @@ export default function Main() {
 
   useEffect(() => {
     filtering(data, filters, setFilteredData);
+  }, [data]);
+
+  useEffect(() => {
+    filtering(data, filters, setFilteredData);
   }, [filters]);
   return (
     <>

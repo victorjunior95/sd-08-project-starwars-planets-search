@@ -1,6 +1,8 @@
+import sorting from './sorting';
+
 const filtering = (data, filters, setFilteredData) => {
   const { filterByName: { name } } = filters;
-  const { filterByNumericValues } = filters;
+  const { filterByNumericValues, order } = filters;
   let newResults = data.filter(
     (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
   );
@@ -26,8 +28,8 @@ const filtering = (data, filters, setFilteredData) => {
     );
     return newResults;
   });
-
-  setFilteredData(newResults);
+  const sortedArray = sorting(newResults, order);
+  setFilteredData(sortedArray);
 };
 
 export default filtering;
