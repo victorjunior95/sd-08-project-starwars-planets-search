@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import TodoContext from './TodoContext';
 import starWarsApi from '../Data';
 
@@ -19,6 +20,10 @@ function TodoProvider({ children }) {
     setFilters([...filters, { column, comparison, value }]);
   }
 
+  function removedFilter() {
+    setFilters([]);
+  }
+
   const getFilters = {
     filterByName: { name },
     filterByNumericValues: filters,
@@ -29,6 +34,7 @@ function TodoProvider({ children }) {
     table,
     setName,
     createFilter,
+    removedFilter,
   };
 
   return (
@@ -39,5 +45,12 @@ function TodoProvider({ children }) {
     </div>
   );
 }
+
+TodoProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
 
 export default TodoProvider;

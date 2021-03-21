@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 import TodoContext from '../context/TodoContext';
 
 function NumberFilter() {
-  const [column, setColumn] = useState('');
+  const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
-  const [value, setValue] = useState('0');
-  const { createFilter } = useContext(TodoContext);
+  const [value, setValue] = useState('');
+  const { createFilter, removedFilter } = useContext(TodoContext);
 
   const arrayCollum = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
@@ -34,6 +34,18 @@ function NumberFilter() {
       return arrayCollum.splice(index, 1);
     }
   };
+  filterDelete();
+
+  const oi = (e) => removedFilter(e);
+
+  const removed = () => (
+    <div>
+      <p data-testid="filter">
+        {`${column} ${comparison} ${value}`}
+        <button type="button" onClick={ oi }>X</button>
+      </p>
+    </div>
+  );
 
   const renderTable = () => (
     <div>
@@ -73,7 +85,7 @@ function NumberFilter() {
 
   return (
     <div>
-      {filterDelete()}
+      {removed()}
       {renderTable()}
     </div>
   );
