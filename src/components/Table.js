@@ -3,13 +3,14 @@ import ContextStarWars from '../Context/ContextStarWars';
 import TableHead from './TableHead';
 
 function Table() {
-  const { planets, planetsFilter, planetsFiltered } = useContext(ContextStarWars);
+  const { filterPlanets, filteredPlanets } = useContext(ContextStarWars);
   // console.log(ContextStarWars);
   const [inputName, setInputName] = useState('');
 
   const handleInputName = (e) => {
     setInputName(e.target.value);
-    planetsFilter(inputName);
+    filterPlanets(inputName);
+    // console.log('!');
   };
 
   return (
@@ -29,7 +30,7 @@ function Table() {
       <table>
         <TableHead />
         <tbody>
-          {planets.map((el) => (
+          {filteredPlanets.map((el) => (
             <tr key={ el.name }>
               <td>{el.name}</td>
               <td>{el.rotation_period}</td>
