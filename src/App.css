@@ -1,3 +1,12 @@
+body {
+  background-image: linear-gradient( rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5) ), url("skyGalaxy.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  color: #fff;
+}
+
 .App {
   text-align: center;
 }

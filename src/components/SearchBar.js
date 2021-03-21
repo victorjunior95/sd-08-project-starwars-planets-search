@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react';
+import { Form } from 'react-bootstrap';
 import PlanetsContext from '../context/planetsContext';
+import './searchBarStyle.css';
 
 const SearchBar = () => {
   const { filterByName, filterByNumericValues } = useContext(PlanetsContext);
@@ -30,14 +32,13 @@ const SearchBar = () => {
       <header>
         <h1>In a galaxy far far away...</h1>
       </header>
-      <form>
+      <Form>
         <input
           data-testid="name-filter"
           type="text"
           placeholder="Enter the planet name"
           onChange={ handleNameChange }
         />
-
         <select
           data-testid="column-filter"
           name="column"
@@ -67,17 +68,19 @@ const SearchBar = () => {
           name="value"
           type="number"
           onChange={ handleFiltersChange }
+          placeholder="Enter a number"
           required
         />
 
         <button
+          variant="primary"
           data-testid="button-filter"
           type="submit"
           onClick={ handleClick }
         >
           Filtrar
         </button>
-      </form>
+      </Form>
     </section>
   );
 };
