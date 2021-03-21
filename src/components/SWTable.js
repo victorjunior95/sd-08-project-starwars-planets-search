@@ -3,7 +3,7 @@ import SWContext from '../context/SWContext';
 import './SWTable.css';
 
 const SWTable = () => {
-  const { planets, setPlanets } = useContext(SWContext);
+  const { planets, filterByInput } = useContext(SWContext);
   const existKeys = planets[0] || {};
   const tHeader = Object.keys(existKeys)
     .map((element, index) => (
@@ -13,7 +13,7 @@ const SWTable = () => {
       >
         {element.toUpperCase()}
       </th>));
-  const tBody = planets.map((element, index) => (
+  const tBody = filterByInput.map((element, index) => (
     <tr key={ index }>
       <td data-testid="planet-name">{element.name}</td>
       <td>{element.rotation_period}</td>
