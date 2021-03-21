@@ -6,7 +6,7 @@ function Home() {
   const { fetchPlanets } = useContext(PlanetsContext);
 
   useEffect(() => {
-    fetchPlanets();
+    fetchPlanets().then((planets) => planets);
   }, []);
 
   return (

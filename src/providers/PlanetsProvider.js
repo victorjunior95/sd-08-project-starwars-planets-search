@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from '../contexts/PlanetsContext';
-import getPlanetsFromApi from '../services/requests';
+import { getPlanetsFromApi } from '../services/requests';
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
 
   async function fetchPlanets() {
-    const { results } = await getPlanetsFromApi();
-    setData(results);
+    const allPlanets = await getPlanetsFromApi();
+    setData(allPlanets);
+    return allPlanets;
   }
 
   const state = {
