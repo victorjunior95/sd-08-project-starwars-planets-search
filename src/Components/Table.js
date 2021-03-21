@@ -8,10 +8,8 @@ function Table() {
     searchName,
     setSearchName,
 
-    filterColumn, 
+    filterColumn,
     setFilterColumn,
-    /*size,
-    setSize,*/
     selected,
     setSelected } = useContext(PlanetsContext);
   useEffect(() => {
@@ -24,32 +22,32 @@ function Table() {
   }
   function selectedFilter(event) {
     const attribute = event.target.getAttribute('data-testid');
-    if (attribute === 'column-filter'){
-      setSelected({...selected, column: event.target.value});
-    }else if (attribute === 'comparison-filter'){
-      setSelected({...selected, comparison: event.target.value});
-    }else {
-      setSelected({...selected, value: event.target.value});
+    if (attribute === 'column-filter') {
+      setSelected({ ...selected, column: event.target.value });
+    } else if (attribute === 'comparison-filter') {
+      setSelected({ ...selected, comparison: event.target.value });
+    } else {
+      setSelected({ ...selected, value: event.target.value });
     }
   }
   function filterCombined({ column, comparison, value }) {
     const filterThree = allPlanets.filter((planet) => {
       const valueColumn = Number(planet[column]);
       const valueReceived = Number(value);
-      if (comparison === 'menor que'){
+      if (comparison === 'menor que') {
         return valueColumn < valueReceived;
       }
-      if (comparison === 'maior que'){
-        return valueColumn  > valueReceived;
+      if (comparison === 'maior que') {
+        return valueColumn > valueReceived;
       }
       return valueColumn === valueReceived;
     });
     setFilteredArray(filterThree);
   }
-  function handleClick(){
+  function handleClick() {
     const itemRefused = filterColumn.filter((column) => column !== selected.column);
-      setFilterColumn(itemRefused);
-      filterCombined(selected);
+    setFilterColumn(itemRefused);
+    filterCombined(selected);
   }
   return (
     <div>
@@ -81,7 +79,13 @@ function Table() {
             placeholder="somente Números"
             onChange={ selectedFilter }
           />
-          <button type="button" data-testid="button-filter" onClick={ handleClick }> Acionar filtro </button>
+          <button
+            type="button"
+            data-testid="button-filter"
+            onClick={ handleClick }
+          >
+            Acionar filtro
+          </button>
         </form>
       </div>
       <table>
