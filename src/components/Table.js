@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import TodoContext from '../context/TodoContext';
 
 function Table() {
-  const { table } = useContext(TodoContext);
+  const { setName, table, filters: { filterByName: { name } } } = useContext(TodoContext);
 
   function renderRow(item, index) {
     return (
@@ -46,11 +46,20 @@ function Table() {
       </thead>);
   }
 
+  const resultFilters = table.filter((item) => item.name.includes(name));
+
   return (
     <div>
+      Nome:
+      <input
+        type="text"
+        data-testid="name-filter"
+        onChange={ ({ target }) => setName(target.value) }
+      />
       <table>
         {renderIndex()}
-        {table.map((item, index) => item !== 'residents' && renderRow(item, index))}
+        {resultFilters
+          .map((item, index) => item !== 'residents' && renderRow(item, index))}
       </table>
     </div>
   );

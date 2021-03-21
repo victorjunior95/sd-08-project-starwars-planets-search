@@ -4,6 +4,8 @@ import starWarsApi from '../Data';
 
 function TodoProvider({ children }) {
   const [table, setTable] = useState([]);
+  const [name, setName] = useState('');
+  const [filters, setFilters] = useState('');
 
   useEffect(() => {
     async function getPlanet() {
@@ -13,8 +15,15 @@ function TodoProvider({ children }) {
     getPlanet();
   }, []);
 
+  const getFilters = {
+    ...filters,
+    filterByName: { name },
+  };
+
   const contextValue = {
+    filters: getFilters,
     table,
+    setName,
   };
 
   return (

@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react';
+import TodoContext from '../context/TodoContext';
 
 function NumberFilter() {
   return (
-    <div>
-      Oi
-    </div>
+    <div />
   );
 }
 
