@@ -5,10 +5,10 @@ function SWForm() {
   const {
     handleSearchInput,
     searchInput,
-    handlePreferences,
-    handleClick, preferences,
-    comparisons,
-    columnOptions } = useContext(SWContext);
+    handleTheComparing,
+    handleClick, theComparing,
+    comparingParameter,
+    compareOptions } = useContext(SWContext);
 
   return (
     <div>
@@ -23,29 +23,29 @@ function SWForm() {
       </label>
       <select
         data-testid="column-filter"
-        name="column"
-        value={ preferences.column }
-        onChange={ handlePreferences }
+        name="subject"
+        value={ theComparing.subject }
+        onChange={ handleTheComparing }
       >
-        {columnOptions.map((column, index) => (
+        {compareOptions.map((column, index) => (
           <option key={ index }>{column}</option>
         ))}
       </select>
       <select
         data-testid="comparison-filter"
-        name="comparison"
-        value={ preferences.comparison }
-        onChange={ handlePreferences }
+        name="isThan"
+        value={ theComparing.isThan }
+        onChange={ handleTheComparing }
       >
-        {comparisons.map((comparison, index) => (
-          <option key={ index }>{comparison}</option>))}
+        {comparingParameter.map((comparingPar, index) => (
+          <option key={ index }>{comparingPar}</option>))}
       </select>
       <input
         type="number"
         name="number"
         data-testid="value-filter"
-        value={ preferences.number }
-        onChange={ handlePreferences }
+        value={ theComparing.number }
+        onChange={ handleTheComparing }
       />
       <button
         type="button"

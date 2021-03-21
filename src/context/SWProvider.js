@@ -8,8 +8,15 @@ const SWProvider = ({ children }) => {
   const [resultsAPI, setResultsAPI] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [searchInput, setSearchInput] = useState('');
+  const [filterByInput, setFilterByInput] = useState([planets]);
   const [compareOptions, setToCompareOptions] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const comparingParameter = ['maior que', 'menos que', 'igual a'];
+  const [theComparing, setTheComparing] = useState({
+    subject: 'population',
+    isThan: 'maior que',
+    number: '',
+  });
 
   useEffect(() => {
     async function fetching() {
@@ -26,10 +33,53 @@ const SWProvider = ({ children }) => {
     setPlanets(noResidents);
   }, [resultsAPI]);
 
-  handleSearchInput = ({ target: { value } }) => setSearchInput(value);
+  const handleSearchInput = ({ target: { value } }) => { setSearchInput(value); };
+
+  useEffect(() => {
+    const filteredByInput = planets
+      .filter((planet) => planet.name.includes((searchInput)));
+    setFilterByInput(filteredByInput);
+  }, [planets, searchInput]);
+
+  const handleTheComparing = ({ target: { name, value } }) => {
+    setTheComparing({ ...theComparing, [name]: value });
+  };
+
+  const filterTheComparing = ({ subject, isThan, number }) => {
+    const filtered = planets.filter((planet) => {
+      const subjectInfo = Number(planet[subject]);
+      const valueToCompare = Number(number);
+      if (isThan === 'menor que') {
+        return subjectInfo < valueToCompare;
+      }
+      if (isThan === 'maior que') {
+        return subjectInfo > valueToCompare;
+      }
+      return subjectInfo === valueToCompare;
+    });
+    setFilterByInput(filtered);
+  };
+
+  const handleClick = () => {
+    const newOptions = compareOptions.filter((column) => column !== theComparing.subject);
+    setToCompareOptions(newOptions);
+    filterTheComparing(theComparing);
+  };
 
   const SWProviderStates = {
-    resultsAPI, planets, setPlanets, searchInput, handleSearchInput, compareOptions, setToCompareOptions,
+    resultsAPI,
+    planets,
+    setPlanets,
+    searchInput,
+    handleSearchInput,
+    filterByInput,
+    compareOptions,
+    setToCompareOptions,
+    comparingParameter,
+    theComparing,
+    handleTheComparing,
+    filterTheComparing,
+    handleClick,
   };
 
   return (
