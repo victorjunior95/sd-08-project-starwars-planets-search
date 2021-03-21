@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
-import SWForm from './components/SWForm';
-import SWTable from './components/SWTable';
+import { SWForm, SWTable } from './components';
 import SWProvider from './context/SWProvider';
 
 function App() {
