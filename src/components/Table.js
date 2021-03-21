@@ -1,48 +1,54 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ContextStarWars from '../Context/ContextStarWars';
+import TableHead from './TableHead';
 
 function Table() {
   const { planets, planetsFilter, planetsFiltered } = useContext(ContextStarWars);
-  console.log(ContextStarWars);
+  // console.log(ContextStarWars);
+  const [inputName, setInputName] = useState('');
+
+  const handleInputName = (e) => {
+    setInputName(e.target.value);
+    planetsFilter(inputName);
+  };
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>name</th>
-          <th>Rotation Period</th>
-          <th>Orbital Period</th>
-          <th>Diameter</th>
-          <th>Climate</th>
-          <th>Gravity</th>
-          <th>Terrain</th>
-          <th>Surface Water</th>
-          <th>Population</th>
-          <th>Films</th>
-          <th>Created</th>
-          <th>Edited</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        {planets.map((el) => (
-          <tr key={ el.name }>
-            <td>{el.name}</td>
-            <td>{el.rotation_period}</td>
-            <td>{el.orbital_period}</td>
-            <td>{el.diameter}</td>
-            <td>{el.climate}</td>
-            <td>{el.gravity}</td>
-            <td>{el.terrain}</td>
-            <td>{el.surface_water}</td>
-            <td>{el.population}</td>
-            <td>{el.films}</td>
-            <td>{el.created}</td>
-            <td>{el.edited}</td>
-            <td>{el.url}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <section>
+      <form>
+        <label htmlFor="Name">
+          Name:
+          <input
+            data-testid="name-filter"
+            type="text"
+            value={ inputName }
+            onChange={ handleInputName }
+          />
+
+        </label>
+      </form>
+      <table>
+        <TableHead />
+        <tbody>
+          {planets.map((el) => (
+            <tr key={ el.name }>
+              <td>{el.name}</td>
+              <td>{el.rotation_period}</td>
+              <td>{el.orbital_period}</td>
+              <td>{el.diameter}</td>
+              <td>{el.climate}</td>
+              <td>{el.gravity}</td>
+              <td>{el.terrain}</td>
+              <td>{el.surface_water}</td>
+              <td>{el.population}</td>
+              <td>{el.films}</td>
+              <td>{el.created}</td>
+              <td>{el.edited}</td>
+              <td>{el.url}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
 
   );
 }
