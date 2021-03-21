@@ -31,11 +31,11 @@ const PlanetsProvider = ({ children }) => {
         return valueTarget <= value;
       }
       if (comparison === 'maior que') {
-        return valueTarget > value;
+        return parseInt(planet[column], 10) > parseInt(value, 10);
       }
       return valueTarget === value;
     });
-    setFilteredPlanets(filterValues || planets);
+    setFilteredPlanets(filterValues);
   };
 
   const context = {
