@@ -1,16 +1,25 @@
 import React, { useContext } from 'react';
-import PlanetsProvider from '../context/PlanetsProvider';
+import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const planets = useContext(PlanetsProvider);
-  console.log(planets);
+  const { planets } = useContext(PlanetsContext);
+  const renderRow = (planet, index) => (
+    <tr key={ index }>
+      {Object.values(planet).map((p, key) => <td key={ key }>{p}</td>)}
+    </tr>
+  );
+
   return (
     <table>
       <thead>
         <tr>
-          Oi
+          {planets.length > 0 && Object.keys(planets[0])
+            .map((planet, index) => <th key={ index }>{ planet }</th>)}
         </tr>
       </thead>
+      <tbody>
+        {planets.map((planet, index) => renderRow(planet, index))}
+      </tbody>
     </table>
   );
 }
