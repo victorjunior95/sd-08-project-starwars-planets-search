@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
-import listPlanetsProvider from './context/listPlantesProvider';
+import TableListPlanets from './components/Table';
+
+import PlantesProvider from './context/PlantesProvider';
 
 function App() {
   return (
-    <listPlanetsProvider>
-      <h1>Star Wars Planets Searcher</h1>
-    </listPlanetsProvider>
+    <PlantesProvider>
+      <h1>Star Wars Planet Searcher</h1>
+      <TableListPlanets />
+    </PlantesProvider>
   );
 }
 
