@@ -2,29 +2,27 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function Table() {
-  const { data, isLoading } = useContext(PlanetContext);
+  const { isLoading, planets } = useContext(PlanetContext);
+
+  console.log(planets);
   return (
     isLoading
       && (
         <table border="solid ">
           <thead>
             <tr>
-              {Object.keys(data.find((titles) => titles))
-                .map((info, index) => (info !== 'residents'
-                  ? <th key={ index }>{info}</th> : null))}
-              {/* {headers.map((e, index) => <th key={ index }>{e}</th>)} */}
+              {Object.keys(planets[0]).map((item, i) => <th key={ i }>{item}</th>)}
             </tr>
           </thead>
           <tbody>
-            {data.map((planet, i) => (
-              <tr key={ i }>
-                {Object.keys(planet)
-                  .map((info, index) => (info !== 'residents'
-                    ? <td key={ index }>{planet[info]}</td>
-                    : null
-                  ))}
-              </tr>
-            ))}
+            {
+              planets.map((planet, i) => (
+                <tr key={ i }>
+                  { Object.values(planet)
+                    .map((info) => <td key={ info }>{ info }</td>) }
+                </tr>))
+            }
+
           </tbody>
         </table>
       )
