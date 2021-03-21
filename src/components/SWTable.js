@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import SWContext from '../context/SWContext';
 import './SWTable.css';
 
-const Table = () => {
+const SWTable = () => {
   const { planets, setPlanets } = useContext(SWContext);
   const existKeys = planets[0] || {};
   const tHeader = Object.keys(existKeys)
@@ -45,4 +45,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default SWTable;

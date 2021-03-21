@@ -7,6 +7,9 @@ const API_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
 const SWProvider = ({ children }) => {
   const [resultsAPI, setResultsAPI] = useState([]);
   const [planets, setPlanets] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+  const [compareOptions, setToCompareOptions] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
 
   useEffect(() => {
     async function fetching() {
@@ -23,8 +26,10 @@ const SWProvider = ({ children }) => {
     setPlanets(noResidents);
   }, [resultsAPI]);
 
+  handleSearchInput = ({ target: { value } }) => setSearchInput(value);
+
   const SWProviderStates = {
-    resultsAPI, planets, setPlanets,
+    resultsAPI, planets, setPlanets, searchInput, handleSearchInput, compareOptions, setToCompareOptions,
   };
 
   return (
