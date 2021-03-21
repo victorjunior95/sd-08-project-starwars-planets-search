@@ -7,6 +7,14 @@ function Provider({ children }) {
   const [allPlanets, setAllPlanets] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [filteredArray, setFilteredArray] = useState([]);
+  const [filterColumn, setFilterColumn] = useState(
+    [`population`, `orbital_period`, `diameter`, `rotation_period`, `surface_water`]);
+  /*const [size, setSize ]= useState([`maior que`, `menor que`,`igual a` ]);*/
+  const [selected, setSelected]= useState({
+    column:'population',
+    comparison: 'maior que',
+    value: '',
+  })
 
   useEffect(() => {
     async function fetchApi() {
@@ -25,6 +33,12 @@ function Provider({ children }) {
     searchName,
     filteredArray,
     setFilteredArray,
+    filterColumn, 
+    setFilterColumn,
+    /*size,
+    setSize,*/
+    selected,
+    setSelected,
   };
   return (
     <PlanetsContext.Provider value={ data }>
