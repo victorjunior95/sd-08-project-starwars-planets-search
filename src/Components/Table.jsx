@@ -3,31 +3,26 @@ import StarWarsContext from '../Contexts/StarWars/StarWarsContext';
 
 const Table = () => {
   const { planets,
+    headers,
     filters: {
       filterByName: { name },
-      filterByNumericValues },
+      filterByNumericValues,
+      order: { column: header, sort } },
   } = useContext(StarWarsContext);
 
-  const headers = planets[0] || [];
-
-  const evaluate = (a, b, op) => {
-    if (Number.isNaN(a) || Number.isNaN(b)) return false;
-
-    a = parseInt(a, 10);
-    b = parseInt(b, 10);
-
-    switch (op) {
+  const comparisonReducer = (p, { comparison, value, column }) => {
+    switch (comparison) {
     case 'maior que':
-      return a > b;
+      return p.filter((planet) => Number(planet[column]) > Number(value));
 
     case 'menor que':
-      return a < b;
+      return p.filter((planet) => Number(planet[column]) < Number(value));
 
     case 'igual a':
-      return a === b;
+      return p.filter((planet) => Number(planet[column]) === Number(value));
 
     default:
-      return true;
+      return p;
     }
   };
 
@@ -36,22 +31,47 @@ const Table = () => {
       <thead>
         <tr>
           {
-            Object.keys(headers)
-              .map((header, index) => <th key={ index }>{header}</th>)
+            headers
+              .map((h, index) => <th key={ index }>{h}</th>)
           }
         </tr>
       </thead>
       <tbody>
         {
           filterByNumericValues
-            .reduce((acc, { column, value, comparison }) => acc
-              .filter((planet) => evaluate(planet[column], value, comparison)), planets)
+            .reduce(comparisonReducer, planets)
             .filter((planet) => (planet.name).includes(name))
+            .sort((a, b) => {
+              let fieldA = a[header];
+              let fieldB = b[header];
+
+              if (fieldA === 'unknown') fieldA = 0;
+              if (fieldB === 'unknown') fieldB = 0;
+
+              if (!Number.isNaN(Number(fieldA))) {
+                fieldA = Number(fieldA);
+                fieldB = Number(fieldB);
+              }
+
+              if (fieldA > fieldB) {
+                return sort === 'ASC' ? 1 : +'-1';
+              }
+              if (fieldA < fieldB) {
+                return sort === 'ASC' ? +'-1' : 1;
+              }
+              return 0;
+            })
             .map((planet, index) => (
               <tr key={ index }>
                 {
-                  Object.values(planet)
-                    .map((info) => <td key={ info }>{info}</td>)
+                  Object.entries(planet)
+                    .map(([key, info]) => (
+                      <td
+                        data-testid={ key === 'name' ? 'planet-name' : null }
+                        key={ info }
+                      >
+                        {info}
+                      </td>))
                 }
               </tr>
             ))

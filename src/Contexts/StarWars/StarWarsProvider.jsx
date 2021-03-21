@@ -7,6 +7,10 @@ const StarWarsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
   const [filtersByNumericValues, setFiltersByNumericValues] = useState([]);
+  const [order, setOrder] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
 
   useEffect(() => {
     getPlanet().then((items) => {
@@ -15,12 +19,15 @@ const StarWarsProvider = ({ children }) => {
     });
   }, []);
 
+  const headers = Object.keys(planets[0] || []);
+
   const filters = {
     filters: {
       filterByName: {
         name,
       },
       filterByNumericValues: filtersByNumericValues,
+      order,
     },
   };
 
@@ -28,9 +35,11 @@ const StarWarsProvider = ({ children }) => {
     <StarWarsContext.Provider
       value={ {
         planets,
+        headers,
         ...filters,
         setName,
         setFiltersByNumericValues,
+        setOrder,
       } }
     >
       { children }
