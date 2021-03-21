@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
-const HEADER_LIST_PLANETS = ['Name', 'Rotation Period', 'Orbital Period',
+const HEADER_LIST_DESCRIPTIONS_PLANETS = ['Name', 'Rotation Period', 'Orbital Period',
   'Diameter', 'Climate', 'Gravity', 'Terrain', 'Surface Water',
   'Population', 'Films', 'Created', 'Edited', 'URL'];
 
@@ -11,7 +11,7 @@ export default function TableListPlanets() {
     <table>
       <thead>
         <tr>
-          {HEADER_LIST_PLANETS.map((description, index) => (
+          {HEADER_LIST_DESCRIPTIONS_PLANETS.map((description, index) => (
             <th key={ index }>
               {description}
             </th>)) }
