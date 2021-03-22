@@ -27,7 +27,7 @@ const Store = (props) => {
       setLoading(false);
     }
     fetchData();
-  }, [data]);
+  }, []);
 
   return (
     <DataContext.Provider value={ { data, setData, loading } }>
