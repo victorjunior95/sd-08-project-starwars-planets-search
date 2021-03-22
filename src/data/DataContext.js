@@ -14,16 +14,20 @@ const Store = (props) => {
   const [data, setData] = useState(initialState);
   const [loading, setLoading] = useState(true);
 
-  useEffect(async () => {
-    searchPlanets().then((planets) => {
+  useEffect(() => {
+    async function fetchData() {
+      const planets = await searchPlanets();
+
       setData({
         ...data,
-        state: planets.filter((planets) => delete planets.residents),
-        headers: Object.keys(planets[0]).filter((planets) => planets !== 'residents'),
+        state: planets.filter((planetas) => delete planetas.residents),
+        headers: Object.keys(planets[0]).filter((header) => header !== 'residents'),
       });
+
       setLoading(false);
-    });
-  }, []);
+    }
+    fetchData();
+  }, [data]);
 
   return (
     <DataContext.Provider value={ { data, setData, loading } }>
