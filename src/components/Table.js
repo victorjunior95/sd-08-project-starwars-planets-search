@@ -3,15 +3,12 @@ import ContextStarWars from '../Context/ContextStarWars';
 import TableHead from './TableHead';
 
 function Table() {
-  const { filteredPlanets, handleInputName, inputName } = useContext(ContextStarWars);
   // console.log(ContextStarWars);
-  // const [inputName, setInputName] = useState('');
-
-  // const handleInputName = (e) => {
-  //   setInputName(e.target.value);
-  //   filterPlanets(inputName);
-  //   // console.log('!');
-  // };
+  const { filteredPlanets, handleInputName, inputName, columnSelect, filter, handleSelect } = useContext(ContextStarWars);
+  const { filterByNumericValues } = filter;
+  // console.log(columnSelect);
+  // console.log(filter);
+  // console.log(filterByNumericValues.column);
 
   return (
     <section>
@@ -24,8 +21,18 @@ function Table() {
             value={ inputName }
             onChange={ handleInputName }
           />
-
         </label>
+
+        <select
+          data-testid="column-filter"
+          name="column"
+          value={ filterByNumericValues.column }
+          onChange={ handleSelect }
+        >
+          {columnSelect.map((el, index) => (
+            <option key={ index }>{el}</option>
+          ))}
+        </select>
       </form>
       <table>
         <TableHead />

@@ -8,7 +8,15 @@ function ProviderStarWars({ children }) {
   const [inputName, setInputName] = useState('');
   const [filter, setFilter] = useState({
     filterByName: { name: '' },
+    filterByNumericValues: {
+      column: 'population',
+      comparison: 'maior que',
+      value: '',
+    },
   });
+
+  const [columnSelect, setColumnSelect] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
 
   useEffect(() => {
     const fetchStarWarsAPI = async () => {
@@ -32,28 +40,29 @@ function ProviderStarWars({ children }) {
     setFilteredPlanets(FilterEf);
   }, [planets, inputName]);
 
-  // const filterPlanets = (planetsName) => {
-  //   const result = planets.filter(({ name }) => name.toLowerCase().includes(planetsName));
-  //   // console.log(filter);
-  //   if (!result) setFilteredPlanets(planets);
-  //   setFilteredPlanets(result);
-  // };
-
   const handleInputName = (e) => {
     setInputName(e.target.value);
     // filterPlanets(inputName);
     // console.log('!');
   };
 
+  const handleSelect = ({ target: { name, value } }) => {
+    setFilter({
+      ...filter,
+      [name]: value,
+    });
+  };
+
   const allContext = {
     planets,
-    // filterPlanets,
     filteredPlanets,
     setFilteredPlanets,
     filter,
     setFilter,
     handleInputName,
     inputName,
+    columnSelect,
+    handleSelect,
   };
 
   return (
