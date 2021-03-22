@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { savePlanet } from '../context/PlanetContext';
 
-const formInput = () => {
+function formInput() {
   return (
     <div>
       <form>
@@ -10,11 +10,10 @@ const formInput = () => {
       <button type="button">Filtrar</button>
     </div>
   );
-};
+}
 
 function Table() {
   const { planets } = useContext(savePlanet);
-  console.log(planets);
   return (
     <div>
       { formInput() }
