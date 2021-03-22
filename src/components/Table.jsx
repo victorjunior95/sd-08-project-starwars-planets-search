@@ -2,17 +2,26 @@ import React, { useContext } from 'react';
 import { DataContext } from '../data/DataContext';
 
 const Table = () => {
-  const { data, loading } = useContext(DataContext);
-  const { headers } = data;
+  const { data, loading, filters, setFilters } = useContext(DataContext);
+
+  function handleChange({ target: { value } }) {
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: value,
+      },
+    });
+  }
 
   if (loading) return <h1>Carregando ...</h1>;
- 
+
   return (
     <div>
+      <input data-testid="name-filter" onChange={ handleChange } />
       <table>
         <thead>
           <tr>
-            {headers.map((header) => <th key={ header }>{header}</th>)}
+            {data.headers.map((header) => <th key={ header }>{header}</th>)}
           </tr>
         </thead>
         <tbody>

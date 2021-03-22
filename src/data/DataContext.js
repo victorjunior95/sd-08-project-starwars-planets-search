@@ -7,12 +7,16 @@ export const DataContext = createContext();
 const initialState = {
   state: [],
   headers: [],
+  original: [],
 
 };
 const Store = (props) => {
   const { children } = props;
   const [data, setData] = useState(initialState);
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({ filterByName: {
+    name: '',
+  } });
 
   useEffect(() => {
     async function fetchData() {
@@ -22,6 +26,7 @@ const Store = (props) => {
         ...data,
         state: planets.filter((planetas) => delete planetas.residents),
         headers: Object.keys(planets[0]).filter((header) => header !== 'residents'),
+        original: planets.filter((planetas) => delete planetas.residents),
       });
 
       setLoading(false);
@@ -29,8 +34,16 @@ const Store = (props) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setData((prev) => ({
+      ...prev,
+      state: prev.original.filter((planet) => planet.name
+        .includes(filters.filterByName.name)),
+    }));
+  }, [filters]);
+
   return (
-    <DataContext.Provider value={ { data, setData, loading } }>
+    <DataContext.Provider value={ { data, setData, loading, filters, setFilters } }>
       {children}
     </DataContext.Provider>
   );
