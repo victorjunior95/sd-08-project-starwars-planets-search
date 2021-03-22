@@ -32,12 +32,19 @@ const Provider = ({ children }) => {
     });
   }, []);
 
+  const initialOptionColumn = ['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+
+  const [optionsColumn, setOptionsColumn] = useState(initialOptionColumn);
+
   const data = {
     dataApi,
     loading,
     setName,
     filters,
     setFilters,
+    optionsColumn,
+    setOptionsColumn,
   };
   return (
     <AppContext.Provider value={ data }>

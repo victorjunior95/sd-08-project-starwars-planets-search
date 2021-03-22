@@ -9,6 +9,8 @@ function TablePlanets() {
     filters,
     filters: { filterByNumericValues },
     setFilters,
+    optionsColumn,
+    setOptionsColumn,
   } = useContext(AppContext);
 
   const [numericFilters, setNumericFilters] = useState({
@@ -27,13 +29,27 @@ function TablePlanets() {
   const [addFilterElement, setAddFilterElement] = useState(false);
 
   const addFilter = () => {
+    const { column } = numericFilters;
+    // console.log(column)
     setFilters({
       ...filters,
       filterByNumericValues: [...filterByNumericValues, numericFilters],
     });
-
     setAddFilterElement(true);
+    setOptionsColumn(optionsColumn.filter((col) => column !== col));
   };
+
+  // const setOptionsColumn = () => {
+
+  // }
+
+  // const handleFilter = () => {
+  //   setFilters({
+  //     ...filters,
+  //     filterByNumericValues: [...filterByNumericValues, filterValues],
+  //   });
+  //   setColumns(columns.filter((columnName) => column !== columnName));
+  // };
 
   return (
     <div>
@@ -64,11 +80,11 @@ function TablePlanets() {
         name="column"
         onChange={ handleChange }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {
+          optionsColumn.map((option, index) => (
+            <option key={ index } value={ option }>{option}</option>
+          ))
+        }
       </select>
       <select
         className="form-select form-select-sm"
