@@ -3,6 +3,7 @@ import StarWarsContext from '../context/StarWarsContext';
 
 function SearchNameBar() {
   const { setName, addFilterNumericValue } = useContext(StarWarsContext);
+  
   const columnFilter = [
     '',
     'population',
@@ -11,12 +12,20 @@ function SearchNameBar() {
     'rotation_period',
     'surface_water',
   ];
+  
+  
 
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [number, setNumberFilter] = useState(0);
+  const [columns, setColumns] = useState(columnFilter);
 
   const comparisonFilter = ['', 'maior que', 'menor que', 'igual a'];
+
+  const handleNumericFilters = () => {
+    addFilterNumericValue(column, comparison, number);
+    console.log('handle');
+  }
 
   return (
     <div>
@@ -36,7 +45,7 @@ function SearchNameBar() {
           id="selectFilter"
           name="selectFilter"
           data-testid="column-filter"
-          value={ column }
+          value={ columns }
           onChange={ (e) => setColumn(e.target.value) }
         >
           {columnFilter.map((element) => (
@@ -75,7 +84,7 @@ function SearchNameBar() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => addFilterNumericValue(column, comparison, number) }
+        onClick={ () => handleNumericFilters() }
       >
         Filtrar
       </button>

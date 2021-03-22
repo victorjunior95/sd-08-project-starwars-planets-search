@@ -23,6 +23,7 @@ function StarWarsProvider({ children }) {
         name,
       },
     }));
+
   };
 
   const addFilterNumericValue = (column, comparison, value) => {
@@ -57,7 +58,7 @@ function StarWarsProvider({ children }) {
       filterByName: { name },
       filterByNumericValues,
     } = filters;
-    console.log(data);
+    // console.log(data);
     const filteredData3 = data.filter((value) =>
       value.name.toLowerCase().includes(name.toLowerCase())
     );
@@ -95,6 +96,7 @@ function StarWarsProvider({ children }) {
       }
     });
   }, [data, filters]);
+
 
   const contextValue = {
     isFetching,
