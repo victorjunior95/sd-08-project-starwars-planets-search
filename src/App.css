@@ -44,10 +44,14 @@ table {
   border: 1px solid black;
 }
 
-table, th, td {
+table, th, td, span {
   padding: 10px;
 }
 
 input, select {
   margin: 10px 10px 20px;
+}
+
+.span-filter {
+  margin: 15px;
 }

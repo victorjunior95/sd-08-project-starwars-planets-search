@@ -5,8 +5,7 @@ import React, { useContext } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 function ListOfInputs() {
-  const { starwarsData, isLoading,
-    filters: { filterByName: { name } } } = useContext(StarwarsContext);
+  const { starwarsData, isLoading, filterByName } = useContext(StarwarsContext);
   // conceito visto na w3school
   function headTableListOfInputs() {
     return (
@@ -35,7 +34,7 @@ function ListOfInputs() {
     return (
       <tbody>
         { starwarsData
-          .filter((data) => (name ? data.name.includes(name) : data))
+          .filter((data) => (filterByName ? data.name.includes(filterByName) : data))
           .map((data, index) => (
             <tr key={ index }>
               <td>{ data.name }</td>
@@ -51,13 +50,6 @@ function ListOfInputs() {
               <td>{ data.created }</td>
               <td>{ data.edited }</td>
               <td>{ data.url }</td>
-              {/* <button
-                type="button"
-                data-testid="delete-btn"
-                onClick={ () => deleteExpense(expense.id) }
-              >
-                Excluir
-              </button> */}
             </tr>
           ))}
       </tbody>
