@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import ContextStars from '../context/ContextStar';
 
 export default function Table() {
@@ -6,17 +6,13 @@ export default function Table() {
   const contexto = useContext(ContextStars);
   const {
     planets,
-    setplanets,
     bynumbers,
     setbynumbers,
     name,
-    setname,
     handleClick,
+    onfilterByName,
+    filteredplanets,
   } = contexto;
-
-  const onfilterByName = (e) => {
-    setname(e.target.value);
-  };
 
   return (
     <div>
@@ -85,7 +81,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {planets.map((item, i) => (
+          {filteredplanets.map((item, i) => (
             <tr key={ i.name }>
               <td>{item.name}</td>
               <td>{item.rotation_period}</td>

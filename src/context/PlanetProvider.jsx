@@ -12,12 +12,13 @@ import ContextStar from './ContextStar';
 
 function PlanetProvider({ children }) {
   const [planets, setplanets] = useState([]);
+  const [filteredplanets, setfilteredplanets] = useState([]);
   const [name, setname] = useState('');
   const [bynumbers, setbynumbers] = useState(
     {
-      column: 'population',
-      comparison: 'maior que',
-      value: '100000',
+      column: '',
+      comparison: '',
+      value: '',
     },
   );
 
@@ -34,10 +35,14 @@ function PlanetProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    let filterPlanets = planets;
-    filterPlanets = planets.filter((planet) => planet.name.includes((name)));
-    setplanets(filterPlanets);
+    let Planetslist = planets;
+    Planetslist = planets.filter((planet) => planet.name.includes((name)));
+    setfilteredplanets(Planetslist);
   }, [planets, name]);
+
+  const onfilterByName = (e) => {
+    setname(e.target.value);
+  };
 
   const handleClick = () => {
     setplanets([]);
@@ -65,6 +70,9 @@ function PlanetProvider({ children }) {
         name,
         setname,
         handleClick,
+        onfilterByName,
+        filteredplanets,
+        setfilteredplanets,
       } }
     >
       { children }
