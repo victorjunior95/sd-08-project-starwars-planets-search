@@ -1,58 +1,73 @@
 import React, { useContext, useEffect } from 'react';
 import ContextStars from '../context/ContextStar';
 
-function Table() {
+export default function Table() {
+  const mil = 1000;
   const contexto = useContext(ContextStars);
-  const { planets, setplanets, filters, setfilters } = contexto;
+  const {
+    planets,
+    setplanets,
+    bynumbers,
+    setbynumbers,
+    name,
+    setname,
+  } = contexto;
 
-  const filteringByName = (e) => {
-    const valueOfEvent = e.target.value;
-    const prevState = { ...filters };
-    prevState.filterByName.name = valueOfEvent;
-    setfilters(prevState);
+  const onfilterByName = (e) => {
+    setname(e.target.value);
   };
-  useEffect(() => {
-    let filteredPlanets = planets;
-    const planetname = filters.filterByName.name;
-    filteredPlanets = planets.filter(
-      (planet) => (planet.name.includes(planetname)),
-    );
-    setplanets(filteredPlanets);
-  }, []);
 
   return (
     <div>
       <header>
         <label htmlFor="filterbyname">
           Filtro por nome:
-          <br />
           <input
             type="text"
             name="filterbyname"
-            value={ filters.filterByName.name }
+            value={ name }
             data-testid="name-filter"
-            onChange={ filteringByName }
+            onChange={ onfilterByName }
           />
         </label>
-        <input type="text" data-testid="value-filter" />
+        <label htmlFor="column">
+          Filtro por coluna:
+          <select
+            name="column"
+            data-testid="column-filter"
+            onChange={ (e) => setbynumbers({ ...bynumbers, column: e.target.value }) }
+          >
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </label>
 
-        <select name="column" data-testid="column-filter">
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
+        <select
+          name="comparison"
+          data-testid="comparison-filter"
+          onChange={ (e) => setbynumbers({ ...bynumbers, comparison: e.target.value }) }
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
 
-        <select name="comparison" data-testid="comparison-filter">
-          <option value=">">maior que</option>
-          <option value="<">menor que</option>
-          <option value="===">igual a</option>
-        </select>
-
-        <input type="number" data-testid="value-filter" />
+        <input
+          type="number"
+          data-testid="value-filter"
+          onChange={
+            (e) => setbynumbers({ ...bynumbers, value: (e.target.value * mil),
+            })
+          }
+        />
 
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ () => console.log('clicked') }
+          onClick={ console.log('clicked') }
         >
           Filtrar
         </button>
@@ -91,4 +106,3 @@ function Table() {
     </div>
   );
 }
-export default Table;

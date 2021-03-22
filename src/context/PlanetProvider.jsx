@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import ContextStar from './ContextStar';
 
-const initialstate = {
-  filterByName: { name: 'tat' },
+/* const initialstate = {
+  filterByName: { name: '' },
   filterByNumericValues: [
     { column: '', comparison: '', value: '' },
-    { column: '', comparison: '', value: '' },
-  ],
+  ],{ column: '', comparison: '', value: '' }
 
-};
+}; */
 
 function PlanetProvider({ children }) {
   const [planets, setplanets] = useState([]);
-  const [filters, setfilters] = useState(initialstate);
-  // const [contname, setcontname] = useState(0);
+  const [name, setname] = useState('');
+  const [bynumbers, setbynumbers] = useState(
+    {
+      column: 'population',
+      comparison: 'maior que',
+      value: '100000',
+    },
+  );
 
   useEffect(() => {
     const getList = async () => {
@@ -27,10 +32,32 @@ function PlanetProvider({ children }) {
     getList();
   }, []);
 
+  const handleClick = () => {
+    setplanets([]);
+    const { column, comparison, value } = bynumbers;
+    if (comparison === 'maior que') {
+      return setplanets(planets
+        .filter((i) => Number(i[column]) > Number(value)));
+    }
+    if (comparison === 'menor que') {
+      return setplanets(planets
+        .filter((i) => Number(i[column]) < Number(value)));
+    }
+    if (comparison === 'igual a') {
+      return setplanets(planets
+        .filter((i) => Number(i[column]) === Number(value)));
+    }
+  };
   return (
     <ContextStar.Provider
       value={ {
-        planets, setplanets, filters, setfilters,
+        planets,
+        setplanets,
+        bynumbers,
+        setbynumbers,
+        name,
+        setname,
+        handleClick,
       } }
     >
       { children }
@@ -38,4 +65,11 @@ function PlanetProvider({ children }) {
   );
 }
 
+PlanetProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.object,
+  ]).isRequired,
+};
 export default PlanetProvider;
