@@ -2,43 +2,68 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StarwarsContext from './StarwarsContext';
 
-const filterFields = {
-  filterByName: {
-    name: '',
+/* const filterFields = [
+  {
+    column: 'population',
+    comparison: 'maior que',
+    value: '100000',
   },
-  filterByNumericValues: [],
-};
+]; */
 
 export default function StarwarsProvider({ children }) {
   const [tables, setTables] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filters, setFilters] = useState(filterFields);
+  const [filter, setFilter] = useState([]);
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
-      .then((data) => setPlanets(data.results));
+      .then((data) => {
+        setPlanets(data.results);
+        setTables(data.results);
+      });
   }, []);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  console.log(filters.filterByNumericValues);
-
   useEffect(() => {
     const result = planets.filter((item) => item.name.toLowerCase().includes(searchTerm));
     setTables(result);
-  }, [searchTerm, planets]);
+  }, [searchTerm]);
+
+  const filterPlanets = (conditions) => {
+    const arr = [];
+    conditions.forEach((cond) => {
+      if (cond.tipo === 'texto') {
+        arr.push((i) => i.name.includes(`${cond.value}`));
+      } else if (cond.condicao === 'maior que') {
+        arr.push((i) => i[cond.comparison] > cond.value);
+      } else if (cond.condicao === 'menor que') {
+        arr.push((i) => i[cond.comparison] < cond.value);
+      } else if (cond.condicao === 'igual a') {
+        arr.push((i) => i[cond.comparison] === cond.value);
+      }
+    });
+    let list = [...planets];
+    while (arr.length > 0) {
+      list = list.filter(arr.pop());
+    }
+    return list;
+  };
+
+  useEffect(() => {
+    setTables(filterPlanets(filter));
+  }, [filter]);
 
   const context = {
     tables,
-    setTables,
     searchTerm,
     setSearchTerm,
-    filters,
-    setFilters,
+    filter,
+    setFilter,
     handleChange,
     planets,
     setPlanets,

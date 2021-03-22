@@ -9,8 +9,28 @@ const filterHeader = [
   'surface_water',
 ];
 
+/* const filterFields = [
+  {
+    tipo: 'texto',
+    param: '',
+    valor: 'Tatoo',
+  },
+  {
+    tipo: 'numero',
+    param: 'diameter',
+    condicao: 'maior',
+    valor: 5000,
+  },
+  {
+    tipo: 'numero',
+    param: 'population',
+    condicao: 'menor',
+    valor: 1000000,
+  },
+]; */
+
 export default function SelectHeader() {
-  const { filters, setFilters } = useContext(StarwarsContext);
+  const { filter, setFilter } = useContext(StarwarsContext);
   const [select, setSelect] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -24,7 +44,14 @@ export default function SelectHeader() {
     });
   };
 
-  const filterButton = () => {
+  const handleClick = () => {
+    console.log(filter);
+    setFilter([
+      ...filter,
+      select,
+    ]);
+  };
+  /* const filterButton = () => {
     setFilters({
       ...filters,
       filterByNumericValues: [
@@ -32,7 +59,7 @@ export default function SelectHeader() {
         select,
       ],
     });
-  };
+  }; */
 
   return (
     <div>
@@ -62,7 +89,7 @@ export default function SelectHeader() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ filterButton }
+        onClick={ handleClick }
       >
         Filter
       </button>
