@@ -10,7 +10,7 @@ export default function StarwarsTables() {
       <thead>
         <tr>
           { tableHeaders.map((item, index) => (
-            <th key={ index } className="columnheader">
+            <th key={ index }>
               { item }
             </th>
           )) }
@@ -18,7 +18,7 @@ export default function StarwarsTables() {
       </thead>
       <tbody>
         { tables.map((item, index) => (
-          <tr key={ index } className="row">
+          <tr key={ index }>
             <td>{ item.name }</td>
             <td>{ item.rotation_period }</td>
             <td>{ item.orbital_period }</td>

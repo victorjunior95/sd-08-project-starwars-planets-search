@@ -100,14 +100,15 @@ export default function SelectHeader() {
       </button>
       <div>
         { filter.map((i, index) => (
-          <button
-            key={ index }
-            type="button"
-            data-testid="filter"
-            onClick={ () => removeFilter(i) }
-          >
-            X
-          </button>)) }
+          <div key={ index } data-testid="filter">
+            <button
+              type="button"
+              onClick={ () => removeFilter(i) }
+            >
+              X
+            </button>
+          </div>
+        )) }
       </div>
     </div>
   );
