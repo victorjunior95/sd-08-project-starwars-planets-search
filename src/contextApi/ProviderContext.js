@@ -21,8 +21,6 @@ function ProviderContext({ children }) {
     value: 0,
   });
 
-  
-
   useEffect(() => {
     async function waitApi() {
       await fetch(url)
@@ -41,12 +39,10 @@ function ProviderContext({ children }) {
     const filterByName = data.filter((element) => element.name.includes(name));
 
     fixFilterData(filterByName);
-
   }, [name, data]);
-  
+
   const { filterByNumericValues } = filters;
   useEffect(() => {
-    
     let filtrar = [];
     if (filterByNumericValues.length !== 0) {
       fixFilterData((dFilter) => {

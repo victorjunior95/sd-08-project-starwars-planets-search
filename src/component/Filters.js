@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { comparison } from '../constantes/constanteApi';
 import contextApi from '../contextApi/createContext';
 
@@ -16,18 +16,18 @@ function Filters() {
 
   const onChangeFilterBy = ({ target: { value, name } }) => {
     fixFilterBy({ ...filterBy, [name]: value });
-  }
+  };
 
   const onClickFiltersBy = () => {
     const { filterByNumericValues } = filters;
     fixFilters({
-      ...filters, 
+      ...filters,
       filterByNumericValues: [
         ...filterByNumericValues,
         filterBy,
       ],
     });
-  }
+  };
 
   return (
     <div>
