@@ -56,7 +56,7 @@ export default function Table() {
           type="number"
           data-testid="value-filter"
           onChange={
-            (e) => setbynumbers({ ...bynumbers, value: (e.target.value * mil),
+            (e) => setbynumbers({ ...bynumbers, value: (e.target.value),
             })
           }
         />
