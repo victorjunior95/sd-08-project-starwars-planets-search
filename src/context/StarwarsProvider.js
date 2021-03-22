@@ -39,12 +39,12 @@ export default function StarwarsProvider({ children }) {
     conditions.forEach((cond) => {
       if (cond.tipo === 'texto') {
         arr.push((i) => i.name.includes(`${cond.value}`));
-      } else if (cond.condicao === 'maior que') {
-        arr.push((i) => i[cond.comparison] > cond.value);
-      } else if (cond.condicao === 'menor que') {
-        arr.push((i) => i[cond.comparison] < cond.value);
-      } else if (cond.condicao === 'igual a') {
-        arr.push((i) => i[cond.comparison] === cond.value);
+      } else if (cond.comparison === 'maior que') {
+        arr.push((i) => parseInt(i[cond.column], 10) > parseInt(cond.value, 10));
+      } else if (cond.comparison === 'menor que') {
+        arr.push((i) => parseInt(i[cond.column], 10) < parseInt(cond.value, 10));
+      } else if (cond.comparison === 'igual a') {
+        arr.push((i) => parseInt(i[cond.column], 10) === parseInt(cond.value, 10));
       }
     });
     let list = [...planets];

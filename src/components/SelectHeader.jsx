@@ -31,15 +31,15 @@ const filterHeader = [
 
 export default function SelectHeader() {
   const { filter, setFilter } = useContext(StarwarsContext);
-  const [select, setSelect] = useState({
+  const [data, setData] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '0',
   });
 
   const handleSelect = ({ target }) => {
-    setSelect({
-      ...select,
+    setData({
+      ...data,
       [target.name]: target.value,
     });
   };
@@ -48,7 +48,7 @@ export default function SelectHeader() {
     console.log(filter);
     setFilter([
       ...filter,
-      select,
+      data,
     ]);
   };
   /* const filterButton = () => {
