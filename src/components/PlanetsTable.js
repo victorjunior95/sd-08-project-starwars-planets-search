@@ -5,7 +5,7 @@ import StarWarsPlanetsContext from '../context/StarWarsPlanetsContext';
 
 function PlanetsTable() {
   const {
-    planets,
+    filteredPlanets: planets,
   } = useContext(StarWarsPlanetsContext);
   return (
     <div>

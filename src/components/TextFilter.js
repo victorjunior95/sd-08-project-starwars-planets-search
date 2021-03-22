@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import StarWarsPlanetsContext from '../context/StarWarsPlanetsContext';
 
 function TextFilter() {
+  const {
+    filters,
+    setFilters,
+  } = useContext(StarWarsPlanetsContext);
   return (
-    <StarWarsPlanetsContext.Consumer>
-      <h1>Filtro por Texto</h1>
-    </StarWarsPlanetsContext.Consumer>
+    <div>
+      <input
+        type="text"
+        data-testid="name-filter"
+        placeholder="Filtrar por texto"
+        value={ filters.filterByName.name }
+        onChange={ ({ target }) => {
+          setFilters({
+            ...filters,
+            filterByName: { name: target.value },
+          });
+        } }
+      />
+    </div>
   );
 }
 export default TextFilter;

@@ -5,12 +5,17 @@ import planetsAPIRequest from '../services/planetsAPIRequest';
 
 function StarWarsPlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
-
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+  const [filteredPlanets, setFilteredPlanets] = useState(planets);
   const getPlanetsInfos = async () => {
     const planetsInfos = await planetsAPIRequest();
 
     const one = 1;
-    const neg = -1;
+    const negative = -1;
     const zero = 0;
 
     planetsInfos.sort((a, b) => {
@@ -18,7 +23,7 @@ function StarWarsPlanetsProvider({ children }) {
         return one;
       }
       if (a.name < b.name) {
-        return neg;
+        return negative;
       }
       return zero;
     });
@@ -29,8 +34,15 @@ function StarWarsPlanetsProvider({ children }) {
     getPlanetsInfos();
   }, []);
 
+  useEffect(() => {
+    setFilteredPlanets(planets
+      .filter((planet) => planet.name.includes(filters.filterByName.name)));
+  }, [filters, planets]);
+
   const data = {
-    planets,
+    filteredPlanets,
+    filters,
+    setFilters,
   };
 
   return (
