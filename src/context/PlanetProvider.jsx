@@ -12,6 +12,7 @@ import ContextStar from './ContextStar';
 
 function PlanetProvider({ children }) {
   const [planets, setplanets] = useState([]);
+  const [restoreplanets, setrestoreplanets] = useState([]);
   const [filteredplanets, setfilteredplanets] = useState([]);
   const [name, setname] = useState('');
   const [bynumbers, setbynumbers] = useState(
@@ -21,6 +22,11 @@ function PlanetProvider({ children }) {
       value: '',
     },
   );
+  const [filtroAtivo, setfiltroAtivo] = useState({
+    column: '',
+    comparison: '',
+    value: '',
+  });
 
   useEffect(() => {
     const getList = async () => {
@@ -33,7 +39,6 @@ function PlanetProvider({ children }) {
     };
     getList();
   }, []);
-
   useEffect(() => {
     let Planetslist = planets;
     Planetslist = planets.filter((planet) => planet.name.includes((name)));
@@ -45,6 +50,7 @@ function PlanetProvider({ children }) {
   };
 
   const handleClick = () => {
+    setrestoreplanets(planets);
     setplanets([]);
     const { column, comparison, value } = bynumbers;
     if (comparison === 'maior que') {
@@ -59,6 +65,7 @@ function PlanetProvider({ children }) {
       return setplanets(planets
         .filter((i) => Number(i[column]) === Number(value)));
     }
+    setfiltroAtivo({ ...bynumbers });
   };
   return (
     <ContextStar.Provider
@@ -73,6 +80,10 @@ function PlanetProvider({ children }) {
         onfilterByName,
         filteredplanets,
         setfilteredplanets,
+        filtroAtivo,
+        setfiltroAtivo,
+        restoreplanets,
+        setrestoreplanets,
       } }
     >
       { children }

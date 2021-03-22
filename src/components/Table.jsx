@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import ContextStars from '../context/ContextStar';
+import FiltroAtivo from './FiltroAtivo';
 
 export default function Table() {
-  const mil = 1000;
   const contexto = useContext(ContextStars);
   const {
     planets,
@@ -69,6 +69,9 @@ export default function Table() {
           Filtrar
         </button>
       </header>
+      <section>
+        <FiltroAtivo />
+      </section>
       <table border="1px solid black">
         <thead>
           <tr>

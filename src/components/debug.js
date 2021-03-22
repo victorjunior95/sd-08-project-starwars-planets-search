@@ -59,7 +59,10 @@ const res = filtrar(cond);
 
 console.log(res);
 
-// tornar os componentes controlados
-// ---ver se chega no estado
-// usar como parametro de filtro
-// ---testar na função antes de passar para table
+// [x]criar um estado para o filtro em vigor
+// [x]---ver se chega no estado
+// [x]criar componente que olha para o estado filtro
+// [x]---ele deve ter a lista escolhida e um botão com um x
+// [x]ao clicar no botão apagar o filtro em vigor
+// [x]--- deve apagar devolver a filtered planets a lista completa de planetas
+// []--- deve re renderizar a tabela
