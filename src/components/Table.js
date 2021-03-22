@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import ContextStarWars from '../Context/ContextStarWars';
 import TableHead from './TableHead';
 
 function Table() {
-  const { filterPlanets, filteredPlanets } = useContext(ContextStarWars);
+  const { filteredPlanets, handleInputName, inputName } = useContext(ContextStarWars);
   // console.log(ContextStarWars);
-  const [inputName, setInputName] = useState('');
+  // const [inputName, setInputName] = useState('');
 
-  const handleInputName = (e) => {
-    setInputName(e.target.value);
-    filterPlanets(inputName);
-    // console.log('!');
-  };
+  // const handleInputName = (e) => {
+  //   setInputName(e.target.value);
+  //   filterPlanets(inputName);
+  //   // console.log('!');
+  // };
 
   return (
     <section>

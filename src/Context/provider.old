@@ -5,7 +5,6 @@ import ContextStarWars from './ContextStarWars';
 function ProviderStarWars({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
-  const [inputName, setInputName] = useState('');
   const [filter, setFilter] = useState({
     filterByName: { name: '' },
   });
@@ -25,35 +24,27 @@ function ProviderStarWars({ children }) {
     fetchStarWarsAPI();
   }, []);
 
-  useEffect(() => {
-    const FilterEf = planets.filter(({ name }) => name.toLowerCase().includes(inputName));
-    // console.log(filter);
-    // if (!filter) setFilteredPlanets(planets);
-    setFilteredPlanets(FilterEf);
-  }, [planets, inputName]);
-
-  // const filterPlanets = (planetsName) => {
-  //   const result = planets.filter(({ name }) => name.toLowerCase().includes(planetsName));
+  // useEffect(() => {
+  //   const autoFilter = planets.filter(({ name }) => name.toLowerCase().includes(planetsName));
   //   // console.log(filter);
-  //   if (!result) setFilteredPlanets(planets);
-  //   setFilteredPlanets(result);
-  // };
+  //   // if (!filter) setFilteredPlanets(planets);
+  //   setFilteredPlanets(autoFilter);
+  // }, [planets]);
 
-  const handleInputName = (e) => {
-    setInputName(e.target.value);
-    // filterPlanets(inputName);
-    // console.log('!');
+  const filterPlanets = (planetsName) => {
+    const result = planets.filter(({ name }) => name.toLowerCase().includes(planetsName));
+    // console.log(filter);
+    if (!result) setFilteredPlanets(planets);
+    setFilteredPlanets(result);
   };
 
   const allContext = {
     planets,
-    // filterPlanets,
+    filterPlanets,
     filteredPlanets,
     setFilteredPlanets,
     filter,
     setFilter,
-    handleInputName,
-    inputName,
   };
 
   return (
