@@ -1,5 +1,5 @@
 import React from 'react';
-import StarWarsContext from '../Components/StarWarsContext';
+import StarWarsContext from '../Context/StarWarsContext';
 
 function Form() {
   const { handleNameSearch, nameSearch } = useContext(StarWarsContext);
