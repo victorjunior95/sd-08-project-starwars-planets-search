@@ -52,7 +52,7 @@ function PlanetsProvider({ children }) {
     setFilterPlanets(filter);
   };
 
-  const handleClick = () => {
+  const handleClickFilter = () => {
     filterByNumericValues(preferenceFilter);
   };
 
@@ -65,7 +65,7 @@ function PlanetsProvider({ children }) {
     comparisonOptions,
     preferenceFilter,
     handlePreferenceFilter,
-    handleClick,
+    handleClickFilter,
   };
 
   return (
