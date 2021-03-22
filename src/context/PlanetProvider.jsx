@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import ContextStar from './ContextStar';
 
 /* const initialstate = {
@@ -31,6 +32,12 @@ function PlanetProvider({ children }) {
     };
     getList();
   }, []);
+
+  useEffect(() => {
+    let filterPlanets = planets;
+    filterPlanets = planets.filter((planet) => planet.name.includes((name)));
+    setplanets(filterPlanets);
+  }, [planets, name]);
 
   const handleClick = () => {
     setplanets([]);
