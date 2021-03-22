@@ -51,6 +51,11 @@ export default function SelectHeader() {
       data,
     ]);
   };
+
+  const removeFilter = (obj) => {
+    console.log(obj);
+    setFilter([...filter].filter((i) => i !== obj));
+  };
   /* const filterButton = () => {
     setFilters({
       ...filters,
@@ -93,6 +98,17 @@ export default function SelectHeader() {
       >
         Filter
       </button>
+      <div>
+        { filter.map((i, index) => (
+          <button
+            key={ index }
+            type="button"
+            data-testid="filter"
+            onClick={ () => removeFilter(i) }
+          >
+            X
+          </button>)) }
+      </div>
     </div>
   );
 }
