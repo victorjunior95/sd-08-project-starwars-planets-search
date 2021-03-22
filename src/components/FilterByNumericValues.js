@@ -4,22 +4,26 @@ import StarWarsContext from '../context/StarWarsContext';
 function FilterByNumericValues() {
   const { filters, setFilters } = useContext(StarWarsContext);
 
-  const [filterValues, setFilterValues] = useState({
+  const initialFilters = {
     column: 'population',
     comparison: 'maior que',
-    value: 0,
-  });
+    value: '',
+  };
 
-  const { filterByNumericValues } = filters;
-  const { column, comparison, value } = filterValues;
-
-  const columns = [
+  const initialColumns = [
     'rotation_period',
     'orbital_period',
     'diameter',
     'surface_water',
     'population',
   ];
+
+  const [filterValues, setFilterValues] = useState(initialFilters);
+  const [columns, setColumns] = useState(initialColumns);
+  const [usedColumns, setUsedColumns] = useState([]);
+
+  const { filterByNumericValues } = filters;
+  const { column, comparison, value } = filterValues;
 
   const comparisons = ['maior que', 'menor que', 'igual a'];
 
@@ -38,6 +42,8 @@ function FilterByNumericValues() {
         ...filterValues,
       },
     });
+    setColumns(columns.filter((columnName) => column !== columnName));
+    setUsedColumns([...usedColumns, column]);
   };
 
   return (
