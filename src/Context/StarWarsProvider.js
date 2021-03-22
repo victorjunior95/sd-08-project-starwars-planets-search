@@ -40,7 +40,11 @@ function StarWarsProvider({ children }) {
     setPlanetFilter(planetsFilter);
   }, [planets, nameSearch]);
 
-  const handlePreferences = ({ column, comparison, number }) => {
+  const handlePreferences = ({ target }) => {
+    setPreferences({ ...preferences, [target.name]: target.value });
+  };
+
+  const filterPreferences = ({ column, comparison, number }) => {
     const filtered = planets.filter((planet) => {
       const columnInfo = Number(planet[column]);
       const compareValue = Number(number);
@@ -58,6 +62,7 @@ function StarWarsProvider({ children }) {
   const handleClick = () => {
     const copiedColumn = columnOptions.filter((column) => column !== preferences.column);
     setColumnOptions(copiedColumn);
+    filterPreferences(preferences);
   };
 
   const data = {
