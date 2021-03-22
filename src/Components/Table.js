@@ -7,15 +7,17 @@ function Table() {
     setFilteredArray,
     searchName,
     setSearchName,
-
     filterColumn,
     setFilterColumn,
     selected,
-    setSelected } = useContext(PlanetsContext);
+    setSelected,
+    reset,
+    setReset } = useContext(PlanetsContext);
   useEffect(() => {
     const resultFilter = allPlanets.filter((planet) => planet.name.includes(searchName));
     setFilteredArray(resultFilter);
-  }, [allPlanets, setFilteredArray, searchName]);
+    setReset(0);
+  }, [allPlanets, setFilteredArray, searchName, reset]);
 
   function handleChange({ target }) {
     setSearchName(target.value);
@@ -45,10 +47,16 @@ function Table() {
     setFilteredArray(filterThree);
   }
   function handleClick() {
+    filterCombined(selected);
     const itemRefused = filterColumn.filter((column) => column !== selected.column);
     setFilterColumn(itemRefused);
-    filterCombined(selected);
+    
   }
+  function handleClear() {
+    setSelected({ ...selected, value: '' });
+    setReset('1')
+  }
+  
   return (
     <div>
       <div>
@@ -61,11 +69,7 @@ function Table() {
             onChange={ handleChange }
           />
           <select data-testid="column-filter" onChange={ selectedFilter }>
-            <option value="population">population</option>
-            <option value="orbital-period">orbital_period</option>
-            <option selected value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+          {filterColumn.map((column)=><option value={ column }>{column}</option>)}
           </select>
           <select data-testid="comparison-filter" onChange={ selectedFilter }>
             <option value="maior que">maior que</option>
@@ -85,6 +89,13 @@ function Table() {
             onClick={ handleClick }
           >
             Acionar filtro
+          </button>
+          <button
+            type="button"
+            data-testid="filter"
+            onClick={ handleClear }
+          >
+            X
           </button>
         </form>
       </div>

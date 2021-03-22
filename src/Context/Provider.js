@@ -8,14 +8,14 @@ function Provider({ children }) {
   const [searchName, setSearchName] = useState('');
   const [filteredArray, setFilteredArray] = useState([]);
   const [filterColumn, setFilterColumn] = useState(
-    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']
   );
   const [selected, setSelected] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '',
   });
-
+  const [reset, setReset] = useState(0);
   useEffect(() => {
     async function fetchApi() {
       const data = await fetch(URL);
@@ -37,6 +37,8 @@ function Provider({ children }) {
     setFilterColumn,
     selected,
     setSelected,
+    reset,
+    setReset,
   };
   return (
     <PlanetsContext.Provider value={ data }>
