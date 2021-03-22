@@ -7,7 +7,7 @@ import Form from './Components/Form';
 function App() {
   return (
     <StarWarsProvider>
-      <h2>Star Wars</h2>
+      <h2>STAR WARS</h2>
       <Form />
       <Table />
     </StarWarsProvider>

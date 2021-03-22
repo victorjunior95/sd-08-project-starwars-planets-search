@@ -5,7 +5,21 @@ import StarWarsContext from './StarWarsContext';
 function StarWarsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [nameSearch, setNameSearch] = useState('');
-  const [planetFilter, setPlanetFilter] = useState([]);
+  const [planetFilter, setPlanetFilter] = useState([planets]);
+  const [columnOptions, setColumnOptions] = useState(['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+
+  const comparisons = ['maior que', 'menor que', 'igual a'];
+
+  const [preferences, setPreferences] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    number: '',
+  });
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -22,18 +36,45 @@ function StarWarsProvider({ children }) {
   };
 
   useEffect(() => {
-    let planetsFilter = planets;
-    planetsFilter = planets.filter((planet) => planet.name.includes((nameSearch)));
+    const planetsFilter = planets.filter((planet) => planet.name.includes((nameSearch)));
     setPlanetFilter(planetsFilter);
   }, [planets, nameSearch]);
+
+  const handlePreferences = ({ column, comparison, number }) => {
+    const filtered = planets.filter((planet) => {
+      const columnInfo = Number(planet[column]);
+      const compareValue = Number(number);
+      if (comparison === 'menor que') {
+        return columnInfo < compareValue;
+      }
+      if (comparison === 'maior que') {
+        return columnInfo > compareValue;
+      }
+      return columnInfo === compareValue;
+    });
+    setPlanetFilter(filtered);
+  };
+
+  const handleClick = () => {
+    let copiedColumn = columnOptions;
+    copiedColumn = columnsOptions.filter((column) => column !== preferences.column);
+    setColumnOptions(copiedColumn);
+  };
 
   const data = {
     planets,
     setPlanets,
     nameSearch,
+    setNameSearch,
     planetFilter,
     setPlanetFilter,
     handleNameSearch,
+    setPreferences,
+    handlePreferences,
+    handleClick,
+    preferences,
+    comparisons,
+    columnOptions,
   };
 
   return (
