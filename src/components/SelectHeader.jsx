@@ -45,7 +45,7 @@ export default function SelectHeader() {
   };
 
   const handleClick = () => {
-    console.log(filter);
+    // console.log(filter);
     setFilter([
       ...filter,
       data,
@@ -53,7 +53,7 @@ export default function SelectHeader() {
   };
 
   const removeFilter = (obj) => {
-    console.log(obj);
+    // console.log(obj);
     setFilter([...filter].filter((i) => i !== obj));
   };
   /* const filterButton = () => {
