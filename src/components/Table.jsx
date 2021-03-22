@@ -11,6 +11,7 @@ export default function Table() {
     setbynumbers,
     name,
     setname,
+    handleClick,
   } = contexto;
 
   const onfilterByName = (e) => {
@@ -67,7 +68,7 @@ export default function Table() {
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ console.log('clicked') }
+          onClick={ handleClick }
         >
           Filtrar
         </button>
