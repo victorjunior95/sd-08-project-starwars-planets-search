@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import StarWarsContext from '../../context/StarWarsContext';
 
 function FilterForm() {
   const {
-    data, filters, setFilters, filterByNumericValue, setFilterByNumericValue,
+    data, filters, setFilters, setFilterByNumericValue,
   } = useContext(StarWarsContext);
 
   const columnFilter = [
@@ -27,43 +27,45 @@ function FilterForm() {
     const comparison = document.getElementById('comparison').value;
     const { value } = document.getElementById('value');
     const filterByNumericValues = numericValues.concat({ column, comparison, value });
-    setFilters(
-      { ...filters,
-        filterByNumericValues },
-    );
-
-    if (comparison === 'maior que') {
-      setFilterByNumericValue(filterByNumericValue.filter(
-        (planet) => parseInt(planet[column], 10) > parseInt(value, 10),
-      ));
-    } if (comparison === 'menor que') {
-      setFilterByNumericValue(filterByNumericValue.filter(
-        (planet) => parseInt(planet[column], 10) < parseInt(value, 10),
-      ));
-    } if (comparison === 'igual a') {
-      setFilterByNumericValue(filterByNumericValue.filter(
-        (planet) => parseInt(planet[column], 10) === parseInt(value, 10),
-      ));
-    }
+    setFilters({ ...filters, filterByNumericValues });
   }
+
+  let filterIteration = data;
+  if (filters.filterByNumericValues.length > 0) {
+    filters.filterByNumericValues.map((filter) => {
+      if (filter.comparison === 'maior que') {
+        filterIteration = filterIteration.filter(
+          (planet) => parseInt(planet[filter.column], 10) > parseInt(filter.value, 10),
+        );
+      } if (filter.comparison === 'menor que') {
+        filterIteration = filterIteration.filter(
+          (planet) => parseInt(planet[filter.column], 10) < parseInt(filter.value, 10),
+        );
+      } if (filter.comparison === 'igual a') {
+        filterIteration = filterIteration.filter(
+          (planet) => parseInt(planet[filter.column], 10) === parseInt(filter.value, 10),
+        );
+      }
+      return filterIteration;
+    });
+  }
+
+  function deleteFilter(filter) {
+    const filterByNumericValues = filters.filterByNumericValues
+      .filter((item) => item.column !== filter.column);
+    setFilters({ ...filters, filterByNumericValues });
+  }
+
+  useEffect(() => {
+    setFilterByNumericValue(filterIteration);
+  }, [filters.filterByNumericValues]);
 
   function checkValidity() {
     if (newColumnFilter.length === 0) return true;
     return false;
   }
 
-  function deleteFilter(item) {
-    const { column } = item;
-/*     if (filters.filterByNumericValues.length > 0) {
-      const findIndex = filters.filterByNumericValues.indexOf(column);
-      const filterByNumericValues = filters.filterByNumericValues.splice(findIndex, 1);
-      setFilters(...filters, filterByNumericValues);
-    } */
-    setFilterByNumericValue(data);
-    document.getElementById(`${item.column}`).remove();
-  }
-
-/*   function columnSort() {
+  /* function columnSort() {
 
   } */
 
@@ -148,17 +150,19 @@ function FilterForm() {
               data-testid="column-sort-input-desc"
             />
           </label>
-          <button type="button" data-testid="column-sort-button" /* onClick={ columnSort() } */>Sort</button>
+          <button
+            type="button"
+            data-testid="column-sort-button"
+          //  onClick={ columnSort() }
+          >
+            Sort
+          </button>
         </label>
       </form>
-      { filters.filterByNumericValues.map((item) => (
-        <div data-testid="filter" id={ item.column } key={ item.column }>
+      { filters.filterByNumericValues.map((item, index) => (
+        <div data-testid="filter" id={ index } key={ index }>
           <span>
-            { item.column }
-            { ' ' }
-            { item.comparison }
-            { ' ' }
-            { item.value }
+            { `${item.column} ${item.comparison} ${item.value}` }
           </span>
           <button type="button" onClick={ () => deleteFilter(item) }>X</button>
         </div>)) }
