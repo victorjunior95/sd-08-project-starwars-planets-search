@@ -10,13 +10,20 @@ const initialState = {
   original: [],
 
 };
+
+const initialStateFilters = {
+
+  filterByName: {
+    name: '',
+  },
+  filterByNumericValues: [],
+};
+
 const Store = (props) => {
   const { children } = props;
   const [data, setData] = useState(initialState);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({ filterByName: {
-    name: '',
-  } });
+  const [filters, setFilters] = useState(initialStateFilters);
 
   useEffect(() => {
     async function fetchData() {
@@ -32,6 +39,7 @@ const Store = (props) => {
       setLoading(false);
     }
     fetchData();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -41,6 +49,28 @@ const Store = (props) => {
         .includes(filters.filterByName.name)),
     }));
   }, [filters]);
+
+  function switchFiltros(column, comparison, value, planeta) {
+    switch (comparison) {
+    case 'maior que':
+      return Number(planeta[column]) > Number(value);
+
+    case 'menor que':
+      return Number(planeta[column]) < Number(value);
+
+    default:
+      return Number(planeta[column]) === Number(value);
+    }
+  }
+
+  useEffect(() => {
+    setData({
+      ...data,
+      state: data.original.filter((planet1) => (
+        filters.filterByNumericValues.every(({ column, comparison, value }) => (
+          switchFiltros(column, comparison, value, planet1))))),
+    });
+  }, [filters.filterByNumericValues]);
 
   return (
     <DataContext.Provider value={ { data, setData, loading, filters, setFilters } }>
