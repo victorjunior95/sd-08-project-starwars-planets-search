@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import getPlanets from '../services/requestAPI';
+import React, { useContext } from 'react';
+import AppContext from '../context/AppContext';
 
 function Table() {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    getPlanets().then((value) => setData(value.results));
-  }, []);
-
+  const { data } = useContext(AppContext);
   const renderPlanets = (planets) => (
     <tr key={ planets.name }>
       <td>{planets.name}</td>
