@@ -6,7 +6,18 @@ const HEADER_LIST_DESCRIPTIONS_PLANETS = ['Name', 'Rotation Period', 'Orbital Pe
   'Population', 'Films', 'Created', 'Edited', 'URL'];
 
 export default function TableListPlanets() {
-  const { listPlanets } = useContext(PlanetsContext);
+  const { listPlanets, searchName } = useContext(PlanetsContext);
+  let renderHere = [];
+  if (typeof searchName === 'undefined') {
+    renderHere = listPlanets;
+  } else {
+    renderHere = listPlanets.filter((element) => element.name
+      .toUpperCase()
+      .includes(searchName
+        .toUpperCase()));
+  }
+  console.log(' Eu sou TableListPlanets e fui renderizada');
+
   return (
     <table>
       <thead>
@@ -18,7 +29,7 @@ export default function TableListPlanets() {
         </tr>
       </thead>
       <tbody>
-        { listPlanets.map((planet) => (
+        { renderHere.map((planet) => (
           <tr key={ planet.name }>
             <td data-testid="planet-name">{planet.name}</td>
             <td>{planet.rotation_period}</td>
