@@ -23,7 +23,7 @@ function Filter() {
     setMenu(dropdownContent.filter((content) => (
       !filterByNumericValues.some((filter) => filter.column === content)
     )));
-  }, [dropdownContent, filters, setMenu]);
+  }, [filters]);
 
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
