@@ -1,6 +1,6 @@
 import React from 'react';
 import PlanetContext from './context/PlanetContext';
-import Table from './pages/table';
+import Table from './pages/Table';
 
 function App() {
   return (

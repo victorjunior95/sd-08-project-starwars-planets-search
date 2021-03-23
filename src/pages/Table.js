@@ -3,7 +3,7 @@ import { savePlanet } from '../context/PlanetContext';
 import FormPlanets from '../components/FormPlanets';
 
 function Table() {
-  const { filtersPlanets } = useContext(savePlanet);
+  const { filteredPlanets } = useContext(savePlanet);
   return (
     <div>
       <FormPlanets />
@@ -19,15 +19,15 @@ function Table() {
             <th scope="col">terrain</th>
             <th scope="col">surface_water</th>
             <th scope="col">population</th>
-            <th scope="col">residents</th>
             <th scope="col">films</th>
             <th scope="col">created</th>
             <th scope="col">edited</th>
+            <th scope="col">url</th>
           </tr>
         </thead>
         <tbody>
-          {filtersPlanets.map((planet) => (
-            <tr key={ planet.name }>
+          {filteredPlanets.map((planet, index) => (
+            <tr key={ index }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
               <td>{ planet.orbital_period }</td>
@@ -37,9 +37,9 @@ function Table() {
               <td>{ planet.terrain }</td>
               <td>{ planet.surface_water }</td>
               <td>{ planet.population }</td>
-              <td>{ planet.residents }</td>
               <td>{ planet.films }</td>
               <td>{ planet.created }</td>
+              <td>{ planet.edited }</td>
               <td>{ planet.url }</td>
             </tr>
           ))}
