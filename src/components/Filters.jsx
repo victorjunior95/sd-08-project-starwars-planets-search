@@ -1,14 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { DataContext } from '../data/DataContext';
 
-const selectPlanet = [
-  'population',
-  'diameter',
-  'rotation_period',
-  'orbital_period',
-  'surface_water'];
 const Filters = () => {
-  const { filters, setFilters } = useContext(DataContext);
+  const { filters, setFilters, selectPlanet, setSelectPlanet } = useContext(DataContext);
 
   const [objeto, setObjeto] = useState({});
 
@@ -21,6 +15,16 @@ const Filters = () => {
       ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, objeto],
     });
+    setSelectPlanet(selectPlanet.filter((element) => objeto.column !== element));
+  }
+
+  function handleClickRemoveFilter({ target }) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: filters.filterByNumericValues
+        .filter((element) => element.column !== target.value),
+    });
+    setSelectPlanet([...selectPlanet, target.value]);
   }
 
   return (
@@ -41,6 +45,18 @@ const Filters = () => {
       >
         Adicionar Filtro
       </button>
+      <div data-testid="filter">
+        {filters.filterByNumericValues.map((filter, index) => (
+          <button
+            key={ index }
+            type="button"
+            value={ filter.column }
+            onClick={ handleClickRemoveFilter }
+          >
+            {`Limpar ${filter.column}`}
+          </button>))}
+      </div>
+
     </>
   );
 };

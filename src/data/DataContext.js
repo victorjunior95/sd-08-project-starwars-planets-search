@@ -19,11 +19,19 @@ const initialStateFilters = {
   filterByNumericValues: [],
 };
 
+const initialStateSelectPlanet = [
+  'population',
+  'diameter',
+  'rotation_period',
+  'orbital_period',
+  'surface_water'];
+
 const Store = (props) => {
   const { children } = props;
   const [data, setData] = useState(initialState);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState(initialStateFilters);
+  const [selectPlanet, setSelectPlanet] = useState(initialStateSelectPlanet);
 
   useEffect(() => {
     async function fetchData() {
@@ -70,10 +78,18 @@ const Store = (props) => {
         filters.filterByNumericValues.every(({ column, comparison, value }) => (
           switchFiltros(column, comparison, value, planet1))))),
     });
-  }, [filters.filterByNumericValues]);
+  }, [data, filters.filterByNumericValues]);
 
   return (
-    <DataContext.Provider value={ { data, setData, loading, filters, setFilters } }>
+    <DataContext.Provider
+      value={ { data,
+        setData,
+        loading,
+        filters,
+        setFilters,
+        selectPlanet,
+        setSelectPlanet } }
+    >
       {children}
     </DataContext.Provider>
   );
