@@ -1,7 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { DataContext } from '../data/DataContext';
 
-const selectPlanet = ['population', 'diameter', 'rotation_period', 'orbital_period', 'surface_water'];
+const selectPlanet = [
+  'population',
+  'diameter',
+  'rotation_period',
+  'orbital_period',
+  'surface_water'];
 const Filters = () => {
   const { filters, setFilters } = useContext(DataContext);
 
@@ -29,7 +34,13 @@ const Filters = () => {
         <option key="igual a" value="igual a">igual a</option>
       </select>
       <input data-testid="value-filter" name="value" onChange={ handleChange } />
-      <button type="button" data-testid="button-filter" onClick={ handleClick }>Adicionar Filtro</button>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClick }
+      >
+        Adicionar Filtro
+      </button>
     </>
   );
 };
