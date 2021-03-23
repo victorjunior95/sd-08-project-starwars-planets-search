@@ -28,7 +28,7 @@ const Filters = () => {
   }
 
   return (
-    <>
+    <div className="container">
       <select data-testid="column-filter" onChange={ handleChange } name="column">
         {selectPlanet.map((e) => <option key={ e } value={ e }>{e}</option>)}
       </select>
@@ -57,7 +57,7 @@ const Filters = () => {
           </button>))}
       </div>
 
-    </>
+    </div>
   );
 };
 

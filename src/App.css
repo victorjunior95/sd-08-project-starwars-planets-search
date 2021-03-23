@@ -41,5 +41,67 @@
 }
 
 table, th, td {
-  border: 1px solid black;
+  border: 2px solid white;
+  border-style: groove;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  background: black;
+}
+
+
+body {
+  background-image: url(https://4kwallpapers.com/images/wallpapers/among-us-minimal-colorful-space-5k-8k-3840x2160-4081.png);
+  background-size: cover;
+}
+
+
+
+h1 {
+  color :white;
+  font-size: 75px;
+  text-align: center;
+  font-family: sans-serif;
+
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+background:white;
+margin-left: 45%;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+select {
+  background-color: #343638;
+  color: white;
+  padding: 12px;
+  width: 250px;
+  border: none;
+  font-size: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+}
+
+select option {
+  padding: 30px;
+}
+
+button:hover{
+  background: rgb(100, 91, 91);
+}
+
+label {
+  color: white;
+  font-family: sans-serif;
+  margin-left: 46%;
+  margin-top: 10%; 
+  font-size: 20px;
 }

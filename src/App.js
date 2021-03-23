@@ -7,6 +7,7 @@ import Store from './data/DataContext';
 function App() {
   return (
     <Store>
+      <h1>StarWars Planets Search</h1>
       <Filters />
       <Table />
     </Store>

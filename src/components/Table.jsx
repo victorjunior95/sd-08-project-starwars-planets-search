@@ -16,8 +16,16 @@ const Table = () => {
   if (loading) return <h1>Carregando ...</h1>;
 
   return (
-    <div>
-      <input data-testid="name-filter" onChange={ handleChange } />
+    <>
+      <label htmlFor="name">
+        Filtrar por Nome:
+        <input
+          id="name"
+          data-testid="name-filter"
+          onChange={ handleChange }
+          className="input"
+        />
+      </label>
       <table>
         <thead>
           <tr>
@@ -71,7 +79,7 @@ const Table = () => {
         </tbody>
 
       </table>
-    </div>
+    </>
 
   );
 };
