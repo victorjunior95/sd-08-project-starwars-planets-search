@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  background-image: url("./images/universe.webp");
+  opacity: 0.8;
+  width: 100%;
 }
 
 .App-logo {
@@ -38,4 +41,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.star-wars-logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  border-radius: 10px;
+  border: 3px solid yellow;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+table {
+  width: 90%
 }
