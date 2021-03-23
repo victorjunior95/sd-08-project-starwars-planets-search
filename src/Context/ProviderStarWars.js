@@ -53,10 +53,33 @@ function ProviderStarWars({ children }) {
     });
   };
 
+  const handleClickFilter = ({ column, comparison, value }) => {
+    const newFilter = planets.filter((el) => {
+      console.log(el);
+      console.log(el[column]);
+      const valueColumn = Number(el[column]);
+      console.log(valueColumn);
+      const valueTest = Number(value);
+      console.log(valueTest);
+      if (comparison === 'menor que') {
+        return valueColumn < valueTest;
+      }
+      if (comparison === 'maior que') {
+        return valueColumn > valueTest;
+      }
+      return valueColumn === valueTest;
+    });
+    console.log(newFilter);
+    setFilteredPlanets(newFilter);
+  };
+
   const handleClick = () => {
-    const { filterByNumericValues } = filter;
-    const columnFilter = columnSelect.filter((el) => el !== filterByNumericValues.column);
+    console.log(columnSelect);
+    const columnFilter = columnSelect.filter((el) => el !== filterOptions.column);
+    console.log(columnFilter);
     setColumnSelect(columnFilter);
+    console.log(filterOptions);
+    handleClickFilter(filterOptions);
   };
 
   const allContext = {
