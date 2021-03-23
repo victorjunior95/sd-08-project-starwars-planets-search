@@ -3,8 +3,13 @@ import ContextStarWars from '../Context/ContextStarWars';
 import TableHead from './TableHead';
 
 function Table() {
-  const { filteredPlanets, handleInputName, inputName } = useContext(ContextStarWars);
   // console.log(ContextStarWars);
+  const { filteredPlanets, handleInputName, inputName, columnSelect,
+    filter, handleSelect, comparisons, handleClick } = useContext(ContextStarWars);
+  const { filterByNumericValues } = filter;
+  // console.log(columnSelect);
+  // console.log(filter);
+  // console.log(filterByNumericValues.column);
 
   return (
     <section>
@@ -17,8 +22,43 @@ function Table() {
             value={ inputName }
             onChange={ handleInputName }
           />
-
         </label>
+
+        <select
+          data-testid="column-filter"
+          name="column"
+          value={ filterByNumericValues.column }
+          onChange={ handleSelect }
+        >
+          {columnSelect.map((el, index) => (
+            <option key={ index }>{el}</option>
+          ))}
+        </select>
+        <select
+          data-testid="comparison-filter"
+          name="comparison"
+          value={ filterByNumericValues.comparison }
+          onChange={ handleSelect }
+        >
+          {comparisons.map((el, index) => (
+            <option key={ index }>{el}</option>
+          ))}
+        </select>
+        <input
+          type="number"
+          name="value"
+          data-testid="value-filter"
+          value={ filterByNumericValues.value }
+          onChange={ handleSelect }
+        />
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleClick }
+        >
+          Filtrar
+        </button>
+
       </form>
       <table>
         <TableHead />

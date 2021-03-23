@@ -4,11 +4,12 @@ import TableHead from './TableHead';
 
 function Table() {
   // console.log(ContextStarWars);
-  const { filteredPlanets, handleInputName, inputName, columnSelect, filter, handleSelect } = useContext(ContextStarWars);
-  const { filterByNumericValues } = filter;
+  const { filteredPlanets, handleInputName, inputName, columnSelect,
+    handleSelect, comparisons, handleClick, filterOptions } = useContext(ContextStarWars);
+  // const { filterOptions } = filter;
   // console.log(columnSelect);
   // console.log(filter);
-  // console.log(filterByNumericValues.column);
+  // console.log(filterOptions.column);
 
   return (
     <section>
@@ -26,13 +27,38 @@ function Table() {
         <select
           data-testid="column-filter"
           name="column"
-          value={ filterByNumericValues.column }
+          value={ filterOptions.column }
           onChange={ handleSelect }
         >
           {columnSelect.map((el, index) => (
             <option key={ index }>{el}</option>
           ))}
         </select>
+        <select
+          data-testid="comparison-filter"
+          name="comparison"
+          value={ filterOptions.comparison }
+          onChange={ handleSelect }
+        >
+          {comparisons.map((el, index) => (
+            <option key={ index }>{el}</option>
+          ))}
+        </select>
+        <input
+          type="number"
+          name="value"
+          data-testid="value-filter"
+          value={ filterOptions.value }
+          onChange={ handleSelect }
+        />
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleClick }
+        >
+          Filtrar
+        </button>
+
       </form>
       <table>
         <TableHead />

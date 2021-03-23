@@ -8,15 +8,15 @@ function ProviderStarWars({ children }) {
   const [inputName, setInputName] = useState('');
   const [filter, setFilter] = useState({
     filterByName: { name: '' },
-    filterByNumericValues: {
-      column: 'population',
-      comparison: 'maior que',
-      value: '',
-    },
   });
-
+  const [filterOptions, setFilterOptions] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
   const [columnSelect, setColumnSelect] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const comparisons = ['maior que', 'menor que', 'igual a'];
 
   useEffect(() => {
     const fetchStarWarsAPI = async () => {
@@ -47,10 +47,16 @@ function ProviderStarWars({ children }) {
   };
 
   const handleSelect = ({ target: { name, value } }) => {
-    setFilter({
-      ...filter,
+    setFilterOptions({
+      ...filterOptions,
       [name]: value,
     });
+  };
+
+  const handleClick = () => {
+    const { filterByNumericValues } = filter;
+    const columnFilter = columnSelect.filter((el) => el !== filterByNumericValues.column);
+    setColumnSelect(columnFilter);
   };
 
   const allContext = {
@@ -63,6 +69,10 @@ function ProviderStarWars({ children }) {
     inputName,
     columnSelect,
     handleSelect,
+    comparisons,
+    handleClick,
+    filterOptions,
+    setFilterOptions,
   };
 
   return (
