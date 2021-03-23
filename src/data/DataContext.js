@@ -47,7 +47,6 @@ const Store = (props) => {
       setLoading(false);
     }
     fetchData();
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
