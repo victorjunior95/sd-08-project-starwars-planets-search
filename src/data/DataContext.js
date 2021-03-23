@@ -77,7 +77,7 @@ const Store = (props) => {
         filters.filterByNumericValues.every(({ column, comparison, value }) => (
           switchFiltros(column, comparison, value, planet1))))),
     });
-  }, [data, filters.filterByNumericValues]);
+  }, [filters.filterByNumericValues]);
 
   return (
     <DataContext.Provider
