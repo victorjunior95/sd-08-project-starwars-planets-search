@@ -1,21 +1,20 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import TableHeaders from './TableHeaders';
 
 export default function Table() {
-  const { data, isLoading } = useContext(StarWarsContext);
+  const { filteredPlanets, isLoading } = useContext(StarWarsContext);
   console.log(StarWarsContext);
   return (
     isLoading
     && (
       <table border="solid 1px">
         <thead>
-          <tr>
-            { Object.keys(data[0]).map((item, i) => <th key={ i }>{ item }</th>)}
-          </tr>
+          <TableHeaders />
         </thead>
         <tbody>
           {
-            data.map((planet, i) => (
+            filteredPlanets.map((planet, i) => (
               <tr key={ i }>
                 { Object.values(planet)
                   .map((info) => <td key={ info }>{ info }</td>) }
