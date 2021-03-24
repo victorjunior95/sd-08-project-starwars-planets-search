@@ -8,6 +8,7 @@ function Provider({ children }) {
   const [filters, setFilters] = useState({
     filters: { filterByName: { name: '' } },
   });
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
   useEffect(() => {
     getPlanets().then((value) => setData(value));
@@ -18,6 +19,8 @@ function Provider({ children }) {
     setData,
     filters,
     setFilters,
+    filterByNumericValues,
+    setFilterByNumericValues,
   };
 
   return (

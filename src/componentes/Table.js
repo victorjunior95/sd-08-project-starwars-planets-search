@@ -1,9 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../context/AppContext';
 
+const initialValue = {
+  column: 'population',
+  comparison: 'maior que',
+  value: '',
+};
+
 function Table() {
   const [filterValues, setFilterValues] = useState([]);
   const { data, setFilters } = useContext(AppContext);
+  const [values, setValues] = useState(initialValue);
+  const { filterByNumericValues, setFilterByNumericValues } = useContext(AppContext);
 
   useEffect(() => {
     setFilterValues(data);
@@ -14,6 +22,28 @@ function Table() {
     const resp = data
       .filter((value) => value.name.toLocaleLowerCase().includes(e.target.value));
     setFilterValues(resp);
+  }
+
+  function handleChange2(e) {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  }
+
+  function handleClick() {
+    setFilterByNumericValues([...filterByNumericValues, values]);
+    const { column, comparison, value } = values;
+    if (comparison === 'maior que') {
+      const resp = data.filter((values2) => Number(values2[column]) > values.value);
+      return setFilterValues(resp);
+    }
+    if (comparison === 'menor que') {
+      const resp = data.filter((values2) => Number(values2[column]) < values.value);
+      return setFilterValues(resp);
+    }
+    if (comparison === 'igual a') {
+      const resp = data.filter((values2) => Number(values2[column]) === Number(value));
+      return setFilterValues(resp);
+    }
   }
 
   const renderPlanets = (planets) => (
@@ -36,16 +66,31 @@ function Table() {
 
   return (
     <>
-      <label htmlFor="input-name">
-        Pesquisar por nome
-        <input
-          type="text"
-          id="input-name"
-          onChange={ handleChange }
-          data-testid="name-filter"
-        />
-      </label>
-      <br />
+      <div>
+        <label htmlFor="input-name">
+          Pesquisar por nome
+          <input
+            type="text"
+            id="input-name"
+            onChange={ handleChange }
+            data-testid="name-filter"
+          />
+        </label>
+        <select data-testid="column-filter" onChange={ handleChange2 } name="column">
+          <option>population</option>
+          <option>orbital_period</option>
+          <option>diameter</option>
+          <option>rotation_period</option>
+          <option>surface_water</option>
+        </select>
+        <select data-testid="comparison-filter" onChange={ handleChange2 } name="comparison">
+          <option>maior que</option>
+          <option>igual a</option>
+          <option>menor que</option>
+        </select>
+        <input type="number" data-testid="value-filter" onChange={ handleChange2 } name="value" />
+        <button type="button" data-testid="button-filter" onClick={ handleClick }>Adicionar Filtro</button>
+      </div>
       <table>
         <thead>
           <tr>
