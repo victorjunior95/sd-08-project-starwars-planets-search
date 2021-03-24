@@ -27,8 +27,25 @@ const Filters = () => {
     setSelectPlanet([...selectPlanet, target.value]);
   }
 
+  function handleChangeInputName({ target: { value } }) {
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: value,
+      },
+    });
+  }
+
   return (
     <div className="container">
+
+      <input
+        data-testid="name-filter"
+        onChange={ handleChangeInputName }
+        className="input"
+        placeholder="Digite um nome"
+      />
+
       <select data-testid="column-filter" onChange={ handleChange } name="column">
         {selectPlanet.map((e) => <option key={ e } value={ e }>{e}</option>)}
       </select>
@@ -37,7 +54,13 @@ const Filters = () => {
         <option key="menor que" value="menor que">menor que</option>
         <option key="igual a" value="igual a">igual a</option>
       </select>
-      <input data-testid="value-filter" name="value" onChange={ handleChange } />
+      <input
+        type="number"
+        data-testid="value-filter"
+        name="value"
+        onChange={ handleChange }
+        placeholder="Digite o valor"
+      />
       <button
         type="button"
         data-testid="button-filter"
