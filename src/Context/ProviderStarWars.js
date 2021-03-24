@@ -55,12 +55,12 @@ function ProviderStarWars({ children }) {
 
   const handleClickFilter = ({ column, comparison, value }) => {
     const newFilter = planets.filter((el) => {
-      console.log(el);
-      console.log(el[column]);
+      // console.log(el);
+      // console.log(el[column]);
       const valueColumn = Number(el[column]);
-      console.log(valueColumn);
+      // console.log(valueColumn);
       const valueTest = Number(value);
-      console.log(valueTest);
+      // console.log(valueTest);
       if (comparison === 'menor que') {
         return valueColumn < valueTest;
       }
@@ -69,16 +69,16 @@ function ProviderStarWars({ children }) {
       }
       return valueColumn === valueTest;
     });
-    console.log(newFilter);
+    // console.log(newFilter);
     setFilteredPlanets(newFilter);
   };
 
   const handleClick = () => {
-    console.log(columnSelect);
+    // console.log(columnSelect);
     const columnFilter = columnSelect.filter((el) => el !== filterOptions.column);
-    console.log(columnFilter);
+    // console.log(columnFilter);
     setColumnSelect(columnFilter);
-    console.log(filterOptions);
+    // console.log(filterOptions);
     handleClickFilter(filterOptions);
   };
 
