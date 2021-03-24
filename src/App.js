@@ -7,7 +7,7 @@ import Store from './data/DataContext';
 function App() {
   return (
     <Store>
-      <h1>Star Amoung Us Planets Search</h1>
+      <h1>Star Amoung Us Planets Search </h1>
       <Filters />
       <Table />
     </Store>
