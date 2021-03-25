@@ -83,13 +83,28 @@ function Table() {
           <option>rotation_period</option>
           <option>surface_water</option>
         </select>
-        <select data-testid="comparison-filter" onChange={ handleChange2 } name="comparison">
+        <select
+          data-testid="comparison-filter"
+          onChange={ handleChange2 }
+          name="comparison"
+        >
           <option>maior que</option>
           <option>igual a</option>
           <option>menor que</option>
         </select>
-        <input type="number" data-testid="value-filter" onChange={ handleChange2 } name="value" />
-        <button type="button" data-testid="button-filter" onClick={ handleClick }>Adicionar Filtro</button>
+        <input
+          type="number"
+          data-testid="value-filter"
+          onChange={ handleChange2 }
+          name="value"
+        />
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleClick }
+        >
+          Adicionar Filtro
+        </button>
       </div>
       <table>
         <thead>

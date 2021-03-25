@@ -47,7 +47,7 @@ td, th {
 
 .div {
   border: 1px solid black;
-  margin: 5px;
   display: flex;
+  margin: 5px;
   padding: 20px;
 }
