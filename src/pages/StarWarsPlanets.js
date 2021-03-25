@@ -13,8 +13,10 @@ function starWarsPlanets() {
         src={ starWarsLogo }
       />
       <h1>Planets</h1>
-      <TextFilter />
-      <NumericFilter />
+      <div className="filters">
+        <TextFilter />
+        <NumericFilter />
+      </div>
       <PlanetsTable />
     </div>
   );

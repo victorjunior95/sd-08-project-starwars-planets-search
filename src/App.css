@@ -3,6 +3,7 @@
   background-image: url("./images/universe.webp");
   opacity: 0.8;
   width: 100%;
+  color: yellow;
 }
 
 .App-logo {
@@ -54,10 +55,17 @@
   margin-bottom: 50px;
 }
 
-table, th, td {
+th, td {
   border: 1px solid black;
 }
 
-table {
-  width: 90%
+.table {
+  width: 90%;
+  margin: 50px;
+  overflow:auto;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
 }
