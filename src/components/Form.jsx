@@ -13,7 +13,13 @@ export default function Form() {
     <form>
       <label htmlFor="textInput">
         Buscar Planeta:
-        <input data-testid="name-filter" name="textInput" type="text" value={ text } onChange={ handleChange } />
+        <input
+          data-testid="name-filter"
+          name="textInput"
+          type="text"
+          value={ text }
+          onChange={ handleChange }
+        />
       </label>
     </form>
   );
