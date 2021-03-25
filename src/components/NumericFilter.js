@@ -11,7 +11,7 @@ function NumericFilter() {
   const [value, setValue] = useState(0);
   const toFilter = () => {
     const newColumnsOptions = filters.columnsOptions
-      .filter((columnOption) => columnOption === column);
+      .filter((columnOption) => columnOption !== column);
     setFilters({
       ...filters,
       filterByNumericValues: filters.filterByNumericValues

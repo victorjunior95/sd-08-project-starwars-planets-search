@@ -5,7 +5,9 @@ import planetsAPIRequest from '../services/planetsAPIRequest';
 
 function StarWarsPlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+
   const [filteredPlanets, setFilteredPlanets] = useState(planets);
+
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -19,6 +21,7 @@ function StarWarsPlanetsProvider({ children }) {
       'surface_water',
     ],
   });
+
   const getPlanetsInfos = async () => {
     const planetsInfos = await planetsAPIRequest();
     const one = 1;
@@ -35,6 +38,7 @@ function StarWarsPlanetsProvider({ children }) {
     });
     setPlanets(planetsInfos);
   };
+
   useEffect(() => {
     getPlanetsInfos();
   }, []);
