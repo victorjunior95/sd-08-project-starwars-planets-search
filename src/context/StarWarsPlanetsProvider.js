@@ -5,19 +5,25 @@ import planetsAPIRequest from '../services/planetsAPIRequest';
 
 function StarWarsPlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [filteredPlanets, setFilteredPlanets] = useState(planets);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
+    columnsOptions: [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ],
   });
-  const [filteredPlanets, setFilteredPlanets] = useState(planets);
   const getPlanetsInfos = async () => {
     const planetsInfos = await planetsAPIRequest();
-
     const one = 1;
     const negative = -1;
     const zero = 0;
-
     planetsInfos.sort((a, b) => {
       if (a.name > b.name) {
         return one;
@@ -29,20 +35,51 @@ function StarWarsPlanetsProvider({ children }) {
     });
     setPlanets(planetsInfos);
   };
-
   useEffect(() => {
     getPlanetsInfos();
   }, []);
 
   useEffect(() => {
+    const { name } = filters.filterByName;
     setFilteredPlanets(planets
-      .filter((planet) => planet.name.includes(filters.filterByName.name)));
-  }, [filters, planets]);
+      .filter((planet) => planet.name.includes(name)));
+  }, [filters.filterByName.name, planets]);
+
+  useEffect(() => {
+    const { filterByNumericValues } = filters;
+    // if (filterByNumericValues.every((filter) => filter.value === 0)) {
+    //   setFilteredPlanets(planets);
+    // }
+    // if (filterByNumericValues.every((filter) => filter.value === undefined)) {
+    //   setFilteredPlanets(planets);
+    // }
+    // if (filterByNumericValues.every((filter) => filter.value === '')) {
+    //   setFilteredPlanets(planets);
+    // }
+    setFilteredPlanets(planets
+      .filter((planet) => filterByNumericValues.every((filter) => {
+        const { column, comparison, value } = filter;
+        let result = false;
+        if (comparison === 'maior que') {
+          result = parseInt(planet[column], 10) > parseInt(value, 10);
+          return result;
+        }
+        if (comparison === 'igual a') {
+          result = parseInt(planet[column], 10) === parseInt(value, 10);
+          return result;
+        }
+        if (comparison === 'menor que') {
+          result = parseInt(planet[column], 10) < parseInt(value, 10);
+          return result;
+        }
+        return result;
+      })));
+  }, [filters.filterByNumericValues]);
 
   const data = {
-    filteredPlanets,
     filters,
     setFilters,
+    filteredPlanets,
   };
 
   return (

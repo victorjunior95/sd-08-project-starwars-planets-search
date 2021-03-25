@@ -5,10 +5,11 @@ import StarWarsPlanetsContext from '../context/StarWarsPlanetsContext';
 
 function PlanetsTable() {
   const {
-    filteredPlanets: planets,
+    filteredPlanets,
   } = useContext(StarWarsPlanetsContext);
+  const planets = filteredPlanets;
   return (
-    <div>
+    <div className="table">
       <table>
         <thead>
           <tr>
