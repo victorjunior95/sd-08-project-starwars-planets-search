@@ -32,16 +32,21 @@ function Table() {
   function handleClick() {
     setFilterByNumericValues([...filterByNumericValues, values]);
     const { column, comparison, value } = values;
+
     if (comparison === 'maior que') {
       const resp = data.filter((values2) => Number(values2[column]) > values.value);
+      document.getElementById(column).remove();
       return setFilterValues(resp);
     }
+
     if (comparison === 'menor que') {
       const resp = data.filter((values2) => Number(values2[column]) < values.value);
+      document.getElementById(column).remove();
       return setFilterValues(resp);
     }
     if (comparison === 'igual a') {
       const resp = data.filter((values2) => Number(values2[column]) === Number(value));
+      document.getElementById(column).remove();
       return setFilterValues(resp);
     }
   }
@@ -77,11 +82,11 @@ function Table() {
           />
         </label>
         <select data-testid="column-filter" onChange={ handleChange2 } name="column">
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          <option id="population">population</option>
+          <option id="orbital_period">orbital_period</option>
+          <option id="diameter">diameter</option>
+          <option id="rotation_period">rotation_period</option>
+          <option id="surface_water">surface_water</option>
         </select>
         <select
           data-testid="comparison-filter"
