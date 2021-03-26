@@ -1,37 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import AppContext from './AppContext';
-import getPlanets from '../services/requestAPI';
+import PlanetContext from './PlanetContext';
+
+import requestApi from '../services/requestAPI';
+import { initialStateContext } from '../helpers/functionsHelpers';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [filters, setFilters] = useState({
-    filters: { filterByName: { name: '' } },
-  });
-  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [userFilters, setUserFilters] = useState(initialStateContext);
+  const [newListPlanetsFilter, setnewListPlanetsFilter] = useState([]);
 
   useEffect(() => {
-    getPlanets().then((value) => setData(value));
+    requestApi().then((resp) => setData(resp));
   }, []);
 
-  const objectValues = {
+  useEffect(() => {
+    const { filterByName: { name } } = userFilters;
+    const filterByListName = data
+      .filter((planetsName) => planetsName.name.toLowerCase()
+        .includes(name.toLowerCase()));
+    setnewListPlanetsFilter(filterByListName);
+  }, [userFilters, data]);
+
+  useEffect(() => {
+    const { filterByNumericValues } = userFilters;
+    filterByNumericValues.forEach(({ column, comparison, value }) => {
+      if (comparison === 'maior que') {
+        const filterResponse = data.filter((planets) => Number(planets[column]) > value);
+        return setnewListPlanetsFilter(filterResponse);
+      }
+      if (comparison === 'menor que') {
+        const filterResponse = data.filter((planets) => Number(planets[column]) < value);
+        return setnewListPlanetsFilter(filterResponse);
+      }
+      if (comparison === 'igual a') {
+        const filterResponse = data
+          .filter((planets) => Number(planets[column]) === Number(value));
+        return setnewListPlanetsFilter(filterResponse);
+      }
+    });
+  }, [data, userFilters]);
+
+  const contextValue = {
     data,
-    setData,
-    filters,
-    setFilters,
-    filterByNumericValues,
-    setFilterByNumericValues,
+    newListPlanetsFilter,
+    setnewListPlanetsFilter,
+    userFilters,
+    setUserFilters,
   };
 
   return (
-    <AppContext.Provider value={ objectValues }>
+    <PlanetContext.Provider value={ contextValue }>
       {children}
-    </AppContext.Provider>
+    </PlanetContext.Provider>
   );
 }
 
 Provider.propTypes = {
-  children: PropTypes.objectOf().isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Provider;
