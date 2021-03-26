@@ -32,10 +32,11 @@ function Table() {
   function handleClick() {
     setFilterByNumericValues([...filterByNumericValues, values]);
     const { column, comparison, value } = values;
-
+    if (value === '') return;
     if (comparison === 'maior que') {
       const resp = data.filter((values2) => Number(values2[column]) > values.value);
       document.getElementById(column).remove();
+      document.getElementById('filtros').innerHTML = column;
       return setFilterValues(resp);
     }
 
@@ -110,6 +111,10 @@ function Table() {
         >
           Adicionar Filtro
         </button>
+        <section>
+          <h3>Filtros Utilizados</h3>
+          <div id="filtros" />
+        </section>
       </div>
       <table>
         <thead>
