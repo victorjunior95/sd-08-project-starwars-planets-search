@@ -1,23 +1,37 @@
-import React, { useEffect, useState /* useContext */ } from 'react';
-// import SWContext from '../context/SWContext';
+import React, { useEffect/* useState */, useContext } from 'react';
+import SWContext from '../context/SWContext';
+// import FetchStarWars from '../helpers/API';
 
-const STARWARS_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
+// const STARWARS_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
 export default function Table() {
-  // const { isFilted, filter } = useContext(SWContext);
-  const [ApiDATA, setApiData] = useState([]);
+  // const filtredData = [];
+  const { fetchData, FSWData } = useContext(SWContext);
+  // const [ApiDATA, setApiData] = useState([]);
   useEffect(() => {
-    async function getApi() {
-      try {
-        const response = await fetch(STARWARS_API);
-        const DATA = await response.json();
-        setApiData(DATA.results);
-      } catch (e) {
-        console.error(e);
-      }
+    async function FetchSW() {
+      // console.log(SWData);
+      fetchData();
+      // console.log(SWData);
     }
-    getApi();
+    FetchSW();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const filtredData = ApiDATA;
+  //   async function getApi() {
+  //     try {
+  //       const response = await fetch(STARWARS_API);
+  //       const DATA = await response.json();
+  //       setApiData(DATA.results);
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
+  //   }
+  //   getApi();
+  // if (!FetchStarWars) {
+  //   console.log(FetchStarWars);
+  //   filtredData = FetchStarWars;
+  // }
+  // filtredData = FetchStarWars();
+  // const filtredData = ApiDATA;
   // const Filtering = () => {
   //   console.log(filter.filters.filterByName.name);
   //   if (isFilted.filterByName) {
@@ -74,7 +88,7 @@ export default function Table() {
         </thead>
         <tbody>
 
-          {filtredData.map((line) => (
+          {FSWData.map((line) => (
             <tr key={ line.diameter }>
               {tableHeader.map((item) => (<td key={ item }>{line[item]}</td>))}
             </tr>

@@ -4,7 +4,7 @@ import SWContext from '../context/SWContext';
 export default function Header() {
   const { filterbyName, getFilterbyName,
     Filter, getFilterComparison,
-    getFilterColumn, getFilterNumber, isFilted } = useContext(SWContext);
+    getFilterColumn, getFilterNumber/* isFilted */ } = useContext(SWContext);
   return (
     <div>
       <input
@@ -21,23 +21,27 @@ export default function Header() {
       >
         {/* {console.log(isFilted)} */}
         <option
-          disabled={ isFilted.population }
+          // disabled={ isFilted.population }
           value="population"
           label="population"
         />
         <option
-          disabled={ isFilted.orbital_period }
+          // disabled={ isFilted.orbital_period }
           value="orbital_period"
           label="orbital_period"
         />
-        <option disabled={ isFilted.diameter } value="diameter" label="diameter" />
         <option
-          disabled={ isFilted.rotation_period }
+          /* disabled={ isFilted.diameter } */
+          value="diameter"
+          label="diameter"
+        />
+        <option
+          // disabled={ isFilted.rotation_period }
           value="rotation_period"
           label="rotation_period"
         />
         <option
-          disabled={ isFilted.surface_water }
+          // disabled={ isFilted.surface_water }
           value="surface_water"
           label="surface_water"
         />

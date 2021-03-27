@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SWContext from './SWContext';
+import FetchStarWars from '../helpers/API';
 
 // {
 //     filters: {
@@ -69,66 +70,91 @@ export default function SWProvider({ children }) {
   //   'gravity', 'terrain', 'surface_water', 'population', 'films', 'created',
   //   'edited', 'url'];
 
-  // getFilterComparison, getFilterColumn, getFilterNumber
+  // getFilterComparison, getFilterColumn, getFilterNumber;
   const [filterByName, getFilterbyName] = useState('');
   const [filter, getFilter] = useState({
     filters: { filterByName: { name: '' }, filterByNumericValues: [] } });
-  const [isFilted, getIsFilted] = useState({ population: false,
-    orbital_period: false,
-    diameter: false,
-    rotation_period: false,
-    surface_water: false });
   const [filterComparison, getFilterComparison] = useState('maior_que');
   const [filterColumn, getFilterColumn] = useState('population');
   const [filterNumber, getFilterNumber] = useState('');
+  const [SWData, getSWData] = useState([]);
+  const [FSWData, getFSWData] = useState([]);
 
   // const inputName = (e) => {
   //   getFilterbyName(e.target.value);
   //   Filter();
   // }
 
+  const fetchData = async () => {
+    const data = await FetchStarWars();
+    getSWData(data);
+    getFSWData(data);
+    return data;
+  };
+
   function Filter() {
+    let data = SWData;
     const resultFilter = filter;
-    // console.log(resultFilter);
-    // console.log(filterByName);
-    // console.log(resultFilter.filters.filterByName.name);
-    const resultIsFilted = isFilted;
     if (filterByName !== '') {
       resultFilter.filters.filterByName.name = filterByName;
-      resultIsFilted.filterByName = true;
-    } else {
-      resultIsFilted.filterByName = false;
+      const regex = new RegExp(filterByName);
+      data = data.filter((planet) => regex.test(planet.name));
+      // resultIsFilted.filterByName = true;
     }
     // console.log(filterColumn);
-    if (filterColumn !== '') {
-      resultFilter.filters.filterByNumericValues.push({ column: filterColumn,
-        comparison: filterComparison,
-        value: filterNumber });
+    if (filterNumber !== '') {
+      // resultFilter.filters.filterByNumericValues.push({ column: filterColumn,
+      //   comparison: filterComparison,
+      //   value: filterNumber });
+      resultFilter.filters.filterByNumericValues = [...resultFilter.filters.filterByNumericValues,
+        { column: filterColumn,
+          comparison: filterComparison,
+          value: filterNumber }];
+      // filterNumber.forEach((question) => {
+      //       // const ComparisonFunction = (column, comparison, value) => {
+      //       //   // console.log(` ${typeof column} ${comparison} ${typeof value}`);
+      //       //   // console.log( column > value);
+      //       //   switch (comparison) {
+      //       //   case 'maior_que':
+      //       //     // console.log(column > value);
+      //       //     return column > value;
+      //       //   case 'menor_que':
+      //       //     // console.log(column < value);
+      //       //     return column < value;
+      //       //   case 'igual':
+      //       //     // console.log(column === value);
+      //       //     return column === value;
+      //       //   default:
+      //       //     console.log('erro na função');
+      //       //   }
+      //       // };
+      // }
       getFilterColumn('');
-      resultIsFilted[filterColumn] = true;
     }
     console.log(resultFilter);
     getFilter(resultFilter);
-    getIsFilted(resultIsFilted);
+    console.log(data);
+    getFSWData(data);
   }
 
   useEffect(() => {
     Filter();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterByName]);
-  //   Filter();
+  const context = {
+    filterByName,
+    getFilterbyName,
+    filter,
+    Filter,
+    getFilterComparison,
+    getFilterColumn,
+    getFilterNumber,
+    FSWData,
+    fetchData,
+  };
+
   return (
-    <SWContext.Provider
-      value={ {
-        filterByName,
-        getFilterbyName,
-        filter,
-        isFilted,
-        Filter,
-        getFilterComparison,
-        getFilterColumn,
-        getFilterNumber } }
-    >
+    <SWContext.Provider value={ context }>
       {children}
     </SWContext.Provider>
   );
