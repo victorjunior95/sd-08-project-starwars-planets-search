@@ -8,8 +8,8 @@ export const initialState = {
 // Para // Para AlphabeticalOrder
 export const initialStateAlph = {
   order: {
-    column: '',
-    sort: '',
+    column: 'name',
+    sort: 'ASC',
   },
 };
 
@@ -20,7 +20,7 @@ export const initialStateContext = {
   },
   filterByNumericValues: [],
   order: {
-    column: 'Name',
+    column: 'name',
     sort: 'ASC',
   },
 };

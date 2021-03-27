@@ -30,6 +30,8 @@ function Provider({ children }) {
     if (sort === 'DESC') {
       const filterResponse = data.sort((a, b) => {
         if (Number(a[column]) > Number(b[column])) return RETURN_FALSE;
+        if (Number(a[column]) < Number(b[column])) return RETURN_TRUE;
+        return 0;
       });
       setnewListPlanetsFilter(filterResponse);
     }
