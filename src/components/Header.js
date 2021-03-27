@@ -2,9 +2,13 @@ import React, { useContext } from 'react';
 import SWContext from '../context/SWContext';
 
 export default function Header() {
-  const { filterbyName, getFilterbyName,
+  const { filterbyName, getFilterbyName, filter,
     Filter, getFilterComparison,
-    getFilterColumn, getFilterNumber/* isFilted */ } = useContext(SWContext);
+    getFilterColumn, getFilterNumber /* isFilted */ } = useContext(SWContext);
+  const colList = ['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  console.log(filter.filters.filterByNumericValues);
+  // console.log(filter.filters.filterByNumericValues.some((v) => v.column === 'population'));
   return (
     <div>
       <input
@@ -20,36 +24,44 @@ export default function Header() {
         onChange={ (e) => getFilterColumn(e.target.value) }
       >
         {/* {console.log(isFilted)} */}
-        <option
-          // disabled={ isFilted.population }
-          value="population"
-        >
-          population
-        </option>
-        <option
-          // disabled={ isFilted.orbital_period }
+        {colList.map((column, index) => {
+          if (filter.filters.filterByNumericValues.every((v) => v.column !== column)) {
+            return (
+              <option
+                key={ index }
+                value={ column }
+              >
+                {column}
+              </option>
+            );
+          }
+          return '';
+        })}
+
+        {/* <option
+          disabled={ filter.filters.filterByNumericValues.some((v) => v.column === 'orbital_period') }
           value="orbital_period"
         >
           orbital_period
         </option>
         <option
-          /* disabled={ isFilted.diameter } */
+          disabled={ filter.filters.filterByNumericValues.some((v) => v.column === 'diameter') }
           value="diameter"
         >
           diameter
         </option>
         <option
-          // disabled={ isFilted.rotation_period }
+          disabled={ filter.filters.filterByNumericValues.some((v) => v.column === 'rotation_period') }
           value="rotation_period"
         >
           rotation_period
         </option>
         <option
-          // disabled={ isFilted.surface_water }
+          disabled={ filter.filters.filterByNumericValues.some((v) => v.column === 'surface_water') }
           value="surface_water"
         >
           surface_water
-        </option>
+        </option> */}
       </select>
       <select
         data-testid="comparison-filter"
