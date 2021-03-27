@@ -1,12 +1,13 @@
 import React from 'react';
+import Table from './components/Table';
 import './App.css';
 
-import Table from './components/Table';
+import SWProvider from './context/SWProvider';
 
-function App() {
-  return (
+const App = () => (
+  <SWProvider>
     <Table />
-  );
-}
+  </SWProvider>
+);
 
 export default App;
