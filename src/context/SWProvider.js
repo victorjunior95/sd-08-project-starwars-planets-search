@@ -74,7 +74,7 @@ export default function SWProvider({ children }) {
   const [filterByName, getFilterbyName] = useState('');
   const [filter, getFilter] = useState({
     filters: { filterByName: { name: '' }, filterByNumericValues: [] } });
-  const [filterComparison, getFilterComparison] = useState('maior_que');
+  const [filterComparison, getFilterComparison] = useState('maior que');
   const [filterColumn, getFilterColumn] = useState('population');
   const [filterNumber, getFilterNumber] = useState('');
   const [SWData, getSWData] = useState([]);
@@ -101,40 +101,47 @@ export default function SWProvider({ children }) {
       data = data.filter((planet) => regex.test(planet.name));
       // resultIsFilted.filterByName = true;
     }
-    // console.log(filterColumn);
     if (filterNumber !== '') {
-      // resultFilter.filters.filterByNumericValues.push({ column: filterColumn,
-      //   comparison: filterComparison,
-      //   value: filterNumber });
       resultFilter.filters.filterByNumericValues = [
         ...resultFilter.filters.filterByNumericValues,
         { column: filterColumn,
           comparison: filterComparison,
           value: filterNumber }];
-      // filterNumber.forEach((question) => {
-      //       // const ComparisonFunction = (column, comparison, value) => {
-      //       //   // console.log(` ${typeof column} ${comparison} ${typeof value}`);
-      //       //   // console.log( column > value);
-      //       //   switch (comparison) {
-      //       //   case 'maior_que':
-      //       //     // console.log(column > value);
-      //       //     return column > value;
-      //       //   case 'menor_que':
-      //       //     // console.log(column < value);
-      //       //     return column < value;
-      //       //   case 'igual':
-      //       //     // console.log(column === value);
-      //       //     return column === value;
-      //       //   default:
-      //       //     console.log('erro na função');
-      //       //   }
-      //       // };
-      // }
+      const ComparisonFunction = (column, comparison, value) => {
+        value = parseInt(value, 10);
+        column = parseInt(column, 10);
+        // console.log(`  ${value} ${comparison} ${column} result ${value < column}`);
+        switch (comparison) {
+        case 'maior que':
+          // console.log(column > value);
+          return value > column;
+        case 'menor que':
+          // console.log(value < column);
+          return value < column;
+        case 'igual a':
+          // console.log(column === value);
+          return column === value;
+        default:
+          console.log(`erro na função ${comparison}`);
+        }
+      };
+      // console.log(data);
+      let result = '';
+      data = data.filter((planet) => {
+        result = resultFilter.filters.filterByNumericValues.map(
+          (question) => (ComparisonFunction(
+            question.value, question.comparison, planet[question.column],
+          )),
+        );
+        // console.log(result);
+        return result.every((e) => e);
+      });
+      // console.log(data);
       getFilterColumn('');
     }
-    console.log(resultFilter);
+    // console.log(resultFilter.filters.filterByNumericValues);
     getFilter(resultFilter);
-    console.log(data);
+    // console.log(data);
     getFSWData(data);
   }
 

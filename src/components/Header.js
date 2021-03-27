@@ -17,45 +17,50 @@ export default function Header() {
         data-testid="column-filter"
         id="column-filter"
         name="column-filter"
-        onClick={ (e) => getFilterColumn(e.target.value) }
+        onChange={ (e) => getFilterColumn(e.target.value) }
       >
         {/* {console.log(isFilted)} */}
         <option
           // disabled={ isFilted.population }
           value="population"
-          label="population"
-        />
+        >
+          population
+        </option>
         <option
           // disabled={ isFilted.orbital_period }
           value="orbital_period"
-          label="orbital_period"
-        />
+        >
+          orbital_period
+        </option>
         <option
           /* disabled={ isFilted.diameter } */
           value="diameter"
-          label="diameter"
-        />
+        >
+          diameter
+        </option>
         <option
           // disabled={ isFilted.rotation_period }
           value="rotation_period"
-          label="rotation_period"
-        />
+        >
+          rotation_period
+        </option>
         <option
           // disabled={ isFilted.surface_water }
           value="surface_water"
-          label="surface_water"
-        />
+        >
+          surface_water
+        </option>
       </select>
       <select
         data-testid="comparison-filter"
         id="comparison-filter"
         name="comparison-filter"
-        onClick={ (e) => getFilterComparison(e.target.value) }
+        onChange={ (e) => getFilterComparison(e.target.value) }
         required
       >
-        <option value="maior_que">maior que</option>
-        <option value="menor_que">menor que</option>
-        <option value="igual_a">igual a</option>
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
       </select>
       <input
         type="number"
