@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const TableData = (props) => {
   const { results } = props;
@@ -29,6 +30,10 @@ const TableData = (props) => {
       }
     </tbody>
   );
+};
+
+TableData.propTypes = {
+  results: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default TableData;
