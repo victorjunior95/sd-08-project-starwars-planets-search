@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import AlphabeticalOrder from './componentes/AlphabeticalOrder';
 import InputName from './componentes/InputName';
 import InputNumericForm from './componentes/InputNumericForm';
 import Table from './componentes/Table';
@@ -10,6 +11,7 @@ function App() {
     <Provider>
       <InputName />
       <InputNumericForm />
+      <AlphabeticalOrder />
       <Table />
     </Provider>
   );

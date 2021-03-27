@@ -5,6 +5,9 @@ import PlanetContext from './PlanetContext';
 import requestApi from '../services/requestAPI';
 import { initialStateContext } from '../helpers/functionsHelpers';
 
+const RETURN_TRUE = 1;
+const RETURN_FALSE = -1;
+
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [userFilters, setUserFilters] = useState(initialStateContext);
@@ -15,6 +18,22 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
+    const { order: { column, sort } } = userFilters;
+    if (sort === 'ASC') {
+      const result = data.sort((a, b) => {
+        if (a.name < b.name) return RETURN_FALSE;
+        if (a.name > b.name) return RETURN_TRUE;
+        return 0;
+      });
+      setnewListPlanetsFilter(result);
+    }
+    if (sort === 'DESC') {
+      const filterResponse = data.sort((a, b) => {
+        if (Number(a[column]) > Number(b[column])) return RETURN_FALSE;
+      });
+      setnewListPlanetsFilter(filterResponse);
+    }
+
     const { filterByName: { name } } = userFilters;
     const filterByListName = data
       .filter((planetsName) => planetsName.name.toLowerCase()
