@@ -106,7 +106,8 @@ export default function SWProvider({ children }) {
       // resultFilter.filters.filterByNumericValues.push({ column: filterColumn,
       //   comparison: filterComparison,
       //   value: filterNumber });
-      resultFilter.filters.filterByNumericValues = [...resultFilter.filters.filterByNumericValues,
+      resultFilter.filters.filterByNumericValues = [
+        ...resultFilter.filters.filterByNumericValues,
         { column: filterColumn,
           comparison: filterComparison,
           value: filterNumber }];
