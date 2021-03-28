@@ -1,47 +1,53 @@
-import React, { useEffect/* useState */, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import SWContext from '../context/SWContext';
-// import FetchStarWars from '../helpers/API';
 
-// const STARWARS_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
 export default function Table() {
-  // const filtredData = [];
-  const { fetchData, FSWData } = useContext(SWContext);
-  // const [ApiDATA, setApiData] = useState([]);
+  const { fetchData, FSWData, UseFilter, filter } = useContext(SWContext);
   useEffect(() => {
     async function FetchSW() {
-      // console.log(SWData);
-      fetchData();
-      // console.log(SWData);
+      await fetchData();
     }
     FetchSW();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    // console.log('Filtro mudou');
+    UseFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
 
   const tableHeader = ['name', 'rotation_period', 'orbital_period', 'diameter', 'climate',
     'gravity', 'terrain', 'surface_water', 'population', 'films', 'created',
     'edited', 'url'];
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
+
+    <table>
+      <thead>
+        <tr>
+          {tableHeader.map((item) => (
+            <th key={ item }>
+              {item}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {FSWData.map((line) => (
+          <tr key={ line.name }>
             {tableHeader.map((item) => (
-              <th key={ item }>
-                {item}
-              </th>
+              <td
+                key={ item }
+                data-testid={ item === 'name' ? 'planet-name' : '' }
+              >
+                {line[item]}
+              </td>
             ))}
           </tr>
-        </thead>
-        <tbody>
+        ))}
+      </tbody>
+    </table>
 
-          {FSWData.map((line) => (
-            <tr key={ line.diameter }>
-              {tableHeader.map((item) => (<td key={ item }>{line[item]}</td>))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
   );
 }

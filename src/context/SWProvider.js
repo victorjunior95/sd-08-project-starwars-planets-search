@@ -12,76 +12,20 @@ import FetchStarWars from '../helpers/API';
 //   }
 
 export default function SWProvider({ children }) {
-  // const STARWARS_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
-  // const { isFilted, filter } = useContext(SWContext);
-  // const [ApiDATA, setApiData] = useState([]);
-  // useEffect(() => {
-  //   async function getApi() {
-  //     try {
-  //       const response = await fetch(STARWARS_API);
-  //       const DATA = await response.json();
-  //       setApiData(DATA.results);
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   }
-  //   getApi();
-  // }, []);
-  // let filtredData = ApiDATA;
-  // const Filtering = () => {
-  //   console.log(filter.filters.filterByName.name);
-  //   if (isFilted.filterByName) {
-  //     const regex = new RegExp(filter.filters.filterByName);
-  //     filtredData = filtredData.filter((planet) => regex.test(planet.name));
-  //   }
-  // if (filter.filters.filterByNumericValues.length > 0) {
-  //   filter.filters.filterByNumericValues.forEach((question) => {
-  //     const ComparisonFunction = (column, comparison, value) => {
-  //       // console.log(` ${typeof column} ${comparison} ${typeof value}`);
-  //       // console.log( column > value);
-  //       switch (comparison) {
-  //       case 'maior_que':
-  //         // console.log(column > value);
-  //         return column > value;
-  //       case 'menor_que':
-  //         // console.log(column < value);
-  //         return column < value;
-  //       case 'igual':
-  //         // console.log(column === value);
-  //         return column === value;
-  //       default:
-  //         console.log('erro na função');
-  //       }
-  //     };
-  //     filtredData = filtredData.filter((planet) => ComparisonFunction(
-  //       planet[question.column],
-  //       question.comparison,
-  //       question.value,
-  //     ));
-  //     console.log(filtredData);
-  //   });
-  // }
-  // };
-  // useEffect(() => {
-  //   Filtering();
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [filter]);
-  // const tableHeader = ['name', 'rotation_period', 'orbital_period', 'diameter', 'climate',
-  //   'gravity', 'terrain', 'surface_water', 'population', 'films', 'created',
-  //   'edited', 'url'];
-
-  // getFilterComparison, getFilterColumn, getFilterNumber;
-  const [filterByName, getFilterbyName] = useState('');
-  const [filter, getFilter] = useState({
+  const GO_BACK = -1;
+  const STAY = 1;
+  const [filterByName, setFilterbyName] = useState('');
+  const [filter, setFilter] = useState({
     filters: { filterByName: { name: '' },
       filterByNumericValues: [],
-      order: { column: 'Name', sort: 'ASC' } } });
-  const [filterComparison, getFilterComparison] = useState('maior que');
-  const [filterColumn, getFilterColumn] = useState('population');
-  const [filterNumber, getFilterNumber] = useState('');
-  const [SWData, getSWData] = useState([]);
-  const [FSWData, getFSWData] = useState([]);
-
+      order: { column: 'name', sort: 'ASC' } } });
+  const [filterComparison, setFilterComparison] = useState('maior que');
+  const [filterColumn, setFilterColumn] = useState('population');
+  const [filterNumber, setFilterNumber] = useState('');
+  const [SWData, setSWData] = useState([]);
+  const [FSWData, setFSWData] = useState([]);
+  const [sortOrder, setSortOrder] = useState('ASC');
+  const [sortColumn, setSortColumn] = useState('name');
   // const inputName = (e) => {
   //   getFilterbyName(e.target.value);
   //   Filter();
@@ -90,14 +34,14 @@ export default function SWProvider({ children }) {
   const ComparisonFunction = (column, comparison, value) => {
     value = parseInt(value, 10);
     column = parseInt(column, 10);
-    console.log(`  ${value} ${comparison} ${column} result ${value < column}`);
+    // console.log(`  ${value} ${comparison} ${column} result ${value < column}`);
     switch (comparison) {
     case 'maior que':
       // console.log(column > value);
-      return value > column;
+      return value < column;
     case 'menor que':
       // console.log(value < column);
-      return value < column;
+      return value > column;
     case 'igual a':
       // console.log(column === value);
       return column === value;
@@ -106,87 +50,147 @@ export default function SWProvider({ children }) {
     }
   };
 
-  const fetchData = async () => {
-    const data = await FetchStarWars();
-    getSWData(data);
-    getFSWData(data);
+  const sortData = (data, resultFilter) => {
+    data.sort((A, B) => {
+      let planetaA = 0;
+      let planetaB = 0;
+      // eslint-disable-next-line no-restricted-globals
+      if (parseInt(A[resultFilter.filters.order.column][0], 10)) {
+        planetaA = parseInt(A[resultFilter.filters.order.column], 10);
+        planetaB = parseInt(B[resultFilter.filters.order.column], 10);
+      } else {
+        planetaA = A[resultFilter.filters.order.column];
+        planetaB = B[resultFilter.filters.order.column];
+      }
+      if (resultFilter.filters.order.sort === 'ASC') {
+        // console.log(` ${planetaA} > ${planetaB} `);
+        if (planetaA > planetaB) {
+          return STAY;
+        } return GO_BACK;
+      }
+      // console.log(` ${planetaA} < ${planetaB} `);
+      if (planetaA < planetaB) {
+        return STAY;
+      } return GO_BACK;
+    });
     return data;
   };
 
-  function Filter() {
-    let data = SWData;
-    const resultFilter = filter;
-    // console.log(filter.filters.filterByNumericValues);
-    if (filterByName !== '') {
-      resultFilter.filters.filterByName.name = filterByName;
-      const regex = new RegExp(filterByName);
+  const UseFilter = () => {
+    let data = [...SWData];
+    const resultFilter = { ...filter };
+    if (resultFilter.filters.filterByName !== '') {
+      const regex = new RegExp(resultFilter.filters.filterByName.name);
       data = data.filter((planet) => regex.test(planet.name));
     }
+    if (resultFilter.filters.filterByNumericValues.length > 0) {
+      let result = '';
+      data = data.filter((planet) => {
+        result = resultFilter.filters.filterByNumericValues.map(
+          (question) => (ComparisonFunction(
+            planet[question.column], question.comparison, question.value,
+          )),
+        );
+        return result.every((e) => e);
+      });
+    }
+    data = sortData(data, resultFilter);
+    setFilterColumn('');
+    setFSWData(data);
+  };
+
+  const MakeFilter = () => {
+    // let result = {};
+    // let variable = {};
+    const resultFilter = { ...filter };
+    if (filterByName !== '' || filter.filters.filterByName.name !== '') {
+      // result = { filters:
+      //   { filterByName: { name: filterByName },
+      //     filterByNumericValues: filter.filters.filterByNumericValues,
+      //     order: filter.filters.order } };
+      resultFilter.filters.filterByName.name = filterByName;
+    }
     if (filterNumber !== '' && filterColumn !== '') {
+      // variable = { column: filterColumn,
+      //   comparison: filterComparison,
+      //   value: filterNumber };
+      // result = { filters:
+      //   { filterByName: filter.filters.filterByName,
+      //     filterByNumericValues: [...filter.filters.filterByNumeric, variable],
+      //     order: filter.filters.order } };
       resultFilter.filters.filterByNumericValues = [
         ...resultFilter.filters.filterByNumericValues,
         { column: filterColumn,
           comparison: filterComparison,
           value: filterNumber }];
-      let result = '';
-      data = data.filter((planet) => {
-        result = resultFilter.filters.filterByNumericValues.map(
-          (question) => (ComparisonFunction(
-            question.value, question.comparison, planet[question.column],
-          )),
-        );
-        return result.every((e) => e);
-      });
-      // console.log(data);
-      getFilterColumn('');
+      setFilterColumn('');
     }
-    // console.log(resultFilter.filters.filterByNumericValues);
-    getFilter(resultFilter);
-    console.log(data.length);
-    getFSWData(data);
-  }
+    if (sortColumn !== '' && sortOrder !== '') {
+      //   variable = { column: sortColumn, sort: sortOrder };
+      //   result = { filterByName: filter.filters.filterByName,
+      //     filterByNumericValues: filter.filters.filterByNumericValues,
+      //     order: variable };
+      // }
+      resultFilter.filters.order = {
+        column: sortColumn,
+        sort: sortOrder,
+      };
+      setSortColumn('');
+    }
+    if (resultFilter !== filter) {
+      setFilter(resultFilter);
+    }
+    // setFilter(result);
+    // UseFilter();
+  };
 
-  function deleteFilter(e) {
-    let data = SWData;
+  const fetchData = async () => {
+    const data = await FetchStarWars();
+    data.sort((A, B) => {
+      if (A.name > B.name) {
+        return 1;
+      }
+      return (GO_BACK);
+    });
+    setSWData(data);
+    setFSWData(data);
+    // MakeFilter();
+    return data;
+  };
+
+  const deleteFilter = (e) => {
+    // const data = SWData;
     let result = filter.filters.filterByNumericValues.filter((_, index) => (index !== e));
     // console.log(`${index}  ${e}  ${index !== e}`);
     result = { filters:
       { filterByName: filter.filters.filterByName,
-        filterByNumericValues: result } };
+        filterByNumericValues: result,
+        order: filter.filters.order } };
     // console.log(result);
-    getFilter(result);
-    let resultList = '';
-    data = data.filter((planet) => {
-      resultList = result.filters.filterByNumericValues.map(
-        (quest) => (ComparisonFunction(
-          quest.value, quest.comparison, planet[quest.column],
-        )),
-
-      );
-      return resultList.every((a) => a);
-    });
-    console.log(data.length);
-    getFSWData(data);
-    // console.log(filter.filters.filterByNumericValues);
-    // console.log(filter.filters.filterByNumericValues);
-    // Filter();
-  }
+    setFilter(result);
+    // UseFilter();
+    // MakeFilter();
+  };
 
   useEffect(() => {
-    Filter();
+    MakeFilter();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterByName]);
+
   const context = {
     filterByName,
-    getFilterbyName,
+    setFilterbyName,
     filter,
-    Filter,
-    getFilterComparison,
-    getFilterColumn,
-    getFilterNumber,
+    MakeFilter,
+    UseFilter,
+    setFilterComparison,
+    setFilterColumn,
+    setFilterNumber,
     FSWData,
     fetchData,
     deleteFilter,
+    setSortOrder,
+    setSortColumn,
   };
 
   return (

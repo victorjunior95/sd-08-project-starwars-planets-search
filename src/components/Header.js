@@ -2,16 +2,19 @@ import React, { useContext } from 'react';
 import SWContext from '../context/SWContext';
 
 export default function Header() {
-  const { filterbyName, getFilterbyName, filter,
-    Filter, getFilterComparison,
-    getFilterColumn, getFilterNumber, deleteFilter } = useContext(SWContext);
+  const { filterbyName, setFilterbyName, filter, MakeFilter,
+    setFilterComparison, setFilterColumn, setFilterNumber,
+    deleteFilter, setSortOrder, setSortColumn } = useContext(SWContext);
   const colList = ['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   // console.log(filter.filters.filterByNumericValues);
+  const tableHeader = ['name', 'rotation_period', 'orbital_period', 'diameter', 'climate',
+    'gravity', 'terrain', 'surface_water', 'population', 'films', 'created',
+    'edited', 'url'];
   const numberalFilterList = () => ((
     <ol>
       {filter.filters.filterByNumericValues.map((criteriun, index) => (
-        <li key={ criteriun.column }>
+        <li key={ criteriun.column } data-testid="filter">
           {criteriun.column}
 
           {criteriun.comparison}
@@ -20,7 +23,6 @@ export default function Header() {
 
           <button
             type="button"
-            data-testid="filter"
             onClick={ () => { deleteFilter(index); } }
           >
             X
@@ -36,16 +38,15 @@ export default function Header() {
       <input
         type="text"
         value={ filterbyName }
-        onChange={ (e) => { getFilterbyName(e.target.value); } }
+        onChange={ (e) => { setFilterbyName(e.target.value); } }
         data-testid="name-filter"
       />
       <select
         data-testid="column-filter"
         id="column-filter"
         name="column-filter"
-        onClick={ (e) => getFilterColumn(e.target.value) }
+        onClick={ (e) => setFilterColumn(e.target.value) }
       >
-        {/* {console.log(isFilted)} */}
         {colList.map((column, index) => {
           if (filter.filters.filterByNumericValues.every((v) => v.column !== column)) {
             return (
@@ -64,7 +65,7 @@ export default function Header() {
         data-testid="comparison-filter"
         id="comparison-filter"
         name="comparison-filter"
-        onChange={ (e) => getFilterComparison(e.target.value) }
+        onChange={ (e) => setFilterComparison(e.target.value) }
         required
       >
         <option value="maior que">maior que</option>
@@ -74,14 +75,57 @@ export default function Header() {
       <input
         type="number"
         data-testid="value-filter"
-        onChange={ (e) => getFilterNumber(e.target.value) }
+        onChange={ (e) => setFilterNumber(e.target.value) }
       />
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => Filter() }
+        onClick={ () => MakeFilter() }
       >
         Adicionar
+
+      </button>
+      <select
+        data-testid="column-sort"
+        id="column-sort"
+        name="column-sort"
+        onClick={ (e) => setSortColumn(e.target.value) }
+      >
+        {tableHeader.map((column, index) => (
+          <option
+            key={ index }
+            value={ column }
+          >
+            {column}
+          </option>
+        ))}
+      </select>
+      <label htmlFor="ASC">
+        ASC
+        <input
+          type="radio"
+          onClick={ (e) => setSortOrder(e.target.value) }
+          value="ASC"
+          name="sort"
+          data-testid="column-sort-input-asc"
+        />
+      </label>
+      <label htmlFor="DESC">
+        DESC
+        <input
+          type="radio"
+          onClick={ (e) => setSortOrder(e.target.value) }
+          value="DESC"
+          name="sort"
+          data-testid="column-sort-input-desc"
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => MakeFilter() }
+      >
+        Ordene
 
       </button>
       {filter.filters.filterByNumericValues.length > 0
