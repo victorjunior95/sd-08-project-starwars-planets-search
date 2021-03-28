@@ -4,14 +4,18 @@ import PlanetContext from '../context/PlanetContext';
 function Table() {
   const { isLoading, planets } = useContext(PlanetContext);
 
-  console.log(planets);
+  // console.log(planets);
+  const title = ['name', 'rotation_period', 'orbital_period',
+    'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
+    'population', 'films', 'created', 'edited', 'url'];
+
   return (
     isLoading
       && (
         <table border="solid ">
           <thead>
             <tr>
-              {Object.keys(planets[0]).map((item, i) => <th key={ i }>{item}</th>)}
+              {title.map((item, i) => <th key={ i }>{item}</th>)}
             </tr>
           </thead>
           <tbody>
@@ -22,7 +26,6 @@ function Table() {
                     .map((info) => <td key={ info }>{ info }</td>) }
                 </tr>))
             }
-
           </tbody>
         </table>
       )

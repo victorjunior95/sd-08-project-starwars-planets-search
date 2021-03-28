@@ -7,13 +7,21 @@ const filterPlanets = {
   filterByName: {
     name: '',
   },
+  // filterByNumericValues: [
+  //   {
+  //     column: 'population',
+  //     comparison: 'maior que',
+  //     value: '100000',
+  //   },
+  // ],
 };
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState(filterPlanets);
-  const [planets, setPlanets] = useState([]);
+  const [numFilter, setNumFilter] = useState([]);
 
   async function getPlanets() {
     const starWarsPlanets = await fetchPlanets();
@@ -25,11 +33,27 @@ function PlanetsProvider({ children }) {
     getPlanets();
   }, []);
 
+  // console.log(numFilter);
+
   useEffect(() => {
     const { filterByName: { name } } = filters;
-    const filtered = data.filter((item) => item.name.includes(name) && item);
+    const filtered = data.filter((item) => item.name.includes(name));
     setPlanets(filtered);
   }, [data, filters]);
+
+  useEffect(() => {
+    // const newArr = [];
+    numFilter.forEach(({ comparison, column, value }) => {
+      if (comparison === 'igual a') {
+        return setPlanets(data.filter((item) => +item[column] === +value));
+      } if (comparison === 'maior que') {
+        return setPlanets(data.filter((item) => +item[column] > +value));
+      } if (comparison === 'menor que') {
+        return setPlanets(data.filter((item) => +item[column] < +value));
+      }
+    });
+  },
+  [data, numFilter]);
 
   const value = {
     data,
@@ -37,6 +61,8 @@ function PlanetsProvider({ children }) {
     isLoading,
     filters,
     setFilters,
+    setNumFilter,
+    numFilter,
     // filterName,
   };
 

@@ -7,12 +7,7 @@ function Form() {
   // console.log(name);
 
   function handleChange(e) {
-    setFilters({
-      ...filters,
-      filterByName: {
-        name: e.target.value,
-      },
-    });
+    setFilters({ filterByName: { name: e.target.value } });
   }
 
   return (
