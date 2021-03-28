@@ -73,7 +73,9 @@ export default function SWProvider({ children }) {
   // getFilterComparison, getFilterColumn, getFilterNumber;
   const [filterByName, getFilterbyName] = useState('');
   const [filter, getFilter] = useState({
-    filters: { filterByName: { name: '' }, filterByNumericValues: [], order: { column: 'Name', sort: 'ASC' } } });
+    filters: { filterByName: { name: '' },
+      filterByNumericValues: [],
+      order: { column: 'Name', sort: 'ASC' } } });
   const [filterComparison, getFilterComparison] = useState('maior que');
   const [filterColumn, getFilterColumn] = useState('population');
   const [filterNumber, getFilterNumber] = useState('');
@@ -88,7 +90,7 @@ export default function SWProvider({ children }) {
   const ComparisonFunction = (column, comparison, value) => {
     value = parseInt(value, 10);
     column = parseInt(column, 10);
-    // console.log(`  ${value} ${comparison} ${column} result ${value < column}`);
+    console.log(`  ${value} ${comparison} ${column} result ${value < column}`);
     switch (comparison) {
     case 'maior que':
       // console.log(column > value);
