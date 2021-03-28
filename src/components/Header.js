@@ -18,7 +18,7 @@ export default function Header() {
 
           {criteriun.value}
 
-          <button type="button" onClick={ () => { deleteFilter(index); } }>
+          <button type="button" data-testid="filter" onClick={ () => { deleteFilter(index); } }>
             X
           </button>
 

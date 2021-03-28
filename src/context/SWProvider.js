@@ -73,7 +73,7 @@ export default function SWProvider({ children }) {
   // getFilterComparison, getFilterColumn, getFilterNumber;
   const [filterByName, getFilterbyName] = useState('');
   const [filter, getFilter] = useState({
-    filters: { filterByName: { name: '' }, filterByNumericValues: [] } });
+    filters: { filterByName: { name: '' }, filterByNumericValues: [], order: { column: 'Name', sort: 'ASC' } } });
   const [filterComparison, getFilterComparison] = useState('maior que');
   const [filterColumn, getFilterColumn] = useState('population');
   const [filterNumber, getFilterNumber] = useState('');
