@@ -140,16 +140,14 @@ export default function SWProvider({ children }) {
     }
     // console.log(resultFilter.filters.filterByNumericValues);
     getFilter(resultFilter);
-    // console.log(data);
+    console.log(data.length);
     getFSWData(data);
   }
 
   function deleteFilter(e) {
-    console.log(e);
     let data = SWData;
-    let result = filter.filters.filterByNumericValues.filter((_, index) =>
-      // console.log(`${index}  ${e}  ${index !== e}`);
-      (index !== e));
+    let result = filter.filters.filterByNumericValues.filter((_, index) => (index !== e));
+    // console.log(`${index}  ${e}  ${index !== e}`);
     result = { filters:
       { filterByName: filter.filters.filterByName,
         filterByNumericValues: result } };
@@ -158,9 +156,10 @@ export default function SWProvider({ children }) {
     let resultList = '';
     data = data.filter((planet) => {
       resultList = result.filters.filterByNumericValues.map(
-        (question) => (ComparisonFunction(
-          question.value, question.comparison, planet[question.column],
+        (quest) => (ComparisonFunction(
+          quest.value, quest.comparison, planet[quest.column],
         )),
+
       );
       return resultList.every((a) => a);
     });
