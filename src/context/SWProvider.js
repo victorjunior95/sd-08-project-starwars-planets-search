@@ -100,48 +100,28 @@ export default function SWProvider({ children }) {
   };
 
   const MakeFilter = () => {
-    // let result = {};
-    // let variable = {};
     const resultFilter = { ...filter };
     if (filterByName !== '' || filter.filters.filterByName.name !== '') {
-      // result = { filters:
-      //   { filterByName: { name: filterByName },
-      //     filterByNumericValues: filter.filters.filterByNumericValues,
-      //     order: filter.filters.order } };
       resultFilter.filters.filterByName.name = filterByName;
     }
     if (filterNumber !== '' && filterColumn !== '') {
-      // variable = { column: filterColumn,
-      //   comparison: filterComparison,
-      //   value: filterNumber };
-      // result = { filters:
-      //   { filterByName: filter.filters.filterByName,
-      //     filterByNumericValues: [...filter.filters.filterByNumeric, variable],
-      //     order: filter.filters.order } };
       resultFilter.filters.filterByNumericValues = [
         ...resultFilter.filters.filterByNumericValues,
         { column: filterColumn,
           comparison: filterComparison,
           value: filterNumber }];
-      setFilterColumn('');
     }
     if (sortColumn !== '' && sortOrder !== '') {
-      //   variable = { column: sortColumn, sort: sortOrder };
-      //   result = { filterByName: filter.filters.filterByName,
-      //     filterByNumericValues: filter.filters.filterByNumericValues,
-      //     order: variable };
-      // }
       resultFilter.filters.order = {
         column: sortColumn,
         sort: sortOrder,
       };
-      setSortColumn('');
     }
     if (resultFilter !== filter) {
+      setFilterColumn('');
+      setSortColumn('');
       setFilter(resultFilter);
     }
-    // setFilter(result);
-    // UseFilter();
   };
 
   const fetchData = async () => {
@@ -159,17 +139,13 @@ export default function SWProvider({ children }) {
   };
 
   const deleteFilter = (e) => {
-    // const data = SWData;
     let result = filter.filters.filterByNumericValues.filter((_, index) => (index !== e));
     // console.log(`${index}  ${e}  ${index !== e}`);
     result = { filters:
       { filterByName: filter.filters.filterByName,
         filterByNumericValues: result,
         order: filter.filters.order } };
-    // console.log(result);
     setFilter(result);
-    // UseFilter();
-    // MakeFilter();
   };
 
   useEffect(() => {
