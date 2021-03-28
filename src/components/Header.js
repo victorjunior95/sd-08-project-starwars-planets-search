@@ -4,10 +4,28 @@ import SWContext from '../context/SWContext';
 export default function Header() {
   const { filterbyName, getFilterbyName, filter,
     Filter, getFilterComparison,
-    getFilterColumn, getFilterNumber /* isFilted */ } = useContext(SWContext);
+    getFilterColumn, getFilterNumber, deleteFilter } = useContext(SWContext);
   const colList = ['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-  console.log(filter.filters.filterByNumericValues);
+  // console.log(filter.filters.filterByNumericValues);
+  const numberalFilterList = () => ((
+    <ol>
+      {filter.filters.filterByNumericValues.map((criteriun, index) => (
+        <li key={ criteriun.column }>
+          {criteriun.column}
+
+          {criteriun.comparison}
+
+          {criteriun.value}
+
+          <button type="button" onClick={ () => { deleteFilter(index); } }>
+            X
+          </button>
+
+        </li>
+      ))}
+    </ol>
+  ));
   // console.log(filter.filters.filterByNumericValues.some((v) => v.column === 'population'));
   return (
     <div>
@@ -21,7 +39,7 @@ export default function Header() {
         data-testid="column-filter"
         id="column-filter"
         name="column-filter"
-        onChange={ (e) => getFilterColumn(e.target.value) }
+        onClick={ (e) => getFilterColumn(e.target.value) }
       >
         {/* {console.log(isFilted)} */}
         {colList.map((column, index) => {
@@ -37,31 +55,6 @@ export default function Header() {
           }
           return '';
         })}
-
-        {/* <option
-          disabled={ filter.filters.filterByNumericValues.some((v) => v.column === 'orbital_period') }
-          value="orbital_period"
-        >
-          orbital_period
-        </option>
-        <option
-          disabled={ filter.filters.filterByNumericValues.some((v) => v.column === 'diameter') }
-          value="diameter"
-        >
-          diameter
-        </option>
-        <option
-          disabled={ filter.filters.filterByNumericValues.some((v) => v.column === 'rotation_period') }
-          value="rotation_period"
-        >
-          rotation_period
-        </option>
-        <option
-          disabled={ filter.filters.filterByNumericValues.some((v) => v.column === 'surface_water') }
-          value="surface_water"
-        >
-          surface_water
-        </option> */}
       </select>
       <select
         data-testid="comparison-filter"
@@ -87,6 +80,8 @@ export default function Header() {
         Adicionar
 
       </button>
+      {filter.filters.filterByNumericValues.length > 0
+      && numberalFilterList()}
     </div>
   );
 }

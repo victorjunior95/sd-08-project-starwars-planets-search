@@ -85,6 +85,25 @@ export default function SWProvider({ children }) {
   //   Filter();
   // }
 
+  const ComparisonFunction = (column, comparison, value) => {
+    value = parseInt(value, 10);
+    column = parseInt(column, 10);
+    // console.log(`  ${value} ${comparison} ${column} result ${value < column}`);
+    switch (comparison) {
+    case 'maior que':
+      // console.log(column > value);
+      return value > column;
+    case 'menor que':
+      // console.log(value < column);
+      return value < column;
+    case 'igual a':
+      // console.log(column === value);
+      return column === value;
+    default:
+      console.log(`erro na função ${comparison}`);
+    }
+  };
+
   const fetchData = async () => {
     const data = await FetchStarWars();
     getSWData(data);
@@ -95,37 +114,18 @@ export default function SWProvider({ children }) {
   function Filter() {
     let data = SWData;
     const resultFilter = filter;
+    // console.log(filter.filters.filterByNumericValues);
     if (filterByName !== '') {
       resultFilter.filters.filterByName.name = filterByName;
       const regex = new RegExp(filterByName);
       data = data.filter((planet) => regex.test(planet.name));
-      // resultIsFilted.filterByName = true;
     }
-    if (filterNumber !== '') {
+    if (filterNumber !== '' && filterColumn !== '') {
       resultFilter.filters.filterByNumericValues = [
         ...resultFilter.filters.filterByNumericValues,
         { column: filterColumn,
           comparison: filterComparison,
           value: filterNumber }];
-      const ComparisonFunction = (column, comparison, value) => {
-        value = parseInt(value, 10);
-        column = parseInt(column, 10);
-        // console.log(`  ${value} ${comparison} ${column} result ${value < column}`);
-        switch (comparison) {
-        case 'maior que':
-          // console.log(column > value);
-          return value > column;
-        case 'menor que':
-          // console.log(value < column);
-          return value < column;
-        case 'igual a':
-          // console.log(column === value);
-          return column === value;
-        default:
-          console.log(`erro na função ${comparison}`);
-        }
-      };
-      // console.log(data);
       let result = '';
       data = data.filter((planet) => {
         result = resultFilter.filters.filterByNumericValues.map(
@@ -133,7 +133,6 @@ export default function SWProvider({ children }) {
             question.value, question.comparison, planet[question.column],
           )),
         );
-        // console.log(result);
         return result.every((e) => e);
       });
       // console.log(data);
@@ -143,6 +142,33 @@ export default function SWProvider({ children }) {
     getFilter(resultFilter);
     // console.log(data);
     getFSWData(data);
+  }
+
+  function deleteFilter(e) {
+    console.log(e);
+    let data = SWData;
+    let result = filter.filters.filterByNumericValues.filter((_, index) =>
+      // console.log(`${index}  ${e}  ${index !== e}`);
+      (index !== e));
+    result = { filters:
+      { filterByName: filter.filters.filterByName,
+        filterByNumericValues: result } };
+    // console.log(result);
+    getFilter(result);
+    let resultList = '';
+    data = data.filter((planet) => {
+      resultList = result.filters.filterByNumericValues.map(
+        (question) => (ComparisonFunction(
+          question.value, question.comparison, planet[question.column],
+        )),
+      );
+      return resultList.every((a) => a);
+    });
+    console.log(data.length);
+    getFSWData(data);
+    // console.log(filter.filters.filterByNumericValues);
+    // console.log(filter.filters.filterByNumericValues);
+    // Filter();
   }
 
   useEffect(() => {
@@ -159,6 +185,7 @@ export default function SWProvider({ children }) {
     getFilterNumber,
     FSWData,
     fetchData,
+    deleteFilter,
   };
 
   return (
