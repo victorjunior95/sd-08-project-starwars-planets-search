@@ -28,7 +28,8 @@ export default function TableListPlanets() {
     const { comparison, column, value } = filter;
 
     if (comparison === 'maior que') {
-      renderHere = renderHere.filter((element) => Number(element[column]) > Number(value));
+      renderHere = renderHere.filter((element) => Number(element[column])
+       > Number(value));
     } else if (comparison === 'menor que') {
       renderHere = renderHere.filter((element) => element[column] < value
       || element[column] === 'unknown');
