@@ -3,14 +3,6 @@ import PropTypes from 'prop-types';
 import SWContext from './SWContext';
 import FetchStarWars from '../helpers/API';
 
-// {
-//     filters: {
-//       filterByName: {
-//         name: 'Tatoo'
-//       }
-//     }
-//   }
-
 export default function SWProvider({ children }) {
   const GO_BACK = -1;
   const STAY = 1;
@@ -30,12 +22,19 @@ export default function SWProvider({ children }) {
   //   getFilterbyName(e.target.value);
   //   Filter();
   // }
+  // 
+  // pagina: Page
+  // <div>
+  //       <Header MakeFilter={makeFilter} /> 
+  //       <Table FSWdata={FSWData} />
+  // </div>
+  // fazer todo o processamento de filtragem
 
   const ComparisonFunction = (column, comparison, value) => {
     value = parseInt(value, 10);
     column = parseInt(column, 10);
     // console.log(`  ${value} ${comparison} ${column} result ${value < column}`);
-    switch (comparison) {
+    switch (comparison) {  
     case 'maior que':
       // console.log(column > value);
       return value < column;
@@ -100,6 +99,7 @@ export default function SWProvider({ children }) {
   };
 
   const MakeFilter = () => {
+    console.log('makeFilter');
     const resultFilter = { ...filter };
     if (filterByName !== '' || filter.filters.filterByName.name !== '') {
       resultFilter.filters.filterByName.name = filterByName;
@@ -118,9 +118,32 @@ export default function SWProvider({ children }) {
       };
     }
     if (resultFilter !== filter) {
+      console.log('setFilter');
       setFilterColumn('');
       setSortColumn('');
       setFilter(resultFilter);
+      ///// fim da função MakeFilter ()
+      //// inicop da função UseFilter();
+      let data = [...SWData];
+      // const resultFilter = { ...filter };
+      if (resultFilter.filters.filterByName !== '') {
+        const regex = new RegExp(resultFilter.filters.filterByName.name);
+        data = data.filter((planet) => regex.test(planet.name));
+      }
+      if (resultFilter.filters.filterByNumericValues.length > 0) {
+        let result = '';
+        data = data.filter((planet) => {
+          result = resultFilter.filters.filterByNumericValues.map(
+            (question) => (ComparisonFunction(
+              planet[question.column], question.comparison, question.value,
+            )),
+          );
+          return result.every((e) => e);
+        });
+      }
+      data = sortData(data, resultFilter);
+      setFilterColumn('');
+      setFSWData(data);
     }
   };
 
@@ -135,8 +158,21 @@ export default function SWProvider({ children }) {
     setSWData(data);
     setFSWData(data);
     // MakeFilter();
-    return data;
+    // return data;
   };
+
+  useEffect(() => {
+     
+       fetchData();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // useEffect(() => {
+  //   // console.log('Filtro mudou');
+  //   UseFilter();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [filter]);
 
   const deleteFilter = (e) => {
     let result = filter.filters.filterByNumericValues.filter((_, index) => (index !== e));
@@ -148,17 +184,16 @@ export default function SWProvider({ children }) {
     setFilter(result);
   };
 
-  useEffect(() => {
-    MakeFilter();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterByName]);
+  // useEffect(() => {
+  //   MakeFilter();
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [filterByName]);
 
   const context = {
     filterByName,
     setFilterbyName,
     filter,
     MakeFilter,
-    UseFilter,
     setFilterComparison,
     setFilterColumn,
     setFilterNumber,

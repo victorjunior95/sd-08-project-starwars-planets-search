@@ -11,6 +11,9 @@ export default function Header() {
   const tableHeader = ['name', 'rotation_period', 'orbital_period', 'diameter', 'climate',
     'gravity', 'terrain', 'surface_water', 'population', 'films', 'created',
     'edited', 'url'];
+
+    /// colocar use state fazer o filtro aqui dentro
+    
   const numberalFilterList = () => ((
     <ol>
       {filter.filters.filterByNumericValues.map((criteriun, index) => (
@@ -43,7 +46,6 @@ export default function Header() {
       />
       <select
         data-testid="column-filter"
-        id="column-filter"
         name="column-filter"
         onClick={ (e) => setFilterColumn(e.target.value) }
       >
@@ -63,7 +65,6 @@ export default function Header() {
       </select>
       <select
         data-testid="comparison-filter"
-        id="comparison-filter"
         name="comparison-filter"
         onChange={ (e) => setFilterComparison(e.target.value) }
         required
@@ -80,7 +81,7 @@ export default function Header() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => MakeFilter() }
+        onClick={ () => {   MakeFilter(); }}
       >
         Adicionar
 
@@ -123,7 +124,7 @@ export default function Header() {
       <button
         type="button"
         data-testid="column-sort-button"
-        onClick={ () => MakeFilter() }
+        onClick={ () => {  MakeFilter(); }}
       >
         Ordene
 

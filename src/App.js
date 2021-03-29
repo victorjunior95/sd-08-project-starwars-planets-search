@@ -9,7 +9,7 @@ function App() {
     <div>
       <SWProvider>
         <Header />
-        <Table />
+        <Table  />
       </SWProvider>
     </div>
   );
