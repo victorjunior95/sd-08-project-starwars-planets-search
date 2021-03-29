@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StarWarsPlanets } from './provider/PlanetsContext';
+import { StarWarsPlanets } from './services/PlanetsContext';
 import PlanetsTable from './components/table';
 
 function App() {

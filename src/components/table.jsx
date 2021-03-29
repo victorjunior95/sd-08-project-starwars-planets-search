@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { Context } from '../provider/PlanetsContext';
+import { Context } from '../services/PlanetsContext';
 
 function PlanetsTable() {
-  const { data } = useContext(Context);
+  const { data, filteredPlanets } = useContext(Context);
   const tableHeaders = [
     'NAME',
     'ROTATION PERIOD',
@@ -19,6 +19,8 @@ function PlanetsTable() {
     'URL',
   ];
 
+  const renderPlanets = (filteredPlanets === [] ? data : filteredPlanets);
+
   return (
     <table>
       <thead>
@@ -31,7 +33,7 @@ function PlanetsTable() {
         </tr>
       </thead>
       <tbody>
-        { data.map((item, index) => (
+        { renderPlanets.map((item, index) => (
           <tr key={ index }>
             <td>{ item.name }</td>
             <td>{ item.rotation_period }</td>
@@ -45,7 +47,7 @@ function PlanetsTable() {
             <td>{ item.films }</td>
             <td>{ item.created }</td>
             <td>{ item.edited }</td>
-            <td>{ item.naurl }</td>
+            <td>{ item.url }</td>
           </tr>
         )) }
       </tbody>
