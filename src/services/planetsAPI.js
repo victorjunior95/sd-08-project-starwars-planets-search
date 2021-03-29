@@ -1,5 +1,3 @@
-// const fetch = require('node-fetch');
-
 const AND_POINT_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
 const getListPlanetsStarWars = () => (
   fetch(AND_POINT_API)
@@ -11,10 +9,3 @@ const getListPlanetsStarWars = () => (
 );
 
 export default getListPlanetsStarWars;
-
-// async function showConsole() {
-//   const exit = await getListPlanetsStarWars();
-//   console.log(exit);
-// }
-
-// showConsole();

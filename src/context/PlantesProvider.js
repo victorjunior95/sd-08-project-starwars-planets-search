@@ -12,7 +12,7 @@ function PlanetsProvider({ children }) {
     response.then((data) => {
       setListPlanets(data.results);
     });
-    console.log('eu sou o PlanetsProvider e estou  renderizado');
+    // console.log('eu sou o PlanetsProvider e estou  renderizado');
   }, []);
 
   const context = { listPlanets, setListPlanets, searchName, setSearchName };
