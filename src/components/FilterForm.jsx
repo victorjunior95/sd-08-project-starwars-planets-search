@@ -2,10 +2,9 @@ import React from 'react';
 import PlanetProvider from '../context/PlanetProvider';
 
 export default function FilterFrom() {
-
-    return (
-      <PlanetProvider >
+  return (
+    <PlanetProvider>
       <span>Hello, App!</span>
-      </PlanetProvider>
-    )
-  }
+    </PlanetProvider>
+  );
+}
