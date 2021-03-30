@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
 import { savePlanet } from '../context/PlanetContext';
-import FormPlanets from '../components/FormPlanets';
 
 function Table() {
-  const { filteredPlanets } = useContext(savePlanet);
+  const { data } = useContext(savePlanet);
   return (
     <div>
-      <FormPlanets />
       <table className="table table-bordered table-dark">
         <thead>
           <tr>
@@ -26,7 +24,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {filteredPlanets.map((planet, index) => (
+          {data.state.map((planet, index) => (
             <tr key={ index }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
