@@ -6,6 +6,7 @@ import getDataPlanetsStarWars from '../services/planetsAPI';
 const ONE = 1;
 function PlanetsProvider({ children }) {
   const [dataStarWars, setDataStarWars] = useState([]);
+  const [descriptions, setDescriptions] = useState([]);
 
   useEffect(() => {
     const response = getDataPlanetsStarWars();
@@ -19,10 +20,12 @@ function PlanetsProvider({ children }) {
         }
         return 0;
       }));
+      console.log('Provider Renderizado');
+      setDescriptions(Object.keys(data.results[0]));
     });
   }, []);
 
-  const context = { dataStarWars, setDataStarWars };
+  const context = { dataStarWars, setDataStarWars, descriptions };
 
   return <PlanetsContext.Provider value={ context }>{children}</PlanetsContext.Provider>;
 }

@@ -14,21 +14,21 @@ import PlanetsContext from '../context/PlanetsContext';
 // }
 
 export default function TableListPlanets() {
-  const { dataStarWars } = useContext(PlanetsContext);
-
+  const { dataStarWars, descriptions } = useContext(PlanetsContext);
   return (
     <div>
-
       <table>
         <thead>
           <tr>
-            {dataStarWars.map(({ name }, index) => (
-              <th
-                key={ index }
-                data-testid="column-sort"
-              >
-                {name}
-              </th>))}
+            {descriptions
+              .filter((element) => element !== 'residents')
+              .map((description, index) => (
+                <th
+                  key={ index }
+                  data-testid="column-sort"
+                >
+                  {description}
+                </th>))}
           </tr>
         </thead>
         <tbody>
@@ -54,16 +54,3 @@ export default function TableListPlanets() {
     </div>
   );
 }
-
-// (10) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-// 0: {name: "Alderaan", rotation_period: "24", orbital_period: "364", diameter: "12500", climate: "temperate", …}
-// 1: {name: "Bespin", rotation_period: "12", orbital_period: "5110", diameter: "118000", climate: "temperate", …}
-// 2: {name: "Coruscant", rotation_period: "24", orbital_period: "368", diameter: "12240", climate: "temperate", …}
-// 3: {name: "Dagobah", rotation_period: "23", orbital_period: "341", diameter: "8900", climate: "murky", …}
-// 4: {name: "Endor", rotation_period: "18", orbital_period: "402", diameter: "4900", climate: "temperate", …}
-// 5: {name: "Hoth", rotation_period: "23", orbital_period: "549", diameter: "7200", climate: "frozen", …}
-// 6: {name: "Kamino", rotation_period: "27", orbital_period: "463", diameter: "19720", climate: "temperate", …}
-// 7: {name: "Naboo", rotation_period: "26", orbital_period: "312", diameter: "12120", climate: "temperate", …}
-// 8: {name: "Tatooine", rotation_period: "23", orbital_period: "304", diameter: "10465", climate: "arid", …}
-// 9: {name: "Yavin IV", rotation_period: "24", orbital_period: "4818", diameter: "10200", climate: "temperate, tropical", …}
-// length: 10
