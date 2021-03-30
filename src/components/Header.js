@@ -90,7 +90,7 @@ export default function Header() {
         data-testid="column-sort"
         id="column-sort"
         name="column-sort"
-        onClick={ (e) => setSortColumn(e.target.value) }
+        onChange={ (e) => setSortColumn(e.target.value) }
       >
         {tableHeader.map((column, index) => (
           <option
@@ -105,7 +105,7 @@ export default function Header() {
         ASC
         <input
           type="radio"
-          onClick={ (e) => setSortOrder(e.target.value) }
+          onChange={ (e) => setSortOrder(e.target.value) }
           value="ASC"
           name="sort"
           data-testid="column-sort-input-asc"
