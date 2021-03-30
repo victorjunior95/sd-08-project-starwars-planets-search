@@ -61,7 +61,12 @@ function PlanetsProvider({ children }) {
 
   const data = [...filter(dataStarWars, filters)];
 
-  const context = { data, setDataStarWars, descriptions, filters, setFilters };
+  const context = { data,
+    setDataStarWars,
+    descriptions,
+    filters,
+    setFilters,
+    setDescriptions };
 
   return <PlanetsContext.Provider value={ context }>{children}</PlanetsContext.Provider>;
 }
