@@ -8,8 +8,8 @@ function App() {
   return (
     <div>
       <SWProvider>
-        <Header />
-        <Table  />
+        <Header  />
+        <Table />
       </SWProvider>
     </div>
   );

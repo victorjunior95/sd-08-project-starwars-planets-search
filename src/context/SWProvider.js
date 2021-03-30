@@ -168,11 +168,11 @@ export default function SWProvider({ children }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   // console.log('Filtro mudou');
-  //   UseFilter();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [filter]);
+  useEffect(() => {
+    // console.log('Filtro mudou');
+    UseFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
 
   const deleteFilter = (e) => {
     let result = filter.filters.filterByNumericValues.filter((_, index) => (index !== e));
@@ -182,6 +182,7 @@ export default function SWProvider({ children }) {
         filterByNumericValues: result,
         order: filter.filters.order } };
     setFilter(result);
+    // MakeFilter();
   };
 
   // useEffect(() => {
