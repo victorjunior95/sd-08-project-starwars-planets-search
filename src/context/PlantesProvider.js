@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 import getListPlanetsStarWars from '../services/planetsAPI';
 
+const ONE = 1;
 function PlanetsProvider({ children }) {
   const [listPlanets, setListPlanets] = useState([]);
   const [searchName, setSearchName] = useState({ name: 'Tatoo' });
@@ -10,9 +11,17 @@ function PlanetsProvider({ children }) {
   useEffect(() => {
     const response = getListPlanetsStarWars();
     response.then((data) => {
-      setListPlanets(data.results);
+      setListPlanets(data.results.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return -ONE;
+        }
+        // a must be equal to b
+        return 0;
+      }));
     });
-    // console.log('eu sou o PlanetsProvider e estou  renderizado');
   }, []);
 
   const context = { listPlanets, setListPlanets, searchName, setSearchName };

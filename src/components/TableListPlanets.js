@@ -6,15 +6,17 @@ const HEADER_LIST_DESCRIPTIONS_PLANETS = ['Name', 'Rotation Period', 'Orbital Pe
   'Population', 'Films', 'Created', 'Edited', 'URL'];
 
 const MIN_LENGTH = 3;
+const NEGATIVE_ONE = -1;
 
 export default function TableListPlanets() {
-  const { listPlanets, searchName } = useContext(PlanetsContext);
+  const { listPlanets, searchName, setSearchName } = useContext(PlanetsContext);
   const [data, setData] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '100000',
   });
   const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState('');
 
   let renderHere = [];
   if (typeof searchName === 'undefined') {
@@ -41,9 +43,37 @@ export default function TableListPlanets() {
   const handleChange = ({ target: { value, name } }) => {
     setData({ ...data, [name]: value });
   };
-  const handleSubmit = () => {
+  const handleChangeSort = ({ target: { id } }) => {
+    setSort(id);
+  };
+  const handleClick = () => {
     setFilter({ ...data });
   };
+
+  const words = renderHere.filter((element) => element.population === 'unknown');
+  const planets = renderHere.filter((element) => element.population !== 'unknown');
+  if (sort === 'asc') {
+    renderHere = planets.sort((a, b) => {
+      if (Number(a.population) > Number(b.population)) {
+        return 1;
+      }
+      if (Number(a.population) < Number(b.population)) {
+        return NEGATIVE_ONE;
+      }
+      return 0;
+    }).concat(words);
+  }
+  if (sort === 'des') {
+    renderHere = planets.sort((a, b) => {
+      if (Number(a.population) < Number(b.population)) {
+        return 1;
+      }
+      if (Number(a.population) > Number(b.population)) {
+        return NEGATIVE_ONE;
+      }
+      return 0;
+    }).concat(words);
+  }
   return (
     <>
       <div>
@@ -75,7 +105,7 @@ export default function TableListPlanets() {
           name="value"
         />
         <button
-          onClick={ handleSubmit }
+          onClick={ handleClick }
           data-testid="button-filter"
           type="button"
           value="Filtrar"
@@ -83,14 +113,54 @@ export default function TableListPlanets() {
           Filtrar
         </button>
       </div>
+      <div>
+        <input
+          data-testid="column-sort-input-asc"
+          type="radio"
+          name="1"
+          id="asc"
+          onChange={ (event) => handleChangeSort(event) }
+        />
+        ASC
+        <input
+          data-testid="column-sort-input-desc"
+          type="radio"
+          name="1"
+          id="des"
+          onChange={ (event) => handleChangeSort(event) }
+        />
+        DES
+        <button
+          data-testid="column-sort-button"
+          type="button"
+        >
+          Ordenar
+        </button>
+      </div>
+      <button
+        id=""
+        onClick={ (event) => {
+          setFilter({});
+          setSearchName();
+          handleChangeSort(event);
+        } }
+        data-testid="filter"
+        type="button"
+        value="Filtrar"
+      >
+        X
+      </button>
 
       <table>
         <thead>
           <tr>
             {HEADER_LIST_DESCRIPTIONS_PLANETS.map((description, index) => (
-              <th key={ index }>
+              <th
+                key={ index }
+                data-testid={ description === 'Population' ? 'column-sort' : '' }
+              >
                 {description}
-              </th>)) }
+              </th>))}
           </tr>
         </thead>
         <tbody>
