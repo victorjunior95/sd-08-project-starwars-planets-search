@@ -21,8 +21,6 @@ function Provider({ children }) {
     setIsLoading(true);
   }
 
-  console.log(data);
-
   useEffect(() => {
     const { filterByName: { text } } = filters;
     const filtered = data.filter((item) => item.name.includes(text));
@@ -35,13 +33,13 @@ function Provider({ children }) {
 
   useEffect(() => {
     numFilter.forEach(({ column, comparison, value }) => {
-      if (comparison === '>') {
+      if (comparison === 'maior que') {
         return setFilteredPlanets(data.filter((planet) => +planet[column] > +value));
       }
-      if (comparison === '===') {
+      if (comparison === 'igual a') {
         return setFilteredPlanets(data.filter((planet) => +planet[column] === +value));
       }
-      if (comparison === '<') {
+      if (comparison === 'menor que') {
         return setFilteredPlanets(data.filter((planet) => +planet[column] < +value));
       }
     });
