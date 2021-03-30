@@ -2,13 +2,14 @@ import React from 'react';
 import './App.css';
 import FilterForm from './components/FilterForm';
 import Table from './components/Table';
+import PlanetProvider from './context/PlanetProvider';
 
 function App() {
   return (
-    <main>
+    <PlanetProvider>
       <FilterForm />
       <Table />
-    </main>
+    </PlanetProvider>
   );
 }
 

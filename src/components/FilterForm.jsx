@@ -1,19 +1,11 @@
 import React from 'react';
-import PlanetContext from '../context/PlanetContext';
+import PlanetProvider from '../context/PlanetProvider';
 
-class FilterFrom extends React.Component {
-  constructor(props){
-    super(props)
-    this.state={
-      data: {}
-    }
-  }
-  
-  render() {
+export default function FilterFrom() {
+
     return (
-      <PlanetContext.Provider data={}>
+      <PlanetProvider >
       <span>Hello, App!</span>
-      </PlanetContext.Provider>
+      </PlanetProvider>
     )
   }
-}
