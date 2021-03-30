@@ -1,25 +1,26 @@
 import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
-const SELECT_FILTER = ['population',
+const INITIAL_SELECT_OPTIONS_FILTER = ['population',
   'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
+const INITIAL_DATA_FILTERS = {
+  column: 'population',
+  comparison: 'maior que',
+  value: '',
+};
 export default function FilterSelect() {
   const { setFilters, filters } = useContext(PlanetsContext);
-  const [selectFilters, setSelectFilters] = useState(SELECT_FILTER);
-  const [localFilter, setLocalFilter] = useState({
-    column: 'population',
-    comparison: 'maior que',
-    value: '',
-  });
+  const [selectFilters, setSelectFilters] = useState(INITIAL_SELECT_OPTIONS_FILTER);
+  const [dataFilters, setDataFilters] = useState(INITIAL_DATA_FILTERS);
 
   const handleChange = ({ target: { value, name } }) => {
-    setLocalFilter({ ...localFilter, [name]: value });
+    setDataFilters({ ...dataFilters, [name]: value });
   };
 
   const handleClick = () => {
-    setFilters({ ...filters, ...{ filterByNumericValues: [localFilter] } });
-    const { column, value } = localFilter;
+    setFilters({ ...filters, ...{ filterByNumericValues: [dataFilters] } });
+    const { column, value } = dataFilters;
     if (value) {
       const newSelectFilters = selectFilters.filter((element) => element !== column);
       setSelectFilters(newSelectFilters);
