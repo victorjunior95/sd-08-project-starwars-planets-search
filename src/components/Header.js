@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import SWContext from '../context/SWContext';
 
 export default function Header() {
-  const { filterbyName, setFilterbyName, filter, MakeFilter,
+  const { filterByName, setFilterByName, filter, MakeFilter,
     setFilterComparison, setFilterColumn, setFilterNumber,
     deleteFilter, setSortOrder, setSortColumn } = useContext(SWContext);
   const colList = ['population',
@@ -40,14 +40,14 @@ export default function Header() {
     <div>
       <input
         type="text"
-        value={ filterbyName }
-        onChange={ (e) => { setFilterbyName(e.target.value); } }
+        value={ filterByName }
+        onChange={ (e) => { setFilterByName(e.target.value); } }
         data-testid="name-filter"
       />
       <select
         data-testid="column-filter"
         name="column-filter"
-        onClick={ (e) => setFilterColumn(e.target.value) }
+        onChange={ (e) => setFilterColumn(e.target.value) }
       >
         {colList.map((column, index) => {
           if (filter.filters.filterByNumericValues.every((v) => v.column !== column)) {

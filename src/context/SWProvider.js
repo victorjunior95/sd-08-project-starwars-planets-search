@@ -6,7 +6,7 @@ import FetchStarWars from '../helpers/API';
 export default function SWProvider({ children }) {
   const GO_BACK = -1;
   const STAY = 1;
-  const [filterByName, setFilterbyName] = useState('');
+  const [filterByName, setFilterByName] = useState('');
   const [filter, setFilter] = useState({
     filters: { filterByName: { name: '' },
       filterByNumericValues: [],
@@ -19,7 +19,7 @@ export default function SWProvider({ children }) {
   const [sortOrder, setSortOrder] = useState('ASC');
   const [sortColumn, setSortColumn] = useState('name');
   // const inputName = (e) => {
-  //   getFilterbyName(e.target.value);
+  //   getFilterByName(e.target.value);
   //   Filter();
   // }
   // 
@@ -185,14 +185,14 @@ export default function SWProvider({ children }) {
     // MakeFilter();
   };
 
-  // useEffect(() => {
-  //   MakeFilter();
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [filterByName]);
+  useEffect(() => {
+    MakeFilter();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterByName]);
 
   const context = {
     filterByName,
-    setFilterbyName,
+    setFilterByName,
     filter,
     MakeFilter,
     setFilterComparison,
