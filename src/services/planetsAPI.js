@@ -1,5 +1,5 @@
 const AND_POINT_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
-const getListPlanetsStarWars = () => (
+const getDataPlanetsStarWars = () => (
   fetch(AND_POINT_API)
     .then((response) => (
       response
@@ -8,4 +8,4 @@ const getListPlanetsStarWars = () => (
     ))
 );
 
-export default getListPlanetsStarWars;
+export default getDataPlanetsStarWars;
