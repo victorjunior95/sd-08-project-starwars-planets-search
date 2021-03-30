@@ -13,6 +13,7 @@ function Provider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState(filterState);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [numFilter, setNumFilter] = useState([]);
 
   async function fetchPlanets() {
     const planets = await getPlanets();
@@ -20,15 +21,32 @@ function Provider({ children }) {
     setIsLoading(true);
   }
 
+  console.log(data);
+
+  useEffect(() => {
+    const { filterByName: { text } } = filters;
+    const filtered = data.filter((item) => item.name.includes(text));
+    setFilteredPlanets(filtered);
+  }, [data, filters]);
+
   useEffect(() => {
     fetchPlanets();
   }, []);
 
   useEffect(() => {
-    const { filterByName: { text } } = filters;
-    const filtered = data.filter((planet) => planet.name.includes(text));
-    setFilteredPlanets(filtered);
-  }, [filters, data]);
+    numFilter.forEach(({ column, comparison, value }) => {
+      if (comparison === '>') {
+        return setFilteredPlanets(data.filter((planet) => +planet[column] > +value));
+      }
+      if (comparison === '===') {
+        return setFilteredPlanets(data.filter((planet) => +planet[column] === +value));
+      }
+      if (comparison === '<') {
+        return setFilteredPlanets(data.filter((planet) => +planet[column] < +value));
+      }
+    });
+  },
+  [data, numFilter]);
 
   const contextValue = {
     data,
@@ -36,6 +54,9 @@ function Provider({ children }) {
     filters,
     setFilters,
     filteredPlanets,
+    numFilter,
+    setNumFilter,
+
   };
 
   return (

@@ -4,7 +4,7 @@ import TableHeaders from './TableHeaders';
 
 export default function Table() {
   const { filteredPlanets, isLoading } = useContext(StarWarsContext);
-  console.log(StarWarsContext);
+  console.log(filteredPlanets);
   return (
     isLoading
     && (
