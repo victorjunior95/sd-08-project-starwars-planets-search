@@ -1,20 +1,8 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
-// function renderSelect() {
-//   return (
-//     <>
-//       <option value="population">population</option>
-//       <option value="orbital_period">orbital_period</option>
-//       <option value="diameter">diameter</option>
-//       <option value="rotation_period">rotation_period</option>
-//       <option value="surface_water">surface_water</option>
-//     </>
-//   );
-// }
-
 export default function TableListPlanets() {
-  const { dataStarWars, descriptions } = useContext(PlanetsContext);
+  const { data, descriptions } = useContext(PlanetsContext);
   return (
     <div>
       <table>
@@ -32,8 +20,8 @@ export default function TableListPlanets() {
           </tr>
         </thead>
         <tbody>
-          { dataStarWars.map((planet) => (
-            <tr key={ planet.name }>
+          { data.map((planet, index) => (
+            <tr key={ index }>
               <td data-testid="planet-name">{planet.name}</td>
               <td>{planet.rotation_period}</td>
               <td>{planet.orbital_period}</td>
