@@ -1,20 +1,46 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect } from 'react';
-import { Table, InputGroup, FormControl } from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  Table,
+  InputGroup,
+  FormControl,
+  Button,
+} from 'react-bootstrap';
 import { Context } from '../context';
 
 const StarWarsTable = () => {
   const { dataObject, filterObject } = useContext(Context);
+  const [
+    filteredPlanets,
+    setFilteredPlanets,
+  ] = useState([]);
 
   useEffect(() => {
-    dataObject.set();
-    console.log('1');
+    dataObject.handleData(setFilteredPlanets);
   }, []);
-  console.log(filterObject);
+
+  const applyNumericFilters = ({ column, comparison, value }) => {
+    const { data } = dataObject;
+    // if (!column || !comparison || !value) setFilteredPlanets(data);
+    console.log('chamou', column, comparison, value);
+    switch (comparison) {
+    case 'maior que':
+      setFilteredPlanets(data.filter((planet) => Number(planet[column]) > Number(value)));
+      break;
+    case 'menor que':
+      setFilteredPlanets(data.filter((planet) => Number(planet[column]) < Number(value)));
+      break;
+    case 'igual a':
+      setFilteredPlanets(data.filter((planet) => planet[column] === value));
+      break;
+    default:
+      setFilteredPlanets(data);
+    }
+  };
 
   return (
     <div>
-      <InputGroup className="mb-3">
+      <InputGroup className="mb-3 p-2">
         <InputGroup.Prepend>
           <InputGroup.Text id="basic-addon1">Filter by name</InputGroup.Text>
         </InputGroup.Prepend>
@@ -22,12 +48,66 @@ const StarWarsTable = () => {
           data-testid="name-filter"
           placeholder="Planet name"
           aria-describedby="basic-addon1"
-          value={ filterObject.value.filters.filterByName.name }
+          value={ filterObject.filters.filterByName.name }
           onChange={ ({ target }) => {
-            filterObject.set(target.value);
+            filterObject.handleFilterByName(target.value);
           } }
         />
       </InputGroup>
+      <section className="p-2 mb-3">
+        <select
+          data-testid="column-filter"
+          className="browser-default custom-select mb-2"
+          value={ filterObject.filters.filterByNumericValues.column }
+          onChange={ ({ target }) => {
+            filterObject.handleFilterByNumericValues('column', target.value);
+          } }
+        >
+          <option selected value="">Select the parameter</option>
+          <option value="population">Population</option>
+          <option value="orbital_period">Orbital period</option>
+          <option value="diameter">Diameter</option>
+          <option value="rotation_period">Rotation period</option>
+          <option value="surface_water">Surface water</option>
+        </select>
+        <select
+          data-testid="comparison-filter"
+          className="browser-default custom-select mb-2"
+          value={ filterObject.filters.filterByNumericValues.comparison }
+          onChange={ ({ target }) => {
+            filterObject.handleFilterByNumericValues('comparison', target.value);
+          } }
+        >
+          <option selected>Select the comparison</option>
+          <option value="maior que">Maior que</option>
+          <option value="menor que">Menor que</option>
+          <option value="igual a">Igual a</option>
+        </select>
+        <InputGroup className="mb-2">
+          <FormControl
+            data-testid="name-filter"
+            placeholder="Number"
+            aria-describedby="basic-addon1"
+            value={ filterObject.filters.filterByNumericValues.value }
+            onChange={ ({ target }) => {
+              filterObject.handleFilterByNumericValues('value', target.value);
+            } }
+          />
+        </InputGroup>
+        <Button
+          disabled={ !filterObject.filters.filterByNumericValues[0].column
+            || !filterObject.filters.filterByNumericValues[0].comparison
+            || !filterObject.filters.filterByNumericValues[0].value }
+          variant="secondary"
+          size="sm"
+          block
+          onClick={ () => {
+            applyNumericFilters(filterObject.filters.filterByNumericValues[0]);
+          } }
+        >
+          Apply filters
+        </Button>
+      </section>
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
@@ -47,10 +127,10 @@ const StarWarsTable = () => {
           </tr>
         </thead>
         <tbody>
-          { dataObject.value
-            ? dataObject.value
+          { filteredPlanets
+            ? filteredPlanets
               .filter((result) => result.name.includes(
-                filterObject.value.filters.filterByName.name,
+                filterObject.filters.filterByName.name,
               ))
               .map((planet) => (
                 <tr key={ planet.name }>

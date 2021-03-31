@@ -5,33 +5,46 @@ export const Context = createContext();
 
 const ContextProvider = ({ children }) => {
   const [data, setData] = useState();
-  const handleData = async () => {
+  const handleData = async (callback) => {
     const result = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((res) => res.json())
-      .then((apiData) => apiData.results)
+      .then((apiData) => {
+        callback(apiData.results);
+        return apiData.results;
+      })
       .catch((err) => console.log(err));
     setData(result);
   };
 
-  const [filter, setFilter] = useState({
-    filters: {
-      filterByName: { name: '' },
-    },
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [{
+      column: '',
+      comparison: '',
+      value: '',
+    }],
   });
   const handleFilterByName = (name) => {
-    setFilter({
-      filters: {
-        ...filter.filters,
-        filterByName: {
-          name,
-        },
+    setFilters({
+      ...filters,
+      filterByName: {
+        name,
       },
+    });
+  };
+  const handleFilterByNumericValues = (type, value) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [{
+        ...filters.filterByNumericValues[0],
+        [type]: value,
+      }],
     });
   };
 
   const obj = {
-    dataObject: { value: data, set: handleData },
-    filterObject: { value: filter, set: handleFilterByName },
+    dataObject: { data, handleData },
+    filterObject: { filters, handleFilterByName, handleFilterByNumericValues },
   };
 
   return (
