@@ -19,7 +19,7 @@ function PlanetsProvider({ children }) {
 
   const filters = {
     filterByName,
-  }
+  };
 
   const state = {
     data,
