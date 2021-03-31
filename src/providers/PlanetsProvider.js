@@ -6,6 +6,7 @@ import { getPlanetsFromApi } from '../services/requests';
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [filterByName, setFilterByName] = useState({ name: '' });
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
   async function fetchPlanets() {
     const allPlanets = await getPlanetsFromApi();
@@ -17,8 +18,15 @@ function PlanetsProvider({ children }) {
     setFilterByName({ name });
   }
 
+  function addNumericFilter() {
+  }
+
+  function removeNumericFilter() {
+  }
+
   const filters = {
     filterByName,
+    filterByNumericValues,
   };
 
   const state = {

@@ -34,6 +34,16 @@ function Home() {
         />
       <Select testid="column-filter" options={ numericColumns } />
       <Select testid="comparison-filter" options={ comparisonOptions } />
+      <input
+        data-testid="value-filter"
+        type="number"
+      />
+      <button
+        data-testid="button-filter"
+        type="button"
+      >
+        Filtrar
+      </button>
       </header>
       { !isFetching && <Table /> }
     </>
