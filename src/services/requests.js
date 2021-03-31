@@ -8,7 +8,7 @@ export async function getPlanetsFromApi() {
 
 export async function getPlanetKeys() {
   const planets = await getPlanetsFromApi();
-  delete planets[0].url;
+  delete planets[0].residents;
   const keys = Object.keys(planets[0]);
   return keys;
 }
