@@ -83,7 +83,7 @@ const StarWarsTable = () => {
         </select>
         <InputGroup className="mb-2">
           <FormControl
-            data-testid="name-filter"
+            data-testid="value-filter"
             placeholder="Number"
             aria-describedby="basic-addon1"
             value={ filterObject.filters.filterByNumericValues.value }
@@ -93,6 +93,7 @@ const StarWarsTable = () => {
           />
         </InputGroup>
         <Button
+          data-testid="button-filter"
           disabled={ !filterObject.filters.filterByNumericValues[0].column
             || !filterObject.filters.filterByNumericValues[0].comparison
             || !filterObject.filters.filterByNumericValues[0].value }
