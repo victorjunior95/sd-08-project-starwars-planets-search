@@ -4,7 +4,16 @@ import PropTypes from 'prop-types';
 export const APIContext = createContext([]);
 
 const ProviderAPI = ({ children }) => {
+  const FILTERS_STRUCT = {
+    filterByName: {
+      name: '',
+    },
+  };
+
+  const [filters, setFilters] = useState(FILTERS_STRUCT);
   const [planetArray, setPlanetArray] = useState([]);
+  const [filterArray, setFilterArray] = useState([]);
+
   useEffect(() => {
     const getAPI = async () => {
       const API = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -16,16 +25,28 @@ const ProviderAPI = ({ children }) => {
       });
       // console.log(results);
       setPlanetArray(planetList);
+      setFilterArray(planetList);
     };
     getAPI();
   }, []);
+
+  function filteredPlanetsByName(planet) {
+    const filteredPlanets = planetArray.length > 0 ? planetArray
+      .filter((pnt) => pnt.name.toLowerCase().includes(planet.toLowerCase()))
+      : [];
+    setFilterArray(filteredPlanets);
+  }
+
   const objData = {
-    planetArray,
+    filterArray,
+    filters,
+    setFilters,
+    filteredPlanetsByName,
   };
 
   return (
     <APIContext.Provider value={ objData }>
-      { children }
+      { children}
     </APIContext.Provider>
   );
 };

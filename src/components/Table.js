@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { APIContext } from '../services/context';
 
 export default function Table() {
-  const { planetArray } = useContext(APIContext);
+  const { filterArray } = useContext(APIContext);
   return (
     <table>
-      {console.log(planetArray)}
+      {console.log(filterArray)}
       <thead>
         <tr>
           <th>name</th>
@@ -24,7 +24,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {planetArray.map((array) => (
+        {filterArray.map((array) => (
           <tr key={ array.name }>
             <td>{array.name}</td>
             <td>{array.rotation_period}</td>
