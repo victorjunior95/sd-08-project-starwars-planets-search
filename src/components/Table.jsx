@@ -21,8 +21,6 @@ const StarWarsTable = () => {
 
   const applyNumericFilters = ({ column, comparison, value }) => {
     const { data } = dataObject;
-    // if (!column || !comparison || !value) setFilteredPlanets(data);
-    console.log('chamou', column, comparison, value);
     switch (comparison) {
     case 'maior que':
       setFilteredPlanets(data.filter((planet) => Number(planet[column]) > Number(value)));
