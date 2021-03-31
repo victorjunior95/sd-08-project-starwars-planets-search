@@ -4,7 +4,9 @@ import { getPlanetKeys } from '../services/requests';
 
 function PlanetsTable() {
   const [keys, setKeys] = useState([]);
-  const { data } = useContext(PlanetsContext);
+  const { data, filters } = useContext(PlanetsContext);
+  const { name } = filters.filterByName;
+  const filtredData = data.filter((planet) => planet.name.includes(name)) || [];
 
   useEffect(() => {
     const updateKeys = async () => {
@@ -25,14 +27,11 @@ function PlanetsTable() {
         </tr>
       </thead>
       <tbody>
-        { data.map((planet, index) => (
+        { filtredData.map((planet, index) => (
           <tr key={ index }>
             { keys.map((key) => (
               <td key={ key }>
                 {
-                  // typeof planet[key] === 'string'
-                  //   ? planet[key]
-                  //   : console.log(`aqui ------------------------------- ${planet[key][0]}`)
                   planet[key]
                 }
               </td>
