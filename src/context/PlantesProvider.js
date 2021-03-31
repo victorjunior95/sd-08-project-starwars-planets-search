@@ -5,27 +5,68 @@ import getDataPlanetsStarWars from '../services/planetsAPI';
 
 const ONE = 1;
 
+const filterByName = (name, newData) => {
+  newData = newData.filter((element) => element.name
+    .toUpperCase()
+    .includes(name.toUpperCase()));
+  return newData;
+};
+
+const filterByNumbers = (column, comparison, value, newData) => {
+  if (comparison === 'maior que') {
+    return newData.filter((element) => Number(element[column]) > Number(value));
+  }
+  if (comparison === 'menor que') {
+    return newData.filter((element) => Number(element[column]) < Number(value));
+  }
+  if (comparison === 'igual a') {
+    return newData.filter((element) => Number(element[column]) === Number(value));
+  }
+};
+
+const filterByColumns = (order, newData) => {
+  const { column, sort } = order;
+  if (sort === 'DESC') {
+    return newData.sort((a, b) => {
+      if (Number(a[column]) < Number(b[column])) {
+        return 1;
+      }
+      if (Number(a[column]) > Number(b[column])) {
+        return -ONE;
+      }
+      return 0;
+    });
+  }
+  return newData.sort((a, b) => {
+    if (Number(a[column]) > Number(b[column])) {
+      return 1;
+    }
+    if (Number(a[column]) < Number(b[column])) {
+      return -ONE;
+    }
+    return 0;
+  });
+};
+
 const filter = (dataStarWars, filters) => {
   let newData = [...dataStarWars];
+  const { filterByName: { name }, order } = filters;
   const { filterByNumericValues } = filters;
   const [{ column, comparison, value }] = filterByNumericValues;
-  const { filterByName: { name } } = filters;
-  if (dataStarWars.length !== 0 || value) {
-    newData = newData.filter((element) => element.name
-      .toUpperCase()
-      .includes(name.toUpperCase()));
-    if (comparison === 'maior que') {
-      newData = newData.filter((element) => Number(element[column]) > Number(value));
-    }
-    if (comparison === 'menor que') {
-      newData = newData.filter((element) => Number(element[column]) < Number(value));
-    }
-    if (comparison === 'igual a') {
-      newData = newData.filter((element) => Number(element[column]) === Number(value));
-    }
-    return newData;
+
+  if (name) {
+    console.log(name);
+    newData = filterByName(name, newData);
+    // return newData;
   }
-  return dataStarWars;
+  if (value) {
+    newData = filterByNumbers(column, comparison, value, newData);
+  }
+  if (order.sort) {
+    newData = filterByColumns(order, newData);
+  }
+
+  return newData;
 };
 
 function PlanetsProvider({ children }) {
@@ -40,6 +81,10 @@ function PlanetsProvider({ children }) {
         value: '',
       },
     ],
+    order: {
+      column: 'name',
+      sort: '',
+    },
   });
 
   useEffect(() => {

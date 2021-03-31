@@ -6,7 +6,7 @@ const INITIAL_SELECT_OPTIONS_FILTER = ['population',
 
 const INITIAL_DATA_FILTERS = {
   column: 'population',
-  comparison: 'maior que',
+  comparison: '',
   value: '',
 };
 export default function FilterSelect() {
@@ -24,7 +24,6 @@ export default function FilterSelect() {
     if (value) {
       const newSelectFilters = selectFilters.filter((element) => element !== column);
       setSelectFilters(newSelectFilters);
-      console.log(newSelectFilters);
     }
   };
 
@@ -53,6 +52,7 @@ export default function FilterSelect() {
         onChange={ (event) => handleChange(event) }
         data-testid="value-filter"
         type="number"
+        placeholder="0"
         name="value"
       />
       <button

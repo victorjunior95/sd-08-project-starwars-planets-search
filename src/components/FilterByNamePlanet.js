@@ -11,12 +11,12 @@ export default function FilterByNamePlanet() {
 
   return (
     <label htmlFor="filter">
-      Filter By Name:
       <input
         id="filter"
         data-testid="name-filter"
         type="text"
         onChange={ ({ target: { value } }) => handleFilter(value) }
+        placeholder="Search by name"
       />
     </label>
   );
