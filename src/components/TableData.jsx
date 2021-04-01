@@ -1,51 +1,34 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { useTable } from 'react-table';
+import React, { useContext } from 'react';
+import Context from '../context/Context';
 
-export default function TableData({ columns, data }) {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  });
+export default function TableData() {
+  const { data } = useContext(Context);
+
+  function renderTableHeader() {
+    const columns = Object.keys(data[0]);
+    return columns.map((item) => <th key={ item }>{item}</th>);
+  }
+
+  function renderTableContent() {
+    const columns = Object.keys(data[0]);
+    return data.map((row, indexCell) => (
+      <tr key={ indexCell }>
+        {columns.map((item, index) => (
+          <td key={ `cell${index}` }>{row[item]}</td>
+        ))}
+      </tr>
+    ));
+  }
+  function isLoading() {
+    return <p>Carregando...</p>;
+  }
 
   return (
-    <table { ...getTableProps() }>
+    <table>
       <thead>
-        {headerGroups.map((headerGroup, index) => (
-          <tr key={ index } { ...headerGroup.getHeaderGroupProps() }>
-            {headerGroup.headers.map((column) => (
-              <th key={ `th${index}` } { ...column.getHeaderProps() }>
-                {column.render('Header')}
-              </th>
-            ))}
-          </tr>
-        ))}
+        <tr>{data[0] ? renderTableHeader() : isLoading()}</tr>
       </thead>
-      <tbody { ...getTableBodyProps() }>
-        {rows.map((row, index) => {
-          prepareRow(row);
-          return (
-            <tr key={ index } { ...row.getRowProps() }>
-              {row.cells.map((cell) => (
-                <td key={ `td${index}` } { ...cell.getCellProps() }>
-                  {cell.render('Cell')}
-                </td>
-              ))}
-            </tr>
-          );
-        })}
-      </tbody>
+      <tbody>{data[0] ? renderTableContent() : isLoading()}</tbody>
     </table>
   );
 }
-
-TableData.propTypes = {
-  columns: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-};
