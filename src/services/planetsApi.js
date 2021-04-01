@@ -4,7 +4,7 @@ const getPlanets = async () => {
   try {
     const planetResponse = await fetch(ENDPOINT_PLANTET);
     const planetResponseJson = await planetResponse.json();
-    return planetResponseJson;
+    return planetResponseJson.results;
   } catch (error) {
     return error;
   }

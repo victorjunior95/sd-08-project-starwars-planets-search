@@ -41,12 +41,12 @@ function StarWarsProvider({ children }) {
     }));
   };
 
-  console.log(data);
   useEffect(() => {
     async function returnedAPI() {
       setIsFetching(true);
       const planetResponseJson = await getPlanets();
-      setData(planetResponseJson.results);
+      delete planetResponseJson[0].residents;
+      setData(planetResponseJson);
     }
     returnedAPI();
     setIsFetching(false);

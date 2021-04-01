@@ -19,7 +19,7 @@ function Tables() {
     'Data de Edição',
     'URL',
   ];
-
+  console.log(data);
   return !isFetching ? (
     <table>
       <thead>
@@ -29,11 +29,9 @@ function Tables() {
           ))}
         </tr>
       </thead>
-      <tbody>
-        {data.map((result, index) => (
-          <TableCard key={index} result={result} />
-        ))}
-      </tbody>
+      {data.map((result, index) => (
+        <TableCard key={index} result={result} />
+      ))}
     </table>
   ) : (
     <span>Carregando...</span>
