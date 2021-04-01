@@ -6,14 +6,14 @@ import Context from './Context';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [filterByName, setFilterByName] = useState({ name: '' });
-  const [filterByNumericValues, setFilterByNumericValues] = useState({
-    column: 'population',
-    comparison: 'maior que',
-    value: '',
-  });
+  // const [filterByNumericValues, setFilterByNumericValues] = useState({
+  //   column: 'population',
+  //   comparison: 'maior que',
+  //   value: '',
+  // });
   const filters = {
     filterByName,
-    filterByNumericValues,
+    // filterByNumericValues,
   };
 
   useEffect(() => {
@@ -56,8 +56,7 @@ function Provider({ children }) {
   const context = {
     filters,
     handleFilterNameChange,
-    handleFilterNumericChange,
-    setFilterByNumericValues,
+    // handleFilterNumericChange,
     data,
   };
 
