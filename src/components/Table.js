@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../contexts/PlanetsContext';
+import filterDataByNumericValues from '../helpers/filterDataByNumericValues';
 import { getPlanetKeys } from '../services/requests';
 
 function PlanetsTable() {
   const [keys, setKeys] = useState([]);
   const { data, filters } = useContext(PlanetsContext);
   const { name } = filters.filterByName;
-  const filtredData = data.filter((planet) => planet.name.includes(name)) || [];
+  const { filterByNumericValues } = filters;
+  const filtredDataByName = data.filter((planet) => planet.name.includes(name)) || [];
+  const filtredData = filterDataByNumericValues(filtredDataByName, filterByNumericValues);
 
   useEffect(() => {
     const updateKeys = async () => {

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Table from '../components/Table';
 import PlanetsContext from '../contexts/PlanetsContext';
 import Select from '../components/Select';
+import NumericFilters from '../components/NumericFilters';
 
 function Home() {
   const [isFetching, setIsFetching] = useState(true);
@@ -57,6 +58,7 @@ function Home() {
         >
           Filtrar
         </button>
+        <NumericFilters />
       </header>
       { !isFetching && <Table /> }
     </>
