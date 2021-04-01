@@ -9,10 +9,11 @@ const INITIAL_DATA_FILTERS = {
   comparison: '',
   value: '',
 };
+
 export default function FilterSelect() {
   const { setFilters, filters } = useContext(PlanetsContext);
   const [selectFilters, setSelectFilters] = useState(INITIAL_SELECT_OPTIONS_FILTER);
-  const [dataFilters, setDataFilters] = useState(INITIAL_DATA_FILTERS);
+  const [dataFilters, setDataFilters] = useState({ ...INITIAL_DATA_FILTERS });
 
   const handleChange = ({ target: { value, name } }) => {
     setDataFilters({ ...dataFilters, [name]: value });
@@ -25,6 +26,11 @@ export default function FilterSelect() {
       const newSelectFilters = selectFilters.filter((element) => element !== column);
       setSelectFilters(newSelectFilters);
     }
+  };
+  const handleClear = () => {
+    setFilters({ ...filters, ...{ filterByNumericValues: [INITIAL_DATA_FILTERS] } });
+
+    setSelectFilters(INITIAL_SELECT_OPTIONS_FILTER);
   };
 
   return (
@@ -63,6 +69,16 @@ export default function FilterSelect() {
       >
         Filtrar
       </button>
+      <div data-testid="filter">
+        <button
+          type="button"
+          value="X"
+          onClick={ () => handleClear() }
+        >
+          X
+        </button>
+
+      </div>
     </>
   );
 }

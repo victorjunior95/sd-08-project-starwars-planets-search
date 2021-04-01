@@ -24,7 +24,7 @@ const filterByNumbers = (column, comparison, value, newData) => {
   }
 };
 
-const filterByColumns = (order, newData) => {
+const filterColumnsBySort = (order, newData) => {
   const { column, sort } = order;
   if (sort === 'DESC') {
     return newData.sort((a, b) => {
@@ -57,13 +57,12 @@ const filter = (dataStarWars, filters) => {
   if (name) {
     console.log(name);
     newData = filterByName(name, newData);
-    // return newData;
   }
   if (value) {
     newData = filterByNumbers(column, comparison, value, newData);
   }
   if (order.sort) {
-    newData = filterByColumns(order, newData);
+    newData = filterColumnsBySort(order, newData);
   }
 
   return newData;
