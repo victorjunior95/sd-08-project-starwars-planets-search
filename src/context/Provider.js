@@ -5,16 +5,16 @@ import Context from './Context';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  // const [filterByName, setFilterByName] = useState({ name: '' });
-  // const [filterByNumericValues, setFilterByNumericValues] = useState({
-  //   column: 'population',
-  //   comparison: 'maior que',
-  //   value: '',
-  // });
-  // const filters = {
-  //   filterByName,
-  //   filterByNumericValues,
-  // };
+  const [filterByName, setFilterByName] = useState({ name: '' });
+  const [filterByNumericValues, setFilterByNumericValues] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
+  const filters = {
+    filterByName,
+    filterByNumericValues,
+  };
 
   useEffect(() => {
     (async () => {
@@ -27,12 +27,11 @@ function Provider({ children }) {
     })();
   }, []);
 
-  // const handleFilterNameChange = (e) => {
-  //   const value = e.target.value || undefined;
-  //   const inputName = e.target.name;
-  //   setFilter('name', value);
-  //   setFilterByName({ [inputName]: value });
-  // };
+  const handleFilterNameChange = (e) => {
+    const value = e.target.value || undefined;
+    const inputName = e.target.name;
+    setFilterByName({ [inputName]: value });
+  };
 
   // const setNumericFilter = () => {
   //   const { column, comparison, value } = filters.filterByNumericValues;
@@ -55,8 +54,8 @@ function Provider({ children }) {
   // };
 
   const context = {
-    // filters,
-    // handleFilterNameChange,
+    filters,
+    handleFilterNameChange,
     // handleFilterNumericChange,
     data,
   };
