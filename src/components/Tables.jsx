@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 import TableCard from '../components/TableCard';
+import SearchNameFilter from './SearchNameFilter';
 
 function Tables() {
-  const { data, isFetching } = useContext(StarWarsContext);
+  const { data, dataForRendering, isFetching } = useContext(StarWarsContext);
   const tableHeaders = [
     'Nome',
     'Tempo de Rotação',
@@ -19,8 +20,11 @@ function Tables() {
     'Data de Edição',
     'URL',
   ];
-  console.log(data);
+  console.log('tables');
+  
   return !isFetching ? (
+    <>
+    <SearchNameFilter />
     <table>
       <thead>
         <tr>
@@ -29,10 +33,11 @@ function Tables() {
           ))}
         </tr>
       </thead>
-      {data.map((result, index) => (
+      {dataForRendering.map((result, index) => (
         <TableCard key={index} result={result} />
       ))}
     </table>
+    </>
   ) : (
     <span>Carregando...</span>
   );

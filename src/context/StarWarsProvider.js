@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import StarWarsContext from "./StarWarsContext";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import StarWarsContext from './StarWarsContext';
 import getPlanets from '../services/planetsApi';
 
 const standardFilter = {
   filterByName: {
-    name: "",
+    name: '',
   },
   filterByNumericValues: [],
+  order: {
+    column: 'Name',
+    sort: 'ASC',
+  },
 };
 
 function StarWarsProvider({ children }) {
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState([]);
-  const [searchName, setSearchName] = useState("");
+  const [dataForRendering, setDataForRendering] = useState([]);
+  const [searchName, setSearchName] = useState('');
   const [filters, setFilteredData] = useState(standardFilter);
-  const [allFilteredNumbers, setAllFilteredNumbers] = useState("");
+  const [allFilteredNumbers, setAllFilteredNumbers] = useState('');
 
   const setName = (name) => {
     setFilteredData((previousState) => ({
@@ -24,7 +29,6 @@ function StarWarsProvider({ children }) {
         name,
       },
     }));
-
   };
 
   const addFilterNumericValue = (column, comparison, value) => {
@@ -45,12 +49,26 @@ function StarWarsProvider({ children }) {
     async function returnedAPI() {
       setIsFetching(true);
       const planetResponseJson = await getPlanets();
-      delete planetResponseJson[0].residents;
+      planetResponseJson.forEach((planet) => delete planet.residents);
       setData(planetResponseJson);
+      setDataForRendering(planetResponseJson)
     }
     returnedAPI();
     setIsFetching(false);
   }, []);
+
+  useEffect(() => {
+    console.log('novoUseEffect');
+    const {
+      filterByName: { name },
+    } = filters;
+    const filteredName = data.filter((planetName) =>
+      planetName.name.toLowerCase().includes(name.toLocaleLowerCase())
+    );
+    setDataForRendering(filteredName);
+  }, [filters]);
+
+  console.log(dataForRendering);
 
   useEffect(() => {
     const {
@@ -65,7 +83,7 @@ function StarWarsProvider({ children }) {
     filterByNumericValues.forEach((element) => {
       const { column, comparison, value } = element;
       switch (comparison) {
-        case "maior que":
+        case 'maior que':
           const greaterThan = data
             .filter((planet) => parseInt(planet[column]) > parseInt(value))
             .filter((word) =>
@@ -73,7 +91,7 @@ function StarWarsProvider({ children }) {
             );
           setAllFilteredNumbers(greaterThan);
           return greaterThan;
-        case "menor que":
+        case 'menor que':
           const smallerThan = data
             .filter((planet) => parseInt(planet[column]) < parseInt(value))
             .filter((word) =>
@@ -81,7 +99,7 @@ function StarWarsProvider({ children }) {
             );
           setAllFilteredNumbers(smallerThan);
           return smallerThan;
-        case "igual a":
+        case 'igual a':
           const equalTo = data
             .filter((planet) => planet[column] === value)
             .filter((word) =>
@@ -96,7 +114,6 @@ function StarWarsProvider({ children }) {
     });
   }, [data, filters]);
 
-
   const contextValue = {
     isFetching,
     data,
@@ -108,6 +125,8 @@ function StarWarsProvider({ children }) {
     addFilterNumericValue,
     allFilteredNumbers,
     setAllFilteredNumbers,
+    dataForRendering,
+    setDataForRendering
   };
 
   return (
