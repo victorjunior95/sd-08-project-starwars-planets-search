@@ -56,7 +56,8 @@ function Provider({ children }) {
   const context = {
     filters,
     handleFilterNameChange,
-    // handleFilterNumericChange,
+    handleFilterNumericChange,
+    setFilterByNumericValues,
     data,
   };
 
