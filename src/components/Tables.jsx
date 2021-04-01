@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 import TableCard from '../components/TableCard';
 import SearchNameFilter from './SearchNameFilter';
+import FilterByNumbers from './FilterByNumbers';
 
 function Tables() {
   const { data, dataForRendering, isFetching } = useContext(StarWarsContext);
@@ -25,6 +26,7 @@ function Tables() {
   return !isFetching ? (
     <>
     <SearchNameFilter />
+    <FilterByNumbers />
     <table>
       <thead>
         <tr>
