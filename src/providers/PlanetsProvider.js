@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from '../contexts/PlanetsContext';
 import { getPlanetsFromApi } from '../services/requests';
 
 function PlanetsProvider({ children }) {
-  const SELECT_COLUMN = 'Selecione uma coluna';
   const [data, setData] = useState([]);
   const [filterByName, setFilterByName] = useState({ name: '' });
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
   const [numericColumns, setNumericColumns] = useState([
-    SELECT_COLUMN,
     'population',
     'orbital_period',
     'diameter',
@@ -17,10 +15,15 @@ function PlanetsProvider({ children }) {
     'surface_water',
   ]);
   const [dataToFilter, setDataToFilter] = useState({
-    column: SELECT_COLUMN,
+    column: 'population',
     comparison: 'maior que',
     value: 0,
   });
+
+  useEffect(() => {
+    const defaultColumn = numericColumns[0] || '';
+    setDataToFilter({ ...dataToFilter, column: defaultColumn });
+  }, [numericColumns]);
 
   async function fetchPlanets() {
     const allPlanets = await getPlanetsFromApi();
@@ -41,7 +44,7 @@ function PlanetsProvider({ children }) {
 
   function addNumericFilter() {
     const { column } = dataToFilter;
-    if (column === SELECT_COLUMN) return;
+    if (column === '') return;
     const newNumericColumns = numericColumns.filter(
       (numericColumn) => numericColumn !== column,
     );
@@ -49,7 +52,6 @@ function PlanetsProvider({ children }) {
     console.log(newNumericColumns);
     setNumericColumns(newNumericColumns);
     setFilterByNumericValues([...filterByNumericValues, dataToFilter]);
-    setDataToFilter({ ...dataToFilter, column: SELECT_COLUMN });
   }
 
   function removeNumericFilter() {
