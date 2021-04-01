@@ -1,22 +1,15 @@
 import React, { useContext } from 'react';
 import AppContext from '../context/Context';
+import SearchBar from './SearchBar';
 
 function Table() {
-  const { data } = useContext(AppContext);
-  console.log(data);
-  console.log(Object.keys(data));
-
-  // keysTable = Object.keys(data[0]);
+  const { filteredPlanets } = useContext(AppContext);
 
   return (
     <div>
+      <SearchBar />
       <table border="1">
         <thead>
-          {/* {data.map((planet) => (
-            <td key={ planet.name }>
-              {planet.name}
-            </td>
-          ))} */}
           <tr>
             <th> Name </th>
             <th> Climate </th>
@@ -34,7 +27,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((planet) => (
+          {filteredPlanets.map((planet) => (
             <tr key={ planet.name }>
               <td>
                 {planet.name}
