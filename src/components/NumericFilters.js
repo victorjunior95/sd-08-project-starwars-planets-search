@@ -10,9 +10,15 @@ function NumericFilters() {
           const { column, comparison, value } = filter;
           const textFilter = `${column} ${comparison} ${value}`;
           return (
-            <section key={ textFilter }>
+            <section key={ textFilter } data-testid="filter">
               <span>{ textFilter }</span>
-              <button type="button" onClick={ removeNumericFilter }>X</button>
+              <button
+                name={ column }
+                type="button"
+                onClick={ removeNumericFilter }
+              >
+                X
+              </button>
             </section>
           );
         })

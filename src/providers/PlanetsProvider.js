@@ -48,13 +48,17 @@ function PlanetsProvider({ children }) {
     const newNumericColumns = numericColumns.filter(
       (numericColumn) => numericColumn !== column,
     );
-
-    console.log(newNumericColumns);
     setNumericColumns(newNumericColumns);
     setFilterByNumericValues([...filterByNumericValues, dataToFilter]);
   }
 
-  function removeNumericFilter() {
+  function removeNumericFilter({ target }) {
+    const column = target.name;
+    const newNumericFilters = filterByNumericValues.filter(
+      (filter) => filter.column !== column,
+    );
+    setFilterByNumericValues(newNumericFilters);
+    setNumericColumns([...numericColumns, column]);
   }
 
   const filters = {
@@ -72,6 +76,7 @@ function PlanetsProvider({ children }) {
     handleFilterByName,
     handleDataToFilter,
     numericColumns,
+    removeNumericFilter,
   };
 
   return (
