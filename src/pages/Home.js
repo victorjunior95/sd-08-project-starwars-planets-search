@@ -5,16 +5,18 @@ import Select from '../components/Select';
 
 function Home() {
   const [isFetching, setIsFetching] = useState(true);
-  const { fetchPlanets, filters, handleFilterByName } = useContext(PlanetsContext);
-  const { name } = filters.filterByName;
+  const {
+    addNumericFilter,
+    dataToFilter,
+    fetchPlanets,
+    filters,
+    handleFilterByName,
+    handleDataToFilter,
+    numericColumns,
+  } = useContext(PlanetsContext);
 
-  const numericColumns = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water'
-  ];
+  const { value } = dataToFilter;
+  const { name } = filters.filterByName;
 
   const comparisonOptions = ['maior que', 'menor que', 'igual a'];
 
@@ -32,18 +34,29 @@ function Home() {
           onChange={ (event) => handleFilterByName(event.target.value) }
           value={ name }
         />
-      <Select testid="column-filter" options={ numericColumns } />
-      <Select testid="comparison-filter" options={ comparisonOptions } />
-      <input
-        data-testid="value-filter"
-        type="number"
-      />
-      <button
-        data-testid="button-filter"
-        type="button"
-      >
-        Filtrar
-      </button>
+        <Select
+          testid="column-filter"
+          options={ numericColumns }
+          onChange={ ({ target }) => handleDataToFilter('column', target.value) }
+        />
+        <Select
+          testid="comparison-filter"
+          options={ comparisonOptions }
+          onChange={ ({ target }) => handleDataToFilter('comparison', target.value) }
+        />
+        <input
+          data-testid="value-filter"
+          type="number"
+          onChange={ ({ target }) => handleDataToFilter('value', target.value) }
+          value={ value }
+        />
+        <button
+          data-testid="button-filter"
+          type="button"
+          onClick={ addNumericFilter }
+        >
+          Filtrar
+        </button>
       </header>
       { !isFetching && <Table /> }
     </>
