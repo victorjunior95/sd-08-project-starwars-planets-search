@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 function TableCard({ result }) {
   return (
+    <tbody>
       <tr>
         <td>{result.name}</td>
         <td>{result.rotation_period}</td>
