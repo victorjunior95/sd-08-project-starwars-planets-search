@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import StarWarsContext from "./StarWarsContext";
+import getPlanets from '../services/planetsApi';
 
 const standardFilter = {
   filterByName: {
@@ -40,13 +41,11 @@ function StarWarsProvider({ children }) {
     }));
   };
 
+  console.log(data);
   useEffect(() => {
     async function returnedAPI() {
       setIsFetching(true);
-      const planetResponse = await fetch(
-        "https://swapi-trybe.herokuapp.com/api/planets/"
-      );
-      const planetResponseJson = await planetResponse.json();
+      const planetResponseJson = await getPlanets();
       setData(planetResponseJson.results);
     }
     returnedAPI();
