@@ -8,6 +8,12 @@ const SWProvider = ({ children }) => {
   const { Provider } = SWContext;
 
   const [data, setData] = useState({});
+  const [columnFilters, setColumnFilters] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
+  const [comparisonFilters, setComparisonFilters] = useState([
+    'maior que', 'menor que', 'igual a',
+  ]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filters, setFilters] = useState(
     {
@@ -42,6 +48,10 @@ const SWProvider = ({ children }) => {
     setFilters,
     filteredPlanets,
     setFilteredPlanets,
+    columnFilters,
+    setColumnFilters,
+    comparisonFilters,
+    setComparisonFilters,
   };
 
   return (

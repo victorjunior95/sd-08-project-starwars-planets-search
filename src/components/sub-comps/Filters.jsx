@@ -3,20 +3,13 @@ import SWContext from '../../context/SWContext';
 
 const Filters = () => {
   const context = useContext(SWContext);
-  const { setFilters } = context;
+  const { setFilters, columnFilters, comparisonFilters, setColumnFilters } = context;
   const [numFilters, setNumFilters] = useState({
-    column: '',
-    comparison: '',
+    column: 'population',
+    comparison: 'maior que',
     value: '',
   });
   // Possível ideia pro req 4: transformar os filtros dropdown em estados globais maybe???w
-  const columnFilters = [
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-  ];
-  const comparisonFilters = [
-    'maior que', 'menor que', 'igual a',
-  ];
-
   const handleNameFilter = ({ target: { value } }) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -57,6 +50,7 @@ const Filters = () => {
         numFilters,
       ],
     }));
+    setColumnFilters(columnFilters.filter((filter) => filter !== numFilters.column));
   };
 
   return (
