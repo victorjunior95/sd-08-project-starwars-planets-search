@@ -8,15 +8,19 @@ const SWProvider = ({ children }) => {
   const { Provider } = SWContext;
 
   const [data, setData] = useState({});
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [filters, setFilters] = useState(
+    {
+      filterByName: { name: '' },
+      filterByNumericValues: [],
+    },
+  );
 
   useEffect(() => {
     async function getResponse() {
       const response = await services.fetchData(setData);
       setData(response);
       setFilteredPlanets(response.results);
-      console.log(response.results);
     }
     getResponse();
   }, []);
@@ -25,6 +29,11 @@ const SWProvider = ({ children }) => {
     const { name } = filters.filterByName;
     setFilteredPlanets(utils.filterByName(data.results, name));
   }, [filters.filterByName]);
+
+  useEffect(() => {
+    setFilteredPlanets(utils
+      .filterByNumericValues(data.results, filters.filterByNumericValues));
+  }, [filters.filterByNumericValues]);
 
   const contextValue = {
     data,
