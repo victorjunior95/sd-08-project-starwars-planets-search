@@ -7,6 +7,7 @@ function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [filterByName, setFilterByName] = useState({ name: '' });
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [order, setOrder] = useState({ column: 'name', sort: 'ASC' });
   const [numericColumns, setNumericColumns] = useState([
     'population',
     'orbital_period',
@@ -76,7 +77,9 @@ function PlanetsProvider({ children }) {
     handleFilterByName,
     handleDataToFilter,
     numericColumns,
+    order,
     removeNumericFilter,
+    setOrder,
   };
 
   return (

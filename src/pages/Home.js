@@ -3,9 +3,12 @@ import Table from '../components/Table';
 import PlanetsContext from '../contexts/PlanetsContext';
 import Select from '../components/Select';
 import NumericFilters from '../components/NumericFilters';
+import { getPlanetKeys } from '../services/requests';
 
 function Home() {
-  const [isFetching, setIsFetching] = useState(true);
+  const [keys, setKeys] = useState([]);
+  const [orderColumn, setOrderColumn] = useState('name');
+  const [orderSort, setOrderSort] = useState('ASC');
   const {
     addNumericFilter,
     dataToFilter,
@@ -14,6 +17,7 @@ function Home() {
     handleFilterByName,
     handleDataToFilter,
     numericColumns,
+    setOrder,
   } = useContext(PlanetsContext);
 
   const { value } = dataToFilter;
@@ -23,7 +27,10 @@ function Home() {
 
   useEffect(() => {
     fetchPlanets().then((planets) => planets);
-    setIsFetching(false);
+    const updateKeys = async () => {
+      setKeys(await getPlanetKeys());
+    };
+    updateKeys();
   }, []);
 
   return (
@@ -58,9 +65,41 @@ function Home() {
         >
           Filtrar
         </button>
+        <Select
+          testid="column-sort"
+          options={ keys }
+          onChange={ ({ target }) => setOrderColumn(target.value) }
+        />
+        <label htmlFor="ASC">
+          <input
+            id="ASC"
+            data-testid="column-sort-input-asc"
+            type="radio"
+            name="sort"
+            onChange={ () => setOrderSort('ASC') }
+          />
+          ASC
+        </label>
+        <label htmlFor="DESC">
+          <input
+            id="DESC"
+            data-testid="column-sort-input-desc"
+            type="radio"
+            name="sort"
+            onChange={ () => setOrderSort('DESC') }
+          />
+          DESC
+        </label>
+        <button
+          data-testid="column-sort-button"
+          type="button"
+          onClick={ () => setOrder({ column: orderColumn, sort: orderSort }) }
+        >
+          Ordenar
+        </button>
         <NumericFilters />
       </header>
-      { !isFetching && <Table /> }
+      <Table keys={ keys } />
     </>
   );
 }
