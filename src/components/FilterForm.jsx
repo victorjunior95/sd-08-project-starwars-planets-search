@@ -13,6 +13,7 @@ export default function FilterForm() {
           id="name"
           name="name"
           type="text"
+          data-testid="name-filter"
           placeholder="Search by name"
           onChange={ (e) => saveFilter(e) }
         />
