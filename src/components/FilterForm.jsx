@@ -1,10 +1,22 @@
-import React from 'react';
-import PlanetProvider from '../context/PlanetProvider';
+import React, { useContext } from 'react';
+import { PlanetContext } from '../context/PlanetProvider';
 
-export default function FilterFrom() {
+export default function FilterForm() {
+  const { saveFilter } = useContext(PlanetContext);
+
   return (
-    <PlanetProvider>
-      <span>Hello, App!</span>
-    </PlanetProvider>
+    <form>
+      <label
+        htmlFor="name"
+      >
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Search by name"
+          onChange={ (e) => saveFilter(e) }
+        />
+      </label>
+    </form>
   );
 }
