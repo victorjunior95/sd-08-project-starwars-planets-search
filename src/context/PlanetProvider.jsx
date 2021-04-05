@@ -17,8 +17,8 @@ function PlanetProvider({ children }) {
   const [name, setname] = useState('');
   const [bynumbers, setbynumbers] = useState(
     {
-      column: '',
-      comparison: '',
+      column: 'population',
+      comparison: 'maior que',
       value: '',
     },
   );
@@ -49,24 +49,6 @@ function PlanetProvider({ children }) {
     setname(e.target.value);
   };
 
-  const handleClick = () => {
-    setrestoreplanets(planets);
-    setplanets([]);
-    const { column, comparison, value } = bynumbers;
-    if (comparison === 'maior que') {
-      return setplanets(planets
-        .filter((i) => Number(i[column]) > Number(value)));
-    }
-    if (comparison === 'menor que') {
-      return setplanets(planets
-        .filter((i) => Number(i[column]) < Number(value)));
-    }
-    if (comparison === 'igual a') {
-      return setplanets(planets
-        .filter((i) => Number(i[column]) === Number(value)));
-    }
-    setfiltroAtivo({ ...bynumbers });
-  };
   return (
     <ContextStar.Provider
       value={ {
@@ -76,7 +58,6 @@ function PlanetProvider({ children }) {
         setbynumbers,
         name,
         setname,
-        handleClick,
         onfilterByName,
         filteredplanets,
         setfilteredplanets,

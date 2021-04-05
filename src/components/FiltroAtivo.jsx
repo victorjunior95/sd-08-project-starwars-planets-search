@@ -4,25 +4,31 @@ import ContextStars from '../context/ContextStar';
 function FiltroAtivo() {
   const contexto = useContext(ContextStars);
   const { filtroAtivo,
-    setfiltroAtivo, restoreplanets, setplanets,
+    setfiltroAtivo, restoreplanets,
     setfilteredplanets } = contexto;
   const { column } = filtroAtivo;
 
   return (
-    <div data-testid="filter">
-      {`${column}`}
-      <button
-        type="button"
-        onClick={ () => {
-          setfilteredplanets(restoreplanets);
-          setfiltroAtivo([]);
-          setplanets(restoreplanets);
-        } }
-      >
-        X
-      </button>
+    () => {
+      if (column !== undefined) {
+        return (
+          <div data-testid="filter">
+            {`${column}`}
+            <button
+              type="button"
+              onClick={ () => {
+                setfilteredplanets(restoreplanets);
+                setfiltroAtivo([]);
+              } }
+            >
+              X
+            </button>
 
-    </div>
+          </div>
+        );
+      }
+    }
+
   );
 }
 

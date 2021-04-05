@@ -9,11 +9,32 @@ export default function Table() {
     bynumbers,
     setbynumbers,
     name,
-    handleClick,
     onfilterByName,
     filteredplanets,
+    setrestoreplanets,
+    setfilteredplanets,
+    setfiltroAtivo,
   } = contexto;
 
+  const handleClick = () => {
+    setrestoreplanets(planets);
+    // setplanets([]);
+    const { column, comparison, value } = bynumbers;
+    if (comparison === 'maior que') {
+      setfilteredplanets(
+        planets.filter((i) => i[column] > Number(value)),
+      );
+    }
+    if (comparison === 'menor que') {
+      setfilteredplanets(planets
+        .filter((i) => i[column] < value));
+    }
+    if (comparison === 'igual a') {
+      setfilteredplanets(planets
+        .filter((i) => i[column] === Number(value)));
+    }
+    setfiltroAtivo({ ...bynumbers });
+  };
   return (
     <div>
       <header>
