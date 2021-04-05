@@ -3,8 +3,8 @@ import MyContext from '../context/MyContext';
 
 function Table() {
   const {
-    isLoad,
     planets,
+    isLoad,
   } = useContext(MyContext);
   return (
     <div>
