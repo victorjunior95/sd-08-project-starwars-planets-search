@@ -1,10 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 export default function NumericFilterForm() {
-  const { setNumFilter } = useContext(PlanetContext);
-  // const [{ column, comparison, value }] = numFilter;
-
+  const { setNumFilter, selectColumns, numFilter } = useContext(PlanetContext);
+  const [arrColumns, setArrColumns] = useState();
   const [numericFilter, setNumericFilter] = useState({
     column: '',
     comparison: '',
@@ -18,21 +17,30 @@ export default function NumericFilterForm() {
     });
   }
 
+  useEffect(() => {
+    if (arrColumns === undefined) {
+      setArrColumns(selectColumns);
+    }
+  }, [arrColumns, selectColumns]);
+
+  const filterArrOptions = () => setArrColumns(arrColumns
+    .filter((item) => item !== numericFilter.column));
+
   function handleClick() {
     setNumFilter([
+      ...numFilter,
       numericFilter,
     ]);
+    filterArrOptions();
   }
-  // console.log(numFilter);
 
   return (
     <form>
       <select name="column" id="" data-testid="column-filter" onChange={ handleChange }>
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {
+          arrColumns && arrColumns
+            .map((item, i) => <option key={ i } value={ item }>{item}</option>)
+        }
       </select>
       <select
         name="comparison"
