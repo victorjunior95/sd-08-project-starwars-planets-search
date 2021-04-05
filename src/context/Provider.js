@@ -22,10 +22,26 @@ function Provider({ children }) {
     setFilteredPlanets(filtered);
   };
 
+  const filterPlanetsByNumericValues = ({ column, comparison, value }) => {
+    const newFilter = data.filter((planet) => {
+      console.log(planet[column]);
+      const infoPlanet = planet[column];
+      if (comparison === 'menor que') {
+        return infoPlanet <= value;
+      }
+      if (comparison === 'maior que') {
+        return infoPlanet >= value;
+      }
+      return infoPlanet === value;
+    });
+    setFilteredPlanets(newFilter);
+  };
+
   const contextValue = {
     data,
     filteredPlanets,
     filterByName: (textName) => filterPlanetsByName(textName),
+    filterByNumericValues: (filters) => filterPlanetsByNumericValues(filters),
   };
 
   return (
