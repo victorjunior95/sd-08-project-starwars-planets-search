@@ -31,8 +31,9 @@ export default function Table() {
       );
     }
     if (comparison === 'igual a') {
-      setfilteredplanets(planets
-        .filter((i) => i[column] === Number(value)));
+      setfilteredplanets(
+        planets.filter((i) => i[column] === value),
+      );
     }
     setfiltroAtivo({ ...bynumbers });
   };
