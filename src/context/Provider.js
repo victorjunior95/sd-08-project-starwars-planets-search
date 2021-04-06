@@ -24,15 +24,15 @@ function Provider({ children }) {
 
   const filterPlanetsByNumericValues = ({ column, comparison, value }) => {
     const newFilter = data.filter((planet) => {
-      console.log(planet[column]);
-      const infoPlanet = planet[column];
+      const infoPlanet = Number(planet[column]);
+      const toCompare = Number(value);
       if (comparison === 'menor que') {
-        return infoPlanet <= value;
+        return infoPlanet < toCompare;
       }
       if (comparison === 'maior que') {
-        return infoPlanet >= value;
+        return infoPlanet > toCompare;
       }
-      return infoPlanet === value;
+      return infoPlanet === toCompare;
     });
     setFilteredPlanets(newFilter);
   };
