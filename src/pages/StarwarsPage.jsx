@@ -1,11 +1,11 @@
 import React from 'react';
 import Table from '../components/Table';
-import Tables from '../components/Tables';
+import Tables from '../components/Table';
 
 function StarwarsPage() {
   return (
     <div>
-      <Tables />
+      <Table />
     </div>
   );
 }
