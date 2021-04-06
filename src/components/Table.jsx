@@ -26,8 +26,9 @@ export default function Table() {
       );
     }
     if (comparison === 'menor que') {
-      setfilteredplanets(planets
-        .filter((i) => i[column] < value));
+      setfilteredplanets(
+        planets.filter((i) => i[column] < Number(value)),
+      );
     }
     if (comparison === 'igual a') {
       setfilteredplanets(planets
@@ -106,7 +107,7 @@ export default function Table() {
         </thead>
         <tbody>
           {filteredplanets.map((item, i) => (
-            <tr key={ i.name }>
+            <tr key={ i }>
               <td>{item.name}</td>
               <td>{item.rotation_period}</td>
               <td>{item.orbital_period}</td>
