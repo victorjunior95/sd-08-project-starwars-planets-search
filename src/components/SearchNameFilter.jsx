@@ -3,7 +3,6 @@ import StarWarsContext from '../context/StarWarsContext';
 
 function SearchName() {
   const { setName } = useContext(StarWarsContext);
-  console.log('SearchName');
   return (
       <label htmlFor="text" data-testid="text-input-label">
         Inclui o texto no nome:

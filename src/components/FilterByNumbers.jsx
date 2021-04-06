@@ -5,11 +5,13 @@ import StarWarsContext from '../context/StarWarsContext';
 function FilterByNumbers() {
   const {
     addFilterNumericValue,
-    filters: { filterByNumericValues },
+    filters,
+    setFilteredData,
+    // removeFilter,
   } = useContext(StarWarsContext);
+  const { filterByNumericValues } = filters;
 
   const columnFilter = [
-    '',
     'population',
     'orbital_period',
     'diameter',
@@ -20,14 +22,24 @@ function FilterByNumbers() {
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [number, setNumberFilter] = useState(0);
-  // const [columns, setColumns] = useState(columnFilter);
+  const [columns, setColumns] = useState(columnFilter);
 
   const comparisonFilter = ['', 'maior que', 'menor que', 'igual a'];
 
   const handleNumericFilters = () => {
     addFilterNumericValue(column, comparison, number);
-    console.log('handle');
+    columns.splice(columns.indexOf(column),1);
   };
+
+  const removeFilter = (index) => {
+    const filtersCopy = {...filters};
+    const columnToAdd = filtersCopy.filterByNumericValues[index].column;
+    console.log(columnToAdd);
+    filtersCopy.filterByNumericValues.splice(index, 1);
+    setFilteredData(filtersCopy);
+    console.log(columns);
+    columns.push(columnToAdd);
+  }
 
   return (
     <div>
@@ -40,7 +52,7 @@ function FilterByNumbers() {
           value={column}
           onChange={(e) => setColumn(e.target.value)}
         >
-          {columnFilter.map((element) => (
+          {columns.map((element) => (
             <option value={element} key={element}>
               {element}
             </option>
@@ -81,9 +93,9 @@ function FilterByNumbers() {
         Filtrar
       </button>
       {filterByNumericValues.map((element, index) => (
-        <div>
-          <span key={index}>{element.comparison} | {element.comparison} | {element.value}</span>
-          <button>X</button>
+        <div data-testid="filter">
+          <span key={index}>{element.column} | {element.comparison} | {element.value}</span>
+          <button onClick={()=> removeFilter(index)}>X</button>
         </div>
       ))}
     </div>

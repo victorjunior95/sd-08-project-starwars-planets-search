@@ -21,6 +21,12 @@ function StarWarsProvider({ children }) {
   const [searchName, setSearchName] = useState('');
   const [filters, setFilteredData] = useState(standardFilter);
   const [allFilteredNumbers, setAllFilteredNumbers] = useState('');
+  
+  // const removeFilter = (index) => {
+  //   const filtersCopy = {...filters};
+  //   filtersCopy.filterByNumericValues.splice(index, 1);
+  //   setFilteredData(filtersCopy);
+  // }
 
   const setName = (name) => {
     setFilteredData((previousState) => ({
@@ -51,68 +57,45 @@ function StarWarsProvider({ children }) {
       const planetResponseJson = await getPlanets();
       planetResponseJson.forEach((planet) => delete planet.residents);
       setData(planetResponseJson);
-      setDataForRendering(planetResponseJson)
+      setDataForRendering(planetResponseJson);
     }
     returnedAPI();
     setIsFetching(false);
   }, []);
 
   useEffect(() => {
-    console.log('novoUseEffect');
-    const {
-      filterByName: { name },
-    } = filters;
-    const filteredName = data.filter((planetName) =>
-      planetName.name.toLowerCase().includes(name.toLocaleLowerCase())
-    );
-    setDataForRendering(filteredName);
-  }, [filters]);
-
-  console.log(dataForRendering);
-
-  useEffect(() => {
     const {
       filterByName: { name },
       filterByNumericValues,
     } = filters;
-    // console.log(data);
-    const filteredData3 = data.filter((value) =>
-      value.name.toLowerCase().includes(name.toLowerCase())
+    let filteredName = data.filter((planetName) =>
+      planetName.name.toLowerCase().includes(name.toLocaleLowerCase())
     );
-    setAllFilteredNumbers(filteredData3);
+
     filterByNumericValues.forEach((element) => {
       const { column, comparison, value } = element;
       switch (comparison) {
         case 'maior que':
-          const greaterThan = data
-            .filter((planet) => parseInt(planet[column]) > parseInt(value))
-            .filter((word) =>
-              word.name.toLowerCase().includes(name.toLowerCase())
-            );
-          setAllFilteredNumbers(greaterThan);
-          return greaterThan;
+          filteredName = filteredName.filter(
+            (element) => parseFloat(element[column]) > parseFloat(value)
+          );
+          break; 
         case 'menor que':
-          const smallerThan = data
-            .filter((planet) => parseInt(planet[column]) < parseInt(value))
-            .filter((word) =>
-              word.name.toLowerCase().includes(name.toLowerCase())
-            );
-          setAllFilteredNumbers(smallerThan);
-          return smallerThan;
+          filteredName = filteredName.filter(
+            (element) => parseFloat(element[column]) < parseFloat(value)
+          );
+          break;
         case 'igual a':
-          const equalTo = data
-            .filter((planet) => planet[column] === value)
-            .filter((word) =>
-              word.name.toLowerCase().includes(name.toLowerCase())
-            );
-          setAllFilteredNumbers(equalTo);
-          return equalTo;
+          filteredName = filteredName.filter(
+            (element) => parseFloat(element[column]) === parseFloat(value)
+          );
+          break;
         default:
-          setAllFilteredNumbers(filteredData3);
-          return filteredData3;
+          filteredName = filteredName;
       }
     });
-  }, [data, filters]);
+    setDataForRendering(filteredName);
+  }, [filters]);
 
   const contextValue = {
     isFetching,
@@ -126,7 +109,9 @@ function StarWarsProvider({ children }) {
     allFilteredNumbers,
     setAllFilteredNumbers,
     dataForRendering,
-    setDataForRendering
+    setDataForRendering,
+    setFilteredData,
+    // removeFilter
   };
 
   return (

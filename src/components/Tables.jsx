@@ -5,7 +5,7 @@ import SearchNameFilter from './SearchNameFilter';
 import FilterByNumbers from './FilterByNumbers';
 
 function Tables() {
-  const { data, dataForRendering, isFetching } = useContext(StarWarsContext);
+  const { dataForRendering, isFetching } = useContext(StarWarsContext);
   const tableHeaders = [
     'Nome',
     'Tempo de Rotação',
@@ -21,7 +21,6 @@ function Tables() {
     'Data de Edição',
     'URL',
   ];
-  console.log('tables');
   
   return !isFetching ? (
     <>
