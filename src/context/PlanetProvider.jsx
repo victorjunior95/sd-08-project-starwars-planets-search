@@ -2,14 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ContextStar from './ContextStar';
 
-/* const initialstate = {
-  filterByName: { name: '' },
-  filterByNumericValues: [
-    { column: '', comparison: '', value: '' },
-  ],{ column: '', comparison: '', value: '' }
-
-}; */
-
 function PlanetProvider({ children }) {
   const [planets, setplanets] = useState([]);
   const [restoreplanets, setrestoreplanets] = useState([]);
