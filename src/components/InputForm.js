@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import NumericFilter from '../filters/NumericFilter';
 
 export default function InputForm() {
   const { filters, setFilters } = useContext(PlanetsContext);
@@ -24,6 +25,7 @@ export default function InputForm() {
         onChange={ handChange }
         data-testid="name-filter"
       />
+      <NumericFilter />
     </form>
   );
 }
