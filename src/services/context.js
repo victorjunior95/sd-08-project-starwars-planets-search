@@ -8,9 +8,25 @@ const ProviderAPI = ({ children }) => {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
   };
 
+  const INITIAL_COLUMNS = [
+    'rotation_period',
+    'orbital_period',
+    'diameter',
+    'surface_water',
+    'population',
+  ];
+
   const [filters, setFilters] = useState(FILTERS_STRUCT);
+  const [columns, setColumns] = useState(INITIAL_COLUMNS);
   const [planetArray, setPlanetArray] = useState([]);
   const [filterArray, setFilterArray] = useState([]);
 
@@ -36,12 +52,13 @@ const ProviderAPI = ({ children }) => {
       : [];
     setFilterArray(filteredPlanets);
   }
-
   const objData = {
     filterArray,
     filters,
     setFilters,
     filteredPlanetsByName,
+    setColumns,
+    columns,
   };
 
   return (
