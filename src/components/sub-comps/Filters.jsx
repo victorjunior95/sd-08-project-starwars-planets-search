@@ -3,13 +3,54 @@ import SWContext from '../../context/SWContext';
 
 const Filters = () => {
   const context = useContext(SWContext);
-  const { setFilters, columnFilters, comparisonFilters, setColumnFilters } = context;
+  const {
+    filters,
+    setFilters,
+    columnFilters,
+    comparisonFilters,
+    setColumnFilters,
+  } = context;
   const [numFilters, setNumFilters] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '',
   });
-  // Possível ideia pro req 4: transformar os filtros dropdown em estados globais maybe???w
+
+  const removeFilter = (column) => {
+    const { filterByNumericValues } = filters;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      filterByNumericValues: filterByNumericValues
+        .filter((filter) => filter.column !== column),
+    }));
+  };
+
+  const renderChosenFilters = () => {
+    const { filterByNumericValues } = filters || [];
+    return (
+      <>
+        {filterByNumericValues.map((filter) => {
+          const { column, comparison, value } = filter;
+          return (
+            <p data-testid="filter" key={ column }>
+              {column}
+              {' '}
+              {comparison}
+              {' '}
+              {value}
+              <button
+                type="button"
+                onClick={ () => removeFilter(column) }
+              >
+                X
+              </button>
+            </p>
+          );
+        })}
+      </>
+    );
+  };
+
   const handleNameFilter = ({ target: { value } }) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -42,7 +83,6 @@ const Filters = () => {
   };
 
   const numericFilters = () => {
-    console.log(numFilters);
     setFilters((prevFilters) => ({
       ...prevFilters,
       filterByNumericValues: [
@@ -98,6 +138,7 @@ const Filters = () => {
       >
         Aplicar
       </button>
+      <div>{renderChosenFilters()}</div>
     </>
   );
 };

@@ -32,14 +32,38 @@ const SWProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const { name } = filters.filterByName;
-    setFilteredPlanets(utils.filterByName(data.results, name));
-  }, [filters.filterByName]);
+    const { filterByName: { name }, filterByNumericValues } = filters;
+    if (name.length === 0 && filterByNumericValues.length === 0) {
+      setFilteredPlanets(data.results);
+    } else if (name.length > 0 && filterByNumericValues.length === 0) {
+      setFilteredPlanets(utils.filterByName(data.results, name));
+    } else if (name.length === 0 && filterByNumericValues.length > 0) {
+      setFilteredPlanets(utils
+        .filterByNumericValues(data.results, filters.filterByNumericValues));
+    }
+  }, [filters]);
 
-  useEffect(() => {
-    setFilteredPlanets(utils
-      .filterByNumericValues(data.results, filters.filterByNumericValues));
-  }, [filters.filterByNumericValues]);
+  // useEffect(() => {
+  //   const { name } = filters.filterByName;
+  //   if (name === '') {
+  //     setFilteredPlanets(data.results);
+  //   } else {
+  //     setFilteredPlanets(utils.filterByName(data.results, name));
+  //   }
+  //   // setFilteredPlanets(utils.filterByName(data.results, name));
+  // }, [filters.filterByName]);
+
+  // useEffect(() => {
+  //   const { filterByNumericValues } = filters;
+  //   if (filterByNumericValues.length === 0) {
+  //     setFilteredPlanets(data.results);
+  //   } else {
+  //     setFilteredPlanets(utils
+  //       .filterByNumericValues(data.results, filters.filterByNumericValues));
+  //   }
+  //   // setFilteredPlanets(utils
+  //   //   .filterByNumericValues(data.results, filters.filterByNumericValues));
+  // }, [filters.filterByNumericValues]);
 
   const contextValue = {
     data,
