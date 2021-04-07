@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
-function Header() {
+function Filters() {
   const {
     filters,
     setFilters,
   } = useContext(MyContext);
 
-  function pesquisaPlanetas({ target }) {
+  function filterByName({ target }) {
     setFilters({
       ...filters,
       filterByName: {
@@ -17,18 +17,18 @@ function Header() {
   }
 
   return (
-    <form>
-      <label htmlFor="input">
-        {'Pesquisa: '}
+    <div>
+      <label htmlFor="input-name">
+        {'Nome: '}
         <input
-          data-testid="name-filter"
-          id="input"
-          onChange={ pesquisaPlanetas }
-          type="text"
+          data-testId="name-filter"
+          id="input-name"
+          placeholder="pesquise por planetas"
+          onChange={ filterByName }
         />
       </label>
-    </form>
+    </div>
   );
 }
 
-export default Header;
+export default Filters;

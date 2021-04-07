@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
 function Provider({ children }) {
-  const [data, setData] = useState([]);
   const [isLoad, setIsLoad] = useState(true);
-  const [planets, setPlanets] = useState({});
+  const [api, setApi] = useState([]);
+  const [planets, setPlanets] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -13,10 +13,10 @@ function Provider({ children }) {
   });
 
   const myContextValues = {
-    data,
-    setData,
     isLoad,
     setIsLoad,
+    api,
+    setApi,
     planets,
     setPlanets,
     filters,
@@ -26,17 +26,17 @@ function Provider({ children }) {
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
-      .then((result) => {
-        setData(result.results);
+      .then((data) => {
+        setApi(data.results);
         setIsLoad(false);
       });
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     const { filterByName: { name } } = filters;
-    const filter = data.filter((planet) => planet.name.includes(name));
-    setPlanets(filter);
-  }, [data, filters]);
+    const filterName = api.filter((planet) => planet.name.includes(name));
+    setPlanets(filterName);
+  }, [api, filters]);
 
   return (
     <MyContext.Provider value={ myContextValues }>
