@@ -12,7 +12,7 @@ function FiltroAtivo() {
     () => {
       if (column !== undefined) {
         return (
-          <div data-testid="filter">
+          <div data-testid="REMOVE_FILTER_SELECTOR">
             {`${column}`}
             <button
               type="button"
