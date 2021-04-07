@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function NumericFilter() {
-  const { filters, setFilters, columnsOp } = useContext(PlanetsContext);// setColumn
+  const { filters, setFilters, columnsOp, setColumn } = useContext(PlanetsContext);
   const [filterTypes, setType] = useState({});
 
   const { filterByNumericValues } = filters;
@@ -34,7 +34,7 @@ export default function NumericFilter() {
       ...filters,
       filterByNumericValues: [...filterByNumericValues, filterTypes],
     });
-    // setColumn(columnsOp.filter((columnName) => column !== columnName)); // Diminui Uma opção
+    setColumn(columnsOp.filter((columnName) => column !== columnName));
   };
 
   return (
