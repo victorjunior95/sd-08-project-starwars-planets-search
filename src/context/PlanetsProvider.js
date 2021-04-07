@@ -10,9 +10,9 @@ function PlanetsProvider({ children }) {
       name: '',
     },
     filtrarPorNumero: {
-      column: 'population',
-      comparison: 'maior que',
-      value: 0,
+      column: '',
+      comparison: '',
+      value: '',
     },
   });
 
@@ -26,7 +26,7 @@ function PlanetsProvider({ children }) {
       filtrarPorNumero: { column, comparison, value },
     } = filters;
     const filter = data.filter((planet) => {
-      const includesName = planet.name.includes(name);
+      const includesName = planet.name.toLowerCase().includes(name.toLowerCase());
       switch (comparison) {
       case ('maior que'):
         return parseInt(planet[column], 10) > parseInt(value, 10) && includesName;
