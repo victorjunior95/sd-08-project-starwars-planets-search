@@ -2,27 +2,45 @@ import React, { useContext, useState } from 'react';
 import AppContext from '../context/Context';
 
 const SearchBar = () => {
-  const { filterByName, filterByNumericValues } = useContext(AppContext);
-  const [filters, setFilters] = useState({
+  const {
+    filterByName,
+    filters,
+    setFilters,
+    deleteFilter,
+    filterByNumericValues } = useContext(AppContext);
+  const [filtersLocal, setFiltersLocal] = useState({
     column: 'population',
     comparison: 'maior que',
     value: 'null',
   });
+
+  const [dropdown, setdropdrown] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const handleChange = ({ target: { value } }) => {
     filterByName(value);
   };
 
   const handleFilter = ({ target: { name, value } }) => {
-    setFilters({
-      ...filters,
+    setFiltersLocal({
+      ...filtersLocal,
       [name]: value,
     });
   };
 
   const handleButton = (e) => {
     e.preventDefault();
-    filterByNumericValues(filters);
+    filterByNumericValues(filtersLocal);
+    setdropdrown(dropdown.filter((item) => item !== filtersLocal.column));
+    setFilters([
+      ...filters,
+      filtersLocal,
+    ]);
   };
 
   return (
@@ -42,11 +60,7 @@ const SearchBar = () => {
           onChange={ handleFilter }
           required
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          {dropdown.map((item) => <option key={ item }>{item}</option>)}
         </select>
         <select
           data-testid="comparison-filter"
@@ -72,6 +86,16 @@ const SearchBar = () => {
         >
           Filtrar
         </button>
+        <div>
+          {filters.map(({ column, comparison, value }, index) => (
+            <>
+              <span key={ column }>
+                { `${column} ${comparison} ${value}`}
+              </span>
+              <button data-testid="filter" type="button" onClick={ () => deleteFilter(index) }>X</button>
+            </>
+          ))}
+        </div>
       </section>
     </form>
   );

@@ -5,6 +5,7 @@ import getApi from '../services/api';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
@@ -20,6 +21,11 @@ function Provider({ children }) {
       ({ name }) => name.toLowerCase().includes(textName.toLowerCase()),
     );
     setFilteredPlanets(filtered);
+  };
+
+  const deleteFilter = (index) => {
+    const delFilter = filters.filter((_, indexFilter) => index !== indexFilter);
+    setFilters(delFilter);
   };
 
   const filterPlanetsByNumericValues = ({ column, comparison, value }) => {
@@ -40,6 +46,9 @@ function Provider({ children }) {
   const contextValue = {
     data,
     filteredPlanets,
+    filters,
+    deleteFilter,
+    setFilters,
     filterByName: (textName) => filterPlanetsByName(textName),
     filterByNumericValues: (filters) => filterPlanetsByNumericValues(filters),
   };
