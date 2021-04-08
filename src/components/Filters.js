@@ -3,15 +3,16 @@ import MyContext from '../context/MyContext';
 
 function Filters() {
   const {
-    filters,
-    setFilters,
     coluna,
-    setColuna,
     comparação,
-    setComparação,
+    filters,
     valor,
+    setColuna,
+    setComparação,
+    setFilters,
     setValor,
   } = useContext(MyContext);
+  const { filterByNumericValues } = filters;
 
   function filterByName({ target }) {
     setFilters({
@@ -37,11 +38,14 @@ function Filters() {
   function filterByOthers() {
     setFilters({
       ...filters,
-      filterByNumericValues: {
-        column: coluna,
-        comparison: comparação,
-        value: valor,
-      },
+      filterByNumericValues: [
+        ...filterByNumericValues,
+        {
+          column: coluna,
+          comparison: comparação,
+          value: valor,
+        },
+      ],
     });
   }
 

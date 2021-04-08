@@ -3,37 +3,36 @@ import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
 function Provider({ children }) {
-  const [isLoad, setIsLoad] = useState(true);
   const [api, setApi] = useState([]);
-  const [planets, setPlanets] = useState([]);
+  const [coluna, setColuna] = useState('');
+  const [comparação, setComparação] = useState('');
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
-    filterByNumericValues: {
+    filterByNumericValues: [{
       column: '',
       comparison: '',
       value: '',
-    },
+    }],
   });
-  const [coluna, setColuna] = useState('');
-  const [comparação, setComparação] = useState('');
+  const [isLoad, setIsLoad] = useState(true);
+  const [planets, setPlanets] = useState([]);
   const [valor, setValor] = useState('');
-
   const myContextValues = {
-    isLoad,
-    setIsLoad,
     api,
-    setApi,
-    planets,
-    setPlanets,
-    filters,
-    setFilters,
     coluna,
-    setColuna,
     comparação,
-    setComparação,
+    filters,
+    isLoad,
+    planets,
     valor,
+    setApi,
+    setColuna,
+    setComparação,
+    setFilters,
+    setIsLoad,
+    setPlanets,
     setValor,
   };
 
@@ -54,8 +53,14 @@ function Provider({ children }) {
 
   useEffect(() => {
     const {
-      filterByName: { name }, filterByNumericValues: { column, comparison, value,
-      } } = filters;
+      filterByName: { name },
+      filterByNumericValues,
+    } = filters;
+    const {
+      column,
+      comparison,
+      value,
+    } = filterByNumericValues[filterByNumericValues.length - 1];
     const filterNumericValues = api.filter((planet) => {
       const includesName = planet.name.includes(name);
       switch (comparison) {

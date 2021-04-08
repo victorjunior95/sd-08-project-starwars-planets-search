@@ -6,6 +6,7 @@ function Table() {
     isLoad,
     planets,
   } = useContext(MyContext);
+
   return (
     <div>
       {isLoad
