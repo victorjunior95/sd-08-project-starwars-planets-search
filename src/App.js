@@ -8,9 +8,11 @@ import PlanetsProvider from './context/PlanetsProvider';
 function App() {
   return (
     <PlanetsProvider>
-      <h1>Star Wars Planet Searcher</h1>
-      <FilterForm />
-      <ActiveFilters />
+      <header className="header">
+        <h1>Star Wars Planet Searcher</h1>
+        <FilterForm />
+        <ActiveFilters />
+      </header>
       <Table />
     </PlanetsProvider>
   );
