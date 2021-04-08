@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import starWarsContext from './context/StarWarsContext';
+
 import './App.css';
 
-function App() {
+const App = () => {
+  const context = useContext(starWarsContext);
+  console.log(context);
+
   return (
-    <span>Hello, App!</span>
+      <span>Hello, {}!</span>
   );
 }
 
