@@ -16,12 +16,10 @@ const arrOptions = [
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [planets, setPlanets] = useState([]);
-  const [selectColumns, setSelectColumns] = useState(arrOptions);
+  const [selectColumns, setSelectColumns] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState(filterPlanets);
   const [numFilter, setNumFilter] = useState([]);
-
-  console.log(numFilter);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -41,9 +39,20 @@ function PlanetsProvider({ children }) {
     }
   }, [data, filters, selectColumns]);
 
-  // const filterArrOptions = () => numFilter
-  //   .forEach(({ comparison, column, value }) => setSelectColumns(selectColumns
-  //     .filter((item) => item !== column)));
+  // function blabla(some) {
+  //   const { comparison, column, value } = some;
+  //   switch (comparison) {
+  //   case 'igual a':
+  //     return setPlanets(data.filter((item) => +item[column] === +value));
+  //   case 'maior que':
+  //     return setPlanets(data.filter((item) => +item[column] > +value));
+  //   case 'menor que':
+  //     return setPlanets(data.filter((item) => +item[column] < +value));
+  //   default:
+  //     break;
+  //   }
+  // }
+  // console.log(numFilter[0]);
 
   useEffect(() => {
     numFilter.forEach(({ comparison, column, value }) => {
@@ -58,10 +67,6 @@ function PlanetsProvider({ children }) {
   },
   [data, numFilter, selectColumns]);
 
-  // useEffect(() => {
-  //   filterArrOptions();
-  // }, [filterArrOptions]);
-
   const value = {
     data,
     planets,
@@ -71,7 +76,6 @@ function PlanetsProvider({ children }) {
     setNumFilter,
     numFilter,
     selectColumns,
-    // filterArrOptions,
   };
 
   return (

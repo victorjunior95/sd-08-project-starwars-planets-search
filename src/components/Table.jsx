@@ -4,7 +4,6 @@ import PlanetContext from '../context/PlanetContext';
 function Table() {
   const { isLoading, planets } = useContext(PlanetContext);
 
-  // console.log(planets);
   const title = ['name', 'rotation_period', 'orbital_period',
     'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
     'population', 'films', 'created', 'edited', 'url'];
