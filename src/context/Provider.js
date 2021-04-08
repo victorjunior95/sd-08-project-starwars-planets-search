@@ -8,12 +8,18 @@ const filterState = {
     text: '',
   },
 };
+
+const arrOptions = [
+  'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+];
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState(filterState);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [numFilter, setNumFilter] = useState([]);
+  const [countClick, setCountClick] = useState([]);
+  const [arrColumns, setArrColumns] = useState(arrOptions);
 
   async function fetchPlanets() {
     const planets = await getPlanets();
@@ -25,7 +31,10 @@ function Provider({ children }) {
     const { filterByName: { text } } = filters;
     const filtered = data.filter((item) => item.name.includes(text));
     setFilteredPlanets(filtered);
-  }, [data, filters]);
+    if (arrColumns === undefined) {
+      setArrColumns(arrOptions);
+    }
+  }, [data, filters, arrColumns]);
 
   useEffect(() => {
     fetchPlanets();
@@ -54,6 +63,10 @@ function Provider({ children }) {
     filteredPlanets,
     numFilter,
     setNumFilter,
+    countClick,
+    setCountClick,
+    arrColumns,
+    setArrColumns,
 
   };
 
