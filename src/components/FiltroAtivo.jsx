@@ -8,26 +8,19 @@ function FiltroAtivo() {
     setfilteredplanets } = contextos;
   const { column } = filtroAtivo;
 
+  function apagaFiltro() {
+    setfilteredplanets(restoreplanets);
+    setfiltroAtivo([]);
+  }
+
   return (
-    /* () => {
-      if (column !== undefined) {
-        return ( */
-    <div data-testid="REMOVE_FILTER_SELECTOR">
+    column && <div
+      data-testid="REMOVE_FILTER_SELECTOR"
+    >
       {`${column}`}
-      <button
-        type="button"
-        onClick={ () => {
-          setfilteredplanets(restoreplanets);
-          setfiltroAtivo([]);
-        } }
-      >
-        X
-      </button>
+      <button type="button" onClick={ apagaFiltro }>X</button>
 
     </div>
-  // );
-  // }
-    /// }
 
   );
 }
