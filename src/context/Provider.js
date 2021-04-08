@@ -50,7 +50,7 @@ function Provider({ children }) {
     deleteFilter,
     setFilters,
     filterByName: (textName) => filterPlanetsByName(textName),
-    filterByNumericValues: (filters) => filterPlanetsByNumericValues(filters),
+    filterByNumericValues: (filtersLocal) => filterPlanetsByNumericValues(filtersLocal),
   };
 
   return (

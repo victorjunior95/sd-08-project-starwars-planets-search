@@ -92,7 +92,13 @@ const SearchBar = () => {
               <span key={ column }>
                 { `${column} ${comparison} ${value}`}
               </span>
-              <button data-testid="filter" type="button" onClick={ () => deleteFilter(index) }>X</button>
+              <button
+                data-testid="filter"
+                type="button"
+                onClick={ () => deleteFilter(index) }
+              >
+                X
+              </button>
             </>
           ))}
         </div>
