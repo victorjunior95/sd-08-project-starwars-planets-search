@@ -22,7 +22,7 @@ export default function FilterFormNumeric() {
   const handleChange = ({ target }) => {
     setFilterValues({
       ...filterValues,
-      [target.name]: target,
+      [target.name]: target.value,
     });
   };
 
