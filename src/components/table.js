@@ -6,12 +6,11 @@ function Table() {
   return (
     <div>
       <myContext.Consumer>
-
-        { (data) => (
+        { ({ planets }) => (
           <table>
             <TableHeaders />
             <tbody>
-              {data.map((planet, index) => (
+              {planets.map((planet, index) => (
                 <tr key={ index }>
                   <td>{planet.name}</td>
                   <td>{planet.rotation_period}</td>
@@ -22,10 +21,10 @@ function Table() {
                   <td>{planet.terrain}</td>
                   <td>{planet.surface_water}</td>
                   <td>{planet.population}</td>
-                  <td>{planet.films}</td>
+                  <td><a href={ planet.films }>{planet.films}</a></td>
                   <td>{planet.created}</td>
                   <td>{planet.edited}</td>
-                  <td>{planet.url}</td>
+                  <td><a href={ planet.url }>{planet.url}</a></td>
                 </tr>))}
             </tbody>
           </table>

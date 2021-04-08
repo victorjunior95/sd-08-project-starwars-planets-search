@@ -1,28 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import myContext from '../context/dataContext';
 
-function tralala() {
+const removeResidentsField = (data) => Object
+  .keys(data[0])
+  .filter((head) => head !== 'residents');
+
+const tableHeaderElement = (data) => (
+  <thead>
+    <tr>
+      {removeResidentsField(data).map((field) => <th key={ field }>{field}</th>) }
+    </tr>
+  </thead>
+);
+const TableHeaders = () => {
+  const { data } = useContext(myContext);
   return (
-    <myContext.Consumer>
-      {(data) => (
-        <thead>
-          <tr>
-            {Object.keys(data[0]).filter((head) => head !== 'residents')
-              .map((cada) => <th key={ cada }>{cada}</th>) }
-          </tr>
-        </thead>
-      ) }
-    </myContext.Consumer>
-  );
-}
+    (data[0]) ? tableHeaderElement(data) : <thead><tr><th>Espera</th></tr></thead>);
+};
 
-function tableHeaders() {
-  return (
-    <myContext.Consumer>
-      {(data) => ((data[0]) ? tralala() : <h1>Espera</h1>)}
-    </myContext.Consumer>
-
-  );
-}
-
-export default tableHeaders;
+export default TableHeaders;
