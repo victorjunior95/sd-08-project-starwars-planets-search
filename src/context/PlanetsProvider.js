@@ -5,7 +5,7 @@ import PlanetsContext from './PlanetsContext';
 const ORDER_POSITIVE = 1;
 const ORDER_NEGATIVE = -1;
 
-const sortArray = (array, order) => [
+const sortPlanets = (array, order) => [
   ...array.sort((planetA, planetB) => {
     let columnA = parseInt(planetA[order.column], 10)
       ? parseInt(planetA[order.column], 10)
@@ -84,7 +84,7 @@ function PlanetsProvider({ children }) {
           return byName;
         }
       });
-      const newOrder = sortArray(filtered, order);
+      const newOrder = sortPlanets(filtered, order);
       setPlanets(newOrder);
     });
   }, [data, filters]);
