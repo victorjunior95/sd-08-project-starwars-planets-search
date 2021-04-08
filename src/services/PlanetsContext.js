@@ -7,7 +7,7 @@ function StarWarsPlanets({ children }) {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPlanets, setFilteredPlanets] = useState([]);
-  const [columnTags] = useState([
+  const [columnTags, setColumnTags] = useState([
     'population',
     'orbital_period',
     'diameter',
@@ -24,6 +24,7 @@ function StarWarsPlanets({ children }) {
     comparison: 'maior que',
     value: '',
   });
+  const [numericFilterList, setNumericFilterList] = useState([]);
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -35,6 +36,19 @@ function StarWarsPlanets({ children }) {
     const searchingPlanets = data.filter((planet) => planet.name.includes(searchTerm));
     setFilteredPlanets(searchingPlanets);
   }, [data, searchTerm]);
+
+  function handleNumericFilter() {
+    setNumericFilterList([...numericFilterList,
+      numericFilters,
+    ]);
+    columnTags.forEach((tag) => {
+      if (tag === numericFilters.column) {
+        const newColumnTags = [...columnTags];
+        newColumnTags.splice(newColumnTags.indexOf(tag), 1);
+        setColumnTags(newColumnTags);
+      }
+    });
+  }
 
   function handleClickFilter() {
     const numericFilteredPlanets = data.filter((planet) => {
@@ -52,6 +66,7 @@ function StarWarsPlanets({ children }) {
       return (numericFilteredPlanets);
     });
     setFilteredPlanets(numericFilteredPlanets);
+    handleNumericFilter();
   }
 
   function filterByNameInput() {
