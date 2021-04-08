@@ -4,12 +4,12 @@ import PlanetsContext from '../context/PlanetsContext';
 export default function SortTableForm() {
   const { filters, setFilters } = useContext(PlanetsContext);
 
-  const [sortBy, setSortBy] = useState({
-    column: 'name',
-    sort: 'ASC',
+  const [sortOrder, setSortOrder] = useState({
+    column: '',
+    sort: '',
   });
 
-  const { column, sort } = sortBy;
+  const { column, sort } = sortOrder;
 
   const columns = [
     'name',
@@ -33,14 +33,15 @@ export default function SortTableForm() {
   };
 
   const handleChange = ({ target }) => {
-    setSortBy({
-      ...sortBy,
+    setSortOrder({
+      ...sortOrder,
       [target.name]: target.value,
     });
   };
 
   return (
     <div>
+      Sorted By:
       <select
         value={ column }
         name="column"
@@ -51,9 +52,9 @@ export default function SortTableForm() {
           <option key={ columnOption }>{columnOption}</option>
         ))}
       </select>
-      <span>
+      <div>
         <label htmlFor="ASC">
-          Ascendente
+          Ascendent
           <input
             type="radio"
             data-testid="column-sort-input-asc"
@@ -64,7 +65,7 @@ export default function SortTableForm() {
           />
         </label>
         <label htmlFor="DESC">
-          Descendente
+          Descendent
           <input
             type="radio"
             data-testid="column-sort-input-desc"
@@ -74,9 +75,9 @@ export default function SortTableForm() {
             name="sort"
           />
         </label>
-      </span>
+      </div>
       <button type="button" data-testid="column-sort-button" onClick={ handleClick }>
-        Ordem Alfabética
+        SORT
       </button>
     </div>
   );
