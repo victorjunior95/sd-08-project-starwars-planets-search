@@ -11,7 +11,7 @@ export default function FilterForm() {
     setFilters({
       ...filters,
       filterByName: {
-        name: e.target.value,
+        name: e.target,
       },
     });
   };
