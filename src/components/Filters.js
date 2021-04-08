@@ -6,10 +6,12 @@ function Filters() {
     coluna,
     comparação,
     filters,
+    options,
     valor,
     setColuna,
     setComparação,
     setFilters,
+    setOptions,
     setValor,
   } = useContext(MyContext);
   const { filterByNumericValues } = filters;
@@ -36,6 +38,7 @@ function Filters() {
   }
 
   function filterByOthers() {
+    const newOptions = options.filter((option) => option !== coluna);
     setFilters({
       ...filters,
       filterByNumericValues: [
@@ -47,6 +50,8 @@ function Filters() {
         },
       ],
     });
+    console.log(newOptions);
+    setOptions(newOptions);
   }
 
   return (
@@ -68,11 +73,7 @@ function Filters() {
       >
         {'Buscar por: '}
         <select data-testId="column-filter">
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          {options.map((option) => <option key={ option }>{option}</option>)}
         </select>
       </label>
       <label

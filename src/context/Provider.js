@@ -17,6 +17,13 @@ function Provider({ children }) {
     }],
   });
   const [isLoad, setIsLoad] = useState(true);
+  const [options, setOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
   const [planets, setPlanets] = useState([]);
   const [valor, setValor] = useState('');
   const myContextValues = {
@@ -25,6 +32,7 @@ function Provider({ children }) {
     comparação,
     filters,
     isLoad,
+    options,
     planets,
     valor,
     setApi,
@@ -32,6 +40,7 @@ function Provider({ children }) {
     setComparação,
     setFilters,
     setIsLoad,
+    setOptions,
     setPlanets,
     setValor,
   };
