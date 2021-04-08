@@ -2,9 +2,14 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Form() {
-  const { filters: { filterByName: { name } }, handleNameChange, data,
+  const { filters: { filterByName: { name } }, setFilters,
   } = useContext(StarWarsContext);
-  console.log(data.filter((i) => (i.name.includes(name) && i)));
+  // console.log(data.filter((i) => (i.name.includes(name) && i)));
+
+  function handleNameChange(e) {
+    setFilters({ filterByName: { name: e.target.value } });
+  }
+
   return (
     <form>
       <label htmlFor="name-filter">

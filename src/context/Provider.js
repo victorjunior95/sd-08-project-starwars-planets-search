@@ -19,22 +19,17 @@ function Provider({ children }) {
     importPlanets();
   }, []);
 
-  function filterName() {
+  useEffect(() => {
     const { filterByName: { name } } = filters;
     const filterDataName = data.filter((i) => (i.name.includes(name) && i));
     setNewData(filterDataName);
-  }
-
-  function handleNameChange(e) {
-    setFilters({ filterByName: { name: e.target.value } });
-    filterName();
-  }
+  }, [data, filters]);
 
   const globalState = {
     data,
     loading,
     filters,
-    handleNameChange,
+    setFilters,
     newData,
   };
   return (

@@ -2,19 +2,24 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
-  const { data, loading, newData } = useContext(StarWarsContext);
-  console.log(newData);
+  const { loading, newData } = useContext(StarWarsContext);
+  // console.log(newData);
+
+  const title = ['name', 'rotation_period', 'orbital_period',
+    'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
+    'population', 'films', 'created', 'edited', 'url'];
+
   return (
     loading
     && (
       <table border="solid 1px">
         <thead>
           <tr>
-            {Object.keys(data[0]).map((i, index) => <th key={ index }>{i}</th>)}
+            {title.map((item, index) => <th key={ index }>{item}</th>)}
           </tr>
         </thead>
         <tbody>
-          {data
+          {newData
             .map((tableLine, index) => (
               <tr key={ index }>
                 { Object.values(tableLine)
