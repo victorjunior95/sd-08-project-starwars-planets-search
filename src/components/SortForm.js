@@ -35,7 +35,7 @@ export default function SortForm() {
   const handleChange = ({ target }) => {
     setSortBy({
       ...sortBy,
-      [target.name]: target,
+      [target.name]: target.value,
     });
   };
 
