@@ -1,10 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 import FiltralhosDoCarilho from './FiltralhosDoCarilho';
 
 export default function NumericFilterForm() {
-  const { setNumFilter, selectColumns, numFilter, blabla } = useContext(PlanetContext);
-  const [arrColumns, setArrColumns] = useState();
+  const {
+    setNumFilter,
+    selectColumns,
+    numFilter,
+    setSelectColumns,
+  } = useContext(PlanetContext);
   const [numericFilter, setNumericFilter] = useState({
     column: '',
     comparison: '',
@@ -18,14 +22,10 @@ export default function NumericFilterForm() {
     });
   }
 
-  useEffect(() => {
-    if (arrColumns === undefined) {
-      setArrColumns(selectColumns);
-    }
-  }, [arrColumns, selectColumns]);
-
-  const filterArrOptions = () => setArrColumns(arrColumns
-    .filter((item) => item !== numericFilter.column));
+  function filterArrOptions() {
+    setSelectColumns(selectColumns
+      .filter((item) => item !== numericFilter.column));
+  }
 
   function handleClick() {
     setNumFilter([
@@ -35,9 +35,9 @@ export default function NumericFilterForm() {
     filterArrOptions();
   }
 
-  function removeFilter({ target: { value } }) {
-    setNumFilter(numFilter.filter((item) => item.column !== value));
-    setArrColumns([...arrColumns, value]);
+  function removeFilter(column) {
+    setNumFilter(numFilter.filter((item) => item.column !== column));
+    setSelectColumns([...selectColumns, column]);
   }
 
   return (
@@ -45,7 +45,7 @@ export default function NumericFilterForm() {
       <form>
         <select name="column" id="" data-testid="column-filter" onChange={ handleChange }>
           {
-            arrColumns && arrColumns
+            selectColumns && selectColumns
               .map((item, i) => <option key={ i } value={ item }>{item}</option>)
           }
         </select>

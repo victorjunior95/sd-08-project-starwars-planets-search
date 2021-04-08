@@ -10,7 +10,7 @@ function FiltralhosDoCarilho({ filters, removeFilter }) {
             <li key={ i } data-testid="filter">
               {`${column} | ${comparison} | ${value}`}
               {' '}
-              <button type="button" value={ column } onClick={ removeFilter }>X</button>
+              <button type="button" onClick={ () => removeFilter(column) }>X</button>
             </li>
           ))
         }

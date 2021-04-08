@@ -8,10 +8,12 @@ function Table() {
     'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
     'population', 'films', 'created', 'edited', 'url'];
 
+  // console.log(planets);
+
   return (
     isLoading
       && (
-        <table border="solid ">
+        <table border="solid">
           <thead>
             <tr>
               {title.map((item, i) => <th key={ i }>{item}</th>)}

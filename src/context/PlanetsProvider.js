@@ -39,21 +39,6 @@ function PlanetsProvider({ children }) {
     }
   }, [data, filters, selectColumns]);
 
-  // function blabla(some) {
-  //   const { comparison, column, value } = some;
-  //   switch (comparison) {
-  //   case 'igual a':
-  //     return setPlanets(data.filter((item) => +item[column] === +value));
-  //   case 'maior que':
-  //     return setPlanets(data.filter((item) => +item[column] > +value));
-  //   case 'menor que':
-  //     return setPlanets(data.filter((item) => +item[column] < +value));
-  //   default:
-  //     break;
-  //   }
-  // }
-  // console.log(numFilter[0]);
-
   useEffect(() => {
     numFilter.forEach(({ comparison, column, value }) => {
       if (comparison === 'igual a') {
@@ -64,6 +49,7 @@ function PlanetsProvider({ children }) {
         return setPlanets(data.filter((item) => +item[column] < +value));
       }
     });
+    console.log(numFilter);
   },
   [data, numFilter, selectColumns]);
 
@@ -76,6 +62,7 @@ function PlanetsProvider({ children }) {
     setNumFilter,
     numFilter,
     selectColumns,
+    setSelectColumns,
   };
 
   return (
