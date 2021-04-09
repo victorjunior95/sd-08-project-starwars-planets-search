@@ -3,6 +3,7 @@ import { APIContext } from '../services/context';
 
 export default function Table() {
   const { filterArray } = useContext(APIContext);
+
   return (
     <table>
       {console.log(filterArray)}

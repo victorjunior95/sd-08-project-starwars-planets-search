@@ -6,7 +6,7 @@ export default function FilterNumeric() {
     filters,
     setFilters,
     columns,
-    setColumns,
+    // setColumns,
   } = useContext(APIContext);
 
   const [filterValues, setFilterValues] = useState({});
@@ -22,25 +22,25 @@ export default function FilterNumeric() {
     });
   }, [columns]);
 
-  const handleChange = ({ target }) => {
+  const onChangeNumericFilter = ({ target }) => {
     setFilterValues({
-      ...filterValues,
-      [target.name]: target.value,
-    });
+      ...filterByNumericValues,
+      [target.name]: target.value });
   };
+
   const handleBtnFilter = () => {
     setFilters({
       ...filters,
       filterByNumericValues: [...filterByNumericValues, filterValues],
     });
-    setColumns(columns.filter((columnName) => column !== columnName));
+    // setColumns(columns.filter((columnName) => column !== columnName));
   };
   return (
     <form>
       <select
         value={ column }
         name="column"
-        onChange={ handleChange }
+        onChange={ onChangeNumericFilter }
         data-testid="column-filter"
       >
         {columns.map((columnOption) => (
@@ -50,7 +50,7 @@ export default function FilterNumeric() {
       <select
         value={ comparison }
         name="comparison"
-        onChange={ handleChange }
+        onChange={ onChangeNumericFilter }
         data-testid="comparison-filter"
       >
         {comparisons.map((comparisonOption) => (
@@ -63,7 +63,7 @@ export default function FilterNumeric() {
         name="value"
         data-testid="value-filter"
         placeholder="0"
-        onChange={ handleChange }
+        onChange={ onChangeNumericFilter }
       />
       <button type="button" data-testid="button-filter" onClick={ handleBtnFilter }>
         Filter

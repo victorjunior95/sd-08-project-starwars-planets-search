@@ -8,13 +8,7 @@ const ProviderAPI = ({ children }) => {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    ],
+    filterByNumericValues: [],
   };
 
   const INITIAL_COLUMNS = [
@@ -46,21 +40,30 @@ const ProviderAPI = ({ children }) => {
     getAPI();
   }, []);
 
-  function filteredPlanetsByName(planet) {
+  // function filteredPlanetsByName(planet) {
+  //   const filteredPlanets = planetArray.length > 0 ? planetArray
+  //     .filter((pnt) => pnt.name.toLowerCase().includes(planet.toLowerCase()))
+  //     : [];
+  //   setFilterArray(filteredPlanets);
+  // }
+
+  useEffect(() => {
+    const {
+      filterByName: { name } } = filters;
     const filteredPlanets = planetArray.length > 0 ? planetArray
-      .filter((pnt) => pnt.name.toLowerCase().includes(planet.toLowerCase()))
+      .filter((pnt) => pnt.name.toLowerCase().includes(name.toLowerCase()))
       : [];
     setFilterArray(filteredPlanets);
-  }
+  }, [filters]);
+  // código abaixo "finalArray" baseado no colega de turma "Jeferson Schimuneck"
   const objData = {
     filterArray,
     filters,
     setFilters,
-    filteredPlanetsByName,
+    // filteredPlanetsByName,
     setColumns,
     columns,
   };
-
   return (
     <APIContext.Provider value={ objData }>
       { children}

@@ -1,11 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { APIContext } from '../services/context';
 
 export default function InputFilter() {
   const {
     filters,
     setFilters,
-    filteredPlanetsByName,
   } = useContext(APIContext);
   const { filterByName: { name } } = filters;
 
@@ -17,10 +16,6 @@ export default function InputFilter() {
       },
     });
   };
-
-  useEffect(() => {
-    filteredPlanetsByName(name);
-  }, [name]);
 
   return (
     <form>
