@@ -1,21 +1,10 @@
 .App {
   text-align: center;
-  background-image: url("./images/universe.webp");
-  opacity: 0.8;
-  width: 100%;
-  color: yellow;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
-
-@media ( prefers-reduced-motion : no-preference ) {
-
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
 
 .App-header {
@@ -44,6 +33,13 @@
   }
 }
 
+h1 {
+  color: yellow;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 55px;
+  text-align: center;
+}
+
 .star-wars-logo {
   display: block;
   margin-left: auto;
@@ -55,8 +51,21 @@
   margin-bottom: 50px;
 }
 
-th, td {
-  border: 1px solid black;
+body {
+  background-image: url("./images/bodyBackgroundImage.png");
+  background-size: cover;
+  opacity: 0.8;
+  width: 100%;
+  color: yellow;
+}
+
+table, th, td {
+  background: black;
+  border: 2px solid yellow;
+  border-style: groove;
+  color: white;
+  font-size: 15px;
+  text-align: center;
 }
 
 .table {
@@ -65,7 +74,24 @@ th, td {
   overflow:auto;
 }
 
-.filters {
+.filters-input {
   display: flex;
   justify-content: center;
+}
+
+.remove-x {
+  width: 20px;
+}
+
+button:hover {
+  background: white;
+}
+
+select, input, button {
+  color: black;
+  background-color: yellow;
+  opacity: 75%;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 5px;
 }
