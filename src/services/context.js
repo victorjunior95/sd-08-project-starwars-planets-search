@@ -56,6 +56,20 @@ const ProviderAPI = ({ children }) => {
     setFilterArray(filteredPlanets);
   }, [filters]);
   // código abaixo "finalArray" baseado no colega de turma "Jeferson Schimuneck"
+
+  function applyFilter() {
+    filterArray.reduce((acc, filter) => {
+      const { comparison, column, value } = filter;
+      const comparisonFunctions = {
+        'maior que': (columnData) => parseInt(columnData, 10) > parseInt(value, 10),
+        'menor que': (columnData) => parseInt(columnData, 10) < parseInt(value, 10),
+        'igual a': (columnData) => parseInt(columnData, 10) === parseInt(value, 10),
+      };
+      return acc
+        .filter((planetData) => comparisonFunctions[comparison](planetData[column]));
+    }, filterArray);
+  }
+
   const objData = {
     filterArray,
     filters,
@@ -63,6 +77,7 @@ const ProviderAPI = ({ children }) => {
     // filteredPlanetsByName,
     setColumns,
     columns,
+    applyFilter,
   };
   return (
     <APIContext.Provider value={ objData }>

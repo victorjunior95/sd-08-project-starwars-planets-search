@@ -24,7 +24,7 @@ export default function FilterNumeric() {
 
   const onChangeNumericFilter = ({ target }) => {
     setFilterValues({
-      ...filterByNumericValues,
+      ...filterValues,
       [target.name]: target.value });
   };
 
