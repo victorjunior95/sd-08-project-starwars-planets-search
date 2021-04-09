@@ -3,7 +3,9 @@ import myContext from '../context/dataContext';
 
 function ShortSearch() {
   const [filterNumeric, setFilterNumeric] = useState({});
-  const { filterByPlanetName, setFilterByPlanetName, columns, setColumns } = useContext(myContext);
+  const { filterByPlanetName,
+    setFilterByPlanetName,
+    columns, setColumns } = useContext(myContext);
   const { filters: { filterByName, filterByNumericValues } } = filterByPlanetName;
 
   useEffect(() => {
