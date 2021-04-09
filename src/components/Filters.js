@@ -3,17 +3,22 @@ import MyContext from '../context/MyContext';
 
 function Filters() {
   const {
-    coluna,
-    comparação,
+    api,
+    setPlanets,
     filters,
-    options,
-    valor,
-    setColuna,
-    setComparação,
     setFilters,
-    setOptions,
+    coluna,
+    setColuna,
+    comparação,
+    setComparação,
+    valor,
     setValor,
+    options,
+    setOptions,
+    selectedFilters,
+    setSelectedFilters,
   } = useContext(MyContext);
+
   const { filterByNumericValues } = filters;
 
   function filterByName({ target }) {
@@ -37,8 +42,7 @@ function Filters() {
     setValor(target.value);
   }
 
-  function filterByOthers() {
-    const newOptions = options.filter((option) => option !== coluna);
+  function filterByNumericValue() {
     setFilters({
       ...filters,
       filterByNumericValues: [
@@ -50,8 +54,23 @@ function Filters() {
         },
       ],
     });
-    console.log(newOptions);
+    const newOptions = options.filter((option) => option !== coluna);
     setOptions(newOptions);
+    setSelectedFilters([
+      ...selectedFilters,
+      coluna,
+    ]);
+  }
+
+  function removeFilters({ target }) {
+    setOptions([
+      ...options,
+      target.id,
+    ]);
+    const newSelectedFilters = selectedFilters
+      .filter((selectedfilter) => selectedfilter !== target.id);
+    setSelectedFilters(newSelectedFilters);
+    setPlanets(api);
   }
 
   return (
@@ -61,7 +80,7 @@ function Filters() {
       >
         {'Nome: '}
         <input
-          data-testId="name-filter"
+          data-testid="name-filter"
           id="input-name"
           placeholder="pesquise por planetas"
           onChange={ filterByName }
@@ -72,7 +91,7 @@ function Filters() {
         onChange={ selectColumn }
       >
         {'Buscar por: '}
-        <select data-testId="column-filter">
+        <select data-testid="column-filter">
           {options.map((option) => <option key={ option }>{option}</option>)}
         </select>
       </label>
@@ -81,7 +100,7 @@ function Filters() {
         onChange={ selectComparison }
       >
         {'Faixa: '}
-        <select data-testId="comparison-filter">
+        <select data-testid="comparison-filter">
           <option>maior que</option>
           <option>menor que</option>
           <option>igual a</option>
@@ -93,7 +112,7 @@ function Filters() {
       >
         {'Numero: '}
         <input
-          data-testId="value-filter"
+          data-testid="value-filter"
           type="number"
           min="0"
           max="1000000000000"
@@ -101,11 +120,27 @@ function Filters() {
       </label>
       <button
         type="button"
-        data-testId="button-filter"
-        onClick={ filterByOthers }
+        data-testid="button-filter"
+        onClick={ filterByNumericValue }
       >
         Filtrar
       </button>
+      <div>
+        {selectedFilters.map((selectedfilter) => (
+          <div
+            key={ selectedfilter }
+            data-testid="filter"
+          >
+            { `Filtro: ${selectedfilter} ` }
+            <button
+              id={ selectedfilter }
+              type="button"
+              onClick={ removeFilters }
+            >
+              x
+            </button>
+          </div>))}
+      </div>
     </div>
   );
 }

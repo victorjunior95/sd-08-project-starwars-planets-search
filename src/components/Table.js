@@ -10,7 +10,7 @@ function Table() {
   return (
     <div>
       {isLoad
-        ? (<p>Carregando</p>)
+        ? (<p>Carregando...</p>)
         : (
           <table>
             <thead>

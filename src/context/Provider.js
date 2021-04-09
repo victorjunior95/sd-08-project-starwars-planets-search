@@ -4,8 +4,8 @@ import MyContext from './MyContext';
 
 function Provider({ children }) {
   const [api, setApi] = useState([]);
-  const [coluna, setColuna] = useState('');
-  const [comparação, setComparação] = useState('');
+  const [planets, setPlanets] = useState([]);
+  const [isLoad, setIsLoad] = useState(true);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -16,7 +16,9 @@ function Provider({ children }) {
       value: '',
     }],
   });
-  const [isLoad, setIsLoad] = useState(true);
+  const [coluna, setColuna] = useState('');
+  const [comparação, setComparação] = useState('');
+  const [valor, setValor] = useState('');
   const [options, setOptions] = useState([
     'population',
     'orbital_period',
@@ -24,25 +26,27 @@ function Provider({ children }) {
     'rotation_period',
     'surface_water',
   ]);
-  const [planets, setPlanets] = useState([]);
-  const [valor, setValor] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState([]);
+
   const myContextValues = {
     api,
-    coluna,
-    comparação,
-    filters,
-    isLoad,
-    options,
-    planets,
-    valor,
     setApi,
-    setColuna,
-    setComparação,
-    setFilters,
-    setIsLoad,
-    setOptions,
+    planets,
     setPlanets,
+    isLoad,
+    setIsLoad,
+    filters,
+    setFilters,
+    coluna,
+    setColuna,
+    comparação,
+    setComparação,
+    valor,
     setValor,
+    options,
+    setOptions,
+    selectedFilters,
+    setSelectedFilters,
   };
 
   useEffect(() => {
@@ -50,6 +54,7 @@ function Provider({ children }) {
       .then((response) => response.json())
       .then((data) => {
         setApi(data.results);
+        setPlanets(data.results);
         setIsLoad(false);
       });
   }, []);
@@ -58,18 +63,20 @@ function Provider({ children }) {
     const { filterByName: { name } } = filters;
     const filterName = api.filter((planet) => planet.name.includes(name));
     setPlanets(filterName);
-  }, [api, filters]);
+  }, []);
 
   useEffect(() => {
     const {
       filterByName: { name },
       filterByNumericValues,
     } = filters;
+
     const {
       column,
       comparison,
       value,
     } = filterByNumericValues[filterByNumericValues.length - 1];
+
     const filterNumericValues = api.filter((planet) => {
       const includesName = planet.name.includes(name);
       switch (comparison) {
