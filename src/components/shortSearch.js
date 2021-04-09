@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import myContext from '../context/dataContext';
+import Filters from './filters';
 
 function ShortSearch() {
   const [filterNumeric, setFilterNumeric] = useState({});
@@ -60,6 +61,7 @@ function ShortSearch() {
         {' '}
         Filtrar
       </button>
+      <Filters />
     </>
   );
 }
