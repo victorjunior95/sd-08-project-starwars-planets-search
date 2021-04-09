@@ -9,6 +9,10 @@ const ProviderAPI = ({ children }) => {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   };
 
   const INITIAL_COLUMNS = [
@@ -23,6 +27,10 @@ const ProviderAPI = ({ children }) => {
   const [columns, setColumns] = useState(INITIAL_COLUMNS);
   const [planetArray, setPlanetArray] = useState([]);
   const [filterArray, setFilterArray] = useState([]);
+  const [orderFilterValues, setOrderFilterValues] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
 
   useEffect(() => {
     const getAPI = async () => {
@@ -69,6 +77,12 @@ const ProviderAPI = ({ children }) => {
   }, [filters]);
   // código abaixo "finalArray" baseado no colega de turma "Jeferson Schimuneck"
 
+  function onClickRemoveFilter(column) {
+    const updateNumericFilter = filters.filterByNumericValues
+      .filter((filter) => filter.column !== column);
+    setFilters({ ...filters, filterByNumericValues: updateNumericFilter });
+  }
+
   const objData = {
     filterArray,
     filters,
@@ -77,6 +91,9 @@ const ProviderAPI = ({ children }) => {
     setColumns,
     columns,
     applyFilter,
+    orderFilterValues,
+    setOrderFilterValues,
+    onClickRemoveFilter,
   };
   return (
     <APIContext.Provider value={ objData }>

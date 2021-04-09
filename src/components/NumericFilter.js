@@ -33,7 +33,6 @@ export default function FilterNumeric() {
       ...filters,
       filterByNumericValues: [...filterByNumericValues, filterValues],
     });
-    // setColumns(columns.filter((columnName) => column !== columnName));
   };
   return (
     <form>
