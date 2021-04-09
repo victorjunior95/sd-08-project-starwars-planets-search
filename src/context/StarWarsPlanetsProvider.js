@@ -78,6 +78,19 @@ function StarWarsPlanetsProvider({ children }) {
         }
         return result;
       })));
+    const newColumnsOptions = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ].filter((columnOption) => filterByNumericValues
+      .every((filter) => filter.column !== columnOption));
+
+    setFilters({
+      ...filters,
+      columnsOptions: newColumnsOptions,
+    });
   }, [filters.filterByNumericValues]);
 
   const data = {
@@ -85,6 +98,10 @@ function StarWarsPlanetsProvider({ children }) {
     setFilters,
     filteredPlanets,
   };
+
+  useEffect(() => {
+
+  }, [filters.filterByNumericValues]);
 
   return (
     <StarWarsPlanetsContext.Provider value={ data }>

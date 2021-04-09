@@ -1,6 +1,5 @@
 import React from 'react';
-import NumericFilter from '../components/NumericFilter';
-import TextFilter from '../components/TextFilter';
+import Filters from '../components/Filters';
 import PlanetsTable from '../components/PlanetsTable';
 import starWarsLogo from '../images/starWarsLogo.svg';
 
@@ -13,10 +12,7 @@ function starWarsPlanets() {
         src={ starWarsLogo }
       />
       <h1>Planets</h1>
-      <div className="filters">
-        <TextFilter />
-        <NumericFilter />
-      </div>
+      <Filters />
       <PlanetsTable />
     </div>
   );
