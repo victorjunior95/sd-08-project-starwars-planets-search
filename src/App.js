@@ -1,16 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import starWarsContext from './context/StarWarsContext';
+import StarWarsProvider from './context/StarWarsProvider';
+import Table from './components/Table';
 
 import './App.css';
 
-const App = () => {
-  const context = useContext(starWarsContext);
-  console.log(context);
-
-  return (
-      <span>Hello, {}!</span>
-  );
-}
+const App = () => (
+  <StarWarsProvider>
+    <Table />
+  </StarWarsProvider>
+);
 
 export default App;
