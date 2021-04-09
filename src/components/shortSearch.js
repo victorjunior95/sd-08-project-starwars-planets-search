@@ -3,16 +3,16 @@ import myContext from '../context/dataContext';
 
 function ShortSearch() {
   const [filterNumeric, setFilterNumeric] = useState({});
-  const { filterByPlanetName, setFilterByPlanetName, columns } = useContext(myContext);
+  const { filterByPlanetName, setFilterByPlanetName, columns, setColumns } = useContext(myContext);
   const { filters: { filterByName, filterByNumericValues } } = filterByPlanetName;
 
   useEffect(() => {
     setFilterNumeric({
-      column: 'population',
+      column: columns[0],
       comparsion: 'maior que',
       value: '0',
     });
-  }, []);
+  }, [columns]);
 
   function handleChange({ target }) {
     setFilterNumeric(
@@ -31,6 +31,7 @@ function ShortSearch() {
         filterByNumericValues: [...filterByNumericValues, filterNumeric],
       },
     });
+    setColumns(columns.filter((column) => column !== filterNumeric.column));
   }
 
   return (
