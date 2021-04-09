@@ -2,20 +2,23 @@ import React, { useContext } from 'react';
 import StarsAppContext from '../context/StarsAppContext';
 
 function Table() {
-  const { data } = useContext(StarsAppContext);
+  const { filteredPlanets } = useContext(StarsAppContext);
+  const title = ['name', 'rotation_period', 'orbital_period',
+    'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
+    'population', 'films', 'created', 'edited', 'url'];
 
   return (
-    data.length > 0
+    filteredPlanets.length > 0
     && (
       <table border="solid 1px">
         <thead>
           <tr>
-            { Object.keys(data[0])
+            { title
               .map((i, index) => <th key={ index }>{i}</th>)}
           </tr>
         </thead>
         <tbody>
-          {data
+          {filteredPlanets
             .map((i, index) => (
               <tr key={ index }>
                 {Object.values(i)
