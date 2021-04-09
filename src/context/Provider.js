@@ -20,14 +20,12 @@ function Provider({ children }) {
   const handleOrder = (array, order) => {
     const MENOS_UM = -1;
     const inOrder = array.sort((a, b) => {
-      let planetA = Number(a[order.column]) ? Number(a[order.column]) : a[order.column];
-      let planetB = Number(b[order.column]) ? Number(b[order.column]) : b[order.column];
-      if (planetA === 'unknown') planetA = Infinity;
-      if (planetB === 'unknown') planetB = Infinity;
-      if (planetA > planetB && order.sort === 'ASC') return 1;
+      const planetA = Number(a[order.column]) ? Number(a[order.column]) : a[order.column];
+      const planetB = Number(b[order.column]) ? Number(b[order.column]) : b[order.column];
+      if ((planetA > planetB && order.sort === 'ASC')
+      || (planetA < planetB && order.sort === 'DESC')) return 1;
       if (planetA < planetB && order.sort === 'ASC') return MENOS_UM;
       if (planetA > planetB && order.sort === 'DESC') return MENOS_UM;
-      if (planetA < planetB && order.sort === 'DESC') return 1;
       return 0;
     });
     return inOrder;
