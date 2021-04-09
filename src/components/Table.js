@@ -4,7 +4,7 @@ import SearchBar from './SearchBar';
 
 function Table() {
   const { filteredPlanets } = useContext(AppContext);
-
+  console.log(filteredPlanets);
   return (
     <div>
       <SearchBar />

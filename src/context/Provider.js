@@ -13,6 +13,22 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
+    const newFilter = data.filter((planet) => filters.every((eachFilter) => {
+      const { column, comparison, value } = eachFilter;
+      const infoPlanet = Number(planet[column]);
+      const toCompare = Number(value);
+      if (comparison === 'menor que') {
+        return infoPlanet < toCompare;
+      }
+      if (comparison === 'maior que') {
+        return infoPlanet > toCompare;
+      }
+      return infoPlanet === toCompare;
+    }));
+    setFilteredPlanets(newFilter);
+  }, [filters]);
+
+  useEffect(() => {
     getApi().then((response) => setFilteredPlanets(response));
   }, []);
 
@@ -28,20 +44,25 @@ function Provider({ children }) {
     setFilters(delFilter);
   };
 
-  const filterPlanetsByNumericValues = ({ column, comparison, value }) => {
-    const newFilter = data.filter((planet) => {
-      const infoPlanet = Number(planet[column]);
-      const toCompare = Number(value);
-      if (comparison === 'menor que') {
-        return infoPlanet < toCompare;
-      }
-      if (comparison === 'maior que') {
-        return infoPlanet > toCompare;
-      }
-      return infoPlanet === toCompare;
-    });
-    setFilteredPlanets(newFilter);
-  };
+  // const filterPlanetsByNumericValues = (params) => {
+  //   const deveriaSer = console.log('oi', [
+  //     ...filters,
+  //     params,
+  //   ]);
+  //   const newFilter = data.filter((planet) => filters.every((eachFilter) => {
+  //     const { column, comparison, value } = eachFilter;
+  //     const infoPlanet = Number(planet[column]);
+  //     const toCompare = Number(value);
+  //     if (comparison === 'menor que') {
+  //       return infoPlanet < toCompare;
+  //     }
+  //     if (comparison === 'maior que') {
+  //       return infoPlanet > toCompare;
+  //     }
+  //     return infoPlanet === toCompare;
+  //   }));
+  //   setFilteredPlanets(newFilter);
+  // };
 
   const contextValue = {
     data,
@@ -50,7 +71,7 @@ function Provider({ children }) {
     deleteFilter,
     setFilters,
     filterByName: (textName) => filterPlanetsByName(textName),
-    filterByNumericValues: (filtersLocal) => filterPlanetsByNumericValues(filtersLocal),
+    // filterByNumericValues: (filtersLocal) => filterPlanetsByNumericValues(filtersLocal),
   };
 
   return (

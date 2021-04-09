@@ -6,8 +6,7 @@ const SearchBar = () => {
     filterByName,
     filters,
     setFilters,
-    deleteFilter,
-    filterByNumericValues } = useContext(AppContext);
+    deleteFilter } = useContext(AppContext);
   const [filtersLocal, setFiltersLocal] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -35,12 +34,18 @@ const SearchBar = () => {
 
   const handleButton = (e) => {
     e.preventDefault();
-    filterByNumericValues(filtersLocal);
+    // filterByNumericValues(filtersLocal);
     setdropdrown(dropdown.filter((item) => item !== filtersLocal.column));
     setFilters([
       ...filters,
       filtersLocal,
     ]);
+  };
+
+  const handleDelete = (index, column) => {
+    // filterByNumericValues(filtersLocal);
+    deleteFilter(index);
+    setdropdrown([...dropdown, column]);
   };
 
   return (
@@ -88,18 +93,17 @@ const SearchBar = () => {
         </button>
         <div>
           {filters.map(({ column, comparison, value }, index) => (
-            <>
-              <span key={ column }>
+            <div data-testid="filter" key={ column }>
+              <span>
                 { `${column} ${comparison} ${value}`}
               </span>
               <button
-                data-testid="filter"
                 type="button"
-                onClick={ () => deleteFilter(index) }
+                onClick={ () => handleDelete(index, column) }
               >
                 X
               </button>
-            </>
+            </div>
           ))}
         </div>
       </section>
