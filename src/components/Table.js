@@ -4,7 +4,6 @@ import SearchBar from './SearchBar';
 
 function Table() {
   const { filteredPlanets } = useContext(AppContext);
-  console.log(filteredPlanets);
   return (
     <div>
       <SearchBar />
@@ -29,7 +28,7 @@ function Table() {
         <tbody>
           {filteredPlanets.map((planet) => (
             <tr key={ planet.name }>
-              <td>
+              <td data-testid="planet-name">
                 {planet.name}
               </td>
               <td>
