@@ -3,7 +3,8 @@ import { APIContext } from '../services/context';
 
 export default function Table() {
   const { filterArray } = useContext(APIContext);
-
+  // const { filterByNumericValues } = filters;
+  // applyFilter();
   return (
     <table>
       {console.log(filterArray)}

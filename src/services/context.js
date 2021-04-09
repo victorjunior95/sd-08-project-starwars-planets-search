@@ -54,21 +54,34 @@ const ProviderAPI = ({ children }) => {
       .filter((pnt) => pnt.name.toLowerCase().includes(name.toLowerCase()))
       : [];
     setFilterArray(filteredPlanets);
+    const numericArray = filters.filterByNumericValues.length > 0
+      ? filters.filterByNumericValues.reduce((acc, filter) => {
+        const { column, comparison, value } = filter;
+        const comparisonFunctions = {
+          'maior que': (columnData) => parseInt(columnData, 10) > parseInt(value, 10),
+          'menor que': (columnData) => parseInt(columnData, 10) < parseInt(value, 10),
+          'igual a': (columnData) => parseInt(columnData, 10) === parseInt(value, 10),
+        };
+        return acc
+          .filter((planetData) => comparisonFunctions[comparison](planetData[column]));
+      }, filterArray) : [filterArray];
+    setFilterArray(numericArray);
   }, [filters]);
   // código abaixo "finalArray" baseado no colega de turma "Jeferson Schimuneck"
 
-  function applyFilter() {
-    filterArray.reduce((acc, filter) => {
-      const { comparison, column, value } = filter;
-      const comparisonFunctions = {
-        'maior que': (columnData) => parseInt(columnData, 10) > parseInt(value, 10),
-        'menor que': (columnData) => parseInt(columnData, 10) < parseInt(value, 10),
-        'igual a': (columnData) => parseInt(columnData, 10) === parseInt(value, 10),
-      };
-      return acc
-        .filter((planetData) => comparisonFunctions[comparison](planetData[column]));
-    }, filterArray);
-  }
+  // function applyFilter() {
+  //   const numericArray = filters.filterByNumericValues > 0 ? filters.filterByNumericValues.reduce((acc, filter) => {
+  //     const { column, comparison, value } = filter;
+  //     const comparisonFunctions = {
+  //       'maior que': (columnData) => parseInt(columnData, 10) > parseInt(value, 10),
+  //       'menor que': (columnData) => parseInt(columnData, 10) < parseInt(value, 10),
+  //       'igual a': (columnData) => parseInt(columnData, 10) === parseInt(value, 10),
+  //     };
+  //     return acc
+  //       .filter((planetData) => comparisonFunctions[comparison](planetData[column]));
+  //   }, filterArray) : [filterArray];
+  //   setFilterArray(numericArray);
+  // }
 
   const objData = {
     filterArray,
@@ -77,7 +90,6 @@ const ProviderAPI = ({ children }) => {
     // filteredPlanetsByName,
     setColumns,
     columns,
-    applyFilter,
   };
   return (
     <APIContext.Provider value={ objData }>
