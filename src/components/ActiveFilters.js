@@ -8,7 +8,7 @@ function ActiveFilters() {
   return (
     <label htmlFor="active-filters">
       <form>
-        <h4>Active Filters</h4>
+        <h3>Active Filters</h3>
         <ul>
           { filters.filterByNumericValues.length > 0
               && filters.filterByNumericValues.map((filter) => (

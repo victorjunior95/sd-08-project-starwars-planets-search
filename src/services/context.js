@@ -54,6 +54,7 @@ const ProviderAPI = ({ children }) => {
   //     : [];
   //   setFilterArray(filteredPlanets);
   // }
+
   function applyFilter() {
     return filters.filterByNumericValues.reduce((acc, filter) => {
       const { column, comparison, value } = filter;
@@ -66,7 +67,6 @@ const ProviderAPI = ({ children }) => {
         .filter((planetData) => comparisonFunctions[comparison](planetData[column]));
     }, filterArray);
   }
-
   useEffect(() => {
     const {
       filterByName: { name } } = filters;
@@ -75,7 +75,6 @@ const ProviderAPI = ({ children }) => {
       : [];
     setFilterArray(filteredPlanets);
   }, [filters]);
-  // código abaixo "finalArray" baseado no colega de turma "Jeferson Schimuneck"
 
   function onClickRemoveFilter(column) {
     const updateNumericFilter = filters.filterByNumericValues
