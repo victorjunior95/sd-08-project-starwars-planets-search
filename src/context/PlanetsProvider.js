@@ -8,7 +8,7 @@ const filterPlanets = {
     name: '',
   },
   order: {
-    column: 'Name',
+    column: 'name',
     sort: 'ASC',
   },
 };
@@ -28,21 +28,36 @@ function PlanetsProvider({ children }) {
   const [filters, setFilters] = useState(filterPlanets);
   const [numFilter, setNumFilter] = useState([]);
 
-  // function sortBy() {
-  //   names.sort((a, b) => {
-  //     if (a.toLowerCase() < b.toLowerCase()) {
-  //       return NEGATIVE;
-  //     }
-  //     if (a.toLowerCase() > b.toLowerCase()) {
-  //       return POSITIVE;
-  //     }
-  //     return 0;
-  //   });
-  // }
+  function sortBy(arr, column, sort) {
+    return arr.sort((a, b) => {
+      switch (sort) {
+      case 'ASC':
+        if (parseFloat(a[column]) < parseFloat(b[column])) return NEGATIVE;
+        if (parseFloat(a[column]) > parseFloat(b[column])) return POSITIVE;
+        break;
+      case 'DSC':
+        if (parseFloat(a[column]) < parseFloat(b[column])) return POSITIVE;
+        if (parseFloat(a[column]) > parseFloat(b[column])) return NEGATIVE;
+        break;
+      default:
+        return 0;
+      }
+      return 0;
+    });
+  }
 
   useEffect(() => {
     const getPlanets = async () => {
       const starWarsPlanets = await fetchPlanets();
+      starWarsPlanets.sort((a, b) => {
+        if (a.name < b.name) {
+          return NEGATIVE;
+        }
+        if (a.name > b.name) {
+          return POSITIVE;
+        }
+        return 0;
+      });
       setData(starWarsPlanets);
       setIsLoading(true);
     };
@@ -59,34 +74,26 @@ function PlanetsProvider({ children }) {
   }, [data, filters, selectColumns]);
 
   useEffect(() => {
-    const arrOfPlanets = numFilter.forEach(({ comparison, column, value }) => {
+    // const { }
+    let arrOfPlanets = [...data];
+    numFilter.forEach(({ comparison, column, value }) => {
       if (comparison === 'igual a') {
-        return setPlanets(data.filter((item) => +item[column] === +value));
+        arrOfPlanets = data.filter((item) => +item[column] === +value);
       } if (comparison === 'maior que') {
-        return setPlanets(data.filter((item) => +item[column] > +value));
+        arrOfPlanets = data.filter((item) => +item[column] > +value);
       } if (comparison === 'menor que') {
-        return setPlanets(data.filter((item) => +item[column] < +value));
+        arrOfPlanets = data.filter((item) => +item[column] < +value);
       }
     });
+    const { column, sort } = filters.order;
+
+    // console.log(column, sort);
+
+    const sortered = sortBy(arrOfPlanets, column, sort);
+    // console.log(sortered);
+    setPlanets(sortered);
   },
-  [data, numFilter, selectColumns]);
-
-  //   Solução para a classificação de strings
-
-  // ```
-  // names = ['Ana', 'ana', 'john', 'John']; // reset array original state
-
-  // console.log(names.sort((a, b) => {
-  //   if (a.toLowerCase() < b.toLowerCase()) {
-  //     return -1;
-  //   }
-  //   if (a.toLowerCase() > b.toLowerCase()) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // }));
-
-  // Nesse caso, a função sort não terá nenhum efeito; ele obedecerá à ordem atual das letras maiúsculas e minúsculas.
+  [data, filters.order, numFilter, selectColumns]);
 
   const value = {
     data,

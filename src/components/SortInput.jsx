@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import PlanetContext from '../context/PlanetContext';
 
 function SortInput() {
+  const { setFilters, filters } = useContext(PlanetContext);
   const [sortBy, setSortBy] = useState({
     column: 'name',
     sort: 'ASC',
   });
+  // const { }
 
   const columns = [
     'name',
@@ -21,6 +24,13 @@ function SortInput() {
     setSortBy({
       ...sortBy,
       [target.name]: target.value,
+    });
+  }
+
+  function handleClick() {
+    setFilters({
+      ...filters,
+      order: sortBy,
     });
   }
 
@@ -51,7 +61,13 @@ function SortInput() {
           onChange={ handleChange }
         />
       </label>
-      <button type="button" data-testid="column-sort-button">Sort</button>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ handleClick }
+      >
+        Sort
+      </button>
     </>
   );
 }

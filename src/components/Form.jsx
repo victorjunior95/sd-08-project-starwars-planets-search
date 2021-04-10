@@ -6,7 +6,7 @@ function Form() {
   const { filterByName: { name } } = filters;
 
   function handleChange(e) {
-    setFilters({ filterByName: { name: e.target.value } });
+    setFilters({ ...filters, filterByName: { name: e.target.value } });
   }
 
   return (
