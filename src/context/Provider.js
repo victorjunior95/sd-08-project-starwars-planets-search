@@ -15,6 +15,10 @@ function Provider({ children }) {
       comparison: '',
       value: '',
     }],
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
   });
   const [coluna, setColuna] = useState('');
   const [comparação, setComparação] = useState('');
@@ -27,6 +31,10 @@ function Provider({ children }) {
     'surface_water',
   ]);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [orderColumn, setOrderColumn] = useState('Name');
+  const [orderSort, setOrderSort] = useState('ASC');
+
+  const MENOSUM = -1;
 
   const myContextValues = {
     api,
@@ -47,6 +55,10 @@ function Provider({ children }) {
     setOptions,
     selectedFilters,
     setSelectedFilters,
+    orderColumn,
+    setOrderColumn,
+    orderSort,
+    setOrderSort,
   };
 
   useEffect(() => {
@@ -54,16 +66,18 @@ function Provider({ children }) {
       .then((response) => response.json())
       .then((data) => {
         setApi(data.results);
-        setPlanets(data.results);
+        const initialOrder = data.results
+          .sort((a, b) => (a.name < b.name ? MENOSUM : a.name > b.name));
+        setPlanets(initialOrder);
         setIsLoad(false);
       });
-  }, []);
+  }, [MENOSUM]);
 
   useEffect(() => {
     const { filterByName: { name } } = filters;
     const filterName = api.filter((planet) => planet.name.includes(name));
     setPlanets(filterName);
-  }, []);
+  }, [api, filters]);
 
   useEffect(() => {
     const {

@@ -18,8 +18,8 @@ function Filters() {
     selectedFilters,
     setSelectedFilters,
   } = useContext(MyContext);
-
   const { filterByNumericValues } = filters;
+  const MENOSUM = -1;
 
   function filterByName({ target }) {
     setFilters({
@@ -71,6 +71,14 @@ function Filters() {
       .filter((selectedfilter) => selectedfilter !== target.id);
     setSelectedFilters(newSelectedFilters);
     setPlanets(api);
+  }
+
+  function orderTable() {
+    const orderedOrbitalPeriod = api
+      .sort((a, b) => (parseInt(a.orbital_period, 10) > parseInt(b.orbital_period, 10)
+        ? MENOSUM
+        : parseInt(a.orbital_period, 10) > parseInt(b.orbital_period, 10)));
+    setPlanets(orderedOrbitalPeriod);
   }
 
   return (
@@ -125,6 +133,57 @@ function Filters() {
       >
         Filtrar
       </button>
+      <div>
+        <label htmlFor="ASC">
+          {'Ascendente: '}
+          <input
+            data-testid="column-sort-input-asc"
+            id="ASC"
+            value="ASC"
+            type="radio"
+            name="radio"
+            // onChange={ selectOrder }
+          />
+        </label>
+        <label htmlFor="DESC">
+          {'Descendente: '}
+          <input
+            data-testid="column-sort-input-desc"
+            id="DESC"
+            value="DESC"
+            type="radio"
+            name="radio"
+            // onChange={ selectOrder }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ orderTable }
+        >
+          Ordenar
+        </button>
+      </div>
+      <label htmlFor="ascDesc">
+        {'Coluna: '}
+        <select
+          data-testid="column-sort"
+        >
+          <option>name</option>
+          <option>rotation_period</option>
+          <option>orbital_period</option>
+          <option>diameter</option>
+          <option>climate</option>
+          <option>gravity</option>
+          <option>terrain</option>
+          <option>surface_water</option>
+          <option>population</option>
+          <option>films</option>
+          <option>created</option>
+          <option>edited</option>
+          <option>url</option>
+        </select>
+      </label>
       <div>
         {selectedFilters.map((selectedfilter) => (
           <div
