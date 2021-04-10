@@ -18,7 +18,7 @@ function OrderColumn() {
   useEffect(() => {
     setFilterOrderColumn(
       {
-        column: 'Name',
+        column: 'name',
         sort: 'ASC',
       },
     );
