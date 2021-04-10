@@ -7,11 +7,18 @@ const filterPlanets = {
   filterByName: {
     name: '',
   },
+  order: {
+    column: 'Name',
+    sort: 'ASC',
+  },
 };
 
 const arrOptions = [
   'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
 ];
+
+const NEGATIVE = -1;
+const POSITIVE = 1;
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
@@ -20,6 +27,18 @@ function PlanetsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState(filterPlanets);
   const [numFilter, setNumFilter] = useState([]);
+
+  // function sortBy() {
+  //   names.sort((a, b) => {
+  //     if (a.toLowerCase() < b.toLowerCase()) {
+  //       return NEGATIVE;
+  //     }
+  //     if (a.toLowerCase() > b.toLowerCase()) {
+  //       return POSITIVE;
+  //     }
+  //     return 0;
+  //   });
+  // }
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -40,7 +59,7 @@ function PlanetsProvider({ children }) {
   }, [data, filters, selectColumns]);
 
   useEffect(() => {
-    numFilter.forEach(({ comparison, column, value }) => {
+    const arrOfPlanets = numFilter.forEach(({ comparison, column, value }) => {
       if (comparison === 'igual a') {
         return setPlanets(data.filter((item) => +item[column] === +value));
       } if (comparison === 'maior que') {
@@ -49,9 +68,25 @@ function PlanetsProvider({ children }) {
         return setPlanets(data.filter((item) => +item[column] < +value));
       }
     });
-    console.log(numFilter);
   },
   [data, numFilter, selectColumns]);
+
+  //   Solução para a classificação de strings
+
+  // ```
+  // names = ['Ana', 'ana', 'john', 'John']; // reset array original state
+
+  // console.log(names.sort((a, b) => {
+  //   if (a.toLowerCase() < b.toLowerCase()) {
+  //     return -1;
+  //   }
+  //   if (a.toLowerCase() > b.toLowerCase()) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // }));
+
+  // Nesse caso, a função sort não terá nenhum efeito; ele obedecerá à ordem atual das letras maiúsculas e minúsculas.
 
   const value = {
     data,
