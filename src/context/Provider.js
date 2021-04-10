@@ -25,6 +25,7 @@ function Provider({ children }) {
 
   useEffect(() => {
     importPlanets();
+    setSelectColumns(arrOptions);
   }, []);
 
   useEffect(() => {
