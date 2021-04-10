@@ -13,6 +13,8 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [byName, setByName] = useState(filterNameObj);
   const [filteredPlanets, setFilteredPlanets] = useState(data);
+  const [numFilter, setNumFilter] = useState([]);
+  const [newData, setNewData] = useState([]);
 
   async function importApi() {
     const apiList = await getApi();
@@ -22,10 +24,24 @@ function Provider({ children }) {
   useEffect(() => {
     importApi();
   }, []);
+
   useEffect(() => {
     const { filterByName: { name } } = byName;
-    setFilteredPlanets(data.filter((planet) => planet.name.includes(name)));
+    const retorno = data.filter((planet) => planet.name.includes(name) && planet);
+    setNewData(retorno);
   }, [byName, data]);
+
+  useEffect(() => {
+    numFilter.forEach(({ column, comparison, value }) => {
+      if (comparison === 'maior que') {
+        setNewData(data.filter((i) => Number(i[column]) > Number(value)));
+      } else if (comparison === 'menor que') {
+        setNewData(data.filter((i) => Number(i[column]) < Number(value)));
+      } else {
+        setNewData(data.filter((i) => Number(i[column]) === Number(value)));
+      }
+    });
+  }, [data, numFilter]);
 
   const contextValue = {
     filteredPlanets,
@@ -33,6 +49,10 @@ function Provider({ children }) {
     setByName,
     data,
     setFilteredPlanets,
+    setNumFilter,
+    numFilter,
+    newData,
+    setNewData,
   };
 
   return (
