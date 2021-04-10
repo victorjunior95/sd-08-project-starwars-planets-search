@@ -4,7 +4,7 @@ import myContext from '../context/dataContext';
 function InputField() {
   const { filterByPlanetName, setFilterByPlanetName } = useContext(myContext);
   const { filters: { filterByName: { name },
-    filterByNumericValues } } = filterByPlanetName;
+    filterByNumericValues, order } } = filterByPlanetName;
 
   const handleChange = (e) => {
     setFilterByPlanetName({
@@ -14,6 +14,7 @@ function InputField() {
           name: e.target.value,
         },
         filterByNumericValues,
+        order,
       },
     });
   };

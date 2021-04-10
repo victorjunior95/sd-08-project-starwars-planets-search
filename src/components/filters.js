@@ -4,7 +4,7 @@ import myContext from '../context/dataContext';
 function Filters() {
   const { filterByPlanetName, setFilterByPlanetName } = useContext(myContext);
   const { filters: { filterByName,
-    filterByNumericValues } } = filterByPlanetName;
+    filterByNumericValues, order } } = filterByPlanetName;
 
   function removeFilter({ target }) {
     const filterRemoved = filterByNumericValues
@@ -14,6 +14,7 @@ function Filters() {
       filters: {
         filterByName,
         filterByNumericValues: filterRemoved,
+        order,
       },
     });
   }

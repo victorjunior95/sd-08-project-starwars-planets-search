@@ -7,7 +7,7 @@ function ShortSearch() {
   const { filterByPlanetName,
     setFilterByPlanetName,
     columns, setColumns } = useContext(myContext);
-  const { filters: { filterByName, filterByNumericValues } } = filterByPlanetName;
+  const { filters: { filterByName, filterByNumericValues, order } } = filterByPlanetName;
 
   useEffect(() => {
     setFilterNumeric({
@@ -32,6 +32,7 @@ function ShortSearch() {
       filters: {
         filterByName,
         filterByNumericValues: [...filterByNumericValues, filterNumeric],
+        order,
       },
     });
     setColumns(columns.filter((column) => column !== filterNumeric.column));

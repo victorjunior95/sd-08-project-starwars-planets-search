@@ -5,6 +5,7 @@ import InputField from './components/input';
 import Table from './components/table';
 import getPlanets from './services/starwarsAPI';
 import ShortSearch from './components/shortSearch';
+import OrderColumn from './components/columOrder';
 
 const filterOptions = {
   filters: {
@@ -12,6 +13,10 @@ const filterOptions = {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: '',
+      sort: '',
+    },
   },
 };
 
@@ -23,6 +28,33 @@ const columnFilter = [
   'surface_water',
 ];
 
+const ORDEM_POSITIVA = 1;
+const ORDEM_NEGATIVA = -1;
+
+function ascendent(a, b) {
+  if (a.name > b.name) return ORDEM_POSITIVA;
+  if (a.name < b.name) return ORDEM_NEGATIVA;
+  return 0;
+}
+
+// function descendent(a, b) {
+//   if (a.name < b.name) return 1;
+//   if (a.name > b.name) return -1;
+//   return 0;
+// }
+
+function ASC(array) {
+  return array.sort(ascendent);
+  // console.log(ops);
+}
+
+function DESC() {
+  // const ops = data;
+  // ops.sort(descendent);
+  // console.log(ops);
+  // setPlanets(ops);
+}
+
 function App() {
   const [data, setData] = useState([]);
   const [planets, setPlanets] = useState([]);
@@ -31,9 +63,11 @@ function App() {
 
   const tramelas = {
     data,
+    setData,
     filterByPlanetName,
     setFilterByPlanetName,
     planets,
+    setPlanets,
     columns,
     setColumns,
   };
@@ -49,7 +83,7 @@ function App() {
 
   useEffect(() => {
     const { filters: { filterByName: { name },
-      filterByNumericValues } } = filterByPlanetName;
+      filterByNumericValues, order } } = filterByPlanetName;
 
     const planetsFiltreds = data
       .filter((cada) => cada.name.toLowerCase().includes(name.toLowerCase()));
@@ -74,7 +108,13 @@ function App() {
         }
       });
     } else {
-      setPlanets(planetsFiltreds);
+      setPlanets(ASC(planetsFiltreds));
+      if (order.column.length > 0) {
+        if (order.sort === 'ASC') {
+          const arrayCrescent = ASC(planetsFiltreds);
+          console.log(arrayCrescent);
+        } else { DESC(planetsFiltreds); }
+      }
     }
   }, [data, filterByPlanetName]);
 
@@ -82,6 +122,7 @@ function App() {
     <myContext.Provider value={ tramelas }>
       <InputField />
       <ShortSearch />
+      <OrderColumn />
       <Table />
     </myContext.Provider>
   );
