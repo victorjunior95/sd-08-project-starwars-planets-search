@@ -3,7 +3,7 @@ import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
   const { loading, newData } = useContext(StarWarsContext);
-  // console.log(newData);
+  // console.log(filterNumeric);
 
   const title = ['name', 'rotation_period', 'orbital_period',
     'diameter', 'climate', 'gravity', 'terrain', 'surface_water',
