@@ -14,11 +14,7 @@ function StarWarsPlanets({ children }) {
     'rotation_period',
     'surface_water',
   ]);
-  const [comparisonOptions] = useState([
-    'maior que',
-    'menor que',
-    'igual a',
-  ]);
+  const [comparisonOptions] = useState(['maior que', 'menor que', 'igual a']);
   const [numericFilters, setNumericFilters] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -38,9 +34,7 @@ function StarWarsPlanets({ children }) {
   }, [data, searchTerm]);
 
   function handleNumericFilter() {
-    setNumericFilterList([...numericFilterList,
-      numericFilters,
-    ]);
+    setNumericFilterList([...numericFilterList, numericFilters]);
     columnTags.forEach((tag) => {
       if (tag === numericFilters.column) {
         const newColumnTags = [...columnTags];
@@ -63,7 +57,7 @@ function StarWarsPlanets({ children }) {
       if (numericFilters.comparison === 'igual a') {
         return targetTag === inputValue;
       }
-      return (numericFilteredPlanets);
+      return numericFilteredPlanets;
     });
     setFilteredPlanets(numericFilteredPlanets);
     handleNumericFilter();
@@ -134,6 +128,28 @@ function StarWarsPlanets({ children }) {
     );
   }
 
+  function removeNumericFilter(event) {
+    const newNumericFilterList = [...numericFilterList];
+    newNumericFilterList.splice(newNumericFilterList.indexOf(event.target), 1);
+    setNumericFilterList(newNumericFilterList);
+    setFilteredPlanets(data);
+  }
+
+  function renderNumericFilter() {
+    return numericFilterList.map((selectedFilter, index) => (
+      <div key={ index } data-testid="filter">
+        <span>
+          {
+            `${selectedFilter.column} |
+          ${selectedFilter.comparison} |
+          ${selectedFilter.value}`
+          }
+        </span>
+        <button onClick={ removeNumericFilter } type="button">X</button>
+      </div>
+    ));
+  }
+
   const contextValue = {
     data,
     filteredPlanets,
@@ -143,6 +159,7 @@ function StarWarsPlanets({ children }) {
     <Context.Provider value={ contextValue }>
       {numericFiltersSelects()}
       {filterByNameInput()}
+      {renderNumericFilter()}
       {children}
     </Context.Provider>
   );
