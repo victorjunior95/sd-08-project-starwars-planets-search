@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import starWarsContext from './StarWarsContext';
+import useFetchPlanets from '../hooks/useFetchPlanets';
+import useFilterPlanets from '../hooks/useFilterPlanets';
 
 const StarWarsProvider = ({ children }) => {
-  const [planets, setPlanets] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
+  // useReducer talvez seria melhor pra essa aplicacao!
+  const { planets, isFetching } = useFetchPlanets();
 
-  useEffect(() => {
-    const fetchPlanets = async () => {
-      setIsFetching(true);
-      const resPage1 = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-      const { results: planetsPage1 } = await resPage1.json();
-      setPlanets(planetsPage1);
-      setIsFetching(false);
-    };
+  // se tiver algum filtro planets vai pro context com filtro, se nao tiver filtros, ele vai pro context sem filto!
+  // context vai receber outra variavel da funcao de filtrar.
 
-    fetchPlanets();
-  }, []);
+  const [filters, setFilters] = useState([]);
 
-  const context = { planets, isFetching };
+  const filteredPlanets = useFilterPlanets(planets, filters);
+  // console.log(filteredPlanets);
+
+  const context = { filteredPlanets, isFetching, filters, setFilters };
 
   return (
     <starWarsContext.Provider value={ context }>
