@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import FiltroNumero from './FiltroNumero';
+import Ordenar from './Ordenar';
 
 export default function Filtro() {
   const { filters, setFilters } = useContext(PlanetsContext);
@@ -26,6 +27,7 @@ export default function Filtro() {
         data-testid="name-filter"
       />
       <FiltroNumero />
+      <Ordenar />
     </form>
   );
 }

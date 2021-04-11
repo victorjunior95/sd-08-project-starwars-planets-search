@@ -2,6 +2,25 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 
+const ASCENDENTE = 1;
+const DESCENDENTE = -1;
+
+const ordenarr = (array, order) => [
+  ...array.sort((planetaUm, planetaDois) => {
+    const indexUm = parseInt(planetaUm[order.column], 10)
+      ? parseInt(planetaUm[order.column], 10)
+      : planetaUm[order.column];
+    const indexDois = parseInt(planetaDois[order.column], 10)
+      ? parseInt(planetaDois[order.column], 10)
+      : planetaDois[order.column];
+    if (indexUm > indexDois && order.sort === 'ASC') return ASCENDENTE;
+    if (indexUm < indexDois && order.sort === 'ASC') return DESCENDENTE;
+    if (indexUm > indexDois && order.sort === 'DESC') return DESCENDENTE;
+    if (indexUm < indexDois && order.sort === 'DESC') return ASCENDENTE;
+    return 0;
+  }),
+];
+
 const initialColumns = [
   'rotation_period',
   'orbital_period',
@@ -19,6 +38,10 @@ const filterOptions = {
     comparison: '',
     value: '',
   }],
+  order: {
+    column: 'name',
+    sort: 'ASC',
+  },
 };
 
 function PlanetsProvider({ children }) {
@@ -32,7 +55,7 @@ function PlanetsProvider({ children }) {
   }, [data]);
 
   useEffect(() => {
-    const { filtrarPorNome: { name }, filtrarPorNumero } = filters;
+    const { filtrarPorNome: { name }, filtrarPorNumero, order } = filters;
     filtrarPorNumero.forEach((filterValues) => {
       const { column, comparison, value } = filterValues;
       const filter = data.filter((planet) => {
@@ -48,7 +71,8 @@ function PlanetsProvider({ children }) {
           return includesName;
         }
       });
-      setPlanets(filter);
+      const ordenado = ordenarr(filter, order);
+      setPlanets(ordenado);
     });
   }, [data, filters]);
 
