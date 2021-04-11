@@ -7,6 +7,14 @@ import {
 import { Context } from '../context';
 
 const NumericFilterInputs = () => {
+  const SELECT_COLUMNS = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
   const { filterObject } = useContext(Context);
 
   const [newFilter, setNewFilter] = useState({
@@ -28,11 +36,17 @@ const NumericFilterInputs = () => {
           });
         } }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { filterObject
+          ? SELECT_COLUMNS.map((column) => {
+            if (
+              filterObject.filters.filterByNumericValues
+                .map((filter) => filter.column).includes(column)
+            ) return null;
+            return (
+              <option key={ column } value={ column }>{ column }</option>
+            );
+          })
+          : <p>Loading</p> }
       </select>
       <select
         id="comparison-select"
