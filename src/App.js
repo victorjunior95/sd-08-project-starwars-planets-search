@@ -17,4 +17,4 @@ function App() {
 
 export default App;
 
-//feito com auxilio de stackoverflow, projeto meu antigo da turma 6, e repositorio de Daniel greco
+// feito com auxilio de stackoverflow, projeto meu antigo da turma 6, e repositorio de Daniel greco
