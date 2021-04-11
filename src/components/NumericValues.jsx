@@ -4,7 +4,7 @@ import { PlanetContext } from '../context/PlanetProvider';
 export default function NumericValues() {
   const { filterObject, setFilter, addFilter, filterArray,
     columnsArray } = useContext(PlanetContext);
-  // `population`, `orbital_period`, `diameter`, `rotation_period` e `surface_water`
+  const invalidColumns = filterArray.map((item) => item.column);
   return (
     <>
       <label
@@ -16,7 +16,7 @@ export default function NumericValues() {
           data-testid="column-filter"
           onChange={ (e) => setFilter({ ...filterObject, column: e.target.value }) }
         >
-          { columnsArray.filter((item) => !filterArray.includes(item))
+          { columnsArray.filter((item) => !invalidColumns.includes(item))
             .map((item) => (
               <option
                 key={ item }
@@ -34,9 +34,9 @@ export default function NumericValues() {
           data-testid="comparison-filter"
           onChange={ (e) => setFilter({ ...filterObject, comparison: e.target.value }) }
         >
-          <option value="maior que">Maior que</option>
-          <option value="menor que">Menor que</option>
-          <option value="igual a">Igual a</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
       </label>
       <label htmlFor="value-filter">

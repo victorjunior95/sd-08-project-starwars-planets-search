@@ -6,9 +6,12 @@ export const PlanetContext = createContext([]);
 const PlanetProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
-  const [filterObject, setFilter] = useState({});
+  const [filterObject, setFilter] = useState({ column: 'population',
+    comparison: 'maior que',
+    value: '' });
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filterArray, setFilterArray] = useState([]);
+  const THREE = 3;
   // const [selectedCharacter, setSelectedCharacter] = useState({})
 
   const columnsArray = ['population', 'orbital_period', 'diameter',
@@ -36,8 +39,10 @@ const PlanetProvider = ({ children }) => {
   }, [filterWithName]);
 
   const addFilter = () => {
-    setFilterArray([...filterArray, filterObject]);
-    setFilter({});
+    if (Object.keys(filterObject).length === THREE) {
+      setFilterArray([...filterArray, filterObject]);
+      setFilter({});
+    }
   };
   // let filterArray = [];
   // filter array de colunas, map filterArray
