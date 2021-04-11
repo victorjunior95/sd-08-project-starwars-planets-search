@@ -14,8 +14,9 @@ function Provider({ children }) {
   const [filterNumeric, setFilterNumeric] = useState([]);
   const [newData, setNewData] = useState([]);
   const [selectColumns, setSelectColumns] = useState(arrOptions);
+  const [excludeFilter, setExcludeFilter] = useState([]);
 
-  // console.log(data);
+  // console.log(excludeFilter);
 
   async function importPlanets() {
     const planetsList = await getPlanets();
@@ -56,6 +57,8 @@ function Provider({ children }) {
     setSelectColumns,
     filterNumeric,
     setFilterNumeric,
+    setExcludeFilter,
+    excludeFilter,
   };
   return (
     <StarWarsContext.Provider value={ globalState }>

@@ -1,33 +1,36 @@
-import React, { useContext, useEffect, useState } from 'react';
-import StarWarsContext from '../context/StarWarsContext';
+import React from 'react';
+// import StarWarsContext from '../context/StarWarsContext';
+import PropTypes from 'prop-types';
 
-function ExcludeFilter() {
-  const { filterNumeric } = useContext(StarWarsContext);
-  const [data, setData] = useState([]);
-  console.log(data);
-
-  useEffect(() => {
-    setData(filterNumeric);
-  }, [filterNumeric]);
-
-  const handleClick = ({ target: { name } }) => {
-    console.log(name);
-  };
+function ExcludeFilter(props) {
+  // const { filterNumeric, selectColumns, setSelectColumns,
+  //   setFilterNumeric } = useContext(StarWarsContext);
+  const { removeClick, filterNumeric } = props;
 
   return (
-    data.length > 0 && (
+    filterNumeric.length > 0 && (
       <div>
-        {data.map((item, index) => (
+        {filterNumeric.map((item, index) => (
           <div data-testid="filter" key={ index }>
             {item.column }
             {item.comparison }
             {item.value}
-            <button name={ item.column } type="button" onClick={ handleClick }>x</button>
+            <button
+              type="button"
+              onClick={ () => removeClick(item.column) }
+            >
+              x
+
+            </button>
           </div>
         ))}
       </div>
     )
   );
 }
+
+ExcludeFilter.propTypes = {
+  filterNumeric: PropTypes.array.isRequired,
+};
 
 export default ExcludeFilter;

@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 
 import StarWarsContext from '../context/StarWarsContext';
+import ExcludeFilter from './ExcludeFilter';
 
 function SelectCategories() {
   const { selectColumns, setSelectColumns, filterNumeric,
     setFilterNumeric } = useContext(StarWarsContext);
-  // console.log(filterNumeric);
   const [localNumericFilter, setLocalNumericFilter] = useState([]);
 
   const handleChange = ({ target: { name, value } }) => {
@@ -16,8 +16,11 @@ function SelectCategories() {
     setFilterNumeric([...filterNumeric, localNumericFilter]);
     setSelectColumns(selectColumns.filter((item) => item !== localNumericFilter.column));
   };
-  // console.log(selectColumns);
-  // console.log(localNumericFilter);
+
+  const removeClick = (column) => {
+    setSelectColumns([...selectColumns, column]);
+    setFilterNumeric(filterNumeric.filter((item) => item.column !== column));
+  };
 
   return (
     <div>
@@ -59,6 +62,7 @@ function SelectCategories() {
       >
         Buscar
       </button>
+      <ExcludeFilter removeClick={ removeClick } filterNumeric={ filterNumeric } />
     </div>
   );
 }
