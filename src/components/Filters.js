@@ -20,7 +20,6 @@ function Filters() {
     });
   };
 
-  console.log(filters.filterByNumericValues);
   return (
     <div className="filters">
       <div className="filters-input">

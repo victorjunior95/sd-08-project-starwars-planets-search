@@ -6,8 +6,14 @@ import StarWarsPlanetsContext from '../context/StarWarsPlanetsContext';
 function PlanetsTable() {
   const {
     filteredPlanets,
+    filters,
   } = useContext(StarWarsPlanetsContext);
-  const planets = filteredPlanets;
+  const planets = filteredPlanets.sort((a, b) => {
+    if (filters.order.sort === 'ASC') {
+      return a[filters.order.column] - b[filters.order.column];
+    }
+    return b[filters.order.column] - a[filters.order.column];
+  });
   return (
     <div className="table">
       <table>
@@ -23,7 +29,23 @@ function PlanetsTable() {
             <tr key={ planet.name }>
               {Object.keys(planet)
                 .filter((key) => key !== 'residents')
-                .map((planetInfo) => <td key={ planetInfo }>{ planet[planetInfo] }</td>)}
+                .map((planetInfo) => {
+                  if (planetInfo === 'name') {
+                    return (
+                      <td
+                        key={ planetInfo }
+                        data-testid="planet-name"
+                      >
+                        { planet[planetInfo] }
+                      </td>
+                    );
+                  }
+                  return (
+                    <td key={ planetInfo }>
+                      { planet[planetInfo] }
+                    </td>
+                  );
+                })}
             </tr>
           ))}
         </tbody>

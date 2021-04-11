@@ -20,6 +20,10 @@ function StarWarsPlanetsProvider({ children }) {
       'rotation_period',
       'surface_water',
     ],
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
   });
 
   const getPlanetsInfos = async () => {
