@@ -53,6 +53,7 @@ function Provider({ children }) {
     setFilters,
     newData,
     selectColumns,
+    setSelectColumns,
     filterNumeric,
     setFilterNumeric,
   };

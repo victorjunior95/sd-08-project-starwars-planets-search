@@ -3,7 +3,8 @@ import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function SelectCategories() {
-  const { selectColumns, filterNumeric, setFilterNumeric } = useContext(StarWarsContext);
+  const { selectColumns, setSelectColumns, filterNumeric,
+    setFilterNumeric } = useContext(StarWarsContext);
   // console.log(filterNumeric);
   const [localNumericFilter, setLocalNumericFilter] = useState([]);
 
@@ -13,7 +14,10 @@ function SelectCategories() {
 
   const handleClick = () => {
     setFilterNumeric([...filterNumeric, localNumericFilter]);
+    setSelectColumns(selectColumns.filter((item) => item !== localNumericFilter.column));
   };
+  // console.log(selectColumns);
+  // console.log(localNumericFilter);
 
   return (
     <div>
