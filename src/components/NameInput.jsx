@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { PlanetContext } from '../context/PlanetProvider';
 
 export default function NameInput() {
-  const { saveFilter } = useContext(PlanetContext);
+  const { setName } = useContext(PlanetContext);
 
   return (
     <label
@@ -14,7 +14,7 @@ export default function NameInput() {
         type="text"
         data-testid="name-filter"
         placeholder="Search by name"
-        onChange={ (e) => saveFilter(e) }
+        onChange={ (e) => setName(e.target.value) }
       />
     </label>
   );

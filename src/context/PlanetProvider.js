@@ -5,9 +5,14 @@ export const PlanetContext = createContext([]);
 
 const PlanetProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
-  const [filters, setSearchName] = useState({ filterByName: { name: '' } });
+  const [name, setName] = useState('');
+  const [filterObject, setFilter] = useState({});
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [filterArray, setFilterArray] = useState([]);
   // const [selectedCharacter, setSelectedCharacter] = useState({})
+
+  const columnsArray = ['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water'];
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -19,28 +24,39 @@ const PlanetProvider = ({ children }) => {
     fetchPlanets();
   }, []);
 
-  const saveFilter = (e) => {
-    const inputName = e.target.name;
-    setSearchName({ filterByName: { [inputName]: e.target.value } });
-  };
-
   const filterWithName = useCallback(() => {
     const filtered = planets.filter(
-      (planet) => planet.name.includes(filters.filterByName.name),
+      (planet) => planet.name.includes(name),
     );
     setFilteredPlanets(filtered);
-  }, [filters.filterByName.name, planets]);
+  }, [name, planets]);
 
   useEffect(() => {
     filterWithName();
-  }, [filters, filterWithName]);
+  }, [filterWithName]);
+
+  const addFilter = () => {
+    setFilterArray([...filterArray, filterObject]);
+    setFilter({});
+  };
+  // let filterArray = [];
+  // filter array de colunas, map filterArray
 
   const data = {
     planets,
-    filters,
+    filters: {
+      filterByName: name,
+      filterByValue: filterArray,
+    },
     filteredPlanets,
     filterWithName,
-    saveFilter,
+    setName,
+    setFilter,
+    filterObject,
+    addFilter,
+    columnsArray,
+    filterArray,
+    // filterWithValue,
     // selectedPlanets,
     // selectPlanets: name => changeSelected(name),
   };
