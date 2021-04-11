@@ -2,13 +2,7 @@ import React, { useContext } from 'react';
 import { PlanetsContext } from '../context/planetsContext';
 
 const Table = () => {
-  const { data, header } = useContext(PlanetsContext);
-  // console.log(header);
-  // if (data.length !== 0) {
-  //   console.log(data);
-  //   return <div>ok</div>;
-  // }
-  // return <div>not ok</div>;
+  const { data, header, filteredData } = useContext(PlanetsContext);
   if (data.length !== 0) {
     return (
       <div>
@@ -19,7 +13,7 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((planet, index) => (
+            {filteredData.map((planet, index) => (
               <tr key={ index }>
                 {header.map((property, index2) => (
                   <td key={ index2 }>{planet[property]}</td>
