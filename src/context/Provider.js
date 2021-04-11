@@ -7,6 +7,10 @@ const filterState = {
   filterByName: {
     text: '',
   },
+  order: {
+    column: 'Name',
+    sort: 'ASC',
+  },
 };
 
 const arrOptions = [
@@ -21,8 +25,38 @@ function Provider({ children }) {
   const [countClick, setCountClick] = useState([]);
   const [arrColumns, setArrColumns] = useState(arrOptions);
 
+  const NEGATIVE = -1;
+  const POSITIVE = 1;
+
+  function orderFunc(arrParam, column, sort) {
+    return arrParam.sort((a, b) => {
+      switch (sort) {
+      case 'ASC':
+        if (parseFloat(a[column]) < parseFloat(b[column])) return NEGATIVE;
+        if (parseFloat(a[column]) > parseFloat(b[column])) return POSITIVE;
+        break;
+      case 'DSC':
+        if (parseFloat(a[column]) < parseFloat(b[column])) return POSITIVE;
+        if (parseFloat(a[column]) > parseFloat(b[column])) return NEGATIVE;
+        break;
+      default:
+        break;
+      }
+      return 0;
+    });
+  }
+
   async function fetchPlanets() {
     const planets = await getPlanets();
+    planets.sort((a, b) => {
+      if (a.name < b.name) {
+        return NEGATIVE;
+      }
+      if (a.name > b.name) {
+        return POSITIVE;
+      }
+      return 0;
+    });
     setData(planets);
     setIsLoading(true);
   }
@@ -41,19 +75,23 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
+    let def = [...data];
     numFilter.forEach(({ column, comparison, value }) => {
       if (comparison === 'maior que') {
-        return setFilteredPlanets(data.filter((planet) => +planet[column] > +value));
+        def = data.filter((planet) => +planet[column] > +value);
       }
       if (comparison === 'igual a') {
-        return setFilteredPlanets(data.filter((planet) => +planet[column] === +value));
+        def = data.filter((planet) => +planet[column] === +value);
       }
       if (comparison === 'menor que') {
-        return setFilteredPlanets(data.filter((planet) => +planet[column] < +value));
+        def = data.filter((planet) => +planet[column] < +value);
       }
     });
+    const { column, sort } = filters.order;
+    const ordered = orderFunc(def, column, sort);
+    setFilteredPlanets(ordered);
   },
-  [data, numFilter]);
+  [data, numFilter, filters.order]);
 
   const contextValue = {
     data,

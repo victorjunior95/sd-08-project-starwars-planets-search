@@ -6,7 +6,7 @@ export default function Form() {
   const { filterByName: { text } } = filters;
 
   const handleChange = ({ target: { value } }) => {
-    setFilters({ filterByName: { text: value } });
+    setFilters({ ...filters, filterByName: { text: value } });
   };
 
   return (
