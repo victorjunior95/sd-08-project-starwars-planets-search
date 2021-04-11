@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import SearchPlanetsContext from '../context/SearchPlanetsContext';
 
 function Table() {
-  const { planets, isLoaded } = useContext(SearchPlanetsContext);
+  const { filteredNames, isLoaded } = useContext(SearchPlanetsContext);
   if (isLoaded) {
     return (
       <table>
@@ -25,7 +25,7 @@ function Table() {
         </thead>
         <tbody>
           {
-            planets.map((planet) => (
+            filteredNames.map((planet) => (
               <tr key={ planet.name }>
                 <td data-testid="planet-name">{planet.name}</td>
                 <td>{planet.rotation_period}</td>
