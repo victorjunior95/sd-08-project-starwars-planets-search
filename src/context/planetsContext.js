@@ -20,15 +20,67 @@ function PlanetsProvider({ children }) {
     'surface_water',
   ]);
   const [currentFilters, setCurrentFilters] = useState([]);
+  const [sortFilter, setSortFilter] = useState({
+    column: 'population',
+    sort: '',
+  });
 
   useEffect(() => {
     const filtered = data.filter((item) => item.name.toLowerCase().includes(name));
     setFilteredData(filtered);
   }, [data, name]);
 
+  const ONE = 1;
   useEffect(() => {
-    planetsFetch().then((response) => setData(response));
+    planetsFetch().then((response) => {
+      setData(response.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return -ONE;
+        }
+        return 0;
+      }));
+    });
   }, []);
+
+  const [teste, setTeste] = useState('teste');
+
+  const handleSortClick = () => {
+    let newFilter = filteredData;
+    const { column: orderColumn } = sortFilter;
+    if (sortFilter.sort === 'DESC') {
+      newFilter = newFilter.sort((a, b) => {
+        if (Number(a[orderColumn]) < Number(b[orderColumn])) {
+          return 1;
+        }
+        if (Number(a[orderColumn]) > Number(b[orderColumn])) {
+          return -ONE;
+        }
+        return 0;
+      });
+      const rand = Math.random().toString();
+      setTeste(rand);
+      setFilteredData(newFilter);
+      console.log(filteredData);
+    }
+    if (sortFilter.sort === 'ASC') {
+      newFilter = newFilter.sort((a, b) => {
+        if (Number(a[orderColumn]) < Number(b[orderColumn])) {
+          return -ONE;
+        }
+        if (Number(a[orderColumn]) > Number(b[orderColumn])) {
+          return 1;
+        }
+        return 0;
+      });
+      const rand = Math.random().toString();
+      setTeste(rand);
+      console.log(newFilter);
+      setFilteredData(newFilter);
+    }
+  };
 
   useEffect(() => {
     if (data.length !== 0) {
@@ -50,28 +102,15 @@ function PlanetsProvider({ children }) {
     setFilteredData(data);
   };
 
-  // const [filterData, setFilterData] = useState({
-  //   column: 'population',
-  //   comparison: 'maior que',
-  //   value: '0',
-  // });
-
   const handleFilterClick = () => {
     if (comparison === 'maior que') {
       setFilteredData(data.filter((item) => Number(item[column] > Number(valueFilter))));
     } else if (comparison === 'menor que') {
       setFilteredData(data.filter((item) => Number(item[column] < Number(valueFilter))));
     } else {
-      console.log(data
-        .filter((item) => Number(item[column] === valueFilter)));
       setFilteredData(data
         .filter((item) => Number(item[column] === valueFilter)));
     }
-    // setFilterData({
-    //   column,
-    //   comparison,
-    //   valueFilter,
-    // });
     setFilter([...filter].filter((item) => item !== column));
   };
 
@@ -90,6 +129,10 @@ function PlanetsProvider({ children }) {
     currentFilters,
     setCurrentFilters,
     removeFilter,
+    sortFilter,
+    setSortFilter,
+    handleSortClick,
+    teste,
   };
 
   return (

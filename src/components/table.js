@@ -9,15 +9,29 @@ const Table = () => {
         <table>
           <thead>
             <tr>
-              {header.map((property) => <th key={ property }>{property}</th>)}
+              {header.map((property) => {
+                if (property === 'Name') {
+                  return <th key={ property }>{property}</th>;
+                }
+                return <th key={ property }>{property}</th>;
+              })}
             </tr>
           </thead>
           <tbody>
             {filteredData.map((planet, index) => (
               <tr key={ index }>
-                {header.map((property, index2) => (
-                  <td key={ index2 }>{planet[property]}</td>
-                ))}
+                {header.map((property, index2) => {
+                  if (property === 'name') {
+                    return (
+                      <td
+                        key={ index2 }
+                        data-testid="planet-name"
+                      >
+                        {planet[property]}
+                      </td>);
+                  }
+                  return <td key={ index2 }>{planet[property]}</td>;
+                })}
               </tr>
             ))}
           </tbody>

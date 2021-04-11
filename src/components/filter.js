@@ -10,11 +10,26 @@ const Filter = () => {
     handleFilterClick,
     filter,
     removeFilter,
-    // currentFilters,
+    handleSortClick,
+    setSortFilter,
+    sortFilter,
+    teste,
   } = useContext(PlanetsContext);
 
+  const handleSortChange = (name, value) => {
+    setSortFilter({ ...sortFilter, [name]: value });
+  };
+
+  const sortColumns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
   return (
-    <div>
+    <div key={ teste }>
       <input
         type="text"
         onChange={ (e) => setName(e.target.value) }
@@ -62,9 +77,38 @@ const Filter = () => {
           <select
             name="column"
             data-testid="column-sort"
+            // onChange consultado no PR https://github.com/tryber/sd-08-project-starwars-planets-search/blob/d464958ad55480efcc76cfc2a2d3e6989a87405e/src/components/SortByColumn.js
+            onChange={ ({ target: { name, value } }) => handleSortChange(name, value) }
           >
-            {filter.map((item) => <option key={ item }>{item}</option>)}
+            {sortColumns.map((item) => <option key={ item }>{item}</option>)}
           </select>
+          <label htmlFor="radio">
+            Crescente
+            <input
+              type="radio"
+              data-testid="column-sort-input-asc"
+              value="ASC"
+              name="sort"
+              onChange={ ({ target: { name, value } }) => handleSortChange(name, value) }
+            />
+          </label>
+          <label htmlFor="radio">
+            Decrescente
+            <input
+              type="radio"
+              data-testid="column-sort-input-desc"
+              value="DESC"
+              name="sort"
+              onChange={ ({ target: { name, value } }) => handleSortChange(name, value) }
+            />
+          </label>
+          <button
+            type="button"
+            onClick={ handleSortClick }
+            data-testid="column-sort-button"
+          >
+            Ordenar
+          </button>
         </div>
       </div>
     </div>
