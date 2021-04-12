@@ -25,13 +25,21 @@ const compareWords = (a, b) => {
   return A_EQUAL_B;
 };
 
+const numbersColumns = [
+  'rotation_period',
+  'orbital_period',
+  'diameter',
+  'surface_water',
+  'population',
+];
+
 const applyOrder = (planetsArray, { column, sort }) => {
   console.log('chamou applyOrder');
   // const { column, sort } = filterObject.filters.order;
   let orderedPlanets = planetsArray;
   if (sort === 'ASC') {
     orderedPlanets = planetsArray.sort((planetA, planetB) => {
-      if (column === 'population') {
+      if (numbersColumns.includes(column)) {
         return compareNumbers(
           planetA[column], planetB[column],
         );
@@ -40,7 +48,7 @@ const applyOrder = (planetsArray, { column, sort }) => {
     });
   } else if (sort === 'DESC') {
     orderedPlanets = planetsArray.sort((planetA, planetB) => {
-      if (column === 'population') {
+      if (numbersColumns.includes(column)) {
         return compareNumbers(
           planetB[column], planetA[column],
         );
