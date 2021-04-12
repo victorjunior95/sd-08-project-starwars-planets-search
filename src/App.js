@@ -1,16 +1,22 @@
 import React from 'react';
-
-import StarWarsProvider from './context/StarWarsProvider';
-import Table from './components/Table';
-import Header from './components/Header';
-
 import './App.css';
+import PlanetsProvider from './context/PlanetsProvider';
+import FilterProvider from './context/FilterProvider';
 
-const App = () => (
-  <StarWarsProvider>
-    <Header />
-    <Table />
-  </StarWarsProvider>
-);
+import Header from './components/Header';
+import Table from './components/Table';
+import Filter from './components/Filter';
+
+function App() {
+  return (
+    <PlanetsProvider>
+      <FilterProvider>
+        <Header />
+        <Filter />
+        <Table />
+      </FilterProvider>
+    </PlanetsProvider>
+  );
+}
 
 export default App;
