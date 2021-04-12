@@ -123,6 +123,10 @@ function Table() {
               {fieldsFiltered.map(
                 (field) => (<th key={ field } title={ field }>{field}</th>),
               )}
+              <th>teste</th>
+              <th>teste</th>
+              <th>teste</th>
+              <th>teste</th>
             </tr>
           </thead>
           <tbody>
