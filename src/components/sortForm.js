@@ -6,7 +6,6 @@ function SortForm() {
     data,
     columnTags,
     sortedData,
-    setSortedData,
     setFilteredPlanets,
   } = useContext(Context);
 
