@@ -1,14 +1,15 @@
 import React from 'react';
-import Provider from './context/Provider';
 import './App.css';
+import NameFilter from './components/NameFilter';
+import NumbersFilter from './components/NumbersFilter';
 import Table from './components/Table';
-import Header from './components/Header';
+import Provider from './context/Provider';
 
 function App() {
   return (
     <Provider>
-      <h1>StarWars</h1>
-      <Header />
+      <NameFilter />
+      <NumbersFilter />
       <Table />
     </Provider>
   );
