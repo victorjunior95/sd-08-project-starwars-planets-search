@@ -9,7 +9,7 @@ function SwTable() {
       <tbody>
         <tr>
           {[
-            'name', 'Rotation Period',
+            'Name', 'Rotation Period',
             'Orbital Period', 'Diameter',
             'Climate', 'Gravity', 'Terrain', 'surface Water',
             'Population', 'Films', 'Created', 'Edited', 'Url',
