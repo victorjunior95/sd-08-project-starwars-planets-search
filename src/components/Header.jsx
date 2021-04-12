@@ -2,11 +2,22 @@ import React, { useState, useEffect, useContext } from 'react';
 
 import starWarsContext from '../context/StarWarsContext';
 
+const COLUMNS = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
 const Header = () => {
-  // fazer um custome hook pra todas as filtragens dps!
+  // fazer um custome hook pra todas as filtragens dps! maybe
   const { filters, setFilters } = useContext(starWarsContext);
+  const { filterByNumericValues: { filtersArray } } = filters;
 
   const [name, setName] = useState('');
+
+  const [columnOptions, setColumnOptions] = useState(COLUMNS);
 
   const [columnsFilter, setColumnsFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior-que');
@@ -34,6 +45,13 @@ const Header = () => {
     console.log(name);
   }, [name]);
 
+  useEffect(() => {
+    filtersArray.forEach(({ column: filterColumn }) => {
+      console.log(filterColumn);
+      setColumnOptions(columnOptions.filter((column) => column !== filterColumn));
+    });
+  }, [filtersArray]);
+
   return (
     <div>
       <label htmlFor="name-filter">
@@ -54,11 +72,9 @@ const Header = () => {
           data-testid="column-filter"
           onChange={ ({ target: { value } }) => setColumnsFilter(value) }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {columnOptions.map((column, index) => (
+            <option value={ column } key={ index }>{column}</option>
+          ))}
         </select>
       </label>
       <label htmlFor="comparison-filter">
