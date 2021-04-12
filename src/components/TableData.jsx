@@ -26,7 +26,43 @@ export default function TableData() {
           .includes(name.toLowerCase()));
       return nameFilter;
     };
-    setTableContent(planetsAfterNameFilter(data));
+    const planetsAfterNumericFilter = () => {
+      const { filterByNumericValues } = filters;
+      if (filterByNumericValues.length) {
+        const numericFilteredPlanets = filterByNumericValues.forEach((item) => {
+          if (item.comparison === 'maior que') {
+            return planetsAfterNameFilter(data).filter(
+              (planet) => planet[item.column] > parseInt(item.value, 10),
+            );
+          }
+          if (item.comparison === 'menor que') {
+            return planetsAfterNameFilter(data).filter(
+              (planet) => planet[item.column] < parseInt(item.value, 10),
+            );
+          }
+          if (item.comparison === 'igual a') {
+            return planetsAfterNameFilter(data).filter(
+              (planet) => planet[item.column] === parseInt(item.value, 10),
+            );
+          }
+        });
+        return numericFilteredPlanets;
+      }
+      return planetsAfterNameFilter(data);
+    };
+
+    // const planetsAfterOrderFilter = () => {
+    //   if (
+    //     filters.order.sort === 'ASC'
+    //     && (filters.order.column === 'Name'
+    //       || filters.order.column === 'Climate'
+    //       || filters.order.column === 'Terrain'
+    //       || filters.order.column === 'Films'
+    //       || filters.order.column === 'Url')
+    //   ) planetsAfterNumericFilter().sort((a, b) => a.localeCompare(b));
+    // };
+
+    setTableContent(planetsAfterNumericFilter());
   }, [data, filters]);
 
   function isLoading() {
