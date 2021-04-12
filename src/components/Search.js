@@ -7,7 +7,7 @@ const allOptions = [
 function Search() {
   const {
     filterByName,
-    filterByNumericValues } = useContext(SearchPlanetsContext);
+    filterByNumericValues, planets, newOrder } = useContext(SearchPlanetsContext);
   const [filters, setFilters] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -15,6 +15,8 @@ function Search() {
   });
   const [arrayOfFilters, setArrayOfFilters] = useState([]);
   const [arrayOfOptions, setArrayOfOptions] = useState([...allOptions]);
+  const [order, setOrder] = useState('ASC');
+  const [columnn, setColumn] = useState('name');
 
   const handleChange = ({ target: { value } }) => {
     filterByName(value);
@@ -93,6 +95,46 @@ function Search() {
       />
       <button type="button" data-testid="button-filter" onClick={ handleButton }>
         Filtrar
+      </button>
+
+      <select
+        name="order"
+        data-testid="column-sort"
+        onChange={ (event) => setColumn(event.target.value) }
+      >
+        {
+          planets[0] && Object.keys(planets[0]).map((option) => (
+            <option value={ option } key={ option }>{option}</option>
+          ))
+        }
+      </select>
+
+      <input
+        type="radio"
+        value="ASC"
+        name="order"
+        data-testid="column-sort-input-asc"
+        checked={ order === 'ASC' }
+        onChange={ () => setOrder('ASC') }
+      />
+      ASC
+      <input
+        type="radio"
+        value="DESC"
+        name="order"
+        data-testid="column-sort-input-desc"
+        checked={ order === 'DESC' }
+        onChange={ () => setOrder('DESC') }
+      />
+      DESC
+
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ () => newOrder(columnn, order) }
+      >
+        Ordenar
+
       </button>
 
       <ol>
