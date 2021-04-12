@@ -1,16 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Context from '../context/Context';
 
 export default function NameInputFilter() {
-  const { filters, handleFilterNameChange } = useContext(Context);
+  const { setFilters } = useContext(Context);
+  const [temporaryName, setTemporaryName] = useState('');
+
+  useEffect(() => {
+    setFilters((prevState) => ({
+      ...prevState,
+      filterByName: {
+        name: temporaryName,
+      },
+    }));
+  }, [setFilters, temporaryName]);
+
   return (
-    <input
-      type="text"
-      data-testid="name-filter"
-      value={ filters.filterByName.name }
-      name="name"
-      onChange={ handleFilterNameChange }
-      placeholder="Digite o nome do planeta"
-    />
+    <label htmlFor="name-filter">
+      Filtrar por nome:&nbsp;&nbsp;
+      <input
+        type="text"
+        data-testid="name-filter"
+        value={ temporaryName }
+        name="name"
+        onChange={ (e) => setTemporaryName(e.target.value) }
+        placeholder="Digite o nome do planeta"
+        id="name-filter"
+      />
+    </label>
   );
 }

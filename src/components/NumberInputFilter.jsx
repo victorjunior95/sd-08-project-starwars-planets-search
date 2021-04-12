@@ -1,28 +1,49 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Context from '../context/Context';
 
 export default function NumberInputFilter() {
-  const { filters, handleFilterNumericChange, setNumericFilter } = useContext(Context);
+  const { setFilters, selectOptions, setSelectOptions } = useContext(Context);
+  const [temporaryColumn, setTemporaryColumn] = useState('population');
+  const [temporaryValue, setTemporaryValue] = useState('');
+  const [temporaryComparison, setTemporaryComparison] = useState('maior que');
+  const sendNumericFilter = () => {
+    setFilters((prevState) => ({
+      ...prevState,
+      filterByNumericValues: [
+        ...prevState.filterByNumericValues,
+        {
+          column: temporaryColumn,
+          comparison: temporaryComparison,
+          value: temporaryValue,
+        },
+      ],
+    }));
+    setSelectOptions(
+      selectOptions.filter((item) => item !== temporaryColumn),
+    );
+    setTemporaryValue('');
+  };
 
   return (
-    <form onSubmit={ setNumericFilter }>
+    <form>
+      Filtrar por valor/número:
       <select
         data-testid="column-filter"
-        value={ filters.filterByNumericValues.column }
+        // value={ temporaryColumn }
         name="column"
-        onChange={ handleFilterNumericChange }
+        onChange={ (e) => setTemporaryColumn(e.target.value) }
       >
-        <option value="population">Population</option>
-        <option value="orbital_period">Orbital Period</option>
-        <option value="diameter">Diameter</option>
-        <option value="rotation_period">Rotation Period</option>
-        <option value="surface_water">Surface Water</option>
+        {selectOptions.map((selectCategory, index) => (
+          <option key={ index } value={ selectCategory }>
+            {selectCategory}
+          </option>
+        ))}
       </select>
       <select
         data-testid="comparison-filter"
-        value={ filters.filterByNumericValues.comparison }
+        value={ temporaryComparison }
         name="comparison"
-        onChange={ handleFilterNumericChange }
+        onChange={ (e) => setTemporaryComparison(e.target.value) }
       >
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
@@ -31,12 +52,16 @@ export default function NumberInputFilter() {
       <input
         type="number"
         data-testid="value-filter"
-        value={ filters.filterByNumericValues.value }
+        value={ temporaryValue }
         name="value"
         placeholder="Digite um número"
-        onChange={ handleFilterNumericChange }
+        onChange={ (e) => setTemporaryValue(e.target.value) }
       />
-      <button type="submit" data-testid="button-filter">
+      <button
+        type="button"
+        onClick={ sendNumericFilter }
+        data-testid="button-filter"
+      >
         Filtrar
       </button>
     </form>
