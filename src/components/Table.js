@@ -1,97 +1,98 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import StarWarsContext from '../context/StartWarsContext';
 
 function Table() {
-  const { data, filters } = useContext(StarWarsContext);
-  const { filterByName, filterByNumericValues } = filters;
+  const {
+    data,
+    filters,
+    column,
+    comparison,
+    value,
+    filterData,
+    setFilterData,
+    useFilter,
+    sortedData,
+    useSortedData,
+  } = useContext(StarWarsContext);
 
-  const tableLinesFunction = (planet) => {
-    const { name, climate, created, edited, diameter,
-      films, gravity, population, terrain, url } = planet;
-    const {
-      orbital_period: orbitalPeriod,
-      rotation_period: rotationPeriod,
-      surface_water: surfaceWater,
-    } = planet;
-    return (
-      <tr key={ name }>
-        <td>{ name }</td>
-        <td>{ climate }</td>
-        <td>{ created }</td>
-        <td>{ diameter }</td>
-        <td>{ edited }</td>
-        <td>{ films }</td>
-        <td>{ gravity }</td>
-        <td>{ orbitalPeriod }</td>
-        <td>{ population }</td>
-        <td>{ rotationPeriod }</td>
-        <td>{ surfaceWater }</td>
-        <td>{ terrain }</td>
-        <td>{ url }</td>
-      </tr>
-    );
+  useEffect(() => {
+    const makeComparison = (planet) => {
+      switch (comparison) {
+      case 'maior que':
+        return parseInt(planet[column], 10) > parseInt(value, 10);
+      case 'menor que':
+        return parseInt(planet[column], 10) < parseInt(value, 10);
+      case 'igual a':
+        return parseInt(planet[column], 10) === parseInt(value, 10);
+      default:
+      }
+    };
+
+    setFilterData(() => {
+      const minLength = 0;
+      if (data.length > minLength) {
+        const search = filters.filterByName.name;
+        if (useFilter) {
+          return data.filter((planet) => planet.name.includes(search)
+            && makeComparison(planet));
+        }
+        return data.filter((planet) => planet.name.includes(search));
+      }
+      return data;
+    });
+  }, [filters, data]);
+
+  const renderTableData = (dataState) => dataState.map((planet) => (
+    <tr key={ planet.name }>
+      <td data-testid="planet-name">{planet.name}</td>
+      <td>{planet.climate}</td>
+      <td>{planet.created}</td>
+      <td>{planet.diameter}</td>
+      <td>{planet.edited}</td>
+      <td>{planet.films}</td>
+      <td>{planet.gravity}</td>
+      <td>{planet.orbital_period}</td>
+      <td>{planet.population}</td>
+      <td>{planet.rotation_period}</td>
+      <td>{planet.surface_water}</td>
+      <td>{planet.terrain}</td>
+      <td>{planet.url}</td>
+    </tr>
+  ));
+
+  const renderTableHeader = () => {
+    const header = [
+      'name',
+      'climate',
+      'created',
+      'diameter',
+      'edited',
+      'films',
+      'gravity',
+      'orbital_period',
+      'population',
+      'rotation_period',
+      'surface_water',
+      'terrain',
+      'url',
+    ];
+    return header.map((key, index) => <th key={ index }>{key}</th>);
   };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Clima</th>
-          <th>Data de Criação</th>
-          <th>Diâmetro</th>
-          <th>Editado</th>
-          <th>Filmes</th>
-          <th>Gravidade</th>
-          <th>Período Orbital</th>
-          <th>População</th>
-          <th>Período de Rotação</th>
-          <th>Água da Superfície</th>
-          <th>Terreno</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          data.map((planet) => {
-            const { name } = filterByName;
-            const zero = 0;
-            if (filterByNumericValues.length > zero) {
-              return filterByNumericValues.map((numericFilter) => {
-                const { column, comparison, value } = numericFilter;
-                if (comparison === 'maior que'
-                  && parseInt(planet[column], 10)
-                  > parseInt(value, 10)) {
-                  tableLinesFunction(planet);
-                  return (tableLinesFunction(planet));
-                }
-                if (comparison === 'menor que'
-                  && parseInt(planet[column], 10)
-                  < parseInt(value, 10)) {
-                  return (tableLinesFunction(planet));
-                }
-                if (comparison === 'igual a'
-                  && parseInt(planet[column], 10) === parseInt(value, 10)) {
-                  return (tableLinesFunction(planet));
-                }
-                return undefined;
-              });
-            }
-            if (planet.name.includes(name) && name !== '') {
-              return (
-                tableLinesFunction(planet)
-              );
-            }
-            if (name === '' && filterByNumericValues.length === zero) {
-              return (
-                tableLinesFunction(planet)
-              );
-            }
-            return undefined;
-          })
-        }
-      </tbody>
-    </table>
+    <StarWarsContext.Consumer>
+      {() => (
+        <div>
+          <h1>Tabela</h1>
+          <table>
+            <tbody>
+              <tr>{renderTableHeader()}</tr>
+              {renderTableData(useSortedData ? sortedData : filterData)}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </StarWarsContext.Consumer>
   );
 }
 
