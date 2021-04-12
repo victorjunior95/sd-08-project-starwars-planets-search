@@ -6,13 +6,10 @@ export const PlanetContext = createContext([]);
 const PlanetProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
-  const [filterObject, setFilter] = useState({ column: 'population',
-    comparison: 'maior que',
-    value: '' });
+  const [filterObject, setFilter] = useState({});
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filterArray, setFilterArray] = useState([]);
   const THREE = 3;
-  // const [selectedCharacter, setSelectedCharacter] = useState({})
 
   const columnsArray = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
@@ -41,7 +38,6 @@ const PlanetProvider = ({ children }) => {
   const addFilter = () => {
     if (Object.keys(filterObject).length === THREE) {
       setFilterArray([...filterArray, filterObject]);
-      setFilter({});
     }
   };
   // let filterArray = [];
@@ -57,13 +53,11 @@ const PlanetProvider = ({ children }) => {
     filterWithName,
     setName,
     setFilter,
+    setFilterArray,
     filterObject,
     addFilter,
     columnsArray,
     filterArray,
-    // filterWithValue,
-    // selectedPlanets,
-    // selectPlanets: name => changeSelected(name),
   };
 
   return (

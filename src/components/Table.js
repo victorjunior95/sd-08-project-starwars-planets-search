@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { PlanetContext } from '../context/PlanetProvider';
+import ColumnFilterButton from './ColumnFilterButton';
 
 export default function Table() {
   const finalFilter = (planets, filter) => {
@@ -16,19 +17,55 @@ export default function Table() {
     }
   };
   const { filteredPlanets, filterArray } = useContext(PlanetContext);
+  const invalidColumns = filterArray.map((item) => item.column);
   return (
     <table>
       <thead>
         <tr>
           <th>Name</th>
-          <th>Rotation Period</th>
-          <th>Orbital Period</th>
-          <th>Diameter</th>
+          <th data-testid="filter">
+            Rotation Period
+            {
+              invalidColumns.includes('rotation_period') ? <ColumnFilterButton
+                columnValue="rotation_period"
+              /> : ''
+            }
+          </th>
+          <th data-testid="filter">
+            Orbital Period
+            {
+              invalidColumns.includes('orbital_period') ? <ColumnFilterButton
+                columnValue="orbital_period"
+              /> : ''
+            }
+          </th>
+          <th data-testid="filter">
+            Diameter
+            {
+              invalidColumns.includes('diameter') ? <ColumnFilterButton
+                columnValue="diameter"
+              /> : ''
+            }
+          </th>
           <th>Climate</th>
           <th>Gravity</th>
           <th>Terrain</th>
-          <th>Surface Water</th>
-          <th>Population</th>
+          <th data-testid="filter">
+            Surface Water
+            {
+              invalidColumns.includes('surface_water') ? <ColumnFilterButton
+                columnValue="surface_water"
+              /> : ''
+            }
+          </th>
+          <th data-testid="filter">
+            Population
+            {
+              invalidColumns.includes('population') ? <ColumnFilterButton
+                columnValue="population"
+              /> : ''
+            }
+          </th>
           <th>Films</th>
           <th>Created</th>
           <th>Edited</th>

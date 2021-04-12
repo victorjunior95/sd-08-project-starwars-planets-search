@@ -5,6 +5,7 @@ export default function NumericValues() {
   const { filterObject, setFilter, addFilter, filterArray,
     columnsArray } = useContext(PlanetContext);
   const invalidColumns = filterArray.map((item) => item.column);
+
   return (
     <>
       <label
