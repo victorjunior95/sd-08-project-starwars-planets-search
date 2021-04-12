@@ -51,18 +51,16 @@ export default function TableData() {
       return planetsAfterNameFilter(data);
     };
 
-    // const planetsAfterOrderFilter = () => {
-    //   if (
-    //     filters.order.sort === 'ASC'
-    //     && (filters.order.column === 'Name'
-    //       || filters.order.column === 'Climate'
-    //       || filters.order.column === 'Terrain'
-    //       || filters.order.column === 'Films'
-    //       || filters.order.column === 'Url')
-    //   ) planetsAfterNumericFilter().sort((a, b) => a.localeCompare(b));
-    // };
+    const planetsAfterOrderFilter = () => {
+      if (filters.order.sort === 'ASC') {
+        return planetsAfterNumericFilter()
+          .sort((a, b) => a[filters.order.column].localeCompare(b[filters.order.column]));
+      }
+      return planetsAfterNumericFilter()
+        .sort((a, b) => b[filters.order.column].localeCompare(a[filters.order.column]));
+    };
 
-    setTableContent(planetsAfterNumericFilter());
+    setTableContent(planetsAfterOrderFilter());
   }, [data, filters]);
 
   function isLoading() {
@@ -170,7 +168,6 @@ export default function TableData() {
           Ordenar
         </button>
       </>
-      // .sort((a, b) => a.localeCompare(b))
     );
   }
 
