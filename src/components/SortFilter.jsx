@@ -15,7 +15,7 @@ const SortFilter = () => {
   return (
     <section className="p-2 mb-3">
       <select
-        data-testid="comparison-filter"
+        data-testid="column-sort"
         className="browser-default custom-select mb-2"
         value={ newFilter.column }
         onChange={ ({ target }) => {
