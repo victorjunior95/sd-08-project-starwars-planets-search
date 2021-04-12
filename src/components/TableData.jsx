@@ -4,8 +4,7 @@ import Context from '../context/Context';
 export default function TableData() {
   const { data, filters, setFilters } = useContext(Context);
   const [tableContent, setTableContent] = useState([]);
-  const [temporaryOrderColumn, setTemporaryOrderColumn] = useState('Name');
-  const [temporaryOrderDirection, setTemporaryOrderDirection] = useState('ASC');
+  const [filteredByName, setFilteredByName] = useState([]);
 
   function renderTableHeader() {
     const columns = Object.keys(data[0]);
@@ -24,16 +23,47 @@ export default function TableData() {
       const nameFilter = planetData
         .filter((item) => item.name.toLowerCase()
           .includes(name.toLowerCase()));
+      setFilteredByName(nameFilter);
+      console.log(nameFilter);
       return nameFilter;
     };
-    const orderFilter = planetsAfterNameFilter(data).sort((a, b) => {
-      const { sort, column } = filters.order;
-      if (sort === 'ASC') {
-        return a[column] - b[column];
+    const planetsAfterNumericFilter = () => {
+      const { filterByNumericValues } = filters;
+      // console.log(filteredByName);
+      if (filterByNumericValues.length) {
+        const numericFilteredPlanets = filterByNumericValues.map((item) => {
+          if (item.comparison === 'maior que') {
+            return planetsAfterNameFilter(data).filter(
+              (planet) => planet[item.column] > parseInt(item.value, 10),
+            );
+          }
+          if (item.comparison === 'menor que') {
+            return planetsAfterNameFilter(data).filter(
+              (planet) => planet[item.column] < parseInt(item.value, 10),
+            );
+          }
+          if (item.comparison === 'igual a') {
+            return planetsAfterNameFilter(data).filter(
+              (planet) => planet[item.column] === item.value,
+            );
+          }
+        });
+        return numericFilteredPlanets[0];
       }
-      return b[column] - a[column];
-    });
-    setTableContent(orderFilter);
+      return planetsAfterNameFilter(data);
+    };
+
+    const planetsAfterOrderFilter = () => {
+      // console.log(filteredByName);
+      if (filters.order.sort === 'ASC') {
+        return planetsAfterNumericFilter()
+          .sort((a, b) => a[filters.order.column].localeCompare(b[filters.order.column]));
+      }
+      return planetsAfterNumericFilter()
+        .sort((a, b) => b[filters.order.column].localeCompare(a[filters.order.column]));
+    };
+
+    setTableContent(planetsAfterOrderFilter());
   }, [data, filters]);
 
   function isLoading() {
@@ -46,15 +76,6 @@ export default function TableData() {
 
   function renderTableContent() {
     const columns = Object.keys(data[0]);
-    const sendOrderFilter = () => {
-      setFilters((prevState) => ({
-        ...prevState,
-        order: {
-          column: temporaryOrderColumn,
-          sort: temporaryOrderDirection,
-        },
-      }));
-    };
 
     return (
       <>
@@ -93,53 +114,7 @@ export default function TableData() {
             })}
           </tr>
         ))}
-        <select
-          data-testid="column-sort"
-          name="column-sort"
-          onChange={ (e) => setTemporaryOrderColumn(e.target.value) }
-        >
-          {Object.keys(data[0]).map((column, index) => (
-            <option
-              key={ index }
-              value={ column.charAt(0).toUpperCase() + column.slice(1) }
-            >
-              {column.charAt(0).toUpperCase() + column.slice(1)}
-            </option>
-          ))}
-        </select>
-        <label htmlFor="ASC">
-          Filtrar por ordem Asc.
-          <input
-            type="radio"
-            name="order"
-            value="ASC"
-            data-testid="column-sort-input-asc"
-            id="ASC"
-            onChange={ (e) => setTemporaryOrderDirection(e.target.value) }
-            checked={ temporaryOrderDirection === 'ASC' }
-          />
-        </label>
-        <label htmlFor="DESC">
-          Filtrar por ordem Desc.
-          <input
-            type="radio"
-            name="order"
-            value="DESC"
-            data-testid="column-sort-input-desc"
-            id="DESC"
-            onChange={ (e) => setTemporaryOrderDirection(e.target.value) }
-            checked={ temporaryOrderDirection === 'DESC' }
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="column-sort-button"
-          onClick={ sendOrderFilter }
-        >
-          Ordenar
-        </button>
       </>
-      // .sort((a, b) => a.localeCompare(b))
     );
   }
 

@@ -3,7 +3,7 @@ import Context from '../context/Context';
 
 export default function NumberInputFilter() {
   const { setFilters, selectOptions, setSelectOptions } = useContext(Context);
-  const [temporaryColumn, setTemporaryColumn] = useState('population');
+  const [temporaryColumn, setTemporaryColumn] = useState(selectOptions[0]);
   const [temporaryValue, setTemporaryValue] = useState('');
   const [temporaryComparison, setTemporaryComparison] = useState('maior que');
   const sendNumericFilter = () => {
@@ -21,6 +21,7 @@ export default function NumberInputFilter() {
     setSelectOptions(
       selectOptions.filter((item) => item !== temporaryColumn),
     );
+    console.log(selectOptions.filter((item) => item !== temporaryColumn));
     setTemporaryValue('');
   };
 
@@ -29,7 +30,7 @@ export default function NumberInputFilter() {
       Filtrar por valor/número:
       <select
         data-testid="column-filter"
-        // value={ temporaryColumn }
+        value={ temporaryColumn }
         name="column"
         onChange={ (e) => setTemporaryColumn(e.target.value) }
       >
