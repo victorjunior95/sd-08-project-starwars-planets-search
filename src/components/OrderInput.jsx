@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { PlanetContext } from '../context/PlanetProvider';
 
 export default function ColumnFilterButton() {
-  const { columnOrder, setColumnOrder, sortOrder, setSort } = useContext(PlanetContext);
+  const { setColumnOrder, setSort } = useContext(PlanetContext);
   const columnsArray = ['Name', 'population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
   const [collumn, setColumn] = useState('');
