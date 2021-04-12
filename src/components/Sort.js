@@ -53,6 +53,7 @@ function Sort() {
               setSortType(target.value);
             } }
           />
+          ASC
         </label>
         <label htmlFor="DESC">
           <input
@@ -65,6 +66,7 @@ function Sort() {
               setSortType(target.value);
             } }
           />
+          DESC
         </label>
       </div>
 
