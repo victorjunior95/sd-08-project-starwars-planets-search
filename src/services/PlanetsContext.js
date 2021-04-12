@@ -44,6 +44,18 @@ function StarWarsPlanets({ children }) {
     });
   }
 
+  function handleChangeColumn(event) {
+    setNumericFilters({ ...numericFilters, column: event.target.value });
+  }
+
+  function handleChangeComparison(event) {
+    setNumericFilters({ ...numericFilters, comparison: event.target.value });
+  }
+
+  function handleChangeValue(event) {
+    setNumericFilters({ ...numericFilters, value: event.target.value });
+  }
+
   function handleClickFilter() {
     const numericFilteredPlanets = data.filter((planet) => {
       const targetTag = Number(planet[numericFilters.column]);
@@ -78,18 +90,6 @@ function StarWarsPlanets({ children }) {
         </label>
       </form>
     );
-  }
-
-  function handleChangeColumn(event) {
-    setNumericFilters({ ...numericFilters, column: event.target.value });
-  }
-
-  function handleChangeComparison(event) {
-    setNumericFilters({ ...numericFilters, comparison: event.target.value });
-  }
-
-  function handleChangeValue(event) {
-    setNumericFilters({ ...numericFilters, value: event.target.value });
   }
 
   function numericFiltersSelects() {
@@ -139,13 +139,13 @@ function StarWarsPlanets({ children }) {
     return numericFilterList.map((selectedFilter, index) => (
       <div key={ index } data-testid="filter">
         <span>
-          {
-            `${selectedFilter.column} |
+          {`${selectedFilter.column} |
           ${selectedFilter.comparison} |
-          ${selectedFilter.value}`
-          }
+          ${selectedFilter.value}`}
         </span>
-        <button onClick={ removeNumericFilter } type="button">X</button>
+        <button onClick={ removeNumericFilter } type="button">
+          X
+        </button>
       </div>
     ));
   }
@@ -153,6 +153,7 @@ function StarWarsPlanets({ children }) {
   const contextValue = {
     data,
     filteredPlanets,
+    columnTags,
   };
 
   return (
