@@ -41,13 +41,26 @@ const Header = () => {
     });
   };
 
+  const removeFilter = (index, value) => {
+    const newFilterArray = filtersArray;
+    setColumnOptions([...columnOptions, value]);
+    newFilterArray.splice(index, 1);
+    setFilters({
+      ...filters,
+      filterByNumericValues: {
+        status: true,
+        filtersArray: newFilterArray,
+      },
+    });
+  };
+
   // useEffect(() => {
   //   console.log(name);
   // }, [name]);
 
   useEffect(() => {
     filtersArray.forEach(({ column: filterColumn }) => {
-      console.log(filterColumn);
+      // console.log(filterColumn);
       setColumnOptions(columnOptions.filter((column) => column !== filterColumn));
     });
   }, [filtersArray]);
@@ -112,6 +125,21 @@ const Header = () => {
       >
         filtrar
       </button>
+      <div>
+        <p>Filtros:</p>
+        {filtersArray.map(({ column, comparison, value }, index) => (
+          <div data-testid="filter" key={ index }>
+            <button
+              type="button"
+              value={ column }
+              key={ index }
+              onClick={ ({ target: { value: nome } }) => removeFilter(index, nome) }
+            >
+              {`${column} ${comparison} ${value} X `}
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

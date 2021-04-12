@@ -27,7 +27,7 @@ const useFilterPlanets = (planets, filters) => {
     const { filterByNumericValues: { filtersArray } } = filters;
 
     filtersArray.forEach(({ column, comparison, value }) => {
-      newPlanetsList = filteredPlanets
+      newPlanetsList = newPlanetsList
         .filter((planet) => filterComparison(planet, column, comparison, value));
     });
     console.log(newPlanetsList);
