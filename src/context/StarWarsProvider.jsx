@@ -1,88 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import StarWarsContext from './StarWarsContext';
-import fetchPlanets from '../services/FetchPlanets';
+
+export const StarWarsContext = createContext();
 
 const StarWarsProvider = ({ children }) => {
-  const [filterByName, setFilterByName] = useState({ name: '' });
-  const [SWPlanets, setSWPlanets] = useState([]);
-  const [newArray, setNewArray] = useState([]);
-  const [filterByNumericValues, setFiltersByNumericValues] = useState([{
-    column: 'population',
-    comparison: 'maior que',
-    value: '',
-  }]);
-
-  const [filters, setFilters] = useState({
-    filterByName,
-    filterByNumericValues: [],
-  });
-
-  const filteredPlanets = (inputChange) => {
-    setNewArray(SWPlanets
-      .filter((caracter) => caracter.name.toLowerCase().includes(inputChange)));
+  const INITIAL_STATE = {
+    filterByName: { name: '' },
+    filterByNumericValues: [
+      { column: 'population', comparasion: 'maior que', value: 0 },
+    ],
   };
+  const COLUMN_OPTIONS = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const [data, setData] = useState([]);
+  const [filters, setFilters] = useState(INITIAL_STATE);
+  const [options, setOptions] = useState(COLUMN_OPTIONS);
 
   useEffect(() => {
-    const getPlanets = async () => {
-      const { results } = await fetchPlanets();
-      results.forEach((item) => delete item.residents);
-      setSWPlanets(results);
-      setNewArray(results);
-    };
-    getPlanets();
+    async function fetchApi() {
+      const endpoint = await fetch('https://swapi-trybe.herokuapp.com/api/planets/?format=json');
+      const objct = await endpoint.json();
+
+      setData(objct.results);
+    }
+    fetchApi();
   }, []);
 
-  // const filterByNumValues = () => {
-  // };
-
-  const applyFilters = () => {
-    // if (filterValue !== '') {
-    const { column, comparison, value } = filterByNumericValues[0];
-    switch (comparison) {
-    case ('maior que'):
-      setNewArray(SWPlanets
-        .filter((planet) => Number(planet[column]) > Number(value)));
-      break;
-    case ('menor que'):
-      setNewArray(SWPlanets
-        .filter((planet) => Number(planet[column]) < Number(value)));
-      break;
-    case ('igual a'):
-      setNewArray(SWPlanets
-        .filter((planet) => Number(planet[column]) === Number(value)));
-      break;
-    default:
-      return SWPlanets;
-    }
+  const filterFuncs = {
+    filterByName: (name) => setFilters({ ...filters, filterByName: { name } }),
+    filterByNum: (ob) => setFilters({ ...filters, filterByNumericValues: [ob] }),
+    updateOptions: (opt) => setOptions(options.filter((option) => option !== opt)),
+    resetFilters: () => setOptions(COLUMN_OPTIONS) || setFilters(INITIAL_STATE),
   };
 
-  const contextValueSW = {
-    SWPlanets,
-    setSWPlanets,
-    filters,
-    setFilters,
-    filterByName,
-    setFilterByName,
-    newArray,
-    setNewArray,
-    filteredPlanets,
-    applyFilters,
-    setFiltersByNumericValues,
-    filterByNumericValues,
-  };
-
+  const providerValue = { data, filters, filterFuncs, options };
   return (
-    <main>
-      <StarWarsContext.Provider value={ contextValueSW }>
-        {children}
-      </StarWarsContext.Provider>
-    </main>
+    <StarWarsContext.Provider value={ providerValue }>
+      { children }
+    </StarWarsContext.Provider>
   );
 };
+
+export default StarWarsProvider;
 
 StarWarsProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export default StarWarsProvider;
