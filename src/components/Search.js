@@ -32,6 +32,7 @@ function Search() {
       <input
         type="text"
         data-testid="name-filter"
+        placeholder="Digite o nome do planeta"
         onChange={ handleChange }
       />
       <select

@@ -31,10 +31,10 @@ const SearchPlanetsProvider = ({ children }) => {
       const targetInfo = Number(planet[column]);
       const valueCompared = Number(value);
       if (comparison === 'menor que') {
-        return targetInfo <= valueCompared;
+        return targetInfo < valueCompared;
       }
       if (comparison === 'maior que') {
-        return targetInfo >= valueCompared;
+        return targetInfo > valueCompared;
       }
       return targetInfo === valueCompared;
     });
