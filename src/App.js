@@ -1,17 +1,17 @@
 import React from 'react';
 import './App.css';
-import FiltrosAtivos from './components/FiltrosAtivos';
-import Filtro from './components/Filtro';
+import DataProvider from './context/DataProvider';
 import Table from './components/Table';
-import Provider from './context/Provider';
+import Inputs from './components/Inputs';
 
 function App() {
   return (
-    <Provider>
-      <Filtro />
-      <FiltrosAtivos />
-      <Table />
-    </Provider>
+        <DataProvider>
+      <div>
+        <Inputs />
+        <Table />
+      </div>
+    </DataProvider>
   );
 }
 
