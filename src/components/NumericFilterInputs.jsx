@@ -49,7 +49,6 @@ const NumericFilterInputs = () => {
           : <p>Loading</p> }
       </select>
       <select
-        id="comparison-select"
         data-testid="comparison-filter"
         className="browser-default custom-select mb-2"
         value={ newFilter.comparison }
@@ -66,7 +65,6 @@ const NumericFilterInputs = () => {
       </select>
       <InputGroup className="mb-2">
         <FormControl
-          id="value-input"
           data-testid="value-filter"
           placeholder="Number"
           aria-describedby="basic-addon1"

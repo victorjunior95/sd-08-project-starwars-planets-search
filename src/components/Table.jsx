@@ -4,10 +4,37 @@ import {
   Table,
   InputGroup,
   FormControl,
-  Button,
 } from 'react-bootstrap';
 import NumericFilterInputs from './NumericFilterInputs';
+import SortFilter from './SortFilter';
+import NameFilter from './NameFilter';
 import { Context } from '../context';
+
+const applyOrder = (planetsArray, { column, sort }) => {
+  console.log('chamou applyOrder');
+  // const { column, sort } = filterObject.filters.order;
+  let orderedPlanets = planetsArray;
+  if (sort === 'ASC') {
+    orderedPlanets = planetsArray.sort((planetA, planetB) => {
+      const A_BEFORE_B = -1;
+      const B_BEFORE_A = 1;
+      const A_EQUAL_B = 0;
+      if (planetA[column] < planetB[column]) return A_BEFORE_B;
+      if (planetA[column] > planetB[column]) return B_BEFORE_A;
+      return A_EQUAL_B;
+    });
+  } else if (sort === 'DESC') {
+    orderedPlanets = planetsArray.sort((planetA, planetB) => {
+      const A_BEFORE_B = -1;
+      const B_BEFORE_A = 1;
+      const A_EQUAL_B = 0;
+      if (planetA[column] < planetB[column]) return B_BEFORE_A;
+      if (planetA[column] > planetB[column]) return A_BEFORE_B;
+      return A_EQUAL_B;
+    });
+  }
+  return orderedPlanets;
+};
 
 const StarWarsTable = () => {
   const { dataObject, filterObject } = useContext(Context);
@@ -16,6 +43,7 @@ const StarWarsTable = () => {
     dataObject.handleData();
   }, []);
 
+  console.log(dataObject, filterObject);
   return (
     <div>
       <InputGroup className="mb-3 p-2">
@@ -33,24 +61,10 @@ const StarWarsTable = () => {
         />
       </InputGroup>
       <NumericFilterInputs />
-      <section>
-        { filterObject.filters.filterByNumericValues.length
-          ? filterObject.filters.filterByNumericValues.map((numericFilter) => (
-            <div key={ numericFilter.column } data-testid="filter">
-              <span>{ numericFilter.column }</span>
-              <span>{ numericFilter.comparison }</span>
-              <span>{ numericFilter.value }</span>
-              <Button
-                variant="danger"
-                onClick={ () => filterObject.removeNumericFilter(numericFilter.column) }
-              >
-                X
-              </Button>
-            </div>
-          ))
-          : <p>No filters</p> }
-      </section>
+      <NameFilter />
+      <SortFilter />
       <Table striped bordered hover variant="dark">
+        { console.log('renderizou') }
         <thead>
           <tr>
             <th>Name</th>
@@ -70,13 +84,13 @@ const StarWarsTable = () => {
         </thead>
         <tbody>
           { dataObject.planets
-            ? dataObject.planets
+            ? applyOrder(dataObject.planets, filterObject.filters.order)
               .filter((result) => result.name.includes(
                 filterObject.filters.filterByName.name,
               ))
               .map((planet) => (
                 <tr key={ planet.name }>
-                  <td>{ planet.name }</td>
+                  <td data-testid="planet-name">{ planet.name }</td>
                   <td>{ planet.rotation_period }</td>
                   <td>{ planet.orbital_period }</td>
                   <td>{ planet.diameter }</td>
