@@ -14,6 +14,7 @@ function PlanetsTable() {
     }
     return b[filters.order.column] - a[filters.order.column];
   });
+
   return (
     <div className="table">
       <table>

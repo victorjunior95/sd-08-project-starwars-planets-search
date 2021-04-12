@@ -10,13 +10,13 @@ function Filters() {
     setFilters,
   } = useContext(StarWarsPlanetsContext);
 
-  const removeFilter = ({ target }) => {
-    const { filterByNumericValues } = filters;
-    const filterColumn = target.value;
+  const removeFilter = (filterColumn) => {
+    const newColumnsOptions = filters.columnsOptions.concat(filterColumn);
     setFilters({
       ...filters,
-      filterByNumericValues: filterByNumericValues
-        .filter((filter) => filter.column === filterColumn),
+      filterByNumericValues: filters.filterByNumericValues
+        .filter((numericFilter) => numericFilter.column !== filterColumn),
+      columnsOptions: newColumnsOptions,
     });
   };
 
@@ -29,13 +29,13 @@ function Filters() {
       <div className="selected-filters">
         {filters.filterByNumericValues.map((filter) => (
           <div
-            key={ filter }
+            key={ filter.column }
             data-testid="filter"
           >
             <button
               type="button"
               value={ filter.column }
-              onClick={ removeFilter }
+              onClick={ ({ target }) => removeFilter(target.value) }
             >
               <p>X</p>
               <img

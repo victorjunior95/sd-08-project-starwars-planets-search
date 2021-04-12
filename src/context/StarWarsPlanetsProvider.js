@@ -5,9 +5,7 @@ import planetsAPIRequest from '../services/planetsAPIRequest';
 
 function StarWarsPlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
-
   const [filteredPlanets, setFilteredPlanets] = useState(planets);
-
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -102,10 +100,6 @@ function StarWarsPlanetsProvider({ children }) {
     setFilters,
     filteredPlanets,
   };
-
-  useEffect(() => {
-
-  }, [filters.filterByNumericValues]);
 
   return (
     <StarWarsPlanetsContext.Provider value={ data }>
