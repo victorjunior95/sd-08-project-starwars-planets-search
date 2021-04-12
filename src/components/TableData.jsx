@@ -26,7 +26,14 @@ export default function TableData() {
           .includes(name.toLowerCase()));
       return nameFilter;
     };
-    setTableContent(planetsAfterNameFilter(data));
+    const orderFilter = planetsAfterNameFilter(data).sort((a, b) => {
+      const { sort, column } = filters.order;
+      if (sort === 'ASC') {
+        return a[column] - b[column];
+      }
+      return b[column] - a[column];
+    });
+    setTableContent(orderFilter);
   }, [data, filters]);
 
   function isLoading() {
@@ -34,9 +41,7 @@ export default function TableData() {
   }
 
   useEffect(() => {
-    if (data) {
-      filteredPlanets();
-    }
+    if (data) filteredPlanets();
   }, [data, filteredPlanets]);
 
   function renderTableContent() {
