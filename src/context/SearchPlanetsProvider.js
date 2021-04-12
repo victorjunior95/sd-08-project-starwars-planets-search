@@ -19,18 +19,35 @@ const SearchPlanetsProvider = ({ children }) => {
     fetchPlanets();
   }, []);
 
-  function filterPlanetsByName(input) {
+  function filterByName(input) {
     const planetsFiltered = planets.filter(
       ({ name }) => name.toLowerCase().includes(input.toLowerCase()),
     );
     setFilteredNames(planetsFiltered);
   }
 
+  function filterByNumericValues({ column, comparison, value }) {
+    const filteredPlanets = planets.filter((planet) => {
+      const targetInfo = Number(planet[column]);
+      const valueCompared = Number(value);
+      if (comparison === 'menor que') {
+        return targetInfo <= valueCompared;
+      }
+      if (comparison === 'maior que') {
+        return targetInfo >= valueCompared;
+      }
+      return targetInfo === valueCompared;
+    });
+    // console.log(filteredPlanets);
+    setFilteredNames(filteredPlanets);
+  }
+
   const context = {
     planets,
     isLoaded,
     filteredNames,
-    filterPlanetsByName,
+    filterByName,
+    filterByNumericValues,
   };
 
   return (
