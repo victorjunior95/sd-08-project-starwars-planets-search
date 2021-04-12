@@ -60,12 +60,12 @@ function Table() {
         <select
           name="column"
           data-testid="column-filter"
-          value={filters.filterByNumericValues.column}
-          onChange={handleChangeSelected}
+          value={ filters.filterByNumericValues.column }
+          onChange={ handleChangeSelected }
         >
           {arrayRendered.map((comparison, index) => (
-            <option key={index} value={comparison}>
-              { comparison}
+            <option key={ index } value={ comparison }>
+              { comparison }
             </option>
           ))}
         </select>
@@ -87,9 +87,9 @@ function Table() {
   function renderFilters() {
     const { filterByNumericValues } = filters;
     const renderedFilters = filterByNumericValues.map((filter, index) => (
-      <div data-testid="filter" key={index}>
-        { `${filter.column} ${filter.comparison} ${filter.value}  `}
-        <button type="button" onClick={() => deleteFilter(filter.column)}>x</button>
+      <div data-testid="filter" key={ index }>
+        { `${ filter.column } ${ filter.comparison } ${ filter.value }  `}
+        <button type="button" onClick={ () => deleteFilter(filter.column) }>x</button>
       </div>
     ));
     return renderedFilters;
@@ -97,18 +97,18 @@ function Table() {
 
   const filterby = useCallback((sorting, column) =>{
     switch (column) {
-      case 'name':
-        return setFilters([...data].sort(({ [column]: a }, { [column]: b }) => {
-          if (sorting === 'DESC') return b > a ? 1 : negative;
-          return a > b ? 1 : negative;
-        }));
-      case 'orbital_period':
-        return setFilters([...data].sort(({ [column]: a }, { [column]: b }) => {
-          if (sorting === 'DESC') return b - a;
-          return a - b;
-        }));
-      default:
-        return null;
+    case 'name':
+      return setFilters([...data].sort(({ [column]: a }, { [column]: b }) => {
+        if (sorting === 'DESC') return b > a ? 1 : negative;
+        return a > b ? 1 : negative;
+      }));
+    case 'orbital_period':
+      return setFilters([...data].sort(({ [column]: a }, { [column]: b }) => {
+        if (sorting === 'DESC') return b - a;
+        return a - b;
+      }));
+    default:
+      return null;
     }
   }, [data, negative]);
 
@@ -121,7 +121,7 @@ function Table() {
             type="text"
             name="filter-text"
             data-testid="name-filter"
-            value={filters.filterByName.name}
+            value={ filters.filterByName.name }
             onChange={ handleChangeName }
           />
         </label>
@@ -130,8 +130,8 @@ function Table() {
           <select
             name="comparison"
             data-testid="comparison-filter"
-            value={filters.filterByNumericValues.comparison}
-            onChange={handleChangeSelected}
+            value={ filters.filterByNumericValues.comparison }
+            onChange={ handleChangeSelected }
           >
             <option value="maior que">maior que</option>
             <option value="igual a">igual a</option>
@@ -142,7 +142,7 @@ function Table() {
           <input
             data-testid="value-filter"
             name="value"
-            value={filters.filterByNumericValues.value}
+            value={ filters.filterByNumericValues.value }
             onChange={ handleChangeSelected }
           />
         </label>
@@ -150,7 +150,7 @@ function Table() {
           Add Filters
         </button>
         <div>
-          {renderFilters()}
+          { renderFilters() }
         </div>
       </div>
       {!data.length ? (
@@ -160,7 +160,7 @@ function Table() {
           <thead>
             <tr>
               {Object.keys(data[0]).map((element, index) => (
-                <th key={index}>{element}</th>
+                <th key={ index }>{ element }</th>
               ))}
             </tr>
           </thead>
@@ -168,14 +168,14 @@ function Table() {
             {data.map((item, keys) => (
               <tr key={keys}>
                 { Object.values(item).map((element, index) => (
-                  <td key={index}>{element}</td>
+                  <td key={ index }>{ element }</td>
                 ))}
               </tr>
             ))}
           </tbody>
         </table>
       )}
-      <FilterOrdenBy filterby={ filterby }/>
+      <FilterOrdenBy filterby={ filterby } />
     </div>
   );
 }

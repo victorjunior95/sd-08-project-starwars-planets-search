@@ -28,7 +28,6 @@ function Provider({ children }) {
     if (!numericValues.length) {
       return setData(results);
     }
-
     const value = results.filter((result) => (
       numericValues.every((numericFilter) => {
         switch (numericFilter.comparison) {
@@ -41,7 +40,6 @@ function Provider({ children }) {
             return true;
           }
           return false;
-
         case 'menor que':
           if (
             Number(result[numericFilter.column])
@@ -51,7 +49,6 @@ function Provider({ children }) {
             return true;
           }
           return false;
-
         case 'igual a':
           if (
             parseInt(result[numericFilter.column], 10)
