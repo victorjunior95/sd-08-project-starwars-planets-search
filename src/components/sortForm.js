@@ -18,9 +18,9 @@ function SortForm() {
   const POSITIVE = 1;
   const NEGATIVE = -1;
 
-  function handleClickSortButton() {
+  async function handleClickSortButton() {
     if (order.sort === 'ASC') {
-      setSortedData(
+      setFilteredPlanets(
         [...data].sort((a, b) => {
           if (Number(a[order.column]) < Number(b[order.column])) return NEGATIVE;
           if (Number(a[order.column]) > Number(b[order.column])) return POSITIVE;
@@ -30,7 +30,7 @@ function SortForm() {
       console.log(sortedData);
     }
     if (order.sort === 'DESC') {
-      setSortedData(
+      setFilteredPlanets(
         [...data].sort((a, b) => {
           if (Number(a[order.column]) > Number(b[order.column])) return NEGATIVE;
           if (Number(a[order.column]) < Number(b[order.column])) return POSITIVE;
@@ -39,7 +39,6 @@ function SortForm() {
       );
       console.log(sortedData);
     }
-    setFilteredPlanets(sortedData);
   }
 
   return (
