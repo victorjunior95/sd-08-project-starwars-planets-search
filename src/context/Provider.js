@@ -16,6 +16,10 @@ function Provider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    }
   });
 
   // Filtrando por valor populacional a partir do reultado da optionBox

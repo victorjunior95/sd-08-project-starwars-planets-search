@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import FilterOrdenBy from './FilterOrdenBy';
 
-// Utilização do Context - modelo de estudo e crédito total { Bruno Sordi }
-// Foram feitas observações também nos códigos do { Pedro Marques }
-//
-// Dados da API passado pelo Context
+// Utilização do Context - modelo de estudo e crédito total { Bruno Sordi T07}
+// Foram feitas observações também nos códigos do { Pedro Marques T07}
 function Table() {
   const {
     data,
@@ -13,6 +12,7 @@ function Table() {
     filterHandler,
     setFilterHandler,
   } = useContext(StarWarsContext);
+  const negative = -1;
 
   // Filtro por nome, a cada novo filter, pega o array original e filtra por nome
   function handleChangeName({ target }) {
@@ -60,12 +60,12 @@ function Table() {
         <select
           name="column"
           data-testid="column-filter"
-          value={ filters.filterByNumericValues.column }
-          onChange={ handleChangeSelected }
+          value={filters.filterByNumericValues.column}
+          onChange={handleChangeSelected}
         >
           {arrayRendered.map((comparison, index) => (
-            <option key={ index } value={ comparison }>
-              { comparison }
+            <option key={index} value={comparison}>
+              { comparison}
             </option>
           ))}
         </select>
@@ -87,13 +87,30 @@ function Table() {
   function renderFilters() {
     const { filterByNumericValues } = filters;
     const renderedFilters = filterByNumericValues.map((filter, index) => (
-      <div data-testid="filter" key={ index }>
+      <div data-testid="filter" key={index}>
         { `${filter.column} ${filter.comparison} ${filter.value}  `}
-        <button type="button" onClick={ () => deleteFilter(filter.column) }>x</button>
+        <button type="button" onClick={() => deleteFilter(filter.column)}>x</button>
       </div>
     ));
     return renderedFilters;
   }
+
+  const filterby = useCallback((sorting, column) =>{
+    switch (column) {
+      case 'name':
+        return setFilters([...data].sort(({ [column]: a }, { [column]: b }) => {
+          if (sorting === 'DESC') return b > a ? 1 : negative;
+          return a > b ? 1 : negative;
+        }));
+      case 'orbital_period':
+        return setFilters([...data].sort(({ [column]: a }, { [column]: b }) => {
+          if (sorting === 'DESC') return b - a;
+          return a - b;
+        }));
+      default:
+        return null;
+    }
+  }, [data, negative]);
 
   return (
     <div>
@@ -104,17 +121,17 @@ function Table() {
             type="text"
             name="filter-text"
             data-testid="name-filter"
-            value={ filters.filterByName.name }
+            value={filters.filterByName.name}
             onChange={ handleChangeName }
           />
         </label>
-        {renderOptions()}
+        { renderOptions() }
         <label htmlFor="comparison">
           <select
             name="comparison"
             data-testid="comparison-filter"
-            value={ filters.filterByNumericValues.comparison }
-            onChange={ handleChangeSelected }
+            value={filters.filterByNumericValues.comparison}
+            onChange={handleChangeSelected}
           >
             <option value="maior que">maior que</option>
             <option value="igual a">igual a</option>
@@ -125,7 +142,7 @@ function Table() {
           <input
             data-testid="value-filter"
             name="value"
-            value={ filters.filterByNumericValues.value }
+            value={filters.filterByNumericValues.value}
             onChange={ handleChangeSelected }
           />
         </label>
@@ -133,7 +150,7 @@ function Table() {
           Add Filters
         </button>
         <div>
-          { renderFilters() }
+          {renderFilters()}
         </div>
       </div>
       {!data.length ? (
@@ -142,22 +159,23 @@ function Table() {
         <table>
           <thead>
             <tr>
-              { Object.keys(data[0]).map((element, index) => (
-                <th key={ index }>{ element }</th>
+              {Object.keys(data[0]).map((element, index) => (
+                <th key={index}>{element}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {data.map((item, keys) => (
-              <tr key={ keys }>
+              <tr key={keys}>
                 { Object.values(item).map((element, index) => (
-                  <td key={ index }>{ element }</td>
+                  <td key={index}>{element}</td>
                 ))}
               </tr>
             ))}
           </tbody>
         </table>
       )}
+      <FilterOrdenBy filterby={ filterby }/>
     </div>
   );
 }
