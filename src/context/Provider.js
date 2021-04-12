@@ -22,6 +22,27 @@ function Provider({ children }) {
     }
   });
 
+  const ORDER_POSITIVE = 1;
+  const ORDER_NEGATIVE = -1;
+
+  const sortArray = (array, order) => [
+    ...array.sort((planetA, planetB) => {
+      let columnA = parseInt(planetA[order.column], 10)
+        ? parseInt(planetA[order.column], 10)
+        : planetA[order.column];
+      let columnB = parseInt(planetB[order.column], 10)
+        ? parseInt(planetB[order.column], 10)
+        : planetB[order.column];
+      if (columnA === 'unknown') columnA = Infinity;
+      if (columnB === 'unknown') columnB = Infinity;
+      if (columnA > columnB && order.sort === 'ASC') return ORDER_POSITIVE;
+      if (columnA < columnB && order.sort === 'ASC') return ORDER_NEGATIVE;
+      if (columnA > columnB && order.sort === 'DESC') return ORDER_NEGATIVE;
+      if (columnA < columnB && order.sort === 'DESC') return ORDER_POSITIVE;
+      return 0;
+    }),
+  ];
+
   // Filtrando por valor populacional a partir do reultado da optionBox
   function filterNumericValues(results) {
     const numericValues = filters.filterByNumericValues;
