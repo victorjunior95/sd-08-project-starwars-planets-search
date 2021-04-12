@@ -12,11 +12,6 @@ const Header = () => {
   const [comparisonFilter, setComparisonFilter] = useState('maior-que');
   const [valueFilter, setValueFilter] = useState(0);
 
-  function sendFilters(value) {
-    setName(value);
-    setFilters({ ...filters, filterByName: { name: value } });
-  }
-
   //  ...filters.filterByNumericValues.filtersArray,
   const sendComparisonFilters = () => {
     setFilters({
@@ -24,6 +19,7 @@ const Header = () => {
       filterByNumericValues: {
         status: true,
         filtersArray: [
+          ...filters.filterByNumericValues.filtersArray,
           {
             column: columnsFilter,
             comparison: comparisonFilter,
@@ -38,14 +34,6 @@ const Header = () => {
     console.log(name);
   }, [name]);
 
-  useEffect(() => {
-    sendFilters(name);
-    setFilters({ ...filters,
-      filterByNumericValues: {
-        status: false, filtersArray: [],
-      } });
-  }, []);
-
   return (
     <div>
       <label htmlFor="name-filter">
@@ -55,7 +43,7 @@ const Header = () => {
           type="text"
           value={ name }
           data-testid="name-filter"
-          onChange={ ({ target: { value } }) => { sendFilters(value); } }
+          onChange={ ({ target: { value } }) => { setName(value); } }
         />
       </label>
       <label htmlFor="column-filter">
