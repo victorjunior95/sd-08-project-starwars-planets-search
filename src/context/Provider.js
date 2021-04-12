@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import fetchStarWars from '../services/api';
 import StarWarsContext from './StartWarsContext';
 
@@ -19,12 +18,10 @@ const initialState = {
     order: { column: 'name', sort: 'ASC' },
   },
 };
-
 class Provider extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-
     this.getStarWarsAPI = this.getStarWarsAPI.bind(this);
     this.changeInputsByName = this.changeInputsByName.bind(this);
     this.filterByName = this.filterByName.bind(this);
@@ -44,19 +41,10 @@ class Provider extends Component {
 
   handleFilterByNumericValues() {
     const {
-      filters: { filterByNumericsCurrency },
-      data,
-    } = this.state;
-
-    const {
-      column,
-      comparison,
-      value,
-    } = filterByNumericsCurrency;
-
+      filters: { filterByNumericsCurrency }, data } = this.state;
+    const { column, comparison, value } = filterByNumericsCurrency;
     this.setState((state) => ({
-      filters: {
-        ...state.filters,
+      filters: { ...state.filters,
         filterByNumericValues: [
           ...state.filters.filterByNumericValues,
           filterByNumericsCurrency,
@@ -83,8 +71,7 @@ class Provider extends Component {
       this.setState(
         {
           filters: {
-            ...filters,
-            filterByNumericValues: previousFilters,
+            ...filters, filterByNumericValues: previousFilters,
           },
         },
       );
@@ -100,15 +87,12 @@ class Provider extends Component {
       .then((response) => {
         const { results } = response;
         results.forEach((starwars) => delete starwars.residents);
-        this.setState({
-          isFetching: false,
-          data: results,
+        this.setState({ isFetching: false, data: results,
         });
         this.sortPlanets();
       }, (error) => {
         this.setState({
-          isFetching: false,
-          error: error.message,
+          isFetching: false, error: error.message,
         });
       });
   }
@@ -252,7 +236,6 @@ class Provider extends Component {
       ...this.state,
     };
     const { children } = this.props;
-
     return (
       <StarWarsContext.Provider value={ contextValue }>
         {children}
@@ -260,9 +243,7 @@ class Provider extends Component {
     );
   }
 }
-
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
 export default Provider;
