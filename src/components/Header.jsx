@@ -41,9 +41,9 @@ const Header = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(name);
-  }, [name]);
+  // useEffect(() => {
+  //   console.log(name);
+  // }, [name]);
 
   useEffect(() => {
     filtersArray.forEach(({ column: filterColumn }) => {
@@ -61,7 +61,15 @@ const Header = () => {
           type="text"
           value={ name }
           data-testid="name-filter"
-          onChange={ ({ target: { value } }) => { setName(value); } }
+          onChange={ ({ target: { value } }) => {
+            setName(value);
+            setFilters({
+              ...filters,
+              filterByName: {
+                name: value,
+              },
+            });
+          } }
         />
       </label>
       <label htmlFor="column-filter">
