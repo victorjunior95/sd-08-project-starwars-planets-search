@@ -50,8 +50,6 @@ function PlnProvider({ children }) {
   const [filters, setFilters] = useState(filterOptions);
   const [columns, setColumns] = useState(initialColumns);
 
-//chamada de api
-
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/').then((response) => response.json()).then((result) => setData(result.results));
   }, [data]);
