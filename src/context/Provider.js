@@ -1,131 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import StarWarsContext from './StarWarsContext';
-import starWarsAPI from '../services/Services';
+import fetchData from '../services/fetchData';
+import StartWarsContext from './StartWarsContext';
 
 function Provider({ children }) {
-  const [planets, setPlanets] = useState([]);
-
+  const [data, setData] = useState([]);
   const [filters, setFilters] = useState({
-    filterByName: {
-      name: '',
-    },
+    filterByName: { name: '' },
     filterByNumericValues: [],
-    order: {
-      column: 'name',
-      sort: 'ASC',
-    },
-    reRender: false,
   });
-  const [planetsFilters, setPlanetsFilters] = useState([]);
 
-  const one = 1;
-  const zero = 0;
-  const minusOne = -1;
+  const listColumn = ['population', 'orbital_period',
+    'rotation_period', 'diameter', 'surface_water'];
+  const [optionsColumn, setOptionsColumn] = useState(listColumn);
 
-  const fetchPlanets = async () => {
-    const { results } = await starWarsAPI();
-    const expected = results.filter((result) => delete result.residents);
-    expected.sort((a, b) => {
-      if (a.name > b.name) {
-        return one;
-      }
-      if (a.name < b.name) {
-        return minusOne;
-      }
-      return zero;
-    });
-    setPlanets(expected);
-    setPlanetsFilters(expected);
-  };
+  const listComparison = ['maior que', 'igual a', 'menor que'];
+  const [optionsComparison, setOptionsComparison] = useState(listComparison);
 
-  function filteredName() {
-    if (!filters.filterByName) return undefined;
-    return (planets
-      .filter((planet) => planet.name.toLowerCase()
-        .includes(filters.filterByName.name.toLowerCase())));
-  }
-
-  function filteredNumbers(filtradosPorNomes) {
-    let resultadoFiltrado = filtradosPorNomes;
-    resultadoFiltrado.sort((a, b) => {
-      const columnByOrder = filters.order.column;
-      switch (filters.order.sort) {
-      case 'ASC':
-        if (parseFloat(a[columnByOrder]) > parseFloat(b[columnByOrder])) {
-          return one;
-        }
-        if (parseFloat(a[columnByOrder]) < parseFloat(b[columnByOrder])) {
-          return minusOne;
-        }
-        break;
-      case 'DESC':
-        if (parseFloat(a[columnByOrder]) > parseFloat(b[columnByOrder])) {
-          return minusOne;
-        }
-        if (parseFloat(a[columnByOrder]) < parseFloat(b[columnByOrder])) {
-          return one;
-        }
-        break;
-      default:
-        return zero;
-      }
-      return zero;
-    });
-    if (!filters.filterByNumericValues.length) {
-      return setPlanetsFilters(filtradosPorNomes);
+  useEffect(() => {
+    async function fetchPlanets() {
+      const arrayPlanets = await fetchData();
+      setData(arrayPlanets);
     }
-    filters.filterByNumericValues.forEach((filteredNumeric) => {
-      resultadoFiltrado = resultadoFiltrado.filter((filtrado) => {
-        switch (filteredNumeric.comparison) {
-        case 'maior que':
-          if (
-            parseInt(filtrado[filteredNumeric.column], 10)
-            > parseInt(filteredNumeric.value, 10)
-          ) return true;
-          break;
-        case 'menor que':
-          if (
-            parseInt(filtrado[filteredNumeric.column], 10)
-            < parseInt(filteredNumeric.value, 10)
-          ) return true;
-          break;
-        case 'igual a':
-          if (
-            parseInt(filtrado[filteredNumeric.column], 10)
-            === parseInt(filteredNumeric.value, 10)
-          ) return true;
-          break;
-        default:
-          return false;
-        }
-        return false;
-      });
-    });
-
-    setPlanetsFilters(resultadoFiltrado);
-  }
-
-  useEffect(() => {
-    const filtradosPorNomes = filteredName();
-    filteredNumbers(filtradosPorNomes);
-  }, [filters]);
-
-  useEffect(() => {
     fetchPlanets();
   }, []);
 
-  const states = {
-    planets,
-    planetsFilters,
+  // código @vitor-rc1
+  const filterByNumericValues = (newNumericFilter) => {
+    const { filterByNumericValues: filterNumeric } = filters;
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filterNumeric, newNumericFilter],
+    });
+  };
+
+  const context = {
+    data,
+    setData,
     filters,
     setFilters,
+    filterByNumericValues,
+    optionsColumn,
+    setOptionsColumn,
+    optionsComparison,
+    setOptionsComparison,
   };
 
   return (
-    <StarWarsContext.Provider value={ states }>
+    <StartWarsContext.Provider value={ context }>
       {children}
-    </StarWarsContext.Provider>
+    </StartWarsContext.Provider>
   );
 }
 
