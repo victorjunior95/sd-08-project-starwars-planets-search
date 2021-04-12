@@ -53,7 +53,7 @@ function SortForm() {
           data-testid="column-sort-input-asc"
           id="ASC"
           value="ASC"
-          onClick={ (e) => setOrder({ sort: e.target.value }) }
+          onClick={ (e) => setOrder({ ...order, sort: e.target.value }) }
         />
         ascendente
       </label>
@@ -64,7 +64,7 @@ function SortForm() {
           data-testid="column-sort-input-desc"
           id="DESC"
           value="DESC"
-          onClick={ (e) => setOrder({ sort: e.target.value }) }
+          onClick={ (e) => setOrder({ ...order, sort: e.target.value }) }
         />
         descendente
       </label>
