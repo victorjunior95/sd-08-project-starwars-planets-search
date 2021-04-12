@@ -21,6 +21,12 @@ function StarWarsPlanets({ children }) {
     value: '',
   });
   const [numericFilterList, setNumericFilterList] = useState([]);
+  const NEGATIVO = -1;
+  const [sortedData, setSortedData] = useState(data.sort((a, b) => {
+    if (a.name > b.name) return 1;
+    if (a.name < b.name) return NEGATIVO;
+    return 0;
+  }));
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -154,6 +160,9 @@ function StarWarsPlanets({ children }) {
     data,
     filteredPlanets,
     columnTags,
+    sortedData,
+    setSortedData,
+    setFilteredPlanets,
   };
 
   return (

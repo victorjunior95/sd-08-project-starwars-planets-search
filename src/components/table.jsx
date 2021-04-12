@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../services/PlanetsContext';
 import SortForm from './sortForm';
 
 function PlanetsTable() {
-  const { data, filteredPlanets, numericSortedData } = useContext(Context);
+  const { filteredPlanets } = useContext(Context);
   const tableHeaders = [
     'NAME',
     'ROTATION PERIOD',
@@ -20,20 +20,6 @@ function PlanetsTable() {
     'URL',
   ];
 
-  const NEGATIVO = -1;
-  const [sortedData, setSortedData] = useState(data.sort((a, b) => {
-    if (a.name > b.name) return 1;
-    if (a.name < b.name) return NEGATIVO;
-    return 0;
-  }));
-
-  function updateSortedData() {
-    if (numericSortedData === []) return sortedData;
-    return setSortedData(numericSortedData);
-  }
-
-  const renderPlanets = filteredPlanets === [] ? updateSortedData() : filteredPlanets;
-
   return (
     <div>
       {SortForm()}
@@ -46,7 +32,7 @@ function PlanetsTable() {
           </tr>
         </thead>
         <tbody>
-          {renderPlanets.map((item, index) => (
+          {filteredPlanets.map((item, index) => (
             <tr key={ index }>
               <td data-testid="planet-name">{item.name}</td>
               <td>{item.rotation_period}</td>

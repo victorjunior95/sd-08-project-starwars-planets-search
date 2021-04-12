@@ -2,9 +2,14 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../services/PlanetsContext';
 
 function SortForm() {
-  const { data, columnTags } = useContext(Context);
+  const {
+    data,
+    columnTags,
+    sortedData,
+    setSortedData,
+    setFilteredPlanets,
+  } = useContext(Context);
 
-  const [numericSortedData, setNumericSortedData] = useState([]);
   const [order, setOrder] = useState({
     column: 'population',
     sort: '',
@@ -14,24 +19,27 @@ function SortForm() {
   const NEGATIVE = -1;
 
   function handleClickSortButton() {
-    const sortTag = order.column;
-    const sortType = order.sort;
-    if (sortType === 'ASC') {
-      setNumericSortedData(data.sort((a, b) => {
-        if (Number(a[sortTag]) < Number(b[sortTag])) return NEGATIVE;
-        if (Number(a[sortTag]) > Number(b[sortTag])) return POSITIVE;
-        return 0;
-      }));
-      console.log(numericSortedData);
+    if (order.sort === 'ASC') {
+      setSortedData(
+        [...data].sort((a, b) => {
+          if (Number(a[order.column]) < Number(b[order.column])) return NEGATIVE;
+          if (Number(a[order.column]) > Number(b[order.column])) return POSITIVE;
+          return 0;
+        }),
+      );
+      console.log(sortedData);
     }
-    if (sortType === 'DESC') {
-      setNumericSortedData(data.sort((a, b) => {
-        if (Number(a[sortTag]) > Number(b[sortTag])) return NEGATIVE;
-        if (Number(a[sortTag]) < Number(b[sortTag])) return POSITIVE;
-        return 0;
-      }));
-      console.log(numericSortedData);
+    if (order.sort === 'DESC') {
+      setSortedData(
+        [...data].sort((a, b) => {
+          if (Number(a[order.column]) > Number(b[order.column])) return NEGATIVE;
+          if (Number(a[order.column]) < Number(b[order.column])) return POSITIVE;
+          return 0;
+        }),
+      );
+      console.log(sortedData);
     }
+    setFilteredPlanets(sortedData);
   }
 
   return (
