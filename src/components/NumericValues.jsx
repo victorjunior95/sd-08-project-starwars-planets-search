@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import ColumnFilterButton from './ColumnFilterButton';
 import { PlanetContext } from '../context/PlanetProvider';
 
 export default function NumericValues() {
@@ -57,6 +58,7 @@ export default function NumericValues() {
       >
         Filtrar
       </button>
+      { filterArray.length > 0 ? <ColumnFilterButton /> : ''}
     </>
   );
 }

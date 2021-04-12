@@ -1,10 +1,8 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { PlanetContext } from '../context/PlanetProvider';
 
-export default function ColumnFilterButton(props) {
+export default function ColumnFilterButton() {
   const { filterArray, setFilterArray } = useContext(PlanetContext);
-  const { columnValue } = props;
 
   const handleClick = (e) => {
     const { value } = e.target;
@@ -12,18 +10,22 @@ export default function ColumnFilterButton(props) {
     setFilterArray(filterArray.filter(({ column }) => column !== value));
   };
   return (
-    <button
-      data-testid="filter"
-      id="filter"
-      onClick={ (e) => handleClick(e) }
-      type="button"
-      value={ columnValue }
-    >
-      X
-    </button>
+    <>
+      { filterArray.map((filter) => (
+        <div data-testid="filter" key={ filter.column }>
+          <span>
+            {`${filter.column}, ${filter.comparison}, ${filter.value}`}
+          </span>
+          <button
+            onClick={ (e) => handleClick(e) }
+            type="button"
+            value={ filter.column }
+          >
+            X
+          </button>
+        </div>
+      ))}
+    </>
+
   );
 }
-
-ColumnFilterButton.propTypes = {
-  columnValue: PropTypes.string.isRequired,
-};
