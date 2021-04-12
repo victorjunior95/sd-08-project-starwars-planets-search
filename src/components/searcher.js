@@ -31,7 +31,7 @@ function Searcher() {
 
       return columns;
     });
-  }, [filters]);
+  }, [filters, setSelectColumn]);
 
   return (
     <StarWarsContext.Consumer>

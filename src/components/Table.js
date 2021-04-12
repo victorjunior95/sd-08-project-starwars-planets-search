@@ -40,7 +40,7 @@ function Table() {
       }
       return data;
     });
-  }, [filters, data]);
+  }, [filters, data, setFilterData, comparison, column, value, useFilter]);
 
   const renderTableData = (dataState) => dataState.map((planet) => (
     <tr key={ planet.name }>
