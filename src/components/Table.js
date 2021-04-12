@@ -1,61 +1,49 @@
-import React, { useContext, useEffect } from 'react';
-import MyContext from '../context/Context';
-import getPlanetsApi from '../services/getApi';
+import React, { useContext } from 'react';
+import FilterContext from '../context/Context';
 
 function Table() {
-  const { state, setState } = useContext(MyContext);
-  async function getPlanetsApiAndSetState() {
-    const getPlanets = await getPlanetsApi();
-    setState({
-      ...state,
-      planetsTable: getPlanets,
-      fetchPlanets: getPlanets,
-    });
-  }
-  useEffect(() => {
-    getPlanetsApiAndSetState();
-  }, []);
+  const { filterPlanet } = useContext(FilterContext);
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Periodo rotacional</th>
-          <th>Periodo orbital</th>
-          <th>Diametro</th>
-          <th>Clima</th>
-          <th>Gravidade</th>
-          <th>Terreno</th>
-          <th>Água da superfície</th>
-          <th>População</th>
-          <th>Filmes</th>
-          <th>Criado</th>
-          <th>Editado</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          state.planetsTable.map((planet) => (
-            <tr key={ planet.name }>
-              <td>{ planet.name }</td>
-              <td>{ planet.rotation_period }</td>
-              <td>{ planet.orbital_period }</td>
-              <td>{ planet.diameter }</td>
-              <td>{ planet.climate }</td>
-              <td>{ planet.gravity }</td>
-              <td>{ planet.terrain }</td>
-              <td>{ planet.surface_water }</td>
-              <td>{ planet.population }</td>
-              <td>{ planet.films }</td>
-              <td>{ planet.created }</td>
-              <td>{ planet.edited }</td>
-              <td>{ planet.url }</td>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>rotation_period</th>
+            <th>orbital_period</th>
+            <th>diameter</th>
+            <th>climate</th>
+            <th>gravity</th>
+            <th>terrain</th>
+            <th>surface_water</th>
+            <th>population</th>
+            <th>films</th>
+            <th>created</th>
+            <th>edited</th>
+            <th>url</th>
+          </tr>
+        </thead>
+        <tbody>
+          { filterPlanet.map((planet, index) => (
+            <tr key={ index }>
+              <td>{planet.name}</td>
+              <td>{planet.rotation_period}</td>
+              <td>{planet.orbital_period}</td>
+              <td>{planet.diameter}</td>
+              <td>{planet.climate}</td>
+              <td>{planet.gravity}</td>
+              <td>{planet.terrain}</td>
+              <td>{planet.surface_water}</td>
+              <td>{planet.population}</td>
+              <td>{planet.films}</td>
+              <td>{planet.created}</td>
+              <td>{planet.edited}</td>
+              <td>{planet.url}</td>
             </tr>
-          ))
-        }
-      </tbody>
-    </table>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

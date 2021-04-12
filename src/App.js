@@ -1,7 +1,7 @@
 import React from 'react';
-import './App.css';
 import Provider from './context/Provider';
 import Home from './pages/Home';
+import './App.css';
 
 function App() {
   return (
