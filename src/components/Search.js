@@ -1,15 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SearchPlanetsContext from '../context/SearchPlanetsContext';
+
+const allOptions = [
+  'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
 function Search() {
   const {
     filterByName,
     filterByNumericValues } = useContext(SearchPlanetsContext);
   const [filters, setFilters] = useState({
-    column: '',
-    comparison: '',
-    value: '',
+    column: 'population',
+    comparison: 'maior que',
+    value: '0',
   });
+  const [arrayOfFilters, setArrayOfFilters] = useState([]);
+  const [arrayOfOptions, setArrayOfOptions] = useState([...allOptions]);
 
   const handleChange = ({ target: { value } }) => {
     filterByName(value);
@@ -24,8 +29,27 @@ function Search() {
 
   const handleButton = (event) => {
     event.preventDefault();
-    filterByNumericValues(filters);
+    setArrayOfFilters([...arrayOfFilters, filters]);
   };
+
+  const handleButtonX = (indexClicked) => {
+    setArrayOfFilters(arrayOfFilters.filter((_, index) => index !== indexClicked));
+  };
+
+  useEffect(() => {
+    filterByNumericValues(arrayOfFilters);
+    setArrayOfOptions(allOptions
+      .filter((option) => !arrayOfFilters.some(({ column }) => option === column)));
+    // eslint-disable-next-line
+  }, [arrayOfFilters]);
+
+  useEffect(() => {
+    setFilters({
+      column: arrayOfOptions[0],
+      comparison: 'maior que',
+      value: '0',
+    });
+  }, [arrayOfOptions]);
 
   return (
     <section>
@@ -39,18 +63,20 @@ function Search() {
         name="column"
         data-testid="column-filter"
         onChange={ handleChangeFilter }
+        value={ filters.column }
         required
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {
+          arrayOfOptions.map((option) => (
+            <option value={ option } key={ option }>{option}</option>
+          ))
+        }
       </select>
       <select
         name="comparison"
         data-testid="comparison-filter"
         onChange={ handleChangeFilter }
+        value={ filters.comparison }
         required
       >
         <option value="maior que">maior que</option>
@@ -62,11 +88,28 @@ function Search() {
         name="value"
         data-testid="value-filter"
         onChange={ handleChangeFilter }
+        value={ filters.value }
         required
       />
       <button type="button" data-testid="button-filter" onClick={ handleButton }>
         Filtrar
       </button>
+
+      <ol>
+        {
+          arrayOfFilters.map(({ column, comparison, value }, index) => (
+            <li key={ column } data-testid="filter">
+              {`${column}, ${comparison}, ${value}`}
+              <button
+                type="button"
+                onClick={ () => handleButtonX(index) }
+              >
+                X
+              </button>
+            </li>
+          ))
+        }
+      </ol>
     </section>
   );
 }

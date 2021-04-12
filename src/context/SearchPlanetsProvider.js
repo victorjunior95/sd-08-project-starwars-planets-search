@@ -4,7 +4,7 @@ import SearchPlanetsContext from './SearchPlanetsContext';
 import getPlanetsStarWars from '../services/api';
 
 const SearchPlanetsProvider = ({ children }) => {
-  const [planets, setPlanets] = useState({});
+  const [planets, setPlanets] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [filteredNames, setFilteredNames] = useState([]);
 
@@ -26,19 +26,21 @@ const SearchPlanetsProvider = ({ children }) => {
     setFilteredNames(planetsFiltered);
   }
 
-  function filterByNumericValues({ column, comparison, value }) {
-    const filteredPlanets = planets.filter((planet) => {
-      const targetInfo = Number(planet[column]);
-      const valueCompared = Number(value);
-      if (comparison === 'menor que') {
-        return targetInfo < valueCompared;
-      }
-      if (comparison === 'maior que') {
-        return targetInfo > valueCompared;
-      }
-      return targetInfo === valueCompared;
+  function filterByNumericValues(arrayOfFilters) {
+    let filteredPlanets = [...planets];
+    arrayOfFilters.forEach(({ column, comparison, value }) => {
+      filteredPlanets = filteredPlanets.filter((planet) => {
+        const targetInfo = Number(planet[column]);
+        const valueCompared = Number(value);
+        if (comparison === 'menor que') {
+          return targetInfo < valueCompared;
+        }
+        if (comparison === 'maior que') {
+          return targetInfo > valueCompared;
+        }
+        return targetInfo === valueCompared;
+      });
     });
-    // console.log(filteredPlanets);
     setFilteredNames(filteredPlanets);
   }
 
