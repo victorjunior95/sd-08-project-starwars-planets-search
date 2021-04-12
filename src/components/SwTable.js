@@ -3,7 +3,10 @@ import { ContextFromStarWars } from '../contexts/ContextFromStarWars';
 import SwPlanet from './SwPlanet';
 
 function SwTable() {
-  const { filteredPlanets } = useContext(ContextFromStarWars);
+  const {
+    filteredPlanets,
+    sortPlanets,
+  } = useContext(ContextFromStarWars);
   return (
     <table>
       <tbody>
@@ -14,10 +17,10 @@ function SwTable() {
             'Climate', 'Gravity', 'Terrain', 'surface Water',
             'Population', 'Films', 'Created', 'Edited', 'Url',
           ].map((field) => (
-            <th key={ field }>{ field }</th>
+            <th key={ field }>{field}</th>
           ))}
         </tr>
-        {filteredPlanets.map((planet) => (
+        {filteredPlanets.sort(sortPlanets).map((planet) => (
           <SwPlanet key={ planet.name } planet={ planet } />
         ))}
       </tbody>

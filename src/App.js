@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
-import SwHeader from './components/SwHeader';
-import SwTable from './components/SwTable';
+import { SwHeader, SwTable } from './components';
 import { ContextFromStarWarsProvider } from './contexts/ContextFromStarWars';
 
 function App() {
