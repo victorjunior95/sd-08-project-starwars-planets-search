@@ -35,9 +35,9 @@ const useFilterPlanets = (planets, filters) => {
   }
 
   // name.startsWith(filters.filterByName?.name) tb dava kinda
-  // newPlanetsList = newPlanetsList.filter(({ name }) => (
-  //   name.includes(filters.filterByName.name)
-  // ));
+  newPlanetsList = newPlanetsList.filter(({ name }) => (
+    name.includes(filters.filterByName.name)
+  ));
 
   return newPlanetsList;
 };
