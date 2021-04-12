@@ -6,7 +6,7 @@ import Inputs from './components/Inputs';
 
 function App() {
   return (
-        <DataProvider>
+    <DataProvider>
       <div>
         <Inputs />
         <Table />
