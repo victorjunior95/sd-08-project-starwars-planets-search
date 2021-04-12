@@ -14,7 +14,17 @@ export default function Table() {
       return planets;
     }
   };
-  const { filteredPlanets, filterArray } = useContext(PlanetContext);
+
+  const { order, filteredPlanets, filterArray } = useContext(PlanetContext);
+  // const { column, sort } = order;
+  const sortFilter = (a, b) => {
+    if (order.sort === 'ASC') {
+      return a[order.column] - b[order.column];
+    } if (order.sort === 'DESC') {
+      return b[order.column] - a[order.column];
+    }
+    return 0;
+  };
   return (
     <table>
       <thead>
@@ -46,9 +56,11 @@ export default function Table() {
       </thead>
       <tbody>
         { filterArray.reduce(finalFilter, filteredPlanets)
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .sort(sortFilter)
           .map((planet, index) => (
             <tr key={ index }>
-              <td>{planet.name}</td>
+              <td data-testid="planet-name">{planet.name}</td>
               <td>{planet.rotation_period}</td>
               <td>{planet.orbital_period}</td>
               <td>{planet.diameter}</td>

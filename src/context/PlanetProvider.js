@@ -9,6 +9,8 @@ const PlanetProvider = ({ children }) => {
   const [filterObject, setFilter] = useState({});
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filterArray, setFilterArray] = useState([]);
+  const [columnOrder, setColumnOrder] = useState('');
+  const [sortOrder, setSort] = useState('');
   const THREE = 3;
 
   const columnsArray = ['population', 'orbital_period', 'diameter',
@@ -49,6 +51,10 @@ const PlanetProvider = ({ children }) => {
       filterByName: name,
       filterByValue: filterArray,
     },
+    order: {
+      column: columnOrder,
+      sort: sortOrder,
+    },
     filteredPlanets,
     filterWithName,
     setName,
@@ -58,6 +64,8 @@ const PlanetProvider = ({ children }) => {
     addFilter,
     columnsArray,
     filterArray,
+    setColumnOrder,
+    setSort,
   };
 
   return (
