@@ -1,19 +1,17 @@
 import React from 'react';
-import FormPlanets from './components/FormPlanets';
-import PlanetContext from './context/PlanetContext';
-import Table from './pages/Table';
+import StarWarsProvider from './context/StarWarsProvider';
+import Header from './component/Header';
+import Table from './component/Table';
+import './App.css';
 
 function App() {
   return (
-    <div className="app">
-      Starwars
-      <PlanetContext>
-        <FormPlanets />
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossOrigin="anonymous" />
+    <div>
+      <StarWarsProvider>
+        <Header />
         <Table />
-      </PlanetContext>
+      </StarWarsProvider>
     </div>
   );
 }
-
 export default App;
