@@ -15,7 +15,7 @@ const StarWarsProvider = ({ children }) => {
   const [filters, setFilters] = useState([]);
 
   const filteredPlanets = useFilterPlanets(planets, filters);
-  // console.log(filteredPlanets);
+  console.log(filters);
 
   const context = { filteredPlanets, isFetching, filters, setFilters };
 
