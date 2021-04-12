@@ -10,27 +10,42 @@ import SortFilter from './SortFilter';
 import NameFilter from './NameFilter';
 import { Context } from '../context';
 
+const compareNumbers = (a, b) => {
+  const aBeforeB = -1;
+  if (a === 'unknown') return aBeforeB;
+  if (b === 'unknown') return 1;
+  return a - b;
+};
+const compareWords = (a, b) => {
+  const A_BEFORE_B = -1;
+  const B_BEFORE_A = 1;
+  const A_EQUAL_B = 0;
+  if (a < b) return A_BEFORE_B;
+  if (a > b) return B_BEFORE_A;
+  return A_EQUAL_B;
+};
+
 const applyOrder = (planetsArray, { column, sort }) => {
   console.log('chamou applyOrder');
   // const { column, sort } = filterObject.filters.order;
   let orderedPlanets = planetsArray;
   if (sort === 'ASC') {
     orderedPlanets = planetsArray.sort((planetA, planetB) => {
-      const A_BEFORE_B = -1;
-      const B_BEFORE_A = 1;
-      const A_EQUAL_B = 0;
-      if (planetA[column] < planetB[column]) return A_BEFORE_B;
-      if (planetA[column] > planetB[column]) return B_BEFORE_A;
-      return A_EQUAL_B;
+      if (column === 'population') {
+        return compareNumbers(
+          planetA[column], planetB[column],
+        );
+      }
+      return compareWords(planetA[column], planetB[column]);
     });
   } else if (sort === 'DESC') {
     orderedPlanets = planetsArray.sort((planetA, planetB) => {
-      const A_BEFORE_B = -1;
-      const B_BEFORE_A = 1;
-      const A_EQUAL_B = 0;
-      if (planetA[column] < planetB[column]) return B_BEFORE_A;
-      if (planetA[column] > planetB[column]) return A_BEFORE_B;
-      return A_EQUAL_B;
+      if (column === 'population') {
+        return compareNumbers(
+          planetB[column], planetA[column],
+        );
+      }
+      return compareWords(planetB[column], planetA[column]);
     });
   }
   return orderedPlanets;

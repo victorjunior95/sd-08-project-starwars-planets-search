@@ -24,31 +24,31 @@ const ContextProvider = ({ children }) => {
     setPlanets(result);
   };
 
-  const applyOrder = useCallback((planetsArray) => {
-    console.log('chamou applyOrder');
-    const { column, sort } = filters.order;
-    let orderedPlanets = planetsArray;
-    if (sort === 'ASC') {
-      orderedPlanets = planetsArray.sort((planetA, planetB) => {
-        const A_BEFORE_B = -1;
-        const B_BEFORE_A = 1;
-        const A_EQUAL_B = 0;
-        if (planetA[column] < planetB[column]) return A_BEFORE_B;
-        if (planetA[column] > planetB[column]) return B_BEFORE_A;
-        return A_EQUAL_B;
-      });
-    } else if (sort === 'DESC') {
-      orderedPlanets = planetsArray.sort((planetA, planetB) => {
-        const A_BEFORE_B = -1;
-        const B_BEFORE_A = 1;
-        const A_EQUAL_B = 0;
-        if (planetA[column] < planetB[column]) return B_BEFORE_A;
-        if (planetA[column] > planetB[column]) return A_BEFORE_B;
-        return A_EQUAL_B;
-      });
-    }
-    return orderedPlanets;
-  }, [filters]);
+  // const applyOrder = useCallback((planetsArray) => {
+  //   console.log('chamou applyOrder');
+  //   const { column, sort } = filters.order;
+  //   let orderedPlanets = planetsArray;
+  //   if (sort === 'ASC') {
+  //     orderedPlanets = planetsArray.sort((planetA, planetB) => {
+  //       const A_BEFORE_B = -1;
+  //       const B_BEFORE_A = 1;
+  //       const A_EQUAL_B = 0;
+  //       if (planetA[column] < planetB[column]) return A_BEFORE_B;
+  //       if (planetA[column] > planetB[column]) return B_BEFORE_A;
+  //       return A_EQUAL_B;
+  //     });
+  //   } else if (sort === 'DESC') {
+  //     orderedPlanets = planetsArray.sort((planetA, planetB) => {
+  //       const A_BEFORE_B = -1;
+  //       const B_BEFORE_A = 1;
+  //       const A_EQUAL_B = 0;
+  //       if (planetA[column] < planetB[column]) return B_BEFORE_A;
+  //       if (planetA[column] > planetB[column]) return A_BEFORE_B;
+  //       return A_EQUAL_B;
+  //     });
+  //   }
+  //   return orderedPlanets;
+  // }, [filters]);
 
   const applyNumericFilter = (filtered, { column, comparison, value }) => {
     switch (comparison) {
@@ -67,9 +67,9 @@ const ContextProvider = ({ children }) => {
     numericFilters = filters.filterByNumericValues,
   ) => {
     console.log('chamou applyNumerics');
-    if (!numericFilters.length) setPlanets(applyOrder(filtered));
+    if (!numericFilters.length) setPlanets(filtered);
     if (numericFilters.length === 1 && filtered) {
-      setPlanets(applyOrder(applyNumericFilter(filtered, numericFilters[0])));
+      setPlanets(applyNumericFilter(filtered, numericFilters[0]));
     }
     if (numericFilters.length > 1) {
       const currentFilter = numericFilters[0];
@@ -77,7 +77,7 @@ const ContextProvider = ({ children }) => {
       const currentFiltered = applyNumericFilter(filtered, currentFilter);
       applyAllNumericFilters(currentFiltered, [...nextFilters]);
     }
-  }, [data, filters.filterByNumericValues, applyOrder]);
+  }, [data, filters.filterByNumericValues]);
 
   const handleFilterByName = (name) => {
     setFilters({
@@ -122,7 +122,7 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     applyAllNumericFilters();
-  }, [applyOrder, applyAllNumericFilters, filters]);
+  }, [applyAllNumericFilters, filters]);
 
   const obj = {
     dataObject: {
