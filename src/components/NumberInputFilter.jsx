@@ -18,9 +18,7 @@ export default function NumberInputFilter() {
         },
       ],
     }));
-    setSelectOptions(
-      selectOptions.filter((item) => item !== temporaryColumn),
-    );
+    setSelectOptions(selectOptions.filter((item) => item !== temporaryColumn));
     console.log(selectOptions.filter((item) => item !== temporaryColumn));
     setTemporaryValue('');
   };

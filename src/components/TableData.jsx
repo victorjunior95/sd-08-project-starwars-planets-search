@@ -2,9 +2,8 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import Context from '../context/Context';
 
 export default function TableData() {
-  const { data, filters, setFilters } = useContext(Context);
+  const { data, filters } = useContext(Context);
   const [tableContent, setTableContent] = useState([]);
-  const [filteredByName, setFilteredByName] = useState([]);
 
   function renderTableHeader() {
     const columns = Object.keys(data[0]);
@@ -23,13 +22,10 @@ export default function TableData() {
       const nameFilter = planetData
         .filter((item) => item.name.toLowerCase()
           .includes(name.toLowerCase()));
-      setFilteredByName(nameFilter);
-      console.log(nameFilter);
       return nameFilter;
     };
     const planetsAfterNumericFilter = () => {
       const { filterByNumericValues } = filters;
-      // console.log(filteredByName);
       if (filterByNumericValues.length) {
         const numericFilteredPlanets = filterByNumericValues.map((item) => {
           if (item.comparison === 'maior que') {
@@ -47,6 +43,7 @@ export default function TableData() {
               (planet) => planet[item.column] === item.value,
             );
           }
+          return planetsAfterNameFilter(data);
         });
         return numericFilteredPlanets[0];
       }
@@ -54,7 +51,6 @@ export default function TableData() {
     };
 
     const planetsAfterOrderFilter = () => {
-      // console.log(filteredByName);
       if (filters.order.sort === 'ASC') {
         return planetsAfterNumericFilter()
           .sort((a, b) => a[filters.order.column].localeCompare(b[filters.order.column]));
