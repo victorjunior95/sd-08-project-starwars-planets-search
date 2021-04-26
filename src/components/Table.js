@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import StarWarsContext from '../context/StarWarsContex';
+import StarWarsContext from '../context/StarWarsContext';
 
 const Table = () => {
   const { data, filters } = useContext(StarWarsContext);

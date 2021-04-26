@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
-import StarWarsContext from '../context/StarWarsContex';
+import StarWarsContext from '../context/StarWarsContext';
 
 const INITIAL_VALUE = 0;
 
 const FilterBar = () => {
-  const { setFilters, columnsToDrop, filters } = useContext(StarWarsContext);
+  const { setFilters, columnsToDrop, setColumns, filters } = useContext(StarWarsContext);
   const [currColumn, setCurrColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [numberToCompare, setNumber] = useState(INITIAL_VALUE);
@@ -17,6 +17,16 @@ const FilterBar = () => {
     };
     setFilters({ ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, newNumericFilter] });
+    const newColumns = columnsToDrop.filter((column) => column !== currColumn);
+    setColumns(newColumns);
+    setCurrColumn(newColumns[0]);
+  };
+
+  const handleDeleteFilter = (columnDelete) => {
+    const filterToReturn = filters.filterByNumericValues
+      .filter(({ column }) => column !== columnDelete);
+    setFilters({ ...filters,
+      filterByNumericValues: [...filterToReturn] });
   };
 
   return (
@@ -70,6 +80,7 @@ const FilterBar = () => {
             {`${filter.column} ${filter.comparison} ${filter.value}`}
             <button
               type="button"
+              onClick={ () => handleDeleteFilter(filter.column) }
             >
               X
             </button>
