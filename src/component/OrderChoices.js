@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { filterOptions } from '../services';
+import Context from '../context';
 
 function OrderChoice() {
   const [columnSort, setColumnSort] = useState(filterOptions[0]);
   const [radioSort, setRadioSort] = useState('ASC');
+  const { filter, setFilter } = useContext(Context);
+
   return (
     <section>
       <select
@@ -14,6 +17,7 @@ function OrderChoice() {
         {filterOptions.map((opt) => <option key={ opt }>{ opt }</option>)}
       </select>
       <div style={ { display: 'inline' } }>
+        {/*  Link ensinando a controlar inputs radio: https://www.pluralsight.com/guides/how-to-use-radio-buttons-in-reactjs */}
         <label htmlFor="asc">
           <input
             type="radio"
@@ -40,7 +44,15 @@ function OrderChoice() {
         </label>
       </div>
       {' '}
-      <button type="button" data-testid="column-sort-button">Ordenar</button>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => setFilter(
+          { ...filter, order: { column: 'name', sort: radioSort } },
+        ) }
+      >
+        Ordenar
+      </button>
     </section>
   );
 }

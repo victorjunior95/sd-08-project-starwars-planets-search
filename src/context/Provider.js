@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Context from './index';
 import { filterOptions } from '../services';
@@ -26,6 +26,21 @@ function Provider({ children }) {
     setFilteredData,
   };
 
+  const COMPAREMINORONE = -1;
+  const sortByColumn = useCallback((column, sort) => {
+    if (sort === 'ASC') {
+      return function compareAsc(a, b) {
+        if (a[column] < b[column]) return COMPAREMINORONE;
+        if (a[column] > b[column]) return 1;
+        return 0;
+      };
+    }
+    return function compareDesc(a, b) {
+      if (a[column] > b[column]) return COMPAREMINORONE;
+      if (a[column] < b[column]) return 1;
+      return 0;
+    };
+  }, [COMPAREMINORONE]);
   useEffect(() => {
     const fetchPlanets = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -42,7 +57,9 @@ function Provider({ children }) {
   }, [setData, setHeaders, setFilteredData]);
 
   useEffect(() => {
-    const { filterByName, filterByNumericValues } = filter;
+    const { filterByName, filterByNumericValues, order } = filter;
+    const column = order && order.column;
+    const sort = order && order.sort;
     if (filterByNumericValues) {
       setFilteredData(data.filter((planets) => planets.name
         .includes(filterByName.name))
@@ -58,12 +75,12 @@ function Provider({ children }) {
             }
             return parseInt(filtPlanets[planet.column], 10)
         === parseInt(planet.value, 10);
-          })));
+          })).sort(sortByColumn(column, sort)));
     } else {
       setFilteredData(data.filter((planets) => planets.name
-        .includes(filterByName.name)));
+        .includes(filterByName.name)).sort(sortByColumn(column, sort)));
     }
-  }, [setFilteredData, filter, data]);
+  }, [setFilteredData, filter, data, sortByColumn]);
 
   return (
     <Context.Provider value={ context }>
