@@ -51,10 +51,10 @@ function Provider({ children }) {
       }, []);
       setData(formatData);
       setHeaders(Object.keys(formatData[0]));
-      setFilteredData(formatData);
+      setFilteredData(formatData.sort(sortByColumn('name', 'ASC')));
     };
     fetchPlanets();
-  }, [setData, setHeaders, setFilteredData]);
+  }, [setData, setHeaders, setFilteredData, sortByColumn]);
 
   useEffect(() => {
     const { filterByName, filterByNumericValues, order } = filter;
