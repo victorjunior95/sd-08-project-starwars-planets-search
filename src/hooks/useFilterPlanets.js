@@ -37,7 +37,7 @@ const useFilterPlanets = (planets, filters) => {
     // filteredPlanets.filter((planet) => filterComparison(planet, column, comparison, value));
   }
 
-  if (columnOrder === 'name' ) {
+  if (columnOrder === 'name') {
     if (sort === 'DESC') {
       newPlanetsList = newPlanetsList
         .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => a < b);
