@@ -4,7 +4,7 @@ import StarWarsContext from '../context/StarWarsContext';
 import Loading from './Loading';
 
 const Table = () => {
-  const { filteredPlanets, isFetching } = useContext(StarWarsContext);
+  const { newPlanetsList, isFetching } = useContext(StarWarsContext);
 
   if (isFetching) return <Loading />;
   return (
@@ -27,7 +27,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {filteredPlanets.map(({
+        {newPlanetsList.map(({
           name,
           rotation_period: rotationPeriod,
           orbital_period: orbitalPeriod,

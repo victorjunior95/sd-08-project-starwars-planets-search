@@ -24,9 +24,10 @@ const StarWarsProvider = ({ children }) => {
   });
 
   const filteredPlanets = useFilterPlanets(planets, filters);
-  console.log(filteredPlanets);
+  const newPlanetsList = filteredPlanets.sort(({ name: a }, { name: b }) => a > b);
+  console.log(newPlanetsList);
 
-  const context = { filteredPlanets, isFetching, filters, setFilters };
+  const context = { newPlanetsList, isFetching, filters, setFilters };
 
   return (
     <starWarsContext.Provider value={ context }>

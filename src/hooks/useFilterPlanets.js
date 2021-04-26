@@ -38,13 +38,13 @@ const useFilterPlanets = (planets, filters) => {
   }
 
   if (columnOrder === 'name') {
-    // if (sort === 'DESC') {
-    //   newPlanetsList = newPlanetsList
-    //     .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => a < b);
-    // } else {
-    //   newPlanetsList = newPlanetsList
-    //     .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => a > b);
-    // }
+    if (sort === 'DESC') {
+      newPlanetsList = newPlanetsList
+        .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => a < b);
+    } else {
+      newPlanetsList = newPlanetsList
+        .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => a > b);
+    }
   } else if (sort === 'ASC') {
     newPlanetsList = newPlanetsList
       .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => Number(a) - Number(b));
