@@ -35,7 +35,7 @@ const Table = () => {
           climate,
           gravity,
           terrain,
-          surface_water: surfacewater,
+          surface_water: surfaceWater,
           population,
           films,
           created,
@@ -50,7 +50,7 @@ const Table = () => {
             <td>{climate}</td>
             <td>{gravity}</td>
             <td>{terrain}</td>
-            <td>{surfacewater}</td>
+            <td>{surfaceWater}</td>
             <td>{population}</td>
             <td>{films}</td>
             <td>{created}</td>

@@ -37,7 +37,7 @@ const useFilterPlanets = (planets, filters) => {
     // filteredPlanets.filter((planet) => filterComparison(planet, column, comparison, value));
   }
 
-  if (columnOrder === 'name') {
+  if (columnOrder === 'name' ) {
     if (sort === 'DESC') {
       newPlanetsList = newPlanetsList
         .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => a < b);
@@ -50,8 +50,7 @@ const useFilterPlanets = (planets, filters) => {
       .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => Number(a) - Number(b));
   } else {
     newPlanetsList = newPlanetsList
-      .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => Number(a) - Number(b))
-      .reverse();
+      .sort(({ [columnOrder]: a }, { [columnOrder]: b }) => Number(b) - Number(a));
   }
 
   // name.startsWith(filters.filterByName?.name) tb dava kinda
