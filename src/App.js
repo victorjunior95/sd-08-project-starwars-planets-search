@@ -1,18 +1,16 @@
 import React from 'react';
-import './App.css';
-import DataProvider from './context/DataProvider';
-import Table from './components/Table';
-import Inputs from './components/Inputs';
 
-function App() {
-  return (
-    <DataProvider>
-      <div>
-        <Inputs />
-        <Table />
-      </div>
-    </DataProvider>
-  );
-}
+import StarWarsProvider from './context/StarWarsProvider';
+import Table from './components/Table';
+import Header from './components/Header';
+
+import './App.css';
+
+const App = () => (
+  <StarWarsProvider>
+    <Header />
+    <Table />
+  </StarWarsProvider>
+);
 
 export default App;
