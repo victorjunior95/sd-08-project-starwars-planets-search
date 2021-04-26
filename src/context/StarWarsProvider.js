@@ -24,7 +24,7 @@ const StarWarsProvider = ({ children }) => {
   });
 
   const filteredPlanets = useFilterPlanets(planets, filters);
-  // console.log(filters);
+  console.log(filteredPlanets);
 
   const context = { filteredPlanets, isFetching, filters, setFilters };
 
