@@ -48,7 +48,7 @@ function OrderChoice() {
         type="button"
         data-testid="column-sort-button"
         onClick={ () => setFilter(
-          { ...filter, order: { column: 'name', sort: radioSort } },
+          { ...filter, order: { column: columnSort, sort: radioSort } },
         ) }
       >
         Ordenar

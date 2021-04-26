@@ -11,7 +11,7 @@ function Provider({ children }) {
   const [filter, setFilter] = useState(
     { filterByName: { name: '' } },
     { filterByNumericValues: [] },
-    { order: { column: 'name', sort: 'ASC' } },
+    { order: { column: 'Name', sort: 'ASC' } },
   );
   const context = {
     data,
@@ -25,6 +25,17 @@ function Provider({ children }) {
     filteredData,
     setFilteredData,
   };
+
+  const sortByNumColumn = useCallback((column, sort) => {
+    if (sort === 'ASC') {
+      return function compareAsc(a, b) {
+        return a[column] - b[column];
+      };
+    }
+    return function compareDesc(a, b) {
+      return b[column] - a[column];
+    };
+  }, []);
 
   const COMPAREMINORONE = -1;
   const sortByColumn = useCallback((column, sort) => {
@@ -75,12 +86,12 @@ function Provider({ children }) {
             }
             return parseInt(filtPlanets[planet.column], 10)
         === parseInt(planet.value, 10);
-          })).sort(sortByColumn(column, sort)));
+          })).sort(sortByNumColumn(column, sort)));
     } else {
       setFilteredData(data.filter((planets) => planets.name
-        .includes(filterByName.name)).sort(sortByColumn(column, sort)));
+        .includes(filterByName.name)).sort(sortByNumColumn(column, sort)));
     }
-  }, [setFilteredData, filter, data, sortByColumn]);
+  }, [setFilteredData, filter, data, sortByNumColumn]);
 
   return (
     <Context.Provider value={ context }>
