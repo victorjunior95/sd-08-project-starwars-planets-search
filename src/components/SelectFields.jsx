@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import StarWarsContext from '../data/StarWarsContext';
-import { firstSelector, secondSelector } from '../constants/index';
+// import { firstSelector, secondSelector } from '../constants/index';
 
 export default function SelectFields({ filteredData }) {
-  const { filters: { col, comp, val },
-    filterByNumerics, handleInputs } = useContext(StarWarsContext);
+  const { filters: { filterByNumericValues, col, comp, val },
+    columnSelector, secondSelector, filterByNumerics, handleInputs,
+  } = useContext(StarWarsContext);
 
   return (
     <fieldset>
@@ -16,10 +17,10 @@ export default function SelectFields({ filteredData }) {
           data-testid="column-filter"
           value={ col }
           onChange={
-            (e) => handleInputs(e, e.target.value, col, parseInt(val, 10))
+            (e) => handleInputs(e, e.target.value, comp, parseInt(val, 10))
           }
         >
-          {firstSelector.map((option, i) => (
+          {columnSelector.map((option, i) => (
             <option key={ i } value={ option }>{option}</option>))}
         </select>
       </label>
@@ -56,6 +57,15 @@ export default function SelectFields({ filteredData }) {
       >
         Filtrar
       </button>
+      <div>
+        {filterByNumericValues.length > 1 && (
+          <button
+            type="button"
+          >
+            X
+          </button>
+        )}
+      </div>
     </fieldset>
   );
 }

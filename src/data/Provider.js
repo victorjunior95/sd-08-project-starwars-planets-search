@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { fetchAPI } from '../services/fetchAPI';
+import { firstSelector, secondSelector } from '../constants/index';
 import StarWarsContext from './StarWarsContext';
 import testData from '../testData';
 
@@ -8,9 +9,11 @@ export default class Provider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: testData.results,
-      fetching: false,
+      data: [],
+      fetching: true,
       filteredData: testData.results,
+      columnSelector: firstSelector,
+      secondSelector,
       filters: {
         filterByName: { name: '' },
         filterByNumericValues: [{ column: '', comparison: '', value: 0 }],
@@ -80,12 +83,26 @@ export default class Provider extends Component {
         value: 0,
       },
     }));
+
+    this.filterColumn(col);
   }
 
-  filterData(filteredData) {
+  filterColumn(col) {
+    const { columnSelector } = this.state;
+    console.log('entrou no filterColumn, columnSelector: ', columnSelector);
+    console.log('spread operator: ', [
+      // ...firstSelector,
+      ...columnSelector.slice(0, columnSelector.indexOf(col) - 1),
+      ...columnSelector.slice(columnSelector.indexOf(col), columnSelector.length - 1),
+    ]);
     this.setState((state) => ({
       ...state,
-      filteredData,
+      // filteredData,
+      columnSelector: [
+        // ...firstSelector,
+        ...columnSelector.slice(0, columnSelector.indexOf(col)),
+        ...columnSelector.slice(columnSelector.indexOf(col) + 1),
+      ],
     }));
   }
 
