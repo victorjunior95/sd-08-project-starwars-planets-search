@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import StarWarsContext from '../data/StarWarsContext';
 // import { firstSelector, secondSelector } from '../constants/index';
 
-export default function SelectFields({ filteredData }) {
-  const { filters: { filterByNumericValues, col, comp, val },
+export default function SelectFields() {
+  const { filters: { filterByNumericValues, col, comp, val }, filteredData,
     columnSelector, secondSelector, filterByNumerics, handleInputs,
+    removeFilterByNumericValues,
   } = useContext(StarWarsContext);
 
   return (
@@ -58,13 +59,21 @@ export default function SelectFields({ filteredData }) {
         Filtrar
       </button>
       <div>
-        {filterByNumericValues.length > 1 && (
-          <button
-            type="button"
-          >
-            X
-          </button>
-        )}
+        {filterByNumericValues.length > 1
+         && filterByNumericValues.slice(1).map((filter, index) => (
+           <label key={ index } htmlFor="filter" data-testid="filter">
+             <span>{filter.column}</span>
+             <button
+               type="button"
+               name="filter"
+               id="filter"
+               //  data-testid="filter"
+               onClick={ () => removeFilterByNumericValues(index) }
+             >
+               X
+             </button>
+           </label>
+         ))}
       </div>
     </fieldset>
   );

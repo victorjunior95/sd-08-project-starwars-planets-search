@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { fetchAPI } from '../services/fetchAPI';
+import filterDataByNumericValues from '../core/filterDataByNumericValues';
 import { firstSelector, secondSelector } from '../constants/index';
 import StarWarsContext from './StarWarsContext';
 import testData from '../testData';
@@ -21,6 +22,7 @@ export default class Provider extends Component {
         comp: '',
         val: 0,
       },
+      lateData: [],
     };
   }
 
@@ -71,9 +73,13 @@ export default class Provider extends Component {
       filters: { filterByName, filterByNumericValues },
     } = this.state;
 
+    const newFilter = { column: col, comparison: comp, value: val };
+    const newFilterByNumericValues = [...filterByNumericValues, newFilter];
+    const lateData = filterData;
+    const newData = filterDataByNumericValues(filterData, newFilterByNumericValues);
     this.setState((state) => ({
       ...state,
-      filterData,
+      filteredData: newData,
       filters: {
         filterByName,
         filterByNumericValues: [
@@ -82,6 +88,7 @@ export default class Provider extends Component {
         comparison: '',
         value: 0,
       },
+      lateData,
     }));
 
     this.filterColumn(col);
@@ -106,6 +113,29 @@ export default class Provider extends Component {
     }));
   }
 
+  removeFilterByNumericValues(index) {
+    const { data,
+      filters: { filterByNumericValues, filterByName, col, comp, val,
+        lateData } } = this.state;
+
+    console.log('entrou no removeFilterByNumericValues');
+    this.setState((state) => ({
+      ...state,
+      filteredData: data,
+      filters: {
+        filterByName,
+        col,
+        comp,
+        val,
+        filterByNumericValues: [
+          ...filterByNumericValues.slice(0, index),
+          ...filterByNumericValues.slice(index + 1),
+        ],
+      },
+      lateData,
+    }));
+  }
+
   render() {
     const context = {
       ...this.state,
@@ -115,6 +145,7 @@ export default class Provider extends Component {
       filterByNumerics:
         (e, col, comp, val) => this.filterByNumerics(e, col, comp, val),
       filterData: (filteredData) => this.filterData(filteredData),
+      removeFilterByNumericValues: (index) => this.removeFilterByNumericValues(index),
     };
 
     const { children } = this.props;
