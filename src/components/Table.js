@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MyContext from '../MyContext';
 
 function Table() {
@@ -13,6 +13,9 @@ function Table() {
   useEffect(() => {
     fetchPlanets();
   }, []);
+
+  const [Mapping, setMapping] = useState(false);
+
   const handleFilterName = (e) => {
     setNameFilter((e.target.value));
     const filteringByName = data.filter((planet) => planet.name.includes(e.target.value));
@@ -34,6 +37,7 @@ function Table() {
       filteringByValue = data.filter((planet) => Number(planet[column]) === value);
       setFilter(filteringByValue);
     }
+    setMapping(true);
   };
 
   return (
@@ -51,7 +55,13 @@ function Table() {
             value={ filterByNumericValues.column }
             onChange={ ({ target }) => setColumn(target.value) }
           >
-            {columnFilter.map((elem) => <option key={ elem }>{elem}</option>)}
+            {!Mapping && columnFilter.map((elem) => <option key={ elem }>{elem}</option>)}
+            {Mapping && columnFilter.map((elem) => {
+              if (filterByNumericValues.find((item) => item.column !== elem)) {
+                return <option key={ elem }>{elem}</option>;
+              }
+              return '';
+            })}
           </select>
           <select
             data-testid="comparison-filter"
@@ -73,6 +83,19 @@ function Table() {
           >
             Filtrar
           </button>
+        </div>
+        <div>
+          {Mapping
+            && filterByNumericValues.map((item) => (
+              <>
+                <span>{item.column}</span>
+                {' '}
+                <span>{item.comparison}</span>
+                {' '}
+                <span>{item.value}</span>
+                <button type="button">X</button>
+              </>
+            ))}
         </div>
       </section>
       <table>
