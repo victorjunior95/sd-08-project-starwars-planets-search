@@ -4,8 +4,9 @@ import StarWarsContext from '../data/StarWarsContext';
 import { firstSelector, secondSelector } from '../constants/index';
 
 export default function SelectFields() {
-  const { filters: { filterByNumericValues: [{ column, comparison, value }] },
-    filterQueries } = useContext(StarWarsContext);
+  const { filters: { col, comp, val },
+    filterByNumerics, handleInputs } = useContext(StarWarsContext);
+
   return (
     <fieldset>
       <label htmlFor="column-filter">
@@ -13,9 +14,9 @@ export default function SelectFields() {
           name="column-filter"
           id="column-filter"
           data-testid="column-filter"
-          value={ column }
+          value={ col }
           onChange={
-            (e) => filterQueries(e.target.value, comparison, parseInt(value, 10))
+            (e) => handleInputs(e, e.target.value, col, parseInt(val, 10))
           }
         >
           {firstSelector.map((option, i) => (
@@ -27,8 +28,10 @@ export default function SelectFields() {
           name="comparison-filter"
           id="comparison-filter"
           data-testid="comparison-filter"
-          value={ comparison }
-          onChange={ (e) => filterQueries(column, e.target.value, parseInt(value, 10)) }
+          value={ comp }
+          onChange={
+            (e) => handleInputs(e, col, e.target.value, parseInt(val, 10))
+          }
         >
           {secondSelector.map((option, i) => (
             <option key={ i } value={ option }>{option}</option>))}
@@ -40,13 +43,20 @@ export default function SelectFields() {
           name="value-filter"
           id="value-filter"
           data-testid="value-filter"
-          value={ value }
+          value={ val }
           onChange={
-            (e) => filterQueries(column, comparison, parseInt(e.target.value, 10))
+            (e) => handleInputs(e, col, comp, parseInt(e.target.value, 10))
           }
         />
       </label>
-      <button type="button" data-testid="button-filter">Filtrar</button>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ (e) => filterByNumerics(e, col, comp, val) }
+      >
+        Filtrar
+
+      </button>
     </fieldset>
   );
 }

@@ -4,7 +4,7 @@ import StarWarsContext from '../data/StarWarsContext';
 
 export default function SearchField() {
   const { filters: { filterByName: { name } },
-    searchQuery } = useContext(StarWarsContext);
+    filterByQuery } = useContext(StarWarsContext);
 
   return (
     <label htmlFor="search-field">
@@ -13,7 +13,7 @@ export default function SearchField() {
         type="text"
         name="search-field"
         id="search-field"
-        onChange={ (e) => searchQuery(e.target.value) }
+        onChange={ (e) => filterByQuery(e.target.value) }
         value={ name }
       />
     </label>

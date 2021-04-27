@@ -9,7 +9,11 @@ const RESIDENTS_INDEX = 9;
 //     ?
 // };
 
-const filterDataByNumericValues = (data, column, comparison, value) => {
+const filterDataByNumericValues = (data, filterByNumericValues) => {
+  const {
+    column, comparison, value,
+  } = filterByNumericValues[filterByNumericValues.length - 1];
+
   if (comparison === 'menor que') {
     return data.filter((planet) => planet[column] < value);
   }
@@ -23,14 +27,15 @@ const filterDataByNumericValues = (data, column, comparison, value) => {
 };
 export default function Table({ data }) {
   const { filters: { filterByName: { name },
-    filterByNumericValues: [{ column, comparison, value }] },
+    filterByNumericValues }, filteredData, filterData,
   } = useContext(StarWarsContext);
-  const filterNumericValues = filterDataByNumericValues(data, column, comparison, value);
-  const filteredData = filterNumericValues.filter((planet) => planet.name.includes(name));
-  // console.log(filteredData);
+
+  const filterNumericValues = filterDataByNumericValues(filteredData, filterByNumericValues);
+  const queryFilter = filterNumericValues.filter((planet) => planet.name.includes(name));
+  // console.log(queryFilter);
   return (
     <table>
-      {filteredData.length < 1
+      {queryFilter.length < 1
         ? (
           <>
             <thead>
@@ -48,13 +53,13 @@ export default function Table({ data }) {
           <>
             <thead>
               <tr>
-                {Object.keys(filteredData[0]).map((key, i) => (
+                {Object.keys(queryFilter[0]).map((key, i) => (
                   key !== 'residents' && <th key={ i }>{key}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((planet, i) => (
+              {queryFilter.map((planet, i) => (
                 <tr key={ i }>
                   {Object.values(planet).map((values, j) => (
                     j !== RESIDENTS_INDEX && <td key={ j }>{values}</td>))}
