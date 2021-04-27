@@ -4,6 +4,26 @@ import StarWarsContext from '../context/StarWarsContext';
 const Table = () => {
   const { data, filters } = useContext(StarWarsContext);
   const { filterByName: { name } } = filters;
+  const { order } = filters;
+
+  const toAscOrder = (a, b) => {
+    const columnFormat = order.column.toLowerCase();
+    const lessThen = -1;
+    const biggerThen = 1;
+    if (a[columnFormat] > b[columnFormat]) return biggerThen;
+    if (a[columnFormat] < b[columnFormat]) return lessThen;
+    return 0;
+  };
+
+  const toDescOrder = (a, b) => {
+    const columnFormat = order.column.toLowerCase();
+    const lessThen = -1;
+    const biggerThen = 1;
+    if (a[columnFormat] > b[columnFormat]) return lessThen;
+    if (a[columnFormat] < b[columnFormat]) return biggerThen;
+    return 0;
+  };
+
   return (
     <table>
       <thead>
@@ -25,6 +45,28 @@ const Table = () => {
       </thead>
       <tbody>
         {data
+          .sort((a, b) => {
+            const { column, sort } = order;
+            const columnFormat = column.toLowerCase();
+            if (Number.isNaN(parseInt(a[columnFormat], 10))) {
+              if (sort === 'ASC') return toAscOrder(a, b);
+              return toDescOrder(a, b);
+            }
+            const isNumberColumnA = parseInt(a[columnFormat], 0);
+            const isNumberColumnB = parseInt(b[columnFormat], 0);
+            if (sort === 'ASC') {
+              const lessThen = -1;
+              const biggerThen = 1;
+              if (isNumberColumnA > isNumberColumnB) return biggerThen;
+              if (isNumberColumnA < isNumberColumnB) return lessThen;
+              return 0;
+            }
+            const lessThen = 1;
+            const biggerThen = -1;
+            if (isNumberColumnA > isNumberColumnB) return biggerThen;
+            if (isNumberColumnA < isNumberColumnB) return lessThen;
+            return 0;
+          })
           .filter((planet) => planet.name.includes(name))
           .filter((planet) => { // créditos ao Julio Kauer da minha antiga turma 07 que me ajudou a desenvolver esse filtro;
             let match = true;
@@ -49,7 +91,7 @@ const Table = () => {
           })
           .map((planet, index) => (
             <tr key={ index }>
-              <td>{planet.name}</td>
+              <td data-testid="planet-name">{planet.name}</td>
               <td>{planet.rotation_period}</td>
               <td>{planet.orbital_period}</td>
               <td>{planet.diameter}</td>

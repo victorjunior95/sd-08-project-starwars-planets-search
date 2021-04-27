@@ -4,10 +4,17 @@ import StarWarsContext from '../context/StarWarsContext';
 const INITIAL_VALUE = 0;
 
 const FilterBar = () => {
-  const { setFilters, columnsToDrop, setColumns, filters } = useContext(StarWarsContext);
+  const {
+    setFilters,
+    columnsToDrop,
+    setColumns,
+    filters,
+    columnsByTable } = useContext(StarWarsContext);
   const [currColumn, setCurrColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [numberToCompare, setNumber] = useState(INITIAL_VALUE);
+  const [columnToOrder, setColumnToOrder] = useState('Name');
+  const [order, setOrder] = useState('ASC');
 
   const handleClick = () => {
     const newNumericFilter = {
@@ -29,6 +36,10 @@ const FilterBar = () => {
       filterByNumericValues: [...filterToReturn] });
   };
 
+  const handleClickToOrderContext = () => {
+    setFilters({ ...filters, order: { column: columnToOrder, sort: order } });
+  };
+
   return (
     <div>
       <input
@@ -38,6 +49,46 @@ const FilterBar = () => {
           setFilters({ ...filters, filterByName: { name: value } })
         ) }
       />
+      <form>
+        <select
+          data-testid="column-sort"
+          onChange={ ({ target: { value } }) => setColumnToOrder(value) }
+        >
+          {columnsByTable.map((column, index) => (
+            <option key={ index }>{ column }</option>
+          ))}
+        </select>
+        <label htmlFor="ascending">
+          Ascending
+          <input
+            data-testid="column-sort-input-asc"
+            type="radio"
+            value="ASC"
+            id="ascending"
+            name="order"
+            onChange={ ({ target: { value } }) => setOrder(value) }
+            checked={ (order === 'ASC') }
+          />
+        </label>
+        <label htmlFor="descending">
+          Descending
+          <input
+            data-testid="column-sort-input-desc"
+            type="radio"
+            value="DESC"
+            id="descending"
+            name="order"
+            onChange={ ({ target: { value } }) => setOrder(value) }
+          />
+        </label>
+        <button
+          data-testid="column-sort-button"
+          type="button"
+          onClick={ handleClickToOrderContext }
+        >
+          Order
+        </button>
+      </form>
       <br />
       <select
         data-testid="column-filter"

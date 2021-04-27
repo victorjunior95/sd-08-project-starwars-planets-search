@@ -11,10 +11,26 @@ const Provider = ({ children }) => {
     'rotation_period',
     'surface_water',
   ];
+  const columnsByTable = [
+    'Name',
+    'Rotation_Period',
+    'orbital_period',
+    'Diameter',
+    'Climate',
+    'Gravity',
+    'Terrain',
+    'Surface_Water',
+    'Population',
+    'Films',
+    'Created',
+    'Edited',
+    'Url',
+  ];
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
     filterByNumericValues: [],
+    order: { column: 'Name', sort: 'ASC' },
   });
   const [columnsToDrop, setColumns] = useState(columns);
 
@@ -30,6 +46,7 @@ const Provider = ({ children }) => {
     data,
     filters,
     columnsToDrop,
+    columnsByTable,
     setFilters,
     setColumns,
   };
