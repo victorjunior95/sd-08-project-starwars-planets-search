@@ -6,11 +6,11 @@ import StarWarsContext from '../data/StarWarsContext';
 // import PropTypes from 'prop-types';
 
 export default function Home() {
-  const { data, fetching } = useContext(StarWarsContext);
+  const { data, fetching, filteredData } = useContext(StarWarsContext);
   return (
     <div>
       <SearchField />
-      <SelectFields data={ data } />
+      <SelectFields data={ data } filteredData={ filteredData } />
       {fetching ? <p>Loading...</p> : <Table data={ data } />}
     </div>
   );

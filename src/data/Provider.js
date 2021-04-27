@@ -63,14 +63,14 @@ export default class Provider extends Component {
     }));
   }
 
-  filterByNumerics(e, col = '', comp = '', val = '') {
-    e.preventDefault();
+  filterByNumerics(filterData, col = '', comp = '', val = '') {
     const {
       filters: { filterByName, filterByNumericValues },
     } = this.state;
 
     this.setState((state) => ({
       ...state,
+      filterData,
       filters: {
         filterByName,
         filterByNumericValues: [

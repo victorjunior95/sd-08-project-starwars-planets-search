@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-// import PropTypes, { shape } from 'prop-types';
+import PropTypes from 'prop-types';
 import StarWarsContext from '../data/StarWarsContext';
 import { firstSelector, secondSelector } from '../constants/index';
 
-export default function SelectFields() {
+export default function SelectFields({ filteredData }) {
   const { filters: { col, comp, val },
     filterByNumerics, handleInputs } = useContext(StarWarsContext);
 
@@ -52,14 +52,13 @@ export default function SelectFields() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ (e) => filterByNumerics(e, col, comp, val) }
+        onClick={ () => filterByNumerics(filteredData, col, comp, val) }
       >
         Filtrar
-
       </button>
     </fieldset>
   );
 }
-// SelectFields.propTypes = {
-//   data: PropTypes.arrayOf(shape({})),
-// }.isRequired;
+SelectFields.propTypes = {
+  filteredData: PropTypes.arrayOf(PropTypes.shape({})),
+}.isRequired;

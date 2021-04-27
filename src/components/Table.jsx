@@ -25,12 +25,14 @@ const filterDataByNumericValues = (data, filterByNumericValues) => {
   }
   return data;
 };
-export default function Table({ data }) {
+export default function Table() {
   const { filters: { filterByName: { name },
-    filterByNumericValues }, filteredData, filterData,
+    filterByNumericValues }, filteredData,
   } = useContext(StarWarsContext);
 
-  const filterNumericValues = filterDataByNumericValues(filteredData, filterByNumericValues);
+  const filterNumericValues = filterDataByNumericValues(
+    filteredData, filterByNumericValues,
+  );
   const queryFilter = filterNumericValues.filter((planet) => planet.name.includes(name));
   // console.log(queryFilter);
   return (
