@@ -1,21 +1,33 @@
 import React from 'react';
-import Table from './components/Table';
-import FilterByName from './components/FilterByName';
-import NumericFilter from './components/NumericFilter';
-import './App.css';
+import styled from 'styled-components';
+import Table from './components/Table/Table';
+import FilterByName from './components/FilterByName/FilterByName';
+import NumericFilter from './components/NumericFilter/NumericFilter';
 import ProviderAPI from './services/context';
-import SortFilter from './components/SortFilter';
-import ActiveFilters from './components/ActiveFilters';
+import SortFilter from './components/SortFilter/SortFilter';
+import ActiveFilters from './components/ActiveFilters/ActiveFilters';
+import * as $Tokens from './$Tokens/Colors';
 
+const Wrapper = styled.div`
+font-family: cursive;
+`;
+
+const Separator = styled.div`
+background-color: ${$Tokens.SEPARATOR_DARK};
+`;
 function App() {
   return (
-    <ProviderAPI>
-      <FilterByName />
-      <NumericFilter />
-      <SortFilter />
-      <ActiveFilters />
-      <Table />
-    </ProviderAPI>
+    <Wrapper>
+      <ProviderAPI>
+        <FilterByName />
+        <NumericFilter />
+        <SortFilter />
+        <Separator>
+          <ActiveFilters />
+        </Separator>
+        <Table />
+      </ProviderAPI>
+    </Wrapper>
   );
 }
 

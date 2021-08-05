@@ -1,12 +1,44 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { APIContext } from '../services/context';
+import styled from 'styled-components';
+import { APIContext } from '../../services/context';
+import * as $Tokens from '../../$Tokens/Colors';
+
+const NumericInput = styled.input`
+border-radius: 8px;
+background-color: ${$Tokens.INPUT_BACKGROUND};
+margin-left: 5px;
+`;
+
+const FilterButton = styled.button`
+border-radius: 8px;
+border: 1px solid ${$Tokens.BUTTON_GHOST_BORDER};
+background-color: ${$Tokens.BUTTON_TERTIARY_VARIANT_BACKGROUND};
+color: ${$Tokens.TEXT_DARK};
+margin-left: 4px;
+cursor: pointer;
+
+&:hover {
+  background: ${$Tokens.BUTTON_TERTIARY_HOVER_BACKGROUND}
+}
+`;
+
+const Dropdown = styled.select`
+border-radius: 8px;
+background-color: ${$Tokens.INPUT_BACKGROUND};
+margin-left: 5px;
+cursor: pointer;
+`;
+
+const DropdownItem = styled.option`
+color: ${$Tokens.TEXT_LIGHT};
+cursor: pointer;
+`;
 
 export default function FilterNumeric() {
   const {
     filters,
     setFilters,
     columns,
-    // setColumns,
   } = useContext(APIContext);
 
   const [filterValues, setFilterValues] = useState({});
@@ -36,27 +68,27 @@ export default function FilterNumeric() {
   };
   return (
     <form>
-      <select
+      <Dropdown
         value={ column }
         name="column"
         onChange={ onChangeNumericFilter }
         data-testid="column-filter"
       >
         {columns.map((columnOption) => (
-          <option key={ columnOption }>{columnOption}</option>
+          <DropdownItem key={ columnOption }>{columnOption}</DropdownItem>
         ))}
-      </select>
-      <select
+      </Dropdown>
+      <Dropdown
         value={ comparison }
         name="comparison"
         onChange={ onChangeNumericFilter }
         data-testid="comparison-filter"
       >
         {comparisons.map((comparisonOption) => (
-          <option key={ comparisonOption }>{comparisonOption}</option>
+          <DropdownItem key={ comparisonOption }>{comparisonOption}</DropdownItem>
         ))}
-      </select>
-      <input
+      </Dropdown>
+      <NumericInput
         type="number"
         value={ value }
         name="value"
@@ -64,9 +96,9 @@ export default function FilterNumeric() {
         placeholder="0"
         onChange={ onChangeNumericFilter }
       />
-      <button type="button" data-testid="button-filter" onClick={ handleBtnFilter }>
+      <FilterButton type="button" data-testid="button-filter" onClick={ handleBtnFilter }>
         Filter
-      </button>
+      </FilterButton>
     </form>
   );
 }

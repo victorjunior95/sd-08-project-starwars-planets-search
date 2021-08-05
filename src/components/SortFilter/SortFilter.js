@@ -1,5 +1,34 @@
 import React, { useContext, useState } from 'react';
-import { APIContext } from '../services/context';
+import styled from 'styled-components';
+import * as $Tokens from '../../$Tokens/Colors';
+import { APIContext } from '../../services/context';
+
+const InputRadio = styled.input`
+margin-left: 5px;
+`;
+
+const Label = styled.label``;
+
+const Dropdown = styled.select`
+border-radius: 8px;
+background-color: ${$Tokens.INPUT_BACKGROUND};
+cursor: pointer;
+margin-left: 5px;
+margin-right: 5px;
+`;
+
+const SorterButton = styled.button`
+border-radius: 8px;
+border: 1px solid ${$Tokens.BUTTON_GHOST_BORDER};
+background-color: ${$Tokens.BUTTON_TERTIARY_VARIANT_BACKGROUND};
+color: ${$Tokens.TEXT_DARK};
+margin-left: 4px;
+cursor: pointer;
+
+&:hover {
+  background: ${$Tokens.BUTTON_TERTIARY_HOVER_BACKGROUND}
+}
+`;
 
 // import { Container } from './styles';
 function SortFilter() {
@@ -41,7 +70,7 @@ function SortFilter() {
 
   return (
     <>
-      <select
+      <Dropdown
         value={ column }
         name="column"
         onChange={ onChangeOrderFilter }
@@ -50,11 +79,11 @@ function SortFilter() {
         {columns.map((columnOption) => (
           <option key={ columnOption }>{columnOption}</option>
         ))}
-      </select>
+      </Dropdown>
       <span>
-        <label htmlFor="ASC">
+        <Label htmlFor="ASC">
           Ascendent
-          <input
+          <InputRadio
             type="radio"
             data-testid="column-sort-input-asc"
             value="ASC"
@@ -62,10 +91,10 @@ function SortFilter() {
             name="sort"
             onChange={ onChangeOrderFilter }
           />
-        </label>
-        <label htmlFor="DESC">
+        </Label>
+        <Label htmlFor="DESC">
           Descendent
-          <input
+          <InputRadio
             type="radio"
             data-testid="column-sort-input-desc"
             value="DESC"
@@ -73,15 +102,15 @@ function SortFilter() {
             onChange={ onChangeOrderFilter }
             name="sort"
           />
-        </label>
+        </Label>
       </span>
-      <button
+      <SorterButton
         data-testid="column-sort-button"
         onClick={ handleBtnSort }
         type="submit"
       >
         Sort
-      </button>
+      </SorterButton>
     </>
   );
 }

@@ -1,5 +1,13 @@
 import React, { useContext } from 'react';
-import { APIContext } from '../services/context';
+import styled from 'styled-components';
+import { APIContext } from '../../services/context';
+import * as $Tokens from '../../$Tokens/Colors';
+
+const Form = styled.form``;
+
+const InpuntName = styled.input`
+border-radius: 8px;
+background-color: ${$Tokens.INPUT_BACKGROUND};`;
 
 export default function InputFilter() {
   const {
@@ -18,14 +26,14 @@ export default function InputFilter() {
   };
 
   return (
-    <form>
-      <input
+    <Form>
+      <InpuntName
         type="text"
         data-testid="name-filter"
         placeholder="Search by Name"
         value={ name }
         onChange={ onChangeFiltersName }
       />
-    </form>
+    </Form>
   );
 }

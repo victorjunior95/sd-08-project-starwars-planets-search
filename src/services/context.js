@@ -48,13 +48,6 @@ const ProviderAPI = ({ children }) => {
     getAPI();
   }, []);
 
-  // function filteredPlanetsByName(planet) {
-  //   const filteredPlanets = planetArray.length > 0 ? planetArray
-  //     .filter((pnt) => pnt.name.toLowerCase().includes(planet.toLowerCase()))
-  //     : [];
-  //   setFilterArray(filteredPlanets);
-  // }
-
   function applyFilter() {
     return filters.filterByNumericValues.reduce((acc, filter) => {
       const { column, comparison, value } = filter;
@@ -67,6 +60,7 @@ const ProviderAPI = ({ children }) => {
         .filter((planetData) => comparisonFunctions[comparison](planetData[column]));
     }, filterArray);
   }
+
   useEffect(() => {
     const {
       filterByName: { name } } = filters;
@@ -86,7 +80,6 @@ const ProviderAPI = ({ children }) => {
     filterArray,
     filters,
     setFilters,
-    // filteredPlanetsByName,
     setColumns,
     columns,
     applyFilter,
@@ -96,7 +89,7 @@ const ProviderAPI = ({ children }) => {
   };
   return (
     <APIContext.Provider value={ objData }>
-      { children}
+      { children }
     </APIContext.Provider>
   );
 };
